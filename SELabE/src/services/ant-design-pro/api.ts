@@ -26,6 +26,7 @@ export async function login(body: API.LoginParams, options?: { [key: string]: an
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
+      'authorization':`Bearer ${localStorage.getItem('token')}`
     },
     data: body,
     ...(options || {}),
