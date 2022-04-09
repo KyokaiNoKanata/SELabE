@@ -1,6 +1,21 @@
 // @ts-ignore
 /* eslint-disable */
-import { request } from 'umi';
+//import { request } from 'umi';
+import request from 'umi-request';
+
+// request拦截器, 改变url 或 options.
+request.interceptors.request.use((url, options) => {
+  let token = localStorage.getItem('token');
+  if (null === token) {
+    token = '';
+  }
+  //console.log(token)
+  const authHeader = { Authorization: `Bearer ${token}` };
+  return {
+    url: url,
+    options: { ...options, interceptors: true, headers: authHeader },
+  };
+});
 
 /** 获取当前的用户 GET /api/currentUser */
 export async function currentUser(options?: { [key: string]: any }) {
@@ -26,7 +41,6 @@ export async function login(body: API.LoginParams, options?: { [key: string]: an
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'authorization':`Bearer ${localStorage.getItem('token')}`
     },
     data: body,
     ...(options || {}),
