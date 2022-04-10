@@ -11,10 +11,13 @@ import React, { useState } from 'react';
 import { ProFormCaptcha, ProFormCheckbox, ProFormText, LoginForm } from '@ant-design/pro-form';
 import { useIntl, history, FormattedMessage, SelectLang, useModel } from 'umi';
 import Footer from '@/components/Footer';
-import { login } from '@/services/ant-design-pro/api';
+import {currentUser, login} from '@/services/ant-design-pro/api';
 import { getFakeCaptcha } from '@/services/ant-design-pro/login';
 
 import styles from './index.less';
+import {getInitialState} from "@/app";
+import user from "../../../../mock/user";
+import {getUserByName} from "@/services/swagger/user";
 
 const LoginMessage: React.FC<{
   content: string;
@@ -51,12 +54,17 @@ const Login: React.FC = () => {
       // 登录
       const msg = await login({ ...values, type });
       if (msg.status === 'ok') {
+        if(localStorage.getItem('token') == null || localStorage.getItem('token') == undefined) {
+          localStorage.setItem('token','');
+        }
+        localStorage.setItem('token',msg.token);
         const defaultLoginSuccessMessage = intl.formatMessage({
           id: 'pages.login.success',
           defaultMessage: '登录成功！',
         });
         message.success(defaultLoginSuccessMessage);
-        await fetchUserInfo();
+
+        await fetchUserInfo();//currentUser
         /** 此方法会跳转到 redirect 参数所在的位置 */
         if (!history) return;
         const { query } = history.location;
@@ -125,7 +133,7 @@ const Login: React.FC = () => {
             <LoginMessage
               content={intl.formatMessage({
                 id: 'pages.login.accountLogin.errorMessage',
-                defaultMessage: '账户或密码错误(admin/ant.design)',
+                defaultMessage: '账户或密码错误(admin/123456)',
               })}
             />
           )}
@@ -138,8 +146,9 @@ const Login: React.FC = () => {
                   prefix: <UserOutlined className={styles.prefixIcon} />,
                 }}
                 placeholder={intl.formatMessage({
-                  id: 'pages.login.username.placeholder',
-                  defaultMessage: '用户名: admin or user',
+                  //id: 'pages.login.username.placeholder',
+                  id: 'todo',
+                  defaultMessage: '用户名: admin,client or tester',
                 })}
                 rules={[
                   {
@@ -160,8 +169,9 @@ const Login: React.FC = () => {
                   prefix: <LockOutlined className={styles.prefixIcon} />,
                 }}
                 placeholder={intl.formatMessage({
-                  id: 'pages.login.password.placeholder',
-                  defaultMessage: '密码: ant.design',
+                  //id: 'pages.login.password.placeholder',
+                  id: 'todo',
+                  defaultMessage: '密码: 123456',
                 })}
                 rules={[
                   {
