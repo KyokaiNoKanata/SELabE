@@ -49,6 +49,12 @@
     component: './TableList',
   },
   {
+    name: 'delegate-list',
+    icon: 'table',
+    path: '/delegate-list',
+    component: './DelegateList',
+  },
+  {
     path: '/',
     redirect: '/welcome',
   },
