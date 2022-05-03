@@ -55,6 +55,12 @@
     component: './DelegateList',
   },
   {
+    name: 'apply-page',
+    icon: 'star',
+    path: '/apply-page',
+    component: './DelegateList/component/Applypage',
+  },
+  {
     path: '/',
     redirect: '/welcome',
   },
