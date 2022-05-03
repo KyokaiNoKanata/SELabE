@@ -1,7 +1,35 @@
 // @ts-ignore
 /* eslint-disable */
 
+import {Key} from "react";
+
 declare namespace API {
+  type DelegationItem = {
+    key?: Key;
+    avatar?: string;
+    status?: string;
+
+    workId?: number
+    delegationId?: number;
+
+    acceptTime?: string;
+    acceptorId?: number;
+    launchTime?: string;
+    creatorId?: number;
+    id?: number;
+    name?: string;
+    processTime?: string;
+    remark?: string;
+    table2Id?: string;
+    table3Id?: string;
+    url?: string;
+  }
+  type DelegationList = {
+    data?: DelegationItem[],
+    /** 列表的内容总数 */
+    total?: number;
+    success?: boolean;
+  }
   type CurrentUser = {
     name?: string;
     avatar?: string;
