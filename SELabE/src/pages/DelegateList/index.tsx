@@ -3,7 +3,7 @@ import {Table, Row, Col, Card, Button, Pagination, Space, Tooltip} from 'antd';
 import { PageContainer} from '@ant-design/pro-layout';
 import styles from './index.less';
 import {SearchOutlined} from "@ant-design/icons";
-import {useRequest} from 'umi';
+import {useRequest,history} from 'umi';
 import Modal from './component/Modal'
 
 
@@ -29,7 +29,9 @@ const index = () => {
       key:'action',
       render:()=>(
         <Space>
-          <a>编辑</a>
+          <Button onClick={()=>{
+            history.push('/apply-page');
+          }}>编辑</Button>
         </Space>
       ),
     },
