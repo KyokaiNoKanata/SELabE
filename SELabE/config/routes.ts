@@ -65,7 +65,7 @@
     name: 'tester',
     icon: 'crown',
     access: 'isTester',
-    component: './Tester',
+    component: './tester',
     routes: [
       {
         path: '/tester/sub-page',
