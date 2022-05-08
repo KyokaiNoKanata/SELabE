@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import moment from 'moment';
 import { parse } from 'url';
+import {deleteDelegation} from "@/services/ant-design-pro/tester/api";
 
 const genList = (current: number, pageSize: number) => {
   const delegationDataSource: API.DelegationItem[] = [];
@@ -14,6 +15,7 @@ const genList = (current: number, pageSize: number) => {
     6: 'reportEvaluating',
     7: 'reportRefused',
     8: 'finish',
+    9: 'notDistributed',
   };
   for (let i = 0; i < pageSize; i += 1) {
     const index = (current - 1) * 10 + i;
@@ -27,7 +29,7 @@ const genList = (current: number, pageSize: number) => {
         'https://gw.alipayobjects.com/zos/rmsportal/udxAbMEhpwthVVcjLXik.png',
       ][i % 2],
       name: `委托 ${index}`,
-      status: valueEnum[Math.floor(Math.random() * 10) % 9],
+      status: valueEnum[Math.floor(Math.random() * 10) % 10],
       launchTime: moment().format('YYYY-MM-DD HH:mm:ss'), //创建时间
       processTime: moment().format('YYYY-MM-DD HH:mm:ss'),
       acceptTime:moment().format('YYYY-MM-DD HH:mm:ss'),
@@ -211,10 +213,35 @@ function uploadResult(req: Request, res: Response,u: string) {
     return res.json(newItem);
   })();
 }
+
+function deleteDelegationById(req: Request, res: Response,u: string) {
+  let url = u;
+  if (!url || Object.prototype.toString.call(url) !== '[object String]') {
+    url = req.url;
+  }
+  const params = parse(url, true).query;
+  const id = params.id;
+  const tenant_id = params.tenant_id;
+  (() => {
+    let newItem = {};
+    delegationDataSource.filter((item)=>{
+      return !(item.id == id && item.creatorId == tenant_id);
+    })
+    //console.log(newItem)
+    let resp = {
+      code:200,
+      data:true,
+      msg:'ok',
+    }
+    return res.json(resp);
+  })();
+}
+
 export default {
   'GET /api/delegation': getDelegation,
   'POST /api/receiveDelegation': receiveDelegation,
   'POST /api/cancelDelegation': cancelDelegation,
   'POST /api/uploadScheme': uploadScheme,
   'POST /api/uploadResult': uploadResult,
+  'DELETE /admin-api/system/delegation/delete': deleteDelegationById,
 };

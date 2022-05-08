@@ -119,45 +119,23 @@ export default {
   ],
   'POST /api/login/account': async (req: Request, res: Response) => {
     const { password, username, type } = req.body;
-    //await waitTime(2000);
-    if (password === '123456' && username === 'admin') {
+    await waitTime(2000);
+    if (password === 'ant.design' && username === 'admin') {
       res.send({
         status: 'ok',
         type,
         currentAuthority: 'admin',
-        token: 'admin',
       });
       access = 'admin';
       return;
     }
-    if (password === '123456' && username === 'user') {
+    if (password === 'ant.design' && username === 'user') {
       res.send({
         status: 'ok',
         type,
         currentAuthority: 'user',
-        token: 'user',
       });
       access = 'user';
-      return;
-    }
-    if (password === '123456' && username === 'client') {
-      res.send({
-        status: 'ok',
-        type,
-        currentAuthority: 'client',
-        token: 'client',
-      });
-      access = 'client';
-      return;
-    }
-    if (password === '123456' && username === 'tester') {
-      res.send({
-        status: 'ok',
-        type,
-        currentAuthority: 'tester',
-        token: 'tester',
-      });
-      access = 'tester';
       return;
     }
     if (type === 'mobile') {
