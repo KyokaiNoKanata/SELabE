@@ -61,29 +61,46 @@
     ],
   },
   {
-    path: '/tester',
-    name: 'tester',
-    icon: 'crown',
-    access: 'isTester',
-    component: './tester',
-    routes: [
-      {
-        path: '/tester/sub-page',
-        name: 'sub-page',
-        icon: 'smile',
-        component: './Welcome',
-      },
-      {
-        component: './404',
-      },
-    ],
-  },
-  {
     name: 'list.table-list',
     icon: 'table',
     path: '/list',
     component: './TableList',
   },
+  {
+    path: '/',
+    name: '委托',
+    icon: 'crown',
+    //access:,
+    //component: './tester/delegation',
+    routes: [
+      {
+        path: '/delegation',
+        name: '查看委托',
+        icon: 'smile',
+        component: './tester/delegation',
+      },
+      {
+        path: '/documention',
+        name: '测试文档',
+        icon: 'smile',
+        routes: [
+          {
+            path: '/documention/schemeReview',
+            name: '测试方案评审表',
+            icon: 'smile',
+            component: './tester/documention/schemeReview',
+          },
+          {
+            path: '/documention/documentReview',
+            name: '软件文档评审表',
+            icon: 'smile',
+            component: './tester/documention/documentReview'
+          }
+        ]
+      },
+    ],
+  },
+
   {
     path: '/',
     redirect: '/welcome',
