@@ -1,5 +1,5 @@
 import {DownloadOutlined, PlusOutlined, UploadOutlined} from '@ant-design/icons';
-import {Button, message, Input, Drawer, Upload} from 'antd';
+import {Button, message, Input, Drawer, Upload, Menu, Dropdown, Space, Select, Popconfirm} from 'antd';
 import React, { useState, useRef } from 'react';
 import { useIntl, FormattedMessage } from 'umi';
 import { PageContainer, FooterToolbar } from '@ant-design/pro-layout';
@@ -21,9 +21,9 @@ import {
   receiveDelegation,
   delegation,
   uploadResult,
-  uploadScheme
+  uploadScheme, distributeDelegation, deleteDelegation
 } from "@/services/ant-design-pro/tester/api";
-import {reject} from "lodash";
+import {isBoolean, reject} from "lodash";
 import {RcFile} from "antd/es/upload";
 
 
@@ -97,6 +97,24 @@ const handleSubmitResult = async (record: API.DelegationItem,formData:FormData) 
       delegationId: record.delegationId
     });
     hide();
+    message.success('任务已经分配');
+    return true;
+  } catch (error) {
+    hide();
+    message.error('分配任务失败，请稍后重试');
+    return false;
+  }
+};
+const handleDistribute = async (name:string, delegationId:number) => {
+  console.log(name)
+  let testerId = 1;
+  const hide = message.loading('提交中');
+  try {
+    await distributeDelegation({
+      testerId:testerId,
+      delegationId:delegationId,
+    });
+    hide();
     message.success('测试结果已提交');
     return true;
   } catch (error) {
@@ -106,11 +124,44 @@ const handleSubmitResult = async (record: API.DelegationItem,formData:FormData) 
   }
 };
 
+const handleDelete = async (id:number,tenant_id: number) => {
+  console.log(id)
+  const hide = message.loading('提交中');
+  try {
+    const resp = await deleteDelegation({
+      id:id,
+      tenant_id:tenant_id,
+    });
+    console.log(resp)
+    hide();
+    message.success('委托已删除');
+    return true;
+  } catch (error) {
+    hide();
+    message.error('删除委托失败，请稍后重试');
+    return false;
+  }
+}
+const getDelegation = async (params: {
+  /** 当前的页码 */
+  current?: number;
+  /** 页面的容量 */
+  pageSize?: number;
+}) => {
+  const res = await getDelegation(
+    {current: params.current,
+      pageSize:params.pageSize
+    })
+  return {
+    data:res.data,
+    success: true,
+  }
+}
 const DelegationList: React.FC = () => {
 
   const actionRef = useRef<ActionType>();
-  const [currentRow, setCurrentRow] = useState<API.RuleListItem>();
-  const [selectedRowsState, setSelectedRows] = useState<API.RuleListItem[]>([]);
+  const [currentRow, setCurrentRow] = useState<API.DelegationItem>();
+  const [selectedRowsState, setSelectedRows] = useState<API.DelegationItem[]>([]);
   const [updateModalVisible, handleUpdateModalVisible] = useState<boolean>(false);
 
   const [showDetail, setShowDetail] = useState<boolean>(false);
@@ -124,12 +175,23 @@ const DelegationList: React.FC = () => {
     'reportEvaluating':6,
     'reportRefused':7,
     'finish':8,
+    'notDistributed':9,
   }
   /**
    * @en-US International configuration
    * @zh-CN 国际化配置
    * */
   const intl = useIntl();
+
+  let currentName = '';
+  function onChange(value) {
+    console.log(`selected ${value}`);
+    currentName = value;
+  }
+
+  function onSearch(val) {
+    console.log('search:', val);
+  }
 
   const columns: ProColumns<API.DelegationItem>[] = [
     /** id编号 */
@@ -228,6 +290,7 @@ const DelegationList: React.FC = () => {
         reportEvaluating:{text:'测试报告审核中',status: 'Processing'},
         reportRefused:{text:'测试报告不通过',status: 'Error'},
         finish:{text:'测试已完成',status: 'Success'},
+        notDistributed:{text:'任务待分发',status:'Default'},
       },
     },
     /**备注*/
@@ -245,6 +308,35 @@ const DelegationList: React.FC = () => {
       hideInTable: false,
       sorter:false,
       render: (text, record,_,action) => [
+        record.status === 'notDistributed' &&
+        <Select
+          showSearch
+          placeholder="Select a person"
+          optionFilterProp="children"
+          onChange={onChange}
+          onSearch={onSearch}
+          filterOption={(input, option) =>
+            option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+          }
+        >
+          <Option value="jack">Jack</Option>
+          <Option value="lucy">Lucy</Option>
+          <Option value="tom">Tom</Option>
+        </Select>,
+        record.status === 'notDistributed' && <a key="distribute"
+              onClick={() => {
+                console.log(record.status)
+                const success = handleDistribute(currentName,record.delegationId)
+                if(1) {
+                  setCurrentRow(undefined);
+                  if (actionRef.current) {
+                    actionRef.current.reload();
+                  }
+                }
+              }}
+        >分发任务</a>,
+
+
         record.status === 'notReceived' && <a key="receiveTask"
           onClick={() => {
             //console.log(record.status)
@@ -371,7 +463,30 @@ const DelegationList: React.FC = () => {
         >取消</a>
       ],
     },
-
+    /**修改、删除*/
+    {
+      dataIndex: 'modify',
+      valueType: 'option',
+      hideInTable: false,
+      sorter:false,
+      title:'',
+      render: (text, record,_,action) => [
+        <Button type="primary">修改</Button>,
+        <Popconfirm title="确认删除吗?" onConfirm={() => {
+          const success = handleDelete(record.id, record.creatorId);
+          if(success) {
+            console.log(true)
+          }
+        }
+        }>
+          <Button type="primary"
+                  danger
+                  >
+            删除
+          </Button>
+        </Popconfirm>
+        ]
+    },
   ];
 
   return (
