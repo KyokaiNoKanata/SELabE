@@ -21,6 +21,7 @@
     "openapi": "umi openapi",
     "playwright": "playwright install && playwright test",
     "precommit": "lint-staged",
+    "preinstall": "npx npm-force-resolutions",
     "prettier": "prettier -c --write \"src/**/*\"",
     "serve": "umi-serve",
     "start": "cross-env UMI_ENV=dev umi dev",
@@ -33,6 +34,9 @@
     "test:component": "umi test ./src/components",
     "test:e2e": "node ./tests/run-tests.js",
     "tsc": "tsc --noEmit"
+  },
+  "resolutions": {
+    "@types/react": "17.0.30"
   },
   "lint-staged": {
     "**/*.less": "stylelint --syntax less",
@@ -53,6 +57,9 @@
     "@ant-design/pro-form": "^1.60.0",
     "@ant-design/pro-layout": "^6.34.8",
     "@ant-design/pro-table": "^2.70.0",
+    "@formily/antd": "^2.1.0",
+    "@formily/core": "^2.1.0",
+    "@formily/react": "^2.1.0",
     "@umijs/route-utils": "^2.0.0",
     "antd": "^4.18.0",
     "classnames": "^2.3.0",

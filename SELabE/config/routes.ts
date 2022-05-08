@@ -55,11 +55,12 @@
     component: './DelegateList',
   },
   {
-    name: 'apply-page',
-    icon: 'star',
-    path: '/apply-page',
-    component: './DelegateList/component/Applypage',
-  },
+    name: '软件委托测试合同',
+    icon: 'table',
+    path: '/contract',
+    component: './Contract',
+  }
+  ,
   {
     path: '/',
     redirect: '/welcome',
