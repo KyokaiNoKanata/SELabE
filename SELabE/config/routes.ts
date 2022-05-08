@@ -61,6 +61,7 @@
     component: './Contract',
   }
   ,
+ 
   {
     path: '/',
     redirect: '/welcome',
