@@ -61,7 +61,13 @@
     component: './Contract',
   }
   ,
- 
+  {
+    name: '软件项目委托测试保密协议',
+    icon: 'table',
+    path: '/confidentiality-agreement',
+    component: './ConfidentialityAgreement',
+  }
+  ,
   {
     path: '/',
     redirect: '/welcome',
