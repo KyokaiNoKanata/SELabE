@@ -21,17 +21,52 @@ import {
   receiveDelegation,
   delegation,
   uploadResult,
-  uploadScheme, distributeDelegation, deleteDelegation
+  uploadScheme, distributeDelegation, deleteDelegation, delegationPage
 } from "@/services/ant-design-pro/tester/api";
 import {isBoolean, reject} from "lodash";
 import {RcFile} from "antd/es/upload";
 
 
-/**
- * @en-US Add node
- * @zh-CN 添加节点
- * @param fields
- */
+/** 根据id删除委托 */
+const handleDelete = async (id: number) => {
+  const hide = message.loading('提交中');
+  try {
+    const resp = await deleteDelegation({
+      id:id,
+    });
+    //console.log(resp)
+    hide();
+    message.success('委托已删除');
+    //await delegation()
+    return true;
+  } catch (error) {
+    hide();
+    message.error('删除委托失败，请稍后重试');
+    return false;
+  }
+};
+
+/** 获取委托(分页) */
+const handleGetDelegation = async (
+  params: {
+    pageNo: number,
+    pageSize: number,
+  },
+  sort,
+  filter,
+) => {
+  const res = await delegationPage({
+    pageNo:params.pageNo,
+    pageSize:params.pageSize,
+  });
+  return {
+    data:res.data.list,
+    total: res.data.total, //分页
+    result: true,
+  }
+}
+
+
 
 const handleReceive = async (record:API.DelegationItem) => {
   console.log(record)
@@ -69,7 +104,6 @@ const handleCancel = async (record: API.DelegationItem) => {
 };
 /** 提交测试方案 */
 let formData = new FormData();
-const fileList = [];
 
 const handleSubmitScheme = async (record: API.DelegationItem,formData:FormData) => {
   //console.log(fields)
@@ -105,7 +139,7 @@ const handleSubmitResult = async (record: API.DelegationItem,formData:FormData) 
     return false;
   }
 };
-const handleDistribute = async (name:string, delegationId:number) => {
+const handleDistribute = async (name: string, delegationId:number) => {
   console.log(name)
   let testerId = 1;
   const hide = message.loading('提交中');
@@ -124,40 +158,8 @@ const handleDistribute = async (name:string, delegationId:number) => {
   }
 };
 
-const handleDelete = async (id:number,tenant_id: number) => {
-  console.log(id)
-  const hide = message.loading('提交中');
-  try {
-    const resp = await deleteDelegation({
-      id:id,
-      tenant_id:tenant_id,
-    });
-    console.log(resp)
-    hide();
-    message.success('委托已删除');
-    //await delegation()
-    return true;
-  } catch (error) {
-    hide();
-    message.error('删除委托失败，请稍后重试');
-    return false;
-  }
-}
-const getDelegation = async (params: {
-  /** 当前的页码 */
-  current?: number;
-  /** 页面的容量 */
-  pageSize?: number;
-}) => {
-  const res = await getDelegation(
-    {current: params.current,
-      pageSize:params.pageSize
-    })
-  return {
-    data:res.data,
-    success: true,
-  }
-}
+
+
 const DelegationList: React.FC = () => {
 
   const actionRef = useRef<ActionType>();
@@ -195,7 +197,7 @@ const DelegationList: React.FC = () => {
   }
 
   const columns: ProColumns<API.DelegationItem>[] = [
-    /** id编号 */
+    /** id编号 hide */
     {
       title: '编号',
       dataIndex: 'id',
@@ -203,7 +205,7 @@ const DelegationList: React.FC = () => {
       hideInSearch: true,
       hideInTable: true,
     },
-    /**名称*/
+    /** 名称 name show */
     {
       title: (
         <FormattedMessage
@@ -212,7 +214,6 @@ const DelegationList: React.FC = () => {
         />
       ),
       dataIndex: 'name',
-      tip: 'The delegation name is the unique key',
       render: (dom, entity) => {
         return (
           <a
@@ -226,56 +227,79 @@ const DelegationList: React.FC = () => {
         );
       },
     },
-    /** 受理时间 acceptTime */
+    /** 合同编号 contractId show */
     {
-      title: '受理时间',
-      dataIndex: 'acceptTime',
-      hideInSearch: true,
-      hideInTable: true,
+      title: '合同编号',
+      dataIndex: 'contractId',
     },
-    /** 受理人编号 acceptorId */
-    {
-      title: '受理人编号',
-      dataIndex:'acceptorId',
-      hideInSearch: true,
-      hideInTable: true,
-    },
-    /** 创建时间 launchTime */
-    {
-      title: '创建时间',
-      dataIndex: 'launchTime',
-      hideInSearch: true,
-      hideInTable: false,
-    },
-    /** 创建人编号 creatorId */
+    /** 发起者人编号 creatorId show */
     {
       title: '发起人编号',
       dataIndex: 'creatorId',
       hideInSearch: true,
-      hideInTable: true,
+      hideInTable: false,
     },
-    /** 处理时间 processTime */
+    /** 发起时间 launchTime show */
     {
-      title: '处理时间',
-      dataIndex: 'processTime',
+      title: '发起时间',
+      dataIndex: 'launchTime',
       hideInSearch: true,
       hideInTable: false,
     },
-    /** 软件项目委托测试申请表ID table2Id */
+    /** 分配的市场部人员id marketDeptStaffId hide */
     {
-      title: '软件项目委托测试申请表ID',
-      dataIndex: 'table2Id',
+      title: '分配的市场部人员编号',
+      dataIndex: 'marketDeptStaffId',
       hideInSearch: true,
       hideInTable: true,
     },
-    /** 委托测试软件功能列表ID table3Id */
+    /**市场部人员处理意见 show */
     {
-      title: '委托测试软件功能列表ID',
-      dataIndex: 'table3Id',
+      title: "市场部人员处理意见",
+      dataIndex: 'marketRemark',
+      valueType: 'textarea',
+      hideInSearch: true,
+    },
+    /**报价单编号 offerId hide*/
+    {
+      title: "报价单编号",
+      dataIndex: 'offerId',
+      valueType: 'textarea',
       hideInSearch: true,
       hideInTable: true,
     },
-    /**状态*/
+    /** 用户报价单意见 show */
+    {
+      title: "用户报价单意见",
+      dataIndex: 'offerRemark',
+      valueType: 'textarea',
+      hideInSearch: true,
+    },
+    /**测试报告编号 offerId hide*/
+    {
+      title: "测试报告编号",
+      dataIndex: 'reportId',
+      valueType: 'textarea',
+      hideInSearch: true,
+      hideInTable: true,
+    },
+    /**样品编号 sampleId hide*/
+    {
+      title: "样品编号",
+      dataIndex: 'sampleId',
+      valueType: 'textarea',
+      hideInSearch: true,
+      hideInTable: true,
+    },
+    /**测试方案编号 solutionId hide*/
+    {
+      title: "测试方案编号",
+      dataIndex: 'solutionId',
+      valueType: 'textarea',
+      hideInSearch: true,
+      hideInTable: true,
+    },
+    /**状态 status show */
     {
       title: <FormattedMessage id="pages.searchTable.titleStatus" defaultMessage="Status" />,
       dataIndex: 'status',
@@ -294,12 +318,48 @@ const DelegationList: React.FC = () => {
         notDistributed:{text:'任务待分发',status:'Default'},
       },
     },
-    /**备注*/
+    /** 软件文档评审表ID table14Id hide */
     {
-      title: "备注",
-      dataIndex: 'remark',
+      title: '软件文档评审表ID',
+      dataIndex: 'table14Id',
+      hideInSearch: true,
+      hideInTable: true,
+    },
+    /** 软件项目委托测试申请表ID table2Id hide */
+    {
+      title: '软件项目委托测试申请表ID',
+      dataIndex: 'table2Id',
+      hideInSearch: true,
+      hideInTable: true,
+    },
+    /** 委托测试软件功能列表ID table3Id hide */
+    {
+      title: '委托测试软件功能列表ID',
+      dataIndex: 'table3Id',
+      hideInSearch: true,
+      hideInTable: true,
+    },
+
+    /** 分配的测试部人员ID testingDeptStaffId hide */
+    {
+      title: '测试部人员ID',
+      dataIndex: 'testingDeptStaffId',
+      hideInSearch: true,
+      hideInTable: true,
+    },
+    /** 测试部人员处理意见 show*/
+    {
+      title: "测试部人员处理意见",
+      dataIndex: 'testingRemark',
       valueType: 'textarea',
       hideInSearch: true,
+    },
+    /** 文档材料url url hide */
+    {
+      title: '文档材料url',
+      dataIndex: 'url',
+      hideInSearch: true,
+      hideInTable: true,
     },
     /**操作*/
     {
@@ -308,6 +368,7 @@ const DelegationList: React.FC = () => {
       valueType: 'option',
       hideInTable: false,
       sorter:false,
+      hideInDescriptions:true,
       render: (text, record,_,action) => [
         record.status === 'notDistributed' &&
         <Select
@@ -464,7 +525,7 @@ const DelegationList: React.FC = () => {
         >取消</a>
       ],
     },
-    /**修改、删除*/
+    /**修改、删除 */
     {
       dataIndex: 'modify',
       valueType: 'option',
@@ -517,7 +578,7 @@ const DelegationList: React.FC = () => {
             <PlusOutlined /> <FormattedMessage id="pages.searchTable.new" defaultMessage="New" />
           </Button>,
         ]}
-        request={delegation}
+        request={handleGetDelegation}
         columns={columns}
         rowSelection={{
           onChange: (_, selectedRows) => {

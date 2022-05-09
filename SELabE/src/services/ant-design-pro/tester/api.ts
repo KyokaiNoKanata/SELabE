@@ -1,24 +1,53 @@
 import request from "umi-request";
 import {DelegationList} from "@/services/ant-design-pro/typings";
+import idID from "@/locales/id-ID";
+import {isNumber} from "lodash";
 
-/** 获取委托列表 GET /api/delegation */
-export async function delegation(
+/** 获取委托列表 GET /admin-api/system/delegation/page */
+export async function delegationPage(
   params: {
-    /** 当前的页码 */
-    current?: number;
-    /** 页面的容量 */
-    pageSize?: number;
+    pageNo: number;
+    pageSize: number;
   },
   options?: { [key: string]: any },
 ) {
-  return request<API.DelegationList>('/api/delegation', {
+  return request<{
+    code: number,
+    data: {
+      list: API.DelegationItem[],
+      total: number,
+    }
+    msg: string
+  }>('/admin-api/system/delegation/page', {
     method: 'GET',
     params: {
-      ...params,
+      pageNo:params.pageNo,
+      pageSize:params.pageSize,
     },
     ...(options || {}),
   });
 }
+/**
+ * 删除委托
+ * @param params id
+ */
+export async function deleteDelegation(params: {
+  id: number,
+}) {
+  return request<{
+    code: number,
+    data: boolean,
+    msg: string,
+  }>('/admin-api/system/delegation/delete',{
+    method: 'DELETE',
+    params: {
+      id:params.id,
+    }
+  });
+}
+
+
+
 /** 接收任务 POST /api/receiveDelegation */
 export async function receiveDelegation(params: {
     workId: number,
@@ -76,3 +105,23 @@ export async function uploadResult(file: FormData, params: {
     ...(options || {}),
   });
 }
+
+/**
+ * 分发委托
+ */
+export async function distributeDelegation(params: {
+  testerId: number,
+  delegationId: number,
+}) {
+  //let url = '/api/distribute/' + {delegationId};
+  let url = '/api/distribute';
+  return request(url,{
+    method: 'POST',
+    params: {
+      ...params
+    }
+  });
+}
+
+
+
