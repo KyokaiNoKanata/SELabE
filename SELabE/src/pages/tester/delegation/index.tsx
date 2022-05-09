@@ -1,5 +1,5 @@
-import {DownloadOutlined, PlusOutlined, UploadOutlined} from '@ant-design/icons';
-import {Button, message, Input, Drawer, Upload, Menu, Dropdown, Space, Select, Popconfirm} from 'antd';
+import {DownloadOutlined, ExclamationCircleOutlined, PlusOutlined, UploadOutlined} from '@ant-design/icons';
+import {Button, message, Input, Drawer, Upload, Menu, Dropdown, Space, Select, Popconfirm, Modal} from 'antd';
 import React, { useState, useRef } from 'react';
 import { useIntl, FormattedMessage } from 'umi';
 import { PageContainer, FooterToolbar } from '@ant-design/pro-layout';
@@ -14,8 +14,8 @@ import ProForm, {
 } from '@ant-design/pro-form';
 import type { ProDescriptionsItemProps } from '@ant-design/pro-descriptions';
 import ProDescriptions from '@ant-design/pro-descriptions';
+const { confirm } = Modal;
 
-import { rule, addRule, updateRule, removeRule} from '@/services/ant-design-pro/api';
 import {
   cancelDelegation,
   receiveDelegation,
@@ -472,23 +472,29 @@ const DelegationList: React.FC = () => {
       title:'',
       render: (text, record,_,action) => [
         <Button type="primary">修改</Button>,
-        <Popconfirm title="确认删除吗?" onConfirm={() => {
-          const success = handleDelete(record.id, record.creatorId);
-          if(success) {
-            console.log(true)
-          }
-        }
-        }>
-          <Button type="primary"
-                  danger
-                  >
-            删除
-          </Button>
-        </Popconfirm>
+        <Button type="primary"
+                danger
+                onClick={
+                  () => {
+                    confirm({
+                      title: '确认删除吗?',
+                      icon: <ExclamationCircleOutlined />,
+                      content: '',
+                      onOk() {
+                        const success = handleDelete(record.id, record.creatorId);
+                        if(success) {
+                          console.log(true)
+                        }
+                      },
+                      onCancel() {
+                        console.log('Cancel');
+                      },
+                    });
+                  }
+                }>删除</Button>
         ]
     },
   ];
-
   return (
     <PageContainer>
       <ProTable<API.DelegationItem, API.PageParams>
