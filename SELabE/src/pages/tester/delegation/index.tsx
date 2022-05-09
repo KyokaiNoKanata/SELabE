@@ -1,7 +1,7 @@
 import {DownloadOutlined, ExclamationCircleOutlined, PlusOutlined, UploadOutlined} from '@ant-design/icons';
 import {Button, message, Input, Drawer, Upload, Menu, Dropdown, Space, Select, Popconfirm, Modal} from 'antd';
 import React, { useState, useRef } from 'react';
-import { useIntl, FormattedMessage } from 'umi';
+import {useIntl, FormattedMessage, useParams} from 'umi';
 import { PageContainer, FooterToolbar } from '@ant-design/pro-layout';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
@@ -135,6 +135,7 @@ const handleDelete = async (id:number,tenant_id: number) => {
     console.log(resp)
     hide();
     message.success('委托已删除');
+    //await delegation()
     return true;
   } catch (error) {
     hide();
@@ -481,10 +482,8 @@ const DelegationList: React.FC = () => {
                       icon: <ExclamationCircleOutlined />,
                       content: '',
                       onOk() {
-                        const success = handleDelete(record.id, record.creatorId);
-                        if(success) {
-                          console.log(true)
-                        }
+                        handleDelete(record.id, record.creatorId);
+                        actionRef.current.reload()//重新请求，更新表格
                       },
                       onCancel() {
                         console.log('Cancel');

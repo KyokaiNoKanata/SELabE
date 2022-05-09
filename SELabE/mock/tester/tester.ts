@@ -223,15 +223,28 @@ function deleteDelegationById(req: Request, res: Response,u: string) {
   const id = params.id;
   const tenant_id = params.tenant_id;
   (() => {
-    let newItem = {};
-    delegationDataSource.filter((item)=>{
+    let deletedItem = undefined;
+    delegationDataSource.map((item) => {
+      if(item.id == id && item.creatorId == tenant_id) {
+        deletedItem = item;
+      }
+    })
+    delegationDataSource = delegationDataSource.filter((item)=>{
       return !(item.id == id && item.creatorId == tenant_id);
     })
-    //console.log(newItem)
     let resp = {
       code:200,
       data:true,
       msg:'ok',
+    }
+    if(deletedItem === undefined) {
+      resp = {
+        code:500,
+        data:false,
+        msg:'error'
+      }
+    } else {
+      console.log(deletedItem)
     }
     return res.json(resp);
   })();
