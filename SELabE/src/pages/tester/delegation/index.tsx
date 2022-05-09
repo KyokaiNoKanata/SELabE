@@ -6,7 +6,7 @@ import { PageContainer, FooterToolbar } from '@ant-design/pro-layout';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
 import ProForm, {
-  ModalForm,
+  ModalForm, ProFormContext,
   ProFormText,
   ProFormTextArea,
   ProFormUploadButton,
@@ -21,7 +21,7 @@ import {
   receiveDelegation,
   delegation,
   uploadResult,
-  uploadScheme, distributeDelegation, deleteDelegation, delegationPage
+  uploadScheme, distributeDelegation, deleteDelegation, delegationPage, updateDelegation
 } from "@/services/ant-design-pro/tester/api";
 import {isBoolean, reject} from "lodash";
 import {RcFile} from "antd/es/upload";
@@ -65,8 +65,28 @@ const handleGetDelegation = async (
     result: true,
   }
 }
-
-
+/** 更新委托(id->名称，url) */
+const handleUpdateDelegation = async (
+  params: {
+    id: number,
+    name: string,
+    url: string,
+  }
+) => {
+  const res = await updateDelegation({
+    id: params.id,
+    name: params.name,
+    url: params.url,
+    }
+  )
+  console.log(res);
+  if(res.data == true) {
+    message.success('更新委托成功')
+  } else {
+    message.error('更新委托失败')
+  }
+  return res.data;
+}
 
 const handleReceive = async (record:API.DelegationItem) => {
   console.log(record)
@@ -180,6 +200,8 @@ const DelegationList: React.FC = () => {
     'finish':8,
     'notDistributed':9,
   }
+
+
   /**
    * @en-US International configuration
    * @zh-CN 国际化配置
@@ -533,7 +555,46 @@ const DelegationList: React.FC = () => {
       sorter:false,
       title:'',
       render: (text, record,_,action) => [
-        <Button type="primary">修改</Button>,
+        /**修改名称和url*/
+        <ModalForm
+          title="修改委托"
+          trigger={<Button type="primary">修改</Button>}
+          submitter={{
+            searchConfig: {
+              submitText: '确认',
+              resetText: '取消',
+            },
+          }}
+          onFinish={async (values) => {
+            const id = record.id;
+            const name = values.name;
+            const url = values.url;
+            const res = handleUpdateDelegation({
+              id:id,
+              name:name,
+              url:url,
+            });
+            actionRef.current.reload();
+            return true;
+          }}
+        >
+          <ProFormText
+            width="md"
+            name="name"
+            label="委托名称"
+            placeholder="请输入委托名称"
+            initialValue={record.name}
+          />
+          <ProFormText
+            width="md"
+            name="url"
+            label="url"
+            placeholder="请输入url"
+            initialValue={record.url}
+          />
+        </ModalForm>,
+
+        /**删除(含确认dialog)*/
         <Button type="primary"
                 danger
                 onClick={

@@ -90,12 +90,12 @@
             icon: 'smile',
             component: './tester/documention/schemeReview',
           },
-          /*{
+          {
             path: '/documention/documentReview',
             name: '软件文档评审表',
             icon: 'smile',
             component: './tester/documention/documentReview'
-          }*/
+          }
         ]
       },
     ],

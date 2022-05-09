@@ -46,6 +46,27 @@ export async function deleteDelegation(params: {
   });
 }
 
+/**
+ * 修改委托(id->name,url) put
+ */
+ export async function updateDelegation(params: {
+   id: number,
+   name: string,
+   url: string,
+}) {
+  return request<{
+    code: number,
+    data: boolean,
+    msg: string,
+  }>('/admin-api/system/delegation/update',{
+    method: 'PUT',
+    params: {
+      id:params.id,
+      name: params.name,
+      url: params.url,
+    }
+  });
+}
 
 
 /** 接收任务 POST /api/receiveDelegation */

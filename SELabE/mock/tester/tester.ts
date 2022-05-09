@@ -248,7 +248,29 @@ function deleteDelegationById(req: Request, res: Response,u: string) {
     return res.json(resp);
   })();
 }
-
+/** 根据id更新 name和 url ok */
+function updateDelegation(req: Request, res: Response,u: string) {
+  let url = u;
+  if (!url || Object.prototype.toString.call(url) !== '[object String]') {
+    url = req.url;
+  }
+  const params = parse(url, true).query;
+  const result = {
+    code:500,
+    data:false,
+    msg:"error",
+  }
+  delegationDataSource.forEach((item) => {
+    if(item.id == params.id) {
+      item.name = params.name;
+      item.url = params.url;
+      result.code = 200;
+      result.data = true;
+      result.msg = 'ok';
+    }
+  })
+  return res.json(result)
+}
 export default {
   'GET /admin-api/system/delegation/page': getDelegation,//ok
   'POST /api/receiveDelegation': receiveDelegation,
@@ -256,4 +278,5 @@ export default {
   'POST /api/uploadScheme': uploadScheme,
   'POST /api/uploadResult': uploadResult,
   'DELETE /admin-api/system/delegation/delete': deleteDelegationById,//ok
+  'PUT /admin-api/system/delegation/update' :updateDelegation,
 };
