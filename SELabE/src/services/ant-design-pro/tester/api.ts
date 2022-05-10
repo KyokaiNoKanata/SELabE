@@ -3,7 +3,7 @@ import {DelegationList} from "@/services/ant-design-pro/typings";
 import idID from "@/locales/id-ID";
 import {isNumber} from "lodash";
 
-/** 获取委托列表 GET /admin-api/system/delegation/page */
+/** 获取委托列表 GET /api/admin-api/system/delegation/page */
 export async function delegationPage(
   params: {
     pageNo: number;
@@ -18,7 +18,7 @@ export async function delegationPage(
       total: number,
     }
     msg: string
-  }>('/admin-api/system/delegation/page', {
+  }>('/api/admin-api/system/delegation/page', {
     method: 'GET',
     params: {
       pageNo:params.pageNo,
@@ -38,7 +38,7 @@ export async function deleteDelegation(params: {
     code: number,
     data: boolean,
     msg: string,
-  }>('/admin-api/system/delegation/delete',{
+  }>('/api/admin-api/system/delegation/delete',{
     method: 'DELETE',
     params: {
       id:params.id,
@@ -58,7 +58,7 @@ export async function deleteDelegation(params: {
     code: number,
     data: boolean,
     msg: string,
-  }>('/admin-api/system/delegation/update',{
+  }>('/api/admin-api/system/delegation/update',{
     method: 'PUT',
     params: {
       id:params.id,

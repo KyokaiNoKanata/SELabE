@@ -272,11 +272,11 @@ function updateDelegation(req: Request, res: Response,u: string) {
   return res.json(result)
 }
 export default {
-  'GET /admin-api/system/delegation/page': getDelegation,//ok
+  'GET /api/admin-api/system/delegation/page': getDelegation,//ok
   'POST /api/receiveDelegation': receiveDelegation,
   'POST /api/cancelDelegation': cancelDelegation,
   'POST /api/uploadScheme': uploadScheme,
   'POST /api/uploadResult': uploadResult,
-  'DELETE /admin-api/system/delegation/delete': deleteDelegationById,//ok
-  'PUT /admin-api/system/delegation/update' :updateDelegation,
+  'DELETE /api/admin-api/system/delegation/delete': deleteDelegationById,//ok
+  'PUT /api/admin-api/system/delegation/update' :updateDelegation,//ok
 };
