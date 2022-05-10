@@ -11,6 +11,7 @@ export async function delegationPage(
   },
   options?: { [key: string]: any },
 ) {
+  console.log("request")
   return request<{
     code: number,
     data: {
@@ -21,8 +22,7 @@ export async function delegationPage(
   }>('/api/admin-api/system/delegation/page', {
     method: 'GET',
     params: {
-      pageNo:params.pageNo,
-      pageSize:params.pageSize,
+      ...params
     },
     ...(options || {}),
   });

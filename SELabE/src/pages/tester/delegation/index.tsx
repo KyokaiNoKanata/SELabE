@@ -47,20 +47,24 @@ const handleDelete = async (id: number) => {
 };
 
 /** 获取委托(分页) */
-const handleGetDelegation = async (params: {
-    current: number,
-    pageSize: number,
+const handleGetDelegation = async (
+  params: {//传入的参数名固定叫 current 和 pageSize
+    pageSize?: number;
+    current?: number;
   },
+  options?: { [key: string]: any }
 ) => {
-  const res = await delegationPage({
-    pageNo:params.current,//传入的参数名固定叫 current 和 pageSize
-    pageSize:params.pageSize,
-  });
+  //修改参数名称
+  const p = params;
+  //p['pageNo'] = params.current;
+  (p as any).pageNo = params.current;
+  delete p.current;
+  const res = await delegationPage(p,options);
   return {
     data:res.data.list,
     total: res.data.total, //分页固定属性
     result: true,
-  }
+  };
 }
 /** 更新委托(id->名称，url) */
 const handleUpdateDelegation = async (params: {
@@ -618,7 +622,7 @@ const DelegationList: React.FC = () => {
                       icon: <ExclamationCircleOutlined />,
                       content: '',
                       onOk() {
-                        handleDelete(record.id, record.creatorId);
+                        handleDelete(record.id);
                         actionRef.current.reload()//重新请求，更新表格
                       },
                       onCancel() {
@@ -639,9 +643,38 @@ const DelegationList: React.FC = () => {
         })}
         actionRef={actionRef}
         rowKey="key"
-        search={{
-          labelWidth: 120,
-        }}
+        search={
+          {
+            labelWidth: 108,
+            filterType: "query",
+            /*optionRender: ({searchText, resetText}, {form}) => {
+              return [
+                <Button
+                  key="searchText"
+                  type="primary"
+                  onClick={() => {
+                    form?.submit();//不带参数？
+                    console.log('search');
+                    console.log()
+                  }}
+                >
+                  {searchText}
+                </Button>,
+                <Button
+                  key="resetText"
+                  onClick={() => {
+                    form?.resetFields();
+                    console.log('reset')
+                  }}
+                >
+                  {resetText}
+                </Button>,
+
+              ];
+            },*/
+          }
+        }
+        /*新建*/
         toolBarRender={() => [
           <Button
             type="primary"
@@ -653,6 +686,7 @@ const DelegationList: React.FC = () => {
             <PlusOutlined /> <FormattedMessage id="pages.searchTable.new" defaultMessage="New" />
           </Button>,
         ]}
+        /*请求数据*/
         request={handleGetDelegation}
         columns={columns}
         rowSelection={{
