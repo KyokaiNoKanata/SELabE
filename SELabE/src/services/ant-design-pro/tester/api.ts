@@ -75,7 +75,7 @@ export async function createDelegation(params: {
      code: number,
      data: boolean,
      msg: string,
-   }>('/api//admin-api/system/delegation/create', {
+   }>('/api/admin-api/system/delegation/create', {
      method: 'POST',
      params: {
        name:params.name,

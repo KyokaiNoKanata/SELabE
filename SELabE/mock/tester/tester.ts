@@ -1,7 +1,6 @@
 import { Request, Response } from 'express';
 import moment from 'moment';
 import { parse } from 'url';
-import {createDelegation, deleteDelegation} from "@/services/ant-design-pro/tester/api";
 import {keys} from "lodash";
 const genList = (current: number, pageSize: number) => {
   const delegationDataSource: API.DelegationItem[] = [];
@@ -115,7 +114,9 @@ function getDelegation(req: Request, res: Response, u: string) {
   return res.json(result);
 }
 ////api/receiveDelegation'
-/** 接受委托 */
+/*
+
+/!** 接受委托 *!/
 function receiveDelegation(req: Request, res: Response, u: string) {
   let url = u;
   if (!url || Object.prototype.toString.call(url) !== '[object String]') {
@@ -137,7 +138,7 @@ function receiveDelegation(req: Request, res: Response, u: string) {
     return res.json(newItem);
   })();
 }
-/** 取消委托 */
+/!** 取消委托 *!/
 function cancelDelegation(req: Request, res: Response,u: string) {
   let url = u;
   if (!url || Object.prototype.toString.call(url) !== '[object String]') {
@@ -161,7 +162,7 @@ function cancelDelegation(req: Request, res: Response,u: string) {
   })();
 }
 
-/** 上传方案 */
+/!** 上传方案 *!/
 function uploadScheme(req: Request, res: Response,u: string) {
   console.log("upload scheme")
   let url = u;
@@ -188,7 +189,7 @@ function uploadScheme(req: Request, res: Response,u: string) {
     return res.json(newItem);
   })();
 }
-/** 上传结果 */
+/!** 上传结果 *!/
 function uploadResult(req: Request, res: Response,u: string) {
   console.log("upload result")
   let url = u;
@@ -214,6 +215,7 @@ function uploadResult(req: Request, res: Response,u: string) {
     return res.json(newItem);
   })();
 }
+*/
 
 /** 根据 id 删除 ok */
 function deleteDelegationById(req: Request, res: Response,u: string) {
@@ -271,6 +273,7 @@ function updateDelegation(req: Request, res: Response,u: string) {
   })
   return res.json(result)
 }
+/** 新建 */
 function createDelegation(req: Request, res: Response,u: string) {
   let url = u;
   if (!url || Object.prototype.toString.call(url) !== '[object String]') {
@@ -293,14 +296,10 @@ function createDelegation(req: Request, res: Response,u: string) {
     data: maxId,
     msg: 'ok',
   }
-  return result;
+  return res.json(result);
 }
 export default {
   'GET /api/admin-api/system/delegation/page': getDelegation,//ok
-  'POST /api/receiveDelegation': receiveDelegation,
-  'POST /api/cancelDelegation': cancelDelegation,
-  'POST /api/uploadScheme': uploadScheme,
-  'POST /api/uploadResult': uploadResult,
   'DELETE /api/admin-api/system/delegation/delete': deleteDelegationById,//ok
   'PUT /api/admin-api/system/delegation/update' :updateDelegation,//ok
   'POST /api/admin-api/system/delegation/create' : createDelegation,//unTested

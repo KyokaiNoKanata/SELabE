@@ -48,17 +48,17 @@ const handleDelete = async (id: number) => {
 
 /** 获取委托(分页) */
 const handleGetDelegation = async (params: {
-    pageNo: number,
+    current: number,
     pageSize: number,
   },
 ) => {
   const res = await delegationPage({
-    pageNo:params.pageNo,
+    pageNo:params.current,//传入的参数名固定叫 current 和 pageSize
     pageSize:params.pageSize,
   });
   return {
     data:res.data.list,
-    total: res.data.total, //分页
+    total: res.data.total, //分页固定属性
     result: true,
   }
 }
