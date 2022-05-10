@@ -1,30 +1,21 @@
-import {DownloadOutlined, ExclamationCircleOutlined, PlusOutlined, UploadOutlined} from '@ant-design/icons';
-import {Button, message, Input, Drawer, Upload, Menu, Dropdown, Space, Select, Popconfirm, Modal} from 'antd';
+import {ExclamationCircleOutlined, PlusOutlined} from '@ant-design/icons';
+import {Button, message, Drawer, Modal} from 'antd';
 import React, { useState, useRef } from 'react';
-import {useIntl, FormattedMessage, useParams} from 'umi';
-import { PageContainer, FooterToolbar } from '@ant-design/pro-layout';
+import {useIntl, FormattedMessage} from 'umi';
+import { PageContainer} from '@ant-design/pro-layout';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
-import ProForm, {
-  ModalForm, ProFormContext,
+import {
+  ModalForm,
   ProFormText,
-  ProFormTextArea,
-  ProFormUploadButton,
-  ProFormUploadDragger
 } from '@ant-design/pro-form';
 import type { ProDescriptionsItemProps } from '@ant-design/pro-descriptions';
 import ProDescriptions from '@ant-design/pro-descriptions';
 const { confirm } = Modal;
 
 import {
-  cancelDelegation,
-  receiveDelegation,
-  delegation,
-  uploadResult,
-  uploadScheme, distributeDelegation, deleteDelegation, delegationPage, updateDelegation, createDelegation
+  deleteDelegation, delegationPage, updateDelegation, createDelegation
 } from "@/services/ant-design-pro/tester/api";
-import {isBoolean, reject} from "lodash";
-import {RcFile} from "antd/es/upload";
 
 
 /** 根据id删除委托 */
@@ -34,7 +25,8 @@ const handleDelete = async (id: number) => {
     const resp = await deleteDelegation({
       id:id,
     });
-    //console.log(resp)
+    console.log(resp)
+    //todo:返回结果
     hide();
     message.success('委托已删除');
     //await delegation()
@@ -52,7 +44,7 @@ const handleGetDelegation = async (
     pageSize?: number;
     current?: number;
   },
-  options?: { [key: string]: any }
+  options?: Record<string, any>
 ) => {
   //修改参数名称
   const p = params;
@@ -203,7 +195,7 @@ const DelegationList: React.FC = () => {
   const actionRef = useRef<ActionType>();
   const [currentRow, setCurrentRow] = useState<API.DelegationItem>();
   const [selectedRowsState, setSelectedRows] = useState<API.DelegationItem[]>([]);
-  const [updateModalVisible, handleUpdateModalVisible] = useState<boolean>(false);
+  /*const [updateModalVisible, handleUpdateModalVisible] = useState<boolean>(false);*/
   const [createModalVisible, handleModalVisible] = useState<boolean>(false);//新建
   const [showDetail, setShowDetail] = useState<boolean>(false);
   /*const stateMap = {
@@ -225,16 +217,6 @@ const DelegationList: React.FC = () => {
    * @zh-CN 国际化配置
    * */
   const intl = useIntl();
-
-  let currentName = '';
-  function onChange(value) {
-    console.log(`selected ${value}`);
-    currentName = value;
-  }
-
-  function onSearch(val) {
-    console.log('search:', val);
-  }
 
   const columns: ProColumns<API.DelegationItem>[] = [
     /** id编号 hide */
@@ -401,170 +383,7 @@ const DelegationList: React.FC = () => {
       hideInSearch: true,
       hideInTable: true,
     },
-    /**操作*/
-    {
-      title: <FormattedMessage id="pages.searchTable.titleOption" defaultMessage="Operating" />,
-      dataIndex: 'option',
-      valueType: 'option',
-      hideInTable: true,
-      sorter:false,
-      hideInDescriptions:true,
-      render: (text, record,_,action) => [
-        record.status === 'notDistributed' &&
-        <Select
-          showSearch
-          placeholder="Select a person"
-          optionFilterProp="children"
-          onChange={onChange}
-          onSearch={onSearch}
-          filterOption={(input, option) =>
-            option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-          }
-        >
-          <Option value="jack">Jack</Option>
-          <Option value="lucy">Lucy</Option>
-          <Option value="tom">Tom</Option>
-        </Select>,
-        record.status === 'notDistributed' && <a key="distribute"
-              onClick={() => {
-                console.log(record.status)
-                const success = handleDistribute(currentName,record.delegationId)
-                if(1) {
-                  setCurrentRow(undefined);
-                  if (actionRef.current) {
-                    actionRef.current.reload();
-                  }
-                }
-              }}
-        >分发任务</a>,
 
-
-        record.status === 'notReceived' && <a key="receiveTask"
-          onClick={() => {
-            //console.log(record.status)
-            const success = handleReceive(record)
-            if(success) {
-              setCurrentRow(undefined);
-              if (actionRef.current) {
-                actionRef.current.reload();
-              }
-            }
-          }}
-        >接受测试任务</a>,
-
-        (record.status === 'received' || record.status === 'schemeRefused') &&
-        <ModalForm<{
-          name: string;
-          company: string;
-        }>
-          title="提交测试方案"
-          trigger={
-            <a>
-              提交测试方案
-            </a>
-          }
-          autoFocusFirstInput
-          modalProps={{
-            //onCancel: () => console.log('cancel'),
-          }}
-          //submitTimeout={2000}
-          onFinish={async (values) => {
-            //await waitTime(2000);
-            //console.log('提交方案')
-            const success = handleSubmitScheme(record,formData)
-            if(success) {
-              setCurrentRow(undefined);
-              if (actionRef.current) {
-                actionRef.current.reload();
-              }
-            }
-            return true;
-          }}
-        >
-
-          <ProForm.Group>
-            <Upload
-              beforeUpload={(file) => {
-                return new Promise(async (resolve, reject) => {
-                  //console.log(file.name)
-                  formData = new FormData()
-                  formData.append('file',file)
-                  return reject(false);
-                });
-              }}
-              >
-              <Button type="primary" icon={<DownloadOutlined />}>
-                上传
-              </Button>
-            </Upload>
-          </ProForm.Group>
-        </ModalForm>,
-
-
-        (record.status === 'schemePass' || record.status === 'reportRefused' || record.status === 'testing')
-            && <ModalForm<{
-          name: string;
-          company: string;
-        }>
-          title="提交测试结果"
-          trigger={
-            <a>
-              提交测试结果
-            </a>
-          }
-          autoFocusFirstInput
-          modalProps={{
-            //onCancel: () => console.log('cancel'),
-          }}
-          //submitTimeout={2000}
-          onFinish={async (values) => {
-            //await waitTime(2000);
-            //console.log('提交结果')
-            const success = handleSubmitResult(record,formData)
-            if(success) {
-              setCurrentRow(undefined);
-              if (actionRef.current) {
-                actionRef.current.reload();
-              }
-            }
-            return true;
-          }}
-        >
-
-          <ProForm.Group>
-            <Upload
-              beforeUpload={(file) => {
-                return new Promise(async (resolve, reject) => {
-                  //console.log(file.name)
-                  formData = new FormData()
-                  formData.append('file',file)
-                  return reject(false);
-                });
-              }}
-            >
-              <Button type="primary" icon={<DownloadOutlined />}>
-                上传
-              </Button>
-            </Upload>
-          </ProForm.Group>
-        </ModalForm>,
-
-
-
-        (record.status === 'received') &&
-        <a key="cancelDelegation"
-           onClick={() => {
-             const success = handleCancel(record)
-             if(success) {
-               setCurrentRow(undefined);
-               if (actionRef.current) {
-                 actionRef.current.reload();
-               }
-             }
-           }}
-        >取消</a>
-      ],
-    },
     /**修改、删除 */
     {
       dataIndex: 'modify',
@@ -572,9 +391,10 @@ const DelegationList: React.FC = () => {
       hideInTable: false,
       sorter:false,
       title:'',
-      render: (text, record,_,action) => [
+      render: (text, record) => [
         /**修改名称和url*/
         <ModalForm
+          key={'modify'}
           title="修改委托"
           trigger={<Button type="primary">修改</Button>}
           submitter={{
@@ -587,12 +407,12 @@ const DelegationList: React.FC = () => {
             const id = record.id;
             const name = values.name;
             const url = values.url;
-            const res = handleUpdateDelegation({
+            handleUpdateDelegation({
               id:id,
               name:name,
               url:url,
             });
-            actionRef.current.reload();
+            actionRef.current?.reload();
             return true;
           }}
         >
@@ -615,6 +435,7 @@ const DelegationList: React.FC = () => {
         /**删除(含确认dialog)*/
         <Button type="primary"
                 danger
+                key='delete'
                 onClick={
                   () => {
                     confirm({
@@ -623,7 +444,7 @@ const DelegationList: React.FC = () => {
                       content: '',
                       onOk() {
                         handleDelete(record.id);
-                        actionRef.current.reload()//重新请求，更新表格
+                        actionRef.current?.reload()//重新请求，更新表格
                       },
                       onCancel() {
                         console.log('Cancel');
@@ -653,7 +474,7 @@ const DelegationList: React.FC = () => {
                   key="searchText"
                   type="primary"
                   onClick={() => {
-                    form?.submit();//不带参数？
+                    form?.submit();
                     console.log('search');
                     console.log()
                   }}
@@ -731,7 +552,9 @@ const DelegationList: React.FC = () => {
         width="400px"
         visible={createModalVisible}
         onVisibleChange={handleModalVisible}
-        onFinish={async (value) => {
+        onFinish={async (value: {
+          name: string
+        }) => {
           console.log(value);
           const success = await handleCreateDelegation(value);
           if (success) {

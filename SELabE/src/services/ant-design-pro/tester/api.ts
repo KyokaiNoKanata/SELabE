@@ -1,7 +1,4 @@
 import request from "umi-request";
-import {DelegationList} from "@/services/ant-design-pro/typings";
-import idID from "@/locales/id-ID";
-import {isNumber} from "lodash";
 
 /** 获取委托列表 GET /api/admin-api/system/delegation/page */
 export async function delegationPage(
@@ -9,7 +6,7 @@ export async function delegationPage(
     pageNo: number;
     pageSize: number;
   },
-  options?: { [key: string]: any },
+  options?: Record<string, any>,
 ) {
   console.log("request")
   return request<{
@@ -87,7 +84,7 @@ export async function createDelegation(params: {
 export async function receiveDelegation(params: {
     workId: number,
     delegationId: number,
-  },options?: { [key: string]: any }
+  },options?: Record<string, any>
 ) {
   return request<API.DelegationItem>('/api/receiveDelegation', {
     method: 'POST',
@@ -100,7 +97,7 @@ export async function receiveDelegation(params: {
 /** 取消接受的任务 */
 export async function cancelDelegation(params: {
   workId: number,
-  delegationId: number, }, options?: { [key: string]: any }
+  delegationId: number, }, options?: Record<string, any>
 ) {
   //console.log(params)
   return request<API.DelegationItem>('/api/cancelDelegation', {
@@ -114,7 +111,7 @@ export async function cancelDelegation(params: {
 /**上传测试方案*/
 export async function uploadScheme(file: FormData, params: {
   workId: number,
-  delegationId: number, }, options?: { [key: string]: any }
+  delegationId: number, }, options?: Record<string, any>
 ) {
   return request<API.DelegationItem>('/api/uploadScheme', {
     method: 'POST',
@@ -129,7 +126,7 @@ export async function uploadScheme(file: FormData, params: {
 /**上传文件*/
 export async function uploadResult(file: FormData, params: {
   workId: number,
-  delegationId: number, }, options?: { [key: string]: any }
+  delegationId: number, }, options?: Record<string, any>
 ) {
   return request<API.DelegationItem>('/api/uploadResult', {
     method: 'POST',
@@ -149,7 +146,7 @@ export async function distributeDelegation(params: {
   delegationId: number,
 }) {
   //let url = '/api/distribute/' + {delegationId};
-  let url = '/api/distribute';
+  const url = '/api/distribute';
   return request(url,{
     method: 'POST',
     params: {
