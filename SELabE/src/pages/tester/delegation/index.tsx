@@ -21,7 +21,7 @@ import {
   receiveDelegation,
   delegation,
   uploadResult,
-  uploadScheme, distributeDelegation, deleteDelegation, delegationPage, updateDelegation
+  uploadScheme, distributeDelegation, deleteDelegation, delegationPage, updateDelegation, createDelegation
 } from "@/services/ant-design-pro/tester/api";
 import {isBoolean, reject} from "lodash";
 import {RcFile} from "antd/es/upload";
@@ -47,13 +47,10 @@ const handleDelete = async (id: number) => {
 };
 
 /** 获取委托(分页) */
-const handleGetDelegation = async (
-  params: {
+const handleGetDelegation = async (params: {
     pageNo: number,
     pageSize: number,
   },
-  sort,
-  filter,
 ) => {
   const res = await delegationPage({
     pageNo:params.pageNo,
@@ -66,8 +63,7 @@ const handleGetDelegation = async (
   }
 }
 /** 更新委托(id->名称，url) */
-const handleUpdateDelegation = async (
-  params: {
+const handleUpdateDelegation = async (params: {
     id: number,
     name: string,
     url: string,
@@ -88,6 +84,23 @@ const handleUpdateDelegation = async (
   return res.data;
 }
 
+/** 新增委托(name->id) */
+const handleCreateDelegation = async (params: {
+  name: string
+}) => {
+  const res = await createDelegation({
+    name:params.name
+  })
+  //todo:check condition
+  if(res.code == 200) {
+    message.success('创建委托成功')
+  } else {
+    message.error('创建委托失败')
+  }
+  return res.data;
+}
+/** 以下内容不可信 */
+/*
 const handleReceive = async (record:API.DelegationItem) => {
   console.log(record)
   const hide = message.loading('正在接收委托');
@@ -122,7 +135,7 @@ const handleCancel = async (record: API.DelegationItem) => {
     return false;
   }
 };
-/** 提交测试方案 */
+
 let formData = new FormData();
 
 const handleSubmitScheme = async (record: API.DelegationItem,formData:FormData) => {
@@ -177,6 +190,7 @@ const handleDistribute = async (name: string, delegationId:number) => {
     return false;
   }
 };
+*/
 
 
 
@@ -186,9 +200,9 @@ const DelegationList: React.FC = () => {
   const [currentRow, setCurrentRow] = useState<API.DelegationItem>();
   const [selectedRowsState, setSelectedRows] = useState<API.DelegationItem[]>([]);
   const [updateModalVisible, handleUpdateModalVisible] = useState<boolean>(false);
-
+  const [createModalVisible, handleModalVisible] = useState<boolean>(false);//新建
   const [showDetail, setShowDetail] = useState<boolean>(false);
-  const stateMap = {
+  /*const stateMap = {
     'notReceived':0,
     'received':1,
     'schemeEvaluating':2,
@@ -199,7 +213,7 @@ const DelegationList: React.FC = () => {
     'reportRefused':7,
     'finish':8,
     'notDistributed':9,
-  }
+  }*/
 
 
   /**
@@ -324,10 +338,10 @@ const DelegationList: React.FC = () => {
     /**状态 status show */
     {
       title: <FormattedMessage id="pages.searchTable.titleStatus" defaultMessage="Status" />,
-      dataIndex: 'status',
+      dataIndex: 'state',
       hideInForm: false,
-      sorter: (a,b) => stateMap[a.status] - stateMap[b.status],
-      valueEnum: {
+      //sorter: (a,b) => stateMap[a.status] - stateMap[b.status],
+      /*valueEnum: {
         notReceived:{text:'测试任务待接收',status: 'Default'},
         received:{text:'测试任务已接收',status: 'Processing'},
         schemeEvaluating:{text:'测试方案审核中',status: 'Processing'},
@@ -338,7 +352,7 @@ const DelegationList: React.FC = () => {
         reportRefused:{text:'测试报告不通过',status: 'Error'},
         finish:{text:'测试已完成',status: 'Success'},
         notDistributed:{text:'任务待分发',status:'Default'},
-      },
+      },*/
     },
     /** 软件文档评审表ID table14Id hide */
     {
@@ -388,7 +402,7 @@ const DelegationList: React.FC = () => {
       title: <FormattedMessage id="pages.searchTable.titleOption" defaultMessage="Operating" />,
       dataIndex: 'option',
       valueType: 'option',
-      hideInTable: false,
+      hideInTable: true,
       sorter:false,
       hideInDescriptions:true,
       render: (text, record,_,action) => [
@@ -620,8 +634,8 @@ const DelegationList: React.FC = () => {
     <PageContainer>
       <ProTable<API.DelegationItem, API.PageParams>
         headerTitle={intl.formatMessage({
-          id: 'pages.searchTable.title',
-          defaultMessage: 'Enquiry form',
+          id: 'pages.delegationTable.title',
+          defaultMessage: '委托列表',
         })}
         actionRef={actionRef}
         rowKey="key"
@@ -633,7 +647,7 @@ const DelegationList: React.FC = () => {
             type="primary"
             key="primary"
             onClick={() => {
-              //handleModalVisible(true);
+              handleModalVisible(true);
             }}
           >
             <PlusOutlined /> <FormattedMessage id="pages.searchTable.new" defaultMessage="New" />
@@ -673,6 +687,44 @@ const DelegationList: React.FC = () => {
           />
         )}
       </Drawer>
+
+      {/** 新增 */}
+      <ModalForm
+        title={intl.formatMessage({
+          id: 'pages.delegationTable.createDelegation',
+          defaultMessage: '新建委托',
+        })}
+        width="400px"
+        visible={createModalVisible}
+        onVisibleChange={handleModalVisible}
+        onFinish={async (value) => {
+          console.log(value);
+          const success = await handleCreateDelegation(value);
+          if (success) {
+            handleModalVisible(false);
+            if (actionRef.current) {
+              actionRef.current.reload();
+            }
+          }
+        }}
+      >
+        <ProFormText
+          rules={[
+            {
+              required: true,
+              message: (
+                <FormattedMessage
+                  id="pages.delegationTable.delegationName"
+                  defaultMessage="委托名称"
+                />
+              ),
+            },
+          ]}
+          placeholder='请输入委托名称'
+          width="md"
+          name="name"
+        />
+      </ModalForm>
     </PageContainer>
   );
 };

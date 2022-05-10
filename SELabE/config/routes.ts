@@ -43,24 +43,6 @@
     ],
   },
   {
-    path: '/client',
-    name: 'client',
-    icon: 'crown',
-    access: 'isClient',
-    component: './Client',
-    routes: [
-      {
-        path: '/client/sub-page',
-        name: 'sub-page',
-        icon: 'smile',
-        component: './Welcome',
-      },
-      {
-        component: './404',
-      },
-    ],
-  },
-  {
     name: 'list.table-list',
     icon: 'table',
     path: '/list',

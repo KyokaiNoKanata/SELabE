@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import moment from 'moment';
 import { parse } from 'url';
-import {deleteDelegation} from "@/services/ant-design-pro/tester/api";
+import {createDelegation, deleteDelegation} from "@/services/ant-design-pro/tester/api";
 import {keys} from "lodash";
 const genList = (current: number, pageSize: number) => {
   const delegationDataSource: API.DelegationItem[] = [];
@@ -29,7 +29,7 @@ const genList = (current: number, pageSize: number) => {
         'https://gw.alipayobjects.com/zos/rmsportal/udxAbMEhpwthVVcjLXik.png',
       ][i % 2]*/
       name: `委托 ${index}`,
-      status: valueEnum[Math.floor(Math.random() * 10) % 10],
+      state: valueEnum[Math.floor(Math.random() * 10) % 10],
       launchTime: moment().format('YYYY-MM-DD HH:mm:ss'), //发起时间
       //processTime: moment().format('YYYY-MM-DD HH:mm:ss'),
       //acceptTime:moment().format('YYYY-MM-DD HH:mm:ss'),
@@ -271,6 +271,30 @@ function updateDelegation(req: Request, res: Response,u: string) {
   })
   return res.json(result)
 }
+function createDelegation(req: Request, res: Response,u: string) {
+  let url = u;
+  if (!url || Object.prototype.toString.call(url) !== '[object String]') {
+    url = req.url;
+  }
+  const params = parse(url, true).query;
+  let maxId = 0;
+  delegationDataSource.forEach((item) => {
+    if(item.id > maxId) {
+      maxId = item.id;
+    }
+  })
+  let newItem = {
+    id: maxId + 1,
+    name:params.name,
+  }
+  delegationDataSource.push(newItem);
+  const result = {
+    code: 200,
+    data: maxId,
+    msg: 'ok',
+  }
+  return result;
+}
 export default {
   'GET /api/admin-api/system/delegation/page': getDelegation,//ok
   'POST /api/receiveDelegation': receiveDelegation,
@@ -279,4 +303,5 @@ export default {
   'POST /api/uploadResult': uploadResult,
   'DELETE /api/admin-api/system/delegation/delete': deleteDelegationById,//ok
   'PUT /api/admin-api/system/delegation/update' :updateDelegation,//ok
+  'POST /api/admin-api/system/delegation/create' : createDelegation,//unTested
 };

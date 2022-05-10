@@ -21,7 +21,7 @@ declare namespace API {
     reportId?: number;//测试报告id
     sampleId?: number;//样品id
     solutionId?: number;//测试方案id
-    status?: string;//状态*
+    state?: string;//状态*
     table14Id?: string;//软件文档评审表ID
     table2Id?: string;//软件项目委托测试申请表ID
     table3Id?: string;//委托测试软件功能列表ID

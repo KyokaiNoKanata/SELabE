@@ -67,7 +67,21 @@ export async function deleteDelegation(params: {
     }
   });
 }
-
+/** 新增委托 */
+export async function createDelegation(params: {
+  name: string,
+}) {
+   return request<{
+     code: number,
+     data: boolean,
+     msg: string,
+   }>('/api//admin-api/system/delegation/create', {
+     method: 'POST',
+     params: {
+       name:params.name,
+     }
+   })
+}
 
 /** 接收任务 POST /api/receiveDelegation */
 export async function receiveDelegation(params: {
