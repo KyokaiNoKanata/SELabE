@@ -170,26 +170,37 @@ export async function getTable14(params: {
 }
 
 /**
+ * 用户填表完成，提交委托
+ */
+export async function submitDelegation(data: {
+  id: number,
+}) {
+  return request('/api/admin-api/system/delegation/submit',{
+    method: 'PUT',
+    data:data,
+  });
+}
+/**
  * （市场部）审批
  */
 //不通过/admin-api/system/delegation/audit/fail/marketing
-export async function marketingAuditFail(params: {
+export async function marketingAuditFail(data: {
   id: number;//委托编号
   remark: string;//建议
 }) {
   return request('/api/admin-api/system/delegation/audit/fail/marketing',{
     method: 'PUT',
-    params: params,
+    data:data
   });
 }
 //通过/admin-api/system/delegation/audit/success/marketing
-export async function marketingAuditSuccess(params: {
+export async function marketingAuditSuccess(data: {
   id: number;//委托编号
   remark: string;//建议
 }) {
   return request('/api/admin-api/system/delegation/audit/success/marketing',{
     method: 'PUT',
-    params: params,
+    data: data,
   });
 }
 

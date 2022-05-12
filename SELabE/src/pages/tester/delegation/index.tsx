@@ -14,7 +14,13 @@ import ProDescriptions from '@ant-design/pro-descriptions';
 const { confirm } = Modal;
 
 import {
-  deleteDelegation, delegationPage, updateDelegation, createDelegation, marketingAuditFail, marketingAuditSuccess
+  deleteDelegation,
+  delegationPage,
+  updateDelegation,
+  createDelegation,
+  marketingAuditFail,
+  marketingAuditSuccess,
+  submitDelegation
 } from "@/services/ant-design-pro/tester/api";
 import SubmitForm from "@/pages/tester/delegation/components/SubmitForm";
 import {Option} from "antd/es/mentions";
@@ -97,15 +103,28 @@ const handleCreateDelegation = async (params: {
   }
   return res.data;
 }
+/** 提交委托 */
+const handleSubmitDelegation = async (data: {
+  id: number
+}) => {
+  const res = await submitDelegation({
+    id: data.id
+  })
+  if(res.code == 0) {
+    message.success('委托已提交');
+  } else {
+    message.error('委托提交失败');
+  }
+}
 /** 市场部审批委托() */
 //不通过
-const handleAuditFailMarketing = async (params: {
+const handleAuditFailMarketing = async (data: {
   id: number,//委托编号
   remark: string,//审核意见
 }) => {
   const res = await marketingAuditFail({
-    id: params.id,
-    remark: params.remark,
+    id: data.id,
+    remark: data.remark,
   });
   if(res.data == true) {
     message.success('提交成功');
@@ -114,13 +133,13 @@ const handleAuditFailMarketing = async (params: {
   }
 }
 //通过
-const handleAuditSuccessMarketing = async (params: {
+const handleAuditSuccessMarketing = async (data: {
   id: number,
   remark: string,
 }) => {
   const res = await marketingAuditSuccess({
-    id: params.id,
-    remark: params.remark,
+    id: data.id,
+    remark: data.remark,
   });
   console.log(res)
   if(res.data == true) {
@@ -511,7 +530,7 @@ const DelegationList: React.FC = () => {
           trigger={<Button type="primary">填写</Button>}
           submitter={{
             searchConfig: {
-              submitText: '确认',
+              submitText: '完成',
               resetText: '取消',
             },
           }}
@@ -524,6 +543,10 @@ const DelegationList: React.FC = () => {
               name:name,
               url:url,
             });*/
+            console.log('填写完成')
+            handleSubmitDelegation({
+              id: record.id
+            });
             actionRef.current?.reload();
             return true;
           }}
@@ -591,8 +614,8 @@ const DelegationList: React.FC = () => {
           <ProFormText
             width="md"
             name="marketRemark"
-            label="不通过原因"
-            placeholder="请输入原因(选填)"
+            label="审核意见"
+            placeholder="请输入审核意见"
             initialValue={record.marketRemark}
           />
         </ModalForm>,
