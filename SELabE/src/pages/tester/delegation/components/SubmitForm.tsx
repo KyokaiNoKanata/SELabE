@@ -1,17 +1,13 @@
 import React, {useState} from 'react';
-import {Button, message} from 'antd';
-import { Tag, Space } from 'antd';
-import { useIntl, FormattedMessage } from 'umi';
-import {ModalForm, ProFormText} from '@ant-design/pro-form';
+import {Button } from 'antd';
+import {ModalForm } from '@ant-design/pro-form';
 import ProCard from '@ant-design/pro-card';
-import {PlusOutlined} from "@ant-design/icons";
-import DocumentReview from "@/pages/tester/documention/documentReview";
 import DocumentReviewForm from "@/pages/tester/documention/documentReview";
 export type SubmitFormType = {
   onSubmitTable14: (values: any) => Promise<void>;
 }
 const SubmitForm: React.FC<SubmitFormType>= (props) => {
-  const intl = useIntl();
+  //const intl = useIntl();
   const [table14Visit, setTable14Visit] = useState(false)
   return (
     <>
@@ -35,7 +31,13 @@ const SubmitForm: React.FC<SubmitFormType>= (props) => {
               submitText: '确认',
               resetText: '取消',
             },
-            render: (_,dom) =><></>
+            //render: (_,dom) =>{ return []; },
+            submitButtonProps:{
+              hidden:true
+            },
+            resetButtonProps:{
+              hidden:true
+            },
           }}
           onFinish={async (values) => {
             console.log(values)
@@ -50,9 +52,7 @@ const SubmitForm: React.FC<SubmitFormType>= (props) => {
             setTable14Visit(false)
           })}*/
             onSubmit={props.onSubmitTable14}
-          >
-
-          </DocumentReviewForm>
+           />
         </ModalForm>
       </ProCard>
 

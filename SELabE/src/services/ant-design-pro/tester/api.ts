@@ -31,11 +31,7 @@ export async function delegationPage(
 export async function deleteDelegation(params: {
   id: number,
 }) {
-  return request<{
-    code: number,
-    data: boolean,
-    msg: string,
-  }>('/api/admin-api/system/delegation/delete',{
+  return request<API.Response>('/api/admin-api/system/delegation/delete',{
     method: 'DELETE',
     params: {
       id:params.id,
@@ -46,112 +42,50 @@ export async function deleteDelegation(params: {
 /**
  * 修改委托(id name,url) put
  */
-export async function updateDelegation(params: {
+export async function updateDelegation(data: {
   id: number,
   name: string,
   url: string,
 }) {
-  return request<{
-    code: number,
-    data: boolean,
-    msg: string,
-  }>('/api/admin-api/system/delegation/update',{
+  return request<API.Response>('/api/admin-api/system/delegation/update',{
     method: 'PUT',
-    data: {
-      id:params.id,
-      name: params.name,
-      url: params.url,
-    }
+    data: data,
   });
 }
 /** 新增委托 ok*/
-export async function createDelegation(params: {
+export async function createDelegation(data: {
   name: string,
 }) {
-  return request<{
-    code: number,
-    data: boolean,
-    msg: string,
-  }>('/api/admin-api/system/delegation/create', {
+  return request<API.Response>('/api/admin-api/system/delegation/create', {
     method: 'POST',
-    data: {
-      name: params.name,
-    }
+    data: data
   })
 }
 
-/** 接收任务 POST /api/receiveDelegation */
-export async function receiveDelegation(params: {
-                                          workId: number,
-                                          delegationId: number,
-                                        },options?: Record<string, any>
-) {
-  return request<API.DelegationItem>('/api/receiveDelegation', {
-    method: 'POST',
-    params: {
-      ...params
-    },
-    ...(options || {}),
-  });
-}
-/** 取消接受的任务 */
-export async function cancelDelegation(params: {
-  workId: number,
-  delegationId: number, }, options?: Record<string, any>
-) {
-  //console.log(params)
-  return request<API.DelegationItem>('/api/cancelDelegation', {
-    method: 'POST',
-    params: {
-      ...params
-    },
-    ...(options || {}),
-  });
-}
-/**上传测试方案*/
-export async function uploadScheme(file: FormData, params: {
-  workId: number,
-  delegationId: number, }, options?: Record<string, any>
-) {
-  return request<API.DelegationItem>('/api/uploadScheme', {
-    method: 'POST',
-    params: {
-      ...params
-    },
-    data: file,
-    ...(options || {}),
-  });
-}
-/**上传测试结果*/
-/**上传文件*/
-export async function uploadResult(file: FormData, params: {
-  workId: number,
-  delegationId: number, }, options?: Record<string, any>
-) {
-  return request<API.DelegationItem>('/api/uploadResult', {
-    method: 'POST',
-    params: {
-      ...params
-    },
-    data: file,
-    ...(options || {}),
+
+/**
+ * 市场部主管分发委托
+ */
+export async function distributeDelegationMarketing(data: {
+  acceptorId: number,//接收委托的工作人员id
+  id: number,//委托编号
+}) {
+  return request<API.Response>('/api/admin-api/system/delegation/distribute/marketing',{
+    method: 'PUT',
+    data: data,
   });
 }
 
 /**
- * 分发委托
+ * 测试部主管分发委托
  */
-export async function distributeDelegation(params: {
-  testerId: number,
-  delegationId: number,
+export async function distributeDelegationTesting(data: {
+  acceptorId: number,//接收委托的工作人员id
+  id: number,//委托编号
 }) {
-  //let url = '/api/distribute/' + {delegationId};
-  const url = '/api/distribute';
-  return request(url,{
-    method: 'POST',
-    params: {
-      ...params
-    }
+  return request<API.Response>('/api/admin-api/system/delegation/distribute/testing',{
+    method: 'PUT',
+    data: data,
   });
 }
 
@@ -163,7 +97,7 @@ export async function distributeDelegation(params: {
 export async function getTable14(params: {
   id: number,//表格编号
 }) {
-  return request('/api/admin-api/system/delegation/get/table14',{
+  return request<API.Response>('/api/admin-api/system/delegation/get/table14',{
     method: 'GET',
     params: params,
   });
@@ -175,7 +109,7 @@ export async function getTable14(params: {
 export async function submitDelegation(data: {
   id: number,
 }) {
-  return request('/api/admin-api/system/delegation/submit',{
+  return request<API.Response>('/api/admin-api/system/delegation/submit',{
     method: 'PUT',
     data:data,
   });
@@ -188,7 +122,7 @@ export async function marketingAuditFail(data: {
   id: number;//委托编号
   remark: string;//建议
 }) {
-  return request('/api/admin-api/system/delegation/audit/fail/marketing',{
+  return request<API.Response>('/api/admin-api/system/delegation/audit/fail/marketing',{
     method: 'PUT',
     data:data
   });
@@ -198,9 +132,28 @@ export async function marketingAuditSuccess(data: {
   id: number;//委托编号
   remark: string;//建议
 }) {
-  return request('/api/admin-api/system/delegation/audit/success/marketing',{
+  return request<API.Response>('/api/admin-api/system/delegation/audit/success/marketing',{
     method: 'PUT',
     data: data,
   });
 }
 
+/**
+ * 获取所有市场部人员的id和姓名
+ */
+//getSimpleUserMarketing
+export async function getSimpleUserByRole(params: {
+  roleCode: string
+}) {
+  return request<{
+    code: number,
+    data: {
+      id: string,
+      nickname: string,
+    }[],
+    msg: string,
+  }>('/api/admin-api/system/permission/list-role-simple-users',{
+    method: 'POST',
+    params: params
+  })
+}
