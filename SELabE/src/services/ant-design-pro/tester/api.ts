@@ -44,12 +44,12 @@ export async function deleteDelegation(params: {
 }
 
 /**
- * 修改委托(id->name,url) put
+ * 修改委托(id name,url) put
  */
- export async function updateDelegation(params: {
-   id: number,
-   name: string,
-   url: string,
+export async function updateDelegation(params: {
+  id: number,
+  name: string,
+  url: string,
 }) {
   return request<{
     code: number,
@@ -57,34 +57,34 @@ export async function deleteDelegation(params: {
     msg: string,
   }>('/api/admin-api/system/delegation/update',{
     method: 'PUT',
-    params: {
+    data: {
       id:params.id,
       name: params.name,
       url: params.url,
     }
   });
 }
-/** 新增委托 */
+/** 新增委托 ok*/
 export async function createDelegation(params: {
   name: string,
 }) {
-   return request<{
-     code: number,
-     data: boolean,
-     msg: string,
-   }>('/api/admin-api/system/delegation/create', {
-     method: 'POST',
-     params: {
-       name:params.name,
-     }
-   })
+  return request<{
+    code: number,
+    data: boolean,
+    msg: string,
+  }>('/api/admin-api/system/delegation/create', {
+    method: 'POST',
+    data: {
+      name: params.name,
+    }
+  })
 }
 
 /** 接收任务 POST /api/receiveDelegation */
 export async function receiveDelegation(params: {
-    workId: number,
-    delegationId: number,
-  },options?: Record<string, any>
+                                          workId: number,
+                                          delegationId: number,
+                                        },options?: Record<string, any>
 ) {
   return request<API.DelegationItem>('/api/receiveDelegation', {
     method: 'POST',
@@ -155,5 +155,41 @@ export async function distributeDelegation(params: {
   });
 }
 
+/**
+ * 获得软件文档评审表
+ * GET /admin-api/system/delegation/get/table14
+ * id
+ */
+export async function getTable14(params: {
+  id: number,//表格编号
+}) {
+  return request('/api/admin-api/system/delegation/get/table14',{
+    method: 'GET',
+    params: params,
+  });
+}
 
+/**
+ * （市场部）审批
+ */
+//不通过/admin-api/system/delegation/audit/fail/marketing
+export async function marketingAuditFail(params: {
+  id: number;//委托编号
+  remark: string;//建议
+}) {
+  return request('/api/admin-api/system/delegation/audit/fail/marketing',{
+    method: 'PUT',
+    params: params,
+  });
+}
+//通过/admin-api/system/delegation/audit/success/marketing
+export async function marketingAuditSuccess(params: {
+  id: number;//委托编号
+  remark: string;//建议
+}) {
+  return request('/api/admin-api/system/delegation/audit/success/marketing',{
+    method: 'PUT',
+    params: params,
+  });
+}
 

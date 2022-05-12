@@ -1,12 +1,12 @@
 import {ExclamationCircleOutlined, PlusOutlined} from '@ant-design/icons';
-import {Button, message, Drawer, Modal} from 'antd';
+import {Button, message, Drawer, Modal, Select, Space} from 'antd';
 import React, { useState, useRef } from 'react';
 import {useIntl, FormattedMessage} from 'umi';
 import { PageContainer} from '@ant-design/pro-layout';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
 import {
-  ModalForm,
+  ModalForm, ProFormSelect,
   ProFormText,
 } from '@ant-design/pro-form';
 import type { ProDescriptionsItemProps } from '@ant-design/pro-descriptions';
@@ -14,8 +14,10 @@ import ProDescriptions from '@ant-design/pro-descriptions';
 const { confirm } = Modal;
 
 import {
-  deleteDelegation, delegationPage, updateDelegation, createDelegation
+  deleteDelegation, delegationPage, updateDelegation, createDelegation, marketingAuditFail, marketingAuditSuccess
 } from "@/services/ant-design-pro/tester/api";
+import SubmitForm from "@/pages/tester/delegation/components/SubmitForm";
+import {Option} from "antd/es/mentions";
 
 
 /** 根据id删除委托 */
@@ -60,19 +62,19 @@ const handleGetDelegation = async (
 }
 /** 更新委托(id->名称，url) */
 const handleUpdateDelegation = async (params: {
-    id: number,
-    name: string,
-    url: string,
-  }
+                                        id: number,
+                                        name: string,
+                                        url: string,
+                                      }
 ) => {
   const res = await updateDelegation({
-    id: params.id,
-    name: params.name,
-    url: params.url,
+      id: params.id,
+      name: params.name,
+      url: params.url,
     }
   )
   console.log(res);
-  if(res.data == true) {
+  if(res.code == 0) {
     message.success('更新委托成功')
   } else {
     message.error('更新委托失败')
@@ -88,12 +90,44 @@ const handleCreateDelegation = async (params: {
     name:params.name
   })
   //todo:check condition
-  if(res.code == 200) {
+  if(res.code == 0) {
     message.success('创建委托成功')
   } else {
     message.error('创建委托失败')
   }
   return res.data;
+}
+/** 市场部审批委托() */
+//不通过
+const handleAuditFailMarketing = async (params: {
+  id: number,//委托编号
+  remark: string,//审核意见
+}) => {
+  const res = await marketingAuditFail({
+    id: params.id,
+    remark: params.remark,
+  });
+  if(res.data == true) {
+    message.success('提交成功');
+  } else {
+    message.error('提交失败，请重试')
+  }
+}
+//通过
+const handleAuditSuccessMarketing = async (params: {
+  id: number,
+  remark: string,
+}) => {
+  const res = await marketingAuditSuccess({
+    id: params.id,
+    remark: params.remark,
+  });
+  console.log(res)
+  if(res.data == true) {
+    message.success('提交成功');
+  } else {
+    message.error('提交失败，请重试')
+  }
 }
 /** 以下内容不可信 */
 /*
@@ -198,6 +232,8 @@ const DelegationList: React.FC = () => {
   /*const [updateModalVisible, handleUpdateModalVisible] = useState<boolean>(false);*/
   const [createModalVisible, handleModalVisible] = useState<boolean>(false);//新建
   const [showDetail, setShowDetail] = useState<boolean>(false);
+
+  const [submitModalVisible, handleSubmitModalVisible] = useState<boolean>(false);
   /*const stateMap = {
     'notReceived':0,
     'received':1,
@@ -211,7 +247,9 @@ const DelegationList: React.FC = () => {
     'notDistributed':9,
   }*/
 
-
+  const date = (time: number) => {
+    return new Date(time);
+  }
   /**
    * @en-US International configuration
    * @zh-CN 国际化配置
@@ -267,6 +305,10 @@ const DelegationList: React.FC = () => {
       dataIndex: 'launchTime',
       hideInSearch: true,
       hideInTable: false,
+      //valueType: 'dateTime',
+      render: (text, record) => [
+        <label key={'time'}>{String(new Date(record.launchTime))}</label>
+      ]
     },
     /** 分配的市场部人员id marketDeptStaffId hide */
     {
@@ -452,8 +494,110 @@ const DelegationList: React.FC = () => {
                     });
                   }
                 }>删除</Button>
-        ]
+      ]
     },
+    /**提交相关的表单*/
+    {
+      dataIndex: 'submit',
+      valueType: 'option',
+      hideInTable: false,
+      sorter:false,
+      title:'',
+      render: (text, record) => [
+        /**填写并提交表单*/
+        <ModalForm
+          key={'submit'}
+          title="填写表单"
+          trigger={<Button type="primary">填写</Button>}
+          submitter={{
+            searchConfig: {
+              submitText: '确认',
+              resetText: '取消',
+            },
+          }}
+          onFinish={async (values) => {
+            /*const id = record.id;
+            const name = values.name;
+            const url = values.url;
+            handleUpdateDelegation({
+              id:id,
+              name:name,
+              url:url,
+            });*/
+            actionRef.current?.reload();
+            return true;
+          }}
+        >
+          <SubmitForm onSubmitTable14={(values => {})}>
+          </SubmitForm>
+        </ModalForm>
+      ]
+    },
+    /**(市场部)审批委托*/
+    {
+      dataIndex: 'audit',
+      valueType: 'option',
+      hideInTable: false,
+      sorter:false,
+      title:'',
+      render: (text, record) => [
+        <ModalForm
+          key={'audit'}
+          title="审批委托"
+          trigger={
+            <Button type="primary">
+              审批
+            </Button>
+          }
+          submitter={{
+            searchConfig: {
+              submitText: '确认',
+              resetText: '取消',
+            },
+          }}
+          onFinish={async (values) => {
+            const id = record.id;
+            const remark = values.marketRemark;
+            //通过
+            if(values.pass == 0) {
+              handleAuditSuccessMarketing({
+                id: id,
+                remark: remark,
+              });
+            }
+            //不通过
+            else {
+              handleAuditFailMarketing({
+                id: id,
+                remark: remark,
+              });
+            }
+            actionRef.current?.reload();
+            return true;
+          }}
+        >
+          <ProFormSelect
+            showSearch
+            width="md"
+            label="是否通过"
+            name="pass"
+            placeholder={'选择是否通过'}
+            valueEnum={{
+              0: '通过',
+              1: '不通过',
+            }}
+          >
+          </ProFormSelect>
+          <ProFormText
+            width="md"
+            name="marketRemark"
+            label="不通过原因"
+            placeholder="请输入原因(选填)"
+            initialValue={record.marketRemark}
+          />
+        </ModalForm>,
+      ]
+    }
   ];
   return (
     <PageContainer>
@@ -582,6 +726,7 @@ const DelegationList: React.FC = () => {
           name="name"
         />
       </ModalForm>
+
     </PageContainer>
   );
 };

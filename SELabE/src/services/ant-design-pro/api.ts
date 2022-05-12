@@ -10,7 +10,8 @@ request.interceptors.request.use((url, options) => {
     token = '';
   }
   //console.log(token)
-  const authHeader = { Authorization: `Bearer ${token}` };
+  //const authHeader = { Authorization: `Bearer ${token}` };
+  const authHeader = { Authorization: `Bearer test1` };
   return {
     url: url,
     options: { ...options, interceptors: true, headers: authHeader },
