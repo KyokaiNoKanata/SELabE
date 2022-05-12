@@ -49,12 +49,6 @@
     component: './TableList',
   },
   {
-    name: 'delegate-list',
-    icon: 'table',
-    path: '/delegate-list',
-    component: './DelegateList',
-  },
-  {
     name: '软件委托测试合同',
     icon: 'table',
     path: '/contract',
@@ -66,6 +60,13 @@
     icon: 'table',
     path: '/confidentiality-agreement',
     component: './ConfidentialityAgreement',
+  }
+  ,
+  {
+    name: '分步的委托申请书',
+    icon: 'table',
+    path: '/step-apply',
+    component: './StepApplyPage',
   }
   ,
   {
