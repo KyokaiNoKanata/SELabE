@@ -40,7 +40,7 @@ const handleDelete = async (id: number) => {
     if(resp.code == 0) {
       message.success('委托已删除');
     } else {
-      message.error('删除委托失败，请稍后重试');
+      message.error(resp.msg);
     }
     return true;
   } catch (error) {
@@ -83,11 +83,10 @@ const handleUpdateDelegation = async (params: {
       url: params.url,
     }
   )
-  console.log(res);
   if(res.code == 0) {
     message.success('更新委托成功')
   } else {
-    message.error('更新委托失败')
+    message.error(res.msg)
   }
   return res.data;
 }
@@ -103,7 +102,7 @@ const handleCreateDelegation = async (params: {
   if(res.code == 0) {
     message.success('创建委托成功')
   } else {
-    message.error('创建委托失败')
+    message.error(res.msg)
   }
   return res.data;
 }
@@ -117,7 +116,7 @@ const handleSubmitDelegation = async (data: {
   if(res.code == 0) {
     message.success('委托已提交');
   } else {
-    message.error('委托提交失败');
+    message.error(res.msg)
   }
 }
 /** 市场部审批委托() */
@@ -133,7 +132,7 @@ const handleAuditFailMarketing = async (data: {
   if(res.data == true) {
     message.success('提交成功');
   } else {
-    message.error('提交失败，请重试')
+    message.error(res.msg)
   }
 }
 //通过
@@ -146,10 +145,10 @@ const handleAuditSuccessMarketing = async (data: {
     remark: data.remark,
   });
   console.log(res)
-  if(res.data == true) {
+  if(res.code == 0) {
     message.success('提交成功');
   } else {
-    message.error('提交失败，请重试')
+    message.error(res.msg)
   }
 }
 /**
@@ -189,7 +188,7 @@ const handleDistributeDelegationMarketing = async (data: {
   if(resp.code == 0) {
     message.success('分配成功');
   } else {
-    message.error('分配失败');
+    message.error(resp.msg)
   }
 }
 /**测试主管分配委托 */
@@ -201,7 +200,7 @@ const handleDistributeDelegationTesting = async (data: {
   if(resp.code == 0) {
     message.success('分配成功');
   } else {
-    message.error('分配失败');
+    message.error(resp.msg)
   }
 }
 /** 以下内容不可信 */
