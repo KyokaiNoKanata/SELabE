@@ -81,6 +81,8 @@ function getDelegation(req: Request, res: Response, u: string) {
       return sortNumber;
     });
   }
+  console.log(params.filter);
+  console.log(params.sorter);
   if (params.filter) {
     const filter = JSON.parse(params.filter as any) as {
       [key: string]: string[];
@@ -113,109 +115,6 @@ function getDelegation(req: Request, res: Response, u: string) {
   }
   return res.json(result);
 }
-////api/receiveDelegation'
-/*
-
-/!** 接受委托 *!/
-function receiveDelegation(req: Request, res: Response, u: string) {
-  let url = u;
-  if (!url || Object.prototype.toString.call(url) !== '[object String]') {
-    url = req.url;
-  }
-  const params = parse(url, true).query;
-  const workId = params.workId;
-  const delegationId = params.delegationId;
-  (() => {
-    let newItem = {};
-    delegationDataSource = delegationDataSource.map((item) => {
-      if (item.workId == workId && item.delegationId == delegationId) {
-        newItem = item;
-        item.status = 'received';
-        return { ...item };
-      };
-      return item;
-    })
-    return res.json(newItem);
-  })();
-}
-/!** 取消委托 *!/
-function cancelDelegation(req: Request, res: Response,u: string) {
-  let url = u;
-  if (!url || Object.prototype.toString.call(url) !== '[object String]') {
-    url = req.url;
-  }
-  const params = parse(url, true).query;
-  const workId = params.workId;
-  const delegationId = params.delegationId;
-  (() => {
-    let newItem = {};
-    delegationDataSource = delegationDataSource.map((item) => {
-      if (item.workId == workId && item.delegationId == delegationId) {
-        newItem = item;
-        item.status = 'notReceived';
-        return { ...item };
-      }
-      return item;
-    });
-    //console.log(newItem)
-    return res.json(newItem);
-  })();
-}
-
-/!** 上传方案 *!/
-function uploadScheme(req: Request, res: Response,u: string) {
-  console.log("upload scheme")
-  let url = u;
-  if (!url || Object.prototype.toString.call(url) !== '[object String]') {
-    url = req.url;
-  }
-  const params = parse(url, true).query;
-  const workId = params.workId;
-  const delegationId = params.delegationId;
-  const formData = req.body;
-  console.log(formData);
-  (() => {
-    let newItem = {};
-    delegationDataSource = delegationDataSource.map((item) => {
-      if (item.workId == workId && item.delegationId == delegationId) {
-        newItem = item;
-        item.status = 'schemeEvaluating';
-        item.processTime = moment().format('YYYY-MM-DD HH:mm:ss');
-        return { ...item };
-      }
-      return item;
-    });
-    //console.log(newItem)
-    return res.json(newItem);
-  })();
-}
-/!** 上传结果 *!/
-function uploadResult(req: Request, res: Response,u: string) {
-  console.log("upload result")
-  let url = u;
-  if (!url || Object.prototype.toString.call(url) !== '[object String]') {
-    url = req.url;
-  }
-  const params = parse(url, true).query;
-  const workId = params.workId;
-  const delegationId = params.delegationId;
-  const formData = req.body;
-  //console.log(formData);
-  (() => {
-    let newItem = {};
-    delegationDataSource = delegationDataSource.map((item) => {
-      if (item.workId == workId && item.delegationId == delegationId) {
-        newItem = item;
-        item.status = 'reportEvaluating';
-        return { ...item };
-      }
-      return item;
-    });
-    //console.log(newItem)
-    return res.json(newItem);
-  })();
-}
-*/
 
 /** 根据 id 删除 ok */
 function deleteDelegationById(req: Request, res: Response,u: string) {
@@ -256,17 +155,17 @@ function updateDelegation(req: Request, res: Response,u: string) {
   if (!url || Object.prototype.toString.call(url) !== '[object String]') {
     url = req.url;
   }
-  const params = parse(url, true).query;
+  const data = req.body;
   const result = {
     code:500,
     data:false,
     msg:"error",
   }
   delegationDataSource.forEach((item) => {
-    if(item.id == params.id) {
-      item.name = params.name;
-      item.url = params.url;
-      result.code = 200;
+    if(item.id == data.id) {
+      item.name = data.name;
+      item.url = data.url;
+      result.code = 0;
       result.data = true;
       result.msg = 'ok';
     }
@@ -279,7 +178,7 @@ function createDelegation(req: Request, res: Response,u: string) {
   if (!url || Object.prototype.toString.call(url) !== '[object String]') {
     url = req.url;
   }
-  const params = parse(url, true).query;
+  const data = req.body;
   let maxId = 0;
   delegationDataSource.forEach((item) => {
     if(item.id > maxId) {
@@ -288,11 +187,11 @@ function createDelegation(req: Request, res: Response,u: string) {
   })
   let newItem = {
     id: maxId + 1,
-    name:params.name,
+    name:data.name,
   }
   delegationDataSource.push(newItem);
   const result = {
-    code: 200,
+    code: 0,
     data: maxId,
     msg: 'ok',
   }

@@ -11,7 +11,7 @@ export default {
     // localhost:8000/api/** -> https://preview.pro.ant.design/api/**
     '/api/': {
       // 要代理的地址
-      target: 'http://127.0.0.1:4523/mock/923899',
+      target: 'http://8.130.96.23:48080',
       // 配置了这个可以从 http 代理到 https
       // 依赖 origin 的功能可能需要这个，比如 cookie
       changeOrigin: true,
@@ -20,7 +20,8 @@ export default {
   },
   test: {
     '/api/': {
-      target: 'http://127.0.0.1:4523/mock/923899',
+      //target: 'http://127.0.0.1:4523/mock/923899',
+      target: 'http://127.0.0.1:48080',
       changeOrigin: true,
       pathRewrite: { '^/api': '' },
     },

@@ -4,6 +4,11 @@
 import {Key} from "react";
 
 declare namespace API {
+  type Response = {
+    code: number,//0:ok
+    data: any,
+    msg: string,
+  }
   type DelegationItem = {
     key?: Key;
     /*avatar?: string;

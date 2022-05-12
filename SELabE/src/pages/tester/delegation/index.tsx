@@ -6,7 +6,7 @@ import { PageContainer} from '@ant-design/pro-layout';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
 import {
-  ModalForm,
+  ModalForm, ProFormSelect,
   ProFormText,
 } from '@ant-design/pro-form';
 import type { ProDescriptionsItemProps } from '@ant-design/pro-descriptions';
@@ -14,9 +14,19 @@ import ProDescriptions from '@ant-design/pro-descriptions';
 const { confirm } = Modal;
 
 import {
-  deleteDelegation, delegationPage, updateDelegation, createDelegation
+  deleteDelegation,
+  delegationPage,
+  updateDelegation,
+  createDelegation,
+  marketingAuditFail,
+  marketingAuditSuccess,
+  submitDelegation,
+  getSimpleUserByRole,
+  distributeDelegationMarketing,
+  distributeDelegationTesting
 } from "@/services/ant-design-pro/tester/api";
-
+import SubmitForm from "@/pages/tester/delegation/components/SubmitForm";
+import DistributeForm from "@/pages/tester/delegation/components/DistributeForm";
 
 /** 根据id删除委托 */
 const handleDelete = async (id: number) => {
@@ -26,10 +36,12 @@ const handleDelete = async (id: number) => {
       id:id,
     });
     console.log(resp)
-    //todo:返回结果
     hide();
-    message.success('委托已删除');
-    //await delegation()
+    if(resp.code == 0) {
+      message.success('委托已删除');
+    } else {
+      message.error(resp.msg);
+    }
     return true;
   } catch (error) {
     hide();
@@ -60,22 +72,21 @@ const handleGetDelegation = async (
 }
 /** 更新委托(id->名称，url) */
 const handleUpdateDelegation = async (params: {
-    id: number,
-    name: string,
-    url: string,
-  }
+                                        id: number,
+                                        name: string,
+                                        url: string,
+                                      }
 ) => {
   const res = await updateDelegation({
-    id: params.id,
-    name: params.name,
-    url: params.url,
+      id: params.id,
+      name: params.name,
+      url: params.url,
     }
   )
-  console.log(res);
-  if(res.data == true) {
+  if(res.code == 0) {
     message.success('更新委托成功')
   } else {
-    message.error('更新委托失败')
+    message.error(res.msg)
   }
   return res.data;
 }
@@ -88,105 +99,112 @@ const handleCreateDelegation = async (params: {
     name:params.name
   })
   //todo:check condition
-  if(res.code == 200) {
+  if(res.code == 0) {
     message.success('创建委托成功')
   } else {
-    message.error('创建委托失败')
+    message.error(res.msg)
   }
   return res.data;
 }
+/** 提交委托 */
+const handleSubmitDelegation = async (data: {
+  id: number
+}) => {
+  const res = await submitDelegation({
+    id: data.id
+  })
+  if(res.code == 0) {
+    message.success('委托已提交');
+  } else {
+    message.error(res.msg)
+  }
+}
+/** 市场部审批委托() */
+//不通过
+const handleAuditFailMarketing = async (data: {
+  id: number,//委托编号
+  remark: string,//审核意见
+}) => {
+  const res = await marketingAuditFail({
+    id: data.id,
+    remark: data.remark,
+  });
+  if(res.data == true) {
+    message.success('提交成功');
+  } else {
+    message.error(res.msg)
+  }
+}
+//通过
+const handleAuditSuccessMarketing = async (data: {
+  id: number,
+  remark: string,
+}) => {
+  const res = await marketingAuditSuccess({
+    id: data.id,
+    remark: data.remark,
+  });
+  console.log(res)
+  if(res.code == 0) {
+    message.success('提交成功');
+  } else {
+    message.error(res.msg)
+  }
+}
+/**
+ * 根据roleCode获取所有xx部人员姓名（用于分配）
+ * @return options:{label,value}[]
+ */
+
+const handleGetUserByRole = async (params: {
+  roleCode: string,
+}) => {
+  const res = await getSimpleUserByRole(params);
+  //select 固定的格式
+  type Option = {
+    label: string,
+    value: string,
+  }
+  const options: Option[] = [];
+  res.data.forEach(item => {
+    options.push({
+      label: item.nickname,
+      value: item.id,
+    })
+  })
+  return options
+}
+/*const handleGetMarketingUser = async () => {
+  return await handleGetUserByRole({
+    roleCode: 'marketing_department_staff'
+  })
+}*/
+/**市场部主管分配委托 */
+const handleDistributeDelegationMarketing = async (data: {
+  acceptorId: number,//接收委托的工作人员id
+  id: number,//委托编号
+}) => {
+  const resp = await  distributeDelegationMarketing(data);
+  if(resp.code == 0) {
+    message.success('分配成功');
+  } else {
+    message.error(resp.msg)
+  }
+}
+/**测试主管分配委托 */
+const handleDistributeDelegationTesting = async (data: {
+  acceptorId: number,//接收委托的工作人员id
+  id: number,//委托编号
+}) => {
+  const resp = await  distributeDelegationTesting(data);
+  if(resp.code == 0) {
+    message.success('分配成功');
+  } else {
+    message.error(resp.msg)
+  }
+}
 /** 以下内容不可信 */
-/*
-const handleReceive = async (record:API.DelegationItem) => {
-  console.log(record)
-  const hide = message.loading('正在接收委托');
-  try {
-    await receiveDelegation({
-      workId: record.workId,
-      delegationId: record.delegationId
-    });
-    hide();
-    message.success('接收委托成功');
-    return true;
-  } catch (error) {
-    hide();
-    message.error('接收委托失败，请稍后重试');
-    return false;
-  }
-};
-const handleCancel = async (record: API.DelegationItem) => {
-  //console.log(fields)
-  const hide = message.loading('取消中');
-  try {
-    await cancelDelegation({
-      workId: record.workId,
-      delegationId: record.delegationId
-    });
-    hide();
-    message.success('委托任务已取消');
-    return true;
-  } catch (error) {
-    hide();
-    message.error('取消委托失败，请稍后重试');
-    return false;
-  }
-};
 
-let formData = new FormData();
-
-const handleSubmitScheme = async (record: API.DelegationItem,formData:FormData) => {
-  //console.log(fields)
-  const hide = message.loading('提交中');
-  try {
-    await uploadScheme(formData,{
-      workId: record.workId,
-      delegationId: record.delegationId
-    });
-    hide();
-    message.success('委托方案已提交');
-    return true;
-  } catch (error) {
-    hide();
-    message.error('委托方案提交失败，请稍后重试');
-    return false;
-  }
-};
-const handleSubmitResult = async (record: API.DelegationItem,formData:FormData) => {
-  //console.log(fields)
-  const hide = message.loading('提交中');
-  try {
-    await uploadResult(formData,{
-      workId: record.workId,
-      delegationId: record.delegationId
-    });
-    hide();
-    message.success('任务已经分配');
-    return true;
-  } catch (error) {
-    hide();
-    message.error('分配任务失败，请稍后重试');
-    return false;
-  }
-};
-const handleDistribute = async (name: string, delegationId:number) => {
-  console.log(name)
-  let testerId = 1;
-  const hide = message.loading('提交中');
-  try {
-    await distributeDelegation({
-      testerId:testerId,
-      delegationId:delegationId,
-    });
-    hide();
-    message.success('测试结果已提交');
-    return true;
-  } catch (error) {
-    hide();
-    message.error('提交结果失败，请稍后重试');
-    return false;
-  }
-};
-*/
 
 
 
@@ -194,23 +212,9 @@ const DelegationList: React.FC = () => {
 
   const actionRef = useRef<ActionType>();
   const [currentRow, setCurrentRow] = useState<API.DelegationItem>();
-  const [selectedRowsState, setSelectedRows] = useState<API.DelegationItem[]>([]);
-  /*const [updateModalVisible, handleUpdateModalVisible] = useState<boolean>(false);*/
+  //const [selectedRowsState, setSelectedRows] = useState<API.DelegationItem[]>([]);
   const [createModalVisible, handleModalVisible] = useState<boolean>(false);//新建
   const [showDetail, setShowDetail] = useState<boolean>(false);
-  /*const stateMap = {
-    'notReceived':0,
-    'received':1,
-    'schemeEvaluating':2,
-    'schemeRefused':3,
-    'schemePass':4,
-    'testing':5,
-    'reportEvaluating':6,
-    'reportRefused':7,
-    'finish':8,
-    'notDistributed':9,
-  }*/
-
 
   /**
    * @en-US International configuration
@@ -267,6 +271,10 @@ const DelegationList: React.FC = () => {
       dataIndex: 'launchTime',
       hideInSearch: true,
       hideInTable: false,
+      //valueType: 'dateTime',
+      render: (text, record) => [
+        <label key={'time'}>{String(new Date(record.launchTime))}</label>
+      ]
     },
     /** 分配的市场部人员id marketDeptStaffId hide */
     {
@@ -326,19 +334,7 @@ const DelegationList: React.FC = () => {
       title: <FormattedMessage id="pages.searchTable.titleStatus" defaultMessage="Status" />,
       dataIndex: 'state',
       hideInForm: false,
-      //sorter: (a,b) => stateMap[a.status] - stateMap[b.status],
-      /*valueEnum: {
-        notReceived:{text:'测试任务待接收',status: 'Default'},
-        received:{text:'测试任务已接收',status: 'Processing'},
-        schemeEvaluating:{text:'测试方案审核中',status: 'Processing'},
-        schemeRefused:{text:'测试方案不通过',status: 'Error'},
-        schemePass:{text:'测试方案已通过',status: 'Success'},
-        testing:{text:'测试中',status: 'Processing'},
-        reportEvaluating:{text:'测试报告审核中',status: 'Processing'},
-        reportRefused:{text:'测试报告不通过',status: 'Error'},
-        finish:{text:'测试已完成',status: 'Success'},
-        notDistributed:{text:'任务待分发',status:'Default'},
-      },*/
+      //todo:render
     },
     /** 软件文档评审表ID table14Id hide */
     {
@@ -386,11 +382,11 @@ const DelegationList: React.FC = () => {
 
     /**修改、删除 */
     {
+      title:'修改',
       dataIndex: 'modify',
       valueType: 'option',
       hideInTable: false,
       sorter:false,
-      title:'',
       render: (text, record) => [
         /**修改名称和url*/
         <ModalForm
@@ -407,7 +403,7 @@ const DelegationList: React.FC = () => {
             const id = record.id;
             const name = values.name;
             const url = values.url;
-            handleUpdateDelegation({
+            await handleUpdateDelegation({
               id:id,
               name:name,
               url:url,
@@ -431,7 +427,15 @@ const DelegationList: React.FC = () => {
             initialValue={record.url}
           />
         </ModalForm>,
-
+      ]
+    },
+    {
+      title: '删除',
+      dataIndex: 'delete',
+      valueType: 'option',
+      hideInTable: false,
+      sorter:false,
+      render: (text, record) => [
         /**删除(含确认dialog)*/
         <Button type="primary"
                 danger
@@ -443,8 +447,8 @@ const DelegationList: React.FC = () => {
                       icon: <ExclamationCircleOutlined />,
                       content: '',
                       onOk() {
-                        handleDelete(record.id);
-                        actionRef.current?.reload()//重新请求，更新表格
+                        handleDelete(record.id).
+                        then(r => actionRef.current?.reload());//重新请求，更新表格
                       },
                       onCancel() {
                         console.log('Cancel');
@@ -452,7 +456,158 @@ const DelegationList: React.FC = () => {
                     });
                   }
                 }>删除</Button>
-        ]
+      ]
+    },
+    /**提交相关的表单*/
+    {
+      title:'填写表单',
+      dataIndex: 'submit',
+      valueType: 'option',
+      hideInTable: false,
+      sorter:false,
+      render: (text, record) => [
+        /**填写并提交表单*/
+        <ModalForm
+          key={'submit'}
+          title="填写表单"
+          trigger={<Button type="primary">填写</Button>}
+          submitter={{
+            searchConfig: {
+              submitText: '完成',
+              resetText: '取消',
+            },
+          }}
+          onFinish={async (values) => {
+            console.log('填写完成')
+            await handleSubmitDelegation({
+              id: record.id
+            });
+            actionRef.current?.reload();
+            return true;
+          }}
+        >
+          {/*todo*/}
+          <SubmitForm onSubmitTable14={(values => {})} />
+        </ModalForm>
+      ]
+    },
+    /**(市场部)审核委托*/
+    {
+      title: '市场部审核',
+      dataIndex: 'audit',
+      valueType: 'option',
+      hideInTable: false,
+      sorter:false,
+      render: (text, record) => [
+        <ModalForm
+          key={'audit'}
+          title="审批审核"
+          trigger={
+            <Button type="primary">
+              审核
+            </Button>
+          }
+          submitter={{
+            searchConfig: {
+              submitText: '确认',
+              resetText: '取消',
+            },
+          }}
+          onFinish={async (values) => {
+            const id = record.id;
+            const remark = values.marketRemark;
+            //通过
+            if(values.pass == 0) {
+              await handleAuditSuccessMarketing({
+                id: id,
+                remark: remark,
+              });
+            }
+            //不通过
+            else {
+              await handleAuditFailMarketing({
+                id: id,
+                remark: remark,
+              });
+            }
+            actionRef.current?.reload();
+            return true;
+          }}
+        >
+          <ProFormSelect
+            showSearch
+            width="md"
+            label="是否通过"
+            name="pass"
+            placeholder={'选择是否通过'}
+            valueEnum={{
+              0: '通过',
+              1: '不通过',
+            }}
+           />
+          <ProFormText
+            width="md"
+            name="marketRemark"
+            label="审核意见"
+            placeholder="请输入审核意见"
+            initialValue={record.marketRemark}
+          />
+        </ModalForm>,
+      ]
+    },
+    /**(市场部主管)分配委托给市场部人员*/
+    ///admin-api/system/delegation/distribute/marketing
+    {
+      title: '市场部分配',
+      dataIndex: 'distributeMarketing',
+      valueType: 'option',
+      hideInTable: false,
+      sorter:false,
+      render: (text, record) => [
+        <DistributeForm
+          key={'distributeMarket'}
+          request={async () => {
+          return await handleGetUserByRole({
+            roleCode: 'marketing_department_staff'
+          })
+        }}
+         onSubmit={async (values) => {
+          console.log(values)
+          await handleDistributeDelegationMarketing({
+            acceptorId: values.acceptorId,
+            id: record.id,
+          })
+          actionRef.current?.reload();
+          return true;
+        }} />
+      ]
+    },
+    /**(测试部主管)分配委托给测试部人员*/
+    ///admin-api/system/delegation/distribute/marketing
+    {
+      title: '测试部分配',
+      dataIndex: 'distributeTesting',
+      valueType: 'option',
+      hideInTable: false,
+      sorter:false,
+      render: (text, record) => [
+        <DistributeForm
+          key={'distributeTest'}
+          request={async () => {
+            return await handleGetUserByRole({
+              roleCode: 'test_department_staff'
+            })
+          }}
+          onSubmit={async (values) => {
+            console.log(values)
+            await handleDistributeDelegationTesting({
+              acceptorId: values.acceptorId,
+              id: record.id,
+            })
+            actionRef.current?.reload();
+            return true;
+          }} />
+      ]
     },
   ];
   return (
@@ -468,6 +623,7 @@ const DelegationList: React.FC = () => {
           {
             labelWidth: 108,
             filterType: "query",
+            //if need
             /*optionRender: ({searchText, resetText}, {form}) => {
               return [
                 <Button
@@ -510,12 +666,11 @@ const DelegationList: React.FC = () => {
         /*请求数据*/
         request={handleGetDelegation}
         columns={columns}
-        rowSelection={{
+        /*rowSelection={{
           onChange: (_, selectedRows) => {
-            //console.log("change")
             setSelectedRows(selectedRows);
           },
-        }}
+        }}*/
       />
 
       {/** 在侧边展示详情 */}
