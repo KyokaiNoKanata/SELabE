@@ -3,7 +3,7 @@ import {Card} from 'antd';
 import StepApplyPage from "@/pages/StepApplyPage";
 import FuntionList from "@/pages/FuntionList";
 import {useParams} from 'umi';
-
+import { useLocation } from 'react-router-dom';
 const delegationList = [
   {
     key: '委托申请书',
@@ -21,12 +21,13 @@ const TabsCard = () => {
   const onTabChange = key => {
     setActiveTabKey(key);
   };
-  const params = useParams();
-  console.log(params.ID);
+  const params = useLocation();
+  console.log(params);
+  console.log(params.query.id)
   const contentList = {
     委托申请书:
       <Card>
-        <StepApplyPage ID={params.ID}/>
+        <StepApplyPage ID={params.query.id}/>
       </Card>,
     委托功能列表: <Card><FuntionList /></Card>,
   };

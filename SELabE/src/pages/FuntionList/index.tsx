@@ -1,32 +1,41 @@
-import React, { useState } from 'react';
 import ProForm, { ProFormGroup, ProFormList, ProFormText } from '@ant-design/pro-form';
 import ProCard from '@ant-design/pro-card';
 import { PageContainer } from '@ant-design/pro-layout';
-import { Form, PageHeader } from 'antd';
-import {useParams, useRequest} from 'umi';
-
+import {PageHeader, message } from 'antd';
+import { useLocation } from 'react-router-dom';
+import { getTable3,getDelegationByIds, saveTable3 } from '@/services/ant-design-pro/tester/api';
 const FunctionList = () => {
-  const params = useParams();
-  const ID = params.ID;
-  const [values,setValues]=useState({});
-  const init = useRequest({
-    url:'http://127.0.0.1:4523/mock/923899/admin-api/system/delegation/get/table3',
-    method:'get',
-    query:{ID},
-  });
-  const request=useRequest({
-    url:'http://127.0.0.1:4523/mock/923899/admin-api/system/delegation/save/table3',
-    method:'put',
-    body:JSON.stringify(values),
-  },{
-    manual:true
-  });
-  const [form] = Form.useForm();
-  form.setFieldsValue(init.data);
+  const params = useLocation();
+  const delegationId = (params as any).query.id;//ok
+
+  const request = async () => {
+    const table3Id = (await getDelegationByIds({
+      ids: String(delegationId),
+    })).data[0].table3Id;
+    //console.log('table3Id='+ table3Id);
+    if(table3Id == undefined) {
+      return {};
+    }
+    const resp = await getTable3({
+      id: String(table3Id),
+    });
+    //json string -> obj
+    const obj = JSON.parse(resp.data);
+    return obj;
+  }
   const onFinish = (value:any) => {
-    const res={delegationId: parseInt(ID),data:value};
-    setValues(res);
-    request.run();
+    const id: number = parseInt(delegationId);
+    const data = value;
+    saveTable3({
+      delegationId: id,
+      data: data,
+    }).then(res => {
+      if(res.code == 0) {
+        message.success('保存成功');
+      } else {
+        message.error(res.msg);
+      }
+    });
   };
   return (
     <PageContainer>
@@ -41,9 +50,11 @@ const FunctionList = () => {
                    submitText: '保存',
                  },
                }}
+               //从后端请求数据显示
+               request={request}
       >
-        <ProFormText name="name" label="软件名称" />
-        <ProFormText name="version" label="版本号" />
+        <ProFormText key={'name'} name="name" label="软件名称" />
+        <ProFormText key={'version'} name="version" label="版本号" />
         <ProFormList
           name="function"
           label="功能列表"

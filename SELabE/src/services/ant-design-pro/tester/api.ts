@@ -24,6 +24,21 @@ export async function delegationPage(
     ...(options || {}),
   });
 }
+//ids:委托id，以逗号分割
+export async function getDelegationByIds(params: {
+  ids: string;
+}) {
+  return request<{
+    code: number,
+    data: API.DelegationItem[],
+    msg: string,
+  }>('/api/admin-api/system/delegation/list', {
+    method: 'GET',
+    params: params,
+  });
+}
+
+
 /**
  * 删除委托
  * @param params id
@@ -155,5 +170,23 @@ export async function getSimpleUserByRole(params: {
   }>('/api/admin-api/system/permission/list-role-simple-users',{
     method: 'POST',
     params: params
+  })
+}
+export async function getTable3(params: {
+  id: string,//表格id
+}) {
+  return request<API.Response>('/api/admin-api/system/delegation/get/table3', {
+    method: 'GET',
+    params:params,
+  })
+}
+//传输过去json格式
+export async function saveTable3(body:{delegationId: number, data: any}) {
+  return request<API.Response>('/api/admin-api/system/delegation/save/table3', {
+    method: 'PUT',
+    data: {
+      delegationId: body.delegationId,
+      data: body.data,
+    }
   })
 }

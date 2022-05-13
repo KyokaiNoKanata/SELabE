@@ -27,7 +27,7 @@ import {
 } from "@/services/ant-design-pro/tester/api";
 import SubmitForm from "@/pages/tester/delegation/components/SubmitForm";
 import DistributeForm from "@/pages/tester/delegation/components/DistributeForm";
-
+import { Link } from 'umi';
 /** 根据id删除委托 */
 const handleDelete = async (id: number) => {
   const hide = message.loading('提交中');
@@ -466,12 +466,20 @@ const DelegationList: React.FC = () => {
       valueType: 'option',
       hideInTable: false,
       sorter:false,
-      render: (text, record) => [
-        /**填写并提交表单*/
+      render: (text, record) => {
+        const {id} = record;
+        return [
+        <Link to={{ pathname:'new-delegation', query: {id}}}>
+          <Button type="primary">填写表单</Button>
+        </Link>,
+          /*<Link to={{ pathname:'new-delegation', query: {id}}}>
+          <Link to={'new-delegation/${id}'}><Button type="primary">填写表单</Button></Link>,
+          </Link>,*/
+        /*/!**填写并提交表单*!/
         <ModalForm
           key={'submit'}
           title="填写表单"
-          trigger={<Button type="primary">填写</Button>}
+          trigger={<Button type="primary" onClick>填写</Button>}
           submitter={{
             searchConfig: {
               submitText: '完成',
@@ -487,10 +495,11 @@ const DelegationList: React.FC = () => {
             return true;
           }}
         >
-          {/*todo*/}
+          {/!*todo*!/}
           <SubmitForm onSubmitTable14={(values => {})} />
-        </ModalForm>
-      ]
+        </ModalForm>*/
+        ];
+      }
     },
     /**(市场部)审核委托*/
     {

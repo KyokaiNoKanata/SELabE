@@ -65,7 +65,7 @@
   {
     name:'填写委托',
     icon:'table',
-    path:'/new-delegation/:ID',
+    path:'/new-delegation/',
     component: './NewDelegation',
   }
   ,
