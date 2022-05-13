@@ -1,4 +1,4 @@
-﻿export default [
+export default [
   {
     path: '/user',
     layout: false,
@@ -10,6 +10,12 @@
             name: 'login',
             path: '/user/login',
             component: './user/Login',
+          },
+          {
+            name: 'register',
+            icon: 'smile',
+            path: '/user/register',
+            component: './user/Register',
           },
         ],
       },

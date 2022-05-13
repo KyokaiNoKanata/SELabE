@@ -272,8 +272,9 @@ const Login: React.FC = () => {
               style={{
                 float: 'right',
               }}
+              href={`/user/register`}
             >
-              <FormattedMessage id="pages.login.forgotPassword" defaultMessage="忘记密码" />
+              <FormattedMessage id="pages.login.registerAccount" defaultMessage="注册用户" />
             </a>
           </div>
         </LoginForm>
