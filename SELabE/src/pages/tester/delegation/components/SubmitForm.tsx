@@ -15,12 +15,9 @@ const SubmitForm: React.FC<SubmitFormType>= (props) => {
         <Button type="primary" block style={{margin: 10}}>
           软件项目委托测试申请表
         </Button>
-        <Button type="primary" block style={{margin: 10}}>
-          委托测试软件功能列表
-        </Button>
         <Button type="primary" block style={{margin: 10}}
                 onClick={() => {setTable14Visit(true)}}>
-          软件项目委托测试保密协议
+          委托测试软件功能列表
         </Button>
         <ModalForm
           //key={'submit'}

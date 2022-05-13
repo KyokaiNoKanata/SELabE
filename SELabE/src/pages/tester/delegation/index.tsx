@@ -271,7 +271,7 @@ const DelegationList: React.FC = () => {
       dataIndex: 'launchTime',
       hideInSearch: true,
       hideInTable: false,
-      //valueType: 'dateTime',
+      valueType: 'dateTime',
       render: (text, record) => [
         <label key={'time'}>{String(new Date(record.launchTime))}</label>
       ]
@@ -282,6 +282,7 @@ const DelegationList: React.FC = () => {
       dataIndex: 'marketDeptStaffId',
       hideInSearch: true,
       hideInTable: true,
+      valueType: 'textarea',
     },
     /**市场部人员处理意见 show */
     {
@@ -609,6 +610,24 @@ const DelegationList: React.FC = () => {
           }} />
       ]
     },
+    /** 查看委托详情 */
+    {
+      title: '查看详情',
+      dataIndex: 'detail',
+      valueType: 'option',
+      hideInTable: false,
+      sorter:false,
+      render: (text, record) => [
+        <Button type="primary"
+                key='delete'
+                onClick={
+                  () => {
+                    setCurrentRow(record);//显示详情
+                    setShowDetail(true);
+                  }
+                }>查看</Button>,
+        ],
+    },
   ];
   return (
     <PageContainer>
@@ -693,7 +712,7 @@ const DelegationList: React.FC = () => {
             params={{
               id: currentRow?.name,
             }}
-            columns={columns as ProDescriptionsItemProps<API.DelegationItem>[]}
+            columns={columns.filter(item => item.valueType != 'option') as ProDescriptionsItemProps<API.DelegationItem>[]}
           />
         )}
       </Drawer>
