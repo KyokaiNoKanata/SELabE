@@ -63,10 +63,10 @@
   }
   ,
   {
-    name: '分步的委托申请书',
-    icon: 'table',
-    path: '/step-apply',
-    component: './StepApplyPage',
+    name:'填写委托',
+    icon:'table',
+    path:'/new-delegation/:ID',
+    component: './NewDelegation',
   }
   ,
   {

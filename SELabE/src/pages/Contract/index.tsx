@@ -1,5 +1,8 @@
 import { PageContainer} from '@ant-design/pro-layout';
-import {Typography, Form, Input, DatePicker, InputNumber} from "antd";
+import {Typography, Form, Input, DatePicker, InputNumber, Button} from "antd";
+import React from "react";
+import {history} from 'umi';
+import {Link} from "@umijs/preset-dumi/lib/theme";
 const {Title, Paragraph, Text, } = Typography;
 const index = () => {
   const Date: any = DatePicker;
@@ -128,6 +131,9 @@ const index = () => {
     <PageContainer title="软件委托测试合同">
       {information()}
       {explanation()}
+      <Link to="new-delegation/100">
+        跳转
+      </Link>
     </PageContainer>
   );
 }

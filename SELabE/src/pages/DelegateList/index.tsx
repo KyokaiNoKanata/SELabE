@@ -1,15 +1,14 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {Table, Row, Col, Card, Button, Pagination, Space, Tooltip} from 'antd';
 import { PageContainer} from '@ant-design/pro-layout';
 import styles from './index.less';
 import {SearchOutlined} from "@ant-design/icons";
 import {useRequest,history} from 'umi';
-import Modal from './component/Modal'
-
+import FunctionList from "@/pages/DelegateList/components/FunctionList";
+import { Link } from 'umi';
 
 const index = () => {
   const init = useRequest('api/testa');
-  // eslint-disable-next-line react-hooks/rules-of-hooks
   const [modalVisible,setModalVisible] = useState(false);
   console.log(init);
 
@@ -69,10 +68,6 @@ const index = () => {
     return columns;
   }
 
-  useEffect(() => {
-    init.run();
-  },[modalVisible]);
-
   return (
     <PageContainer>
       {searchLayout()}
@@ -84,12 +79,6 @@ const index = () => {
         />
         {afterTableLayout()}
       </Card>
-      <Modal
-        modalVisible = {modalVisible}
-        hideModal={()=>{
-          setModalVisible(false);
-        }}
-      />
     </PageContainer>
   );
 };
