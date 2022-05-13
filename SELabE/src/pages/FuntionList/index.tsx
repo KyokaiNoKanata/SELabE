@@ -23,7 +23,7 @@ const FunctionList = () => {
     const obj = JSON.parse(resp.data);
     return obj;
   }
-  const onFinish = (value:any) => {
+  const onFinish = async (value:any) => {
     const id: number = parseInt(delegationId);
     const data = value;
     saveTable3({
@@ -36,6 +36,7 @@ const FunctionList = () => {
         message.error(res.msg);
       }
     });
+    return true;
   };
   return (
     <PageContainer>

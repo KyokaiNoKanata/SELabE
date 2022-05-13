@@ -1,5 +1,3 @@
-import {useRef, useState} from 'react';
-import type {ProFormInstance} from '@ant-design/pro-form';
 import ProForm, {
   ProFormCheckbox,
   ProFormDatePicker,
@@ -13,38 +11,43 @@ import ProCard from '@ant-design/pro-card';
 import {Button, Col, Form, message, PageHeader, Row} from 'antd';
 import {PageContainer} from '@ant-design/pro-layout';
 import TextArea from "antd/es/input/TextArea";
-import {useRequest} from "@@/plugin-request/request";
-import {useParams} from "umi";
+import {useLocation} from "umi";
+import {getDelegationByIds, getTable2, saveTable2 } from '@/services/ant-design-pro/tester/api';
 
-const waitTime = (time: number = 100) => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(true);
-    }, time);
-  });
-};
 const Date: any = ProFormDatePicker;
 
 const StepApplyPage = () => {
-  const params = useParams();
-  const ID = params.ID;
-  const [values, setValues] = useState({});
-  const init = useRequest({
-    url:'http://127.0.0.1:4523/mock/923899/admin-api/system/delegation/get/table2',
-    method:'get',
-    query:{ID},
-  });
-  const formRef = useRef<ProFormInstance>();
-  const request = useRequest({
-    url: 'http://127.0.0.1:4523/mock/923899/admin-api/system/delegation/save/table2',
-    method: 'put',
-    body: JSON.stringify(values),
-  }, {
-    manual: true
-  });
-  const [form] = Form.useForm();
-  form.setFieldsValue(init.data);
-
+  const params = useLocation();
+  const delegationId = (params as any).query.id;//ok
+  const request = async () => {
+    const table2Id = (await getDelegationByIds({
+      ids: String(delegationId),
+    })).data[0].table2Id;
+    console.log('table2Id='+ table2Id);
+    if(table2Id == undefined) {
+      return {};
+    }
+    const resp = await getTable2({
+      id: String(table2Id),
+    });
+    //json string -> obj
+    const obj = JSON.parse(resp.data);
+    //console.log(obj)
+    return obj;
+  }
+  const onSubmit = async (value:any) => {
+    //console.log(value)
+    saveTable2({
+      delegationId: delegationId,
+      data: value,
+    }).then(res => {
+      if(res.code == 0) {
+        message.success('保存成功');
+      } else {
+        message.error(res.msg);
+      }
+    });
+  }
   return (
     <PageContainer content="用户向本中心发起测试委托">
       <PageHeader
@@ -86,19 +89,11 @@ const StepApplyPage = () => {
               ];
             },
           }}
-
           stepsProps={{
             direction: 'vertical',
           }}
-          formRef={formRef}
-          onFinish={async (value) => {
-            await waitTime(1000);
-            const res = {delegationId: parseInt(ID), data: value};
-            setValues(res);
-            request.run();
-            console.log(value);
-            message.success('提交成功');
-          }}
+          //formRef={formRef}
+          onFinish={onSubmit}
         >
           <StepsForm.StepForm<{
             name: string;
@@ -109,10 +104,12 @@ const StepApplyPage = () => {
               description: '软件项目基本信息',
             }}
             onFinish={async () => {
-              console.log(formRef.current?.getFieldsValue());
-              await waitTime(1000);
+              //console.log(formRef.current?.getFieldsValue());
+              //console.log('第一页结束')
+              //await waitTime(1000);
               return true;
             }}
+            request={request}
           >
             <Row>
               <Col span={12}>
@@ -170,9 +167,11 @@ const StepApplyPage = () => {
               description: '软件项目详情',
             }}
             onFinish={async () => {
-              console.log(formRef.current?.getFieldsValue());
+              //console.log(formRef.current?.getFieldsValue());
+              //console.log('第二页结束')
               return true;
             }}
+            request={request}
           >
             <Row>
               <Col span={12}>
@@ -406,9 +405,11 @@ const StepApplyPage = () => {
               description: '确认和受理信息',
             }}
             onFinish={async () => {
-              console.log(formRef.current?.getFieldsValue());
+              //console.log(formRef.current?.getFieldsValue());
+              //console.log('第三页结束')
               return true;
             }}
+            request={request}
           >
             <Row>
               <Col span={24}>

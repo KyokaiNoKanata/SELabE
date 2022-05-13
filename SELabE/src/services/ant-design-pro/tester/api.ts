@@ -190,3 +190,22 @@ export async function saveTable3(body:{delegationId: number, data: any}) {
     }
   })
 }
+//table2
+export async function getTable2(params: {
+  id: string,//表格id
+}) {
+  return request<API.Response>('/api/admin-api/system/delegation/get/table2', {
+    method: 'GET',
+    params:params,
+  })
+}
+//传输过去json格式
+export async function saveTable2(body:{delegationId: number, data: any}) {
+  return request<API.Response>('/api/admin-api/system/delegation/save/table2', {
+    method: 'PUT',
+    data: {
+      delegationId: body.delegationId,
+      data: body.data,
+    }
+  })
+}
