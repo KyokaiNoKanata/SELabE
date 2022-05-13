@@ -49,6 +49,27 @@
     component: './TableList',
   },
   {
+    name: '软件委托测试合同',
+    icon: 'table',
+    path: '/contract',
+    component: './Contract',
+  }
+  ,
+  {
+    name: '软件项目委托测试保密协议',
+    icon: 'table',
+    path: '/confidentiality-agreement',
+    component: './ConfidentialityAgreement',
+  }
+  ,
+  {
+    name:'填写委托',
+    icon:'table',
+    path:'/new-delegation/:ID',
+    component: './NewDelegation',
+  }
+  ,
+  {
     path: '/',
     name: '委托',
     icon: 'crown',
