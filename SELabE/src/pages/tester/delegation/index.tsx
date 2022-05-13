@@ -569,11 +569,11 @@ const DelegationList: React.FC = () => {
           key={'distributeMarket'}
           request={async () => {
           return await handleGetUserByRole({
-            roleCode: 'marketing_department_staff'
+            roleCode: 'marketing_department_staff',
           })
         }}
          onSubmit={async (values) => {
-          console.log(values)
+          //console.log(values)
           await handleDistributeDelegationMarketing({
             acceptorId: values.acceptorId,
             id: record.id,
@@ -596,11 +596,11 @@ const DelegationList: React.FC = () => {
           key={'distributeTest'}
           request={async () => {
             return await handleGetUserByRole({
-              roleCode: 'test_department_staff'
+              roleCode: 'test_department_staff',
             })
           }}
           onSubmit={async (values) => {
-            console.log(values)
+            //console.log(values)
             await handleDistributeDelegationTesting({
               acceptorId: values.acceptorId,
               id: record.id,
@@ -670,6 +670,9 @@ const DelegationList: React.FC = () => {
             },*/
           }
         }
+        pagination={{
+          pageSize: 10,
+        }}
         /*新建*/
         toolBarRender={() => [
           <Button
