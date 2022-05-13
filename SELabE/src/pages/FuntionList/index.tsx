@@ -3,10 +3,17 @@ import ProForm, { ProFormGroup, ProFormList, ProFormText } from '@ant-design/pro
 import ProCard from '@ant-design/pro-card';
 import { PageContainer } from '@ant-design/pro-layout';
 import { Form, PageHeader } from 'antd';
-import { useRequest } from 'umi';
+import {useParams, useRequest} from 'umi';
 
-const FunctionList = ({ID}: { ID: number }) => {
+const FunctionList = () => {
+  const params = useParams();
+  const ID = params.ID;
   const [values,setValues]=useState({});
+  const init = useRequest({
+    url:'http://127.0.0.1:4523/mock/923899/admin-api/system/delegation/get/table3',
+    method:'get',
+    query:{ID},
+  });
   const request=useRequest({
     url:'http://127.0.0.1:4523/mock/923899/admin-api/system/delegation/save/table3',
     method:'put',
@@ -14,13 +21,11 @@ const FunctionList = ({ID}: { ID: number }) => {
   },{
     manual:true
   });
-  const [form]=Form.useForm();
+  const [form] = Form.useForm();
+  form.setFieldsValue(init.data);
   const onFinish = (value:any) => {
-    console.log(ID);
-    console.log(value);
-    const res={delegationId:{ID} ,data:value};
+    const res={delegationId: parseInt(ID),data:value};
     setValues(res);
-    console.log(ID);
     request.run();
   };
   return (

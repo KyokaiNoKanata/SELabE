@@ -22,12 +22,13 @@ const TabsCard = () => {
     setActiveTabKey(key);
   };
   const params = useParams();
+  console.log(params.ID);
   const contentList = {
     委托申请书:
       <Card>
-        <StepApplyPage ID={params}/>
+        <StepApplyPage ID={params.ID}/>
       </Card>,
-    委托功能列表: <Card><FuntionList ID={params}/></Card>,
+    委托功能列表: <Card><FuntionList /></Card>,
   };
 
   return (

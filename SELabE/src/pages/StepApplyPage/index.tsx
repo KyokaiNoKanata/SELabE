@@ -14,6 +14,7 @@ import {Button, Col, Form, message, PageHeader, Row} from 'antd';
 import {PageContainer} from '@ant-design/pro-layout';
 import TextArea from "antd/es/input/TextArea";
 import {useRequest} from "@@/plugin-request/request";
+import {useParams} from "umi";
 
 const waitTime = (time: number = 100) => {
   return new Promise((resolve) => {
@@ -24,9 +25,15 @@ const waitTime = (time: number = 100) => {
 };
 const Date: any = ProFormDatePicker;
 
-const StepApplyPage = ({ID}: { ID: number }) => {
+const StepApplyPage = () => {
+  const params = useParams();
+  const ID = params.ID;
   const [values, setValues] = useState({});
-  //const init = useRequest('api/testb');
+  const init = useRequest({
+    url:'http://127.0.0.1:4523/mock/923899/admin-api/system/delegation/get/table2',
+    method:'get',
+    query:{ID},
+  });
   const formRef = useRef<ProFormInstance>();
   const request = useRequest({
     url: 'http://127.0.0.1:4523/mock/923899/admin-api/system/delegation/save/table2',
@@ -35,8 +42,8 @@ const StepApplyPage = ({ID}: { ID: number }) => {
   }, {
     manual: true
   });
-  //const [form] = Form.useForm();
-  //form.setFieldsValue(init.data);
+  const [form] = Form.useForm();
+  form.setFieldsValue(init.data);
 
   return (
     <PageContainer content="用户向本中心发起测试委托">
@@ -86,7 +93,7 @@ const StepApplyPage = ({ID}: { ID: number }) => {
           formRef={formRef}
           onFinish={async (value) => {
             await waitTime(1000);
-            const res = {delegationId: {ID}, data: value};
+            const res = {delegationId: parseInt(ID), data: value};
             setValues(res);
             request.run();
             console.log(value);

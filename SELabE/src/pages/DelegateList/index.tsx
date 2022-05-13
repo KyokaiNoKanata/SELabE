@@ -28,9 +28,9 @@ const index = () => {
       key:'action',
       render:()=>(
         <Space>
-          <Button onClick={()=>{
-            history.push('/apply-page');
-          }}>编辑</Button>
+          <Link to="new-delegation/100">
+            跳转
+          </Link>
         </Space>
       ),
     },
