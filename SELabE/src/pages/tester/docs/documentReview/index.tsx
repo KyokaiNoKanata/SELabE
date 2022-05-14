@@ -3,6 +3,8 @@ import { message, PageHeader} from 'antd';
 import ProForm, {ProFormDatePicker, ProFormText} from '@ant-design/pro-form';
 import type { ProColumns } from '@ant-design/pro-table';
 import { EditableProTable } from '@ant-design/pro-table';
+import { useLocation } from 'umi';
+import { getTable14,getDelegationByIds, saveTable14 } from '@/services/ant-design-pro/tester/api';
 
 type ReviewItemType = {
   id: React.Key;
@@ -308,7 +310,7 @@ const documentReviewData: ReviewItemType[] = [
     explain: '',
   },
 
-  ]
+]
 export default () => {
   const [editableKeys, setEditableRowKeys] = useState<React.Key[]>(() =>
     reviewData.map((item) => item.id)
@@ -321,17 +323,42 @@ export default () => {
    * you may fetch data by calling 'await xxx'(should by defined in /src/services/ant-design-pro/tester/api.ts)
    * @return :object  for example {softName: '软件名称123'}
    */
+  const params = useLocation();
+  const delegationId = (params as any).query.id;//ok
+
   const request = async () => {
-    return {softName: '软件名称123'}
+    const table14Id = (await getDelegationByIds({
+      ids: String(delegationId),
+    })).data[0].table14Id;
+    if(table14Id == undefined) {
+      return {};
+    }
+    const resp = await getTable14({
+      id: String(table14Id),
+    });
+    //json string -> obj
+    const obj = JSON.parse(resp.data);
+    return obj;
   }
   /**
    * TODO: submit data
    * you may submit data by calling 'await xxx'(should by defined in '/src/services/ant-design-pro/tester/api.ts')
    * @return :boolean
    */
-  const onFinish = async (values:any) => {
-    console.log(values);
-    message.success('提交成功');
+  const onFinish = async (value:any) => {
+    const id: number = parseInt(delegationId);
+    const data = value;
+    saveTable14({
+      delegationId: id,
+      data: data,
+    }).then(res => {
+      if(res.code == 0) {
+        message.success('保存成功');
+      } else {
+        message.error(res.msg);
+      }
+    });
+    return true;
   }
   return (
     <ProForm
@@ -355,22 +382,22 @@ export default () => {
       <ProForm.Group>
         <ProForm.Group>
 
-        <ProFormText
-          width="md"
-          name="softName"
-          label="软件名称"
-          tooltip=""
-          placeholder="请输入名称"
-          rules={[{ required: true, message: '这是必填项' }]}
-        />
-        <ProFormText width="md"
-                     name="version"
-                     label="版本号"
-                     placeholder="请输入版本号"
-                     rules={[{ required: true, message: '这是必填项' }]}
-        />
+          <ProFormText
+            width="md"
+            name="softName"
+            label="软件名称"
+            tooltip=""
+            placeholder="请输入名称"
+            rules={[{ required: true, message: '这是必填项' }]}
+          />
+          <ProFormText width="md"
+                       name="version"
+                       label="版本号"
+                       placeholder="请输入版本号"
+                       rules={[{ required: true, message: '这是必填项' }]}
+          />
         </ProForm.Group>
-          <ProForm.Group>
+        <ProForm.Group>
           <ProFormText
             width="xl"
             name="organization"
@@ -411,27 +438,27 @@ export default () => {
           initialValue={reviewData}
           trigger="onValuesChange"
         >
-        <EditableProTable<ReviewItemType>
-          rowKey="id"
-          toolBarRender={false}
-          columns={reviewColumns}
-          recordCreatorProps={{
-            newRecordType: 'dataSource',
-            hidden: true,
-            record: () => ({
-              id: Date.now(),
-            })
-          }}
-          editable={{
-            type: 'multiple',
-            editableKeys,
-            onChange: setEditableRowKeys,
-            actionRender: (row, _, dom) => {
-              return [dom.delete];
-            },
-          }}
-        />
-      </ProForm.Item>
+          <EditableProTable<ReviewItemType>
+            rowKey="id"
+            toolBarRender={false}
+            columns={reviewColumns}
+            recordCreatorProps={{
+              newRecordType: 'dataSource',
+              hidden: true,
+              record: () => ({
+                id: Date.now(),
+              })
+            }}
+            editable={{
+              type: 'multiple',
+              editableKeys,
+              onChange: setEditableRowKeys,
+              actionRender: (row, _, dom) => {
+                return [dom.delete];
+              },
+            }}
+          />
+        </ProForm.Item>
       </ProForm.Group>
       {/*二、软件文档集评审*/}
       <ProForm.Group>

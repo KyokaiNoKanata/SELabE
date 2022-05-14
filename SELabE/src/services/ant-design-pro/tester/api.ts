@@ -104,19 +104,7 @@ export async function distributeDelegationTesting(data: {
   });
 }
 
-/**
- * 获得软件文档评审表
- * GET /admin-api/system/delegation/get/table14
- * id
- */
-export async function getTable14(params: {
-  id: number,//表格编号
-}) {
-  return request<API.Response>('/api/admin-api/system/delegation/get/table14',{
-    method: 'GET',
-    params: params,
-  });
-}
+
 
 /**
  * 用户填表完成，提交委托
@@ -203,6 +191,8 @@ export async function getTable3(params: {
     params:params,
   })
 }
+
+
 //传输过去json格式
 export async function saveTable3(body:{delegationId: number, data: any}) {
   return request<API.Response>('/api/admin-api/system/delegation/save/table3', {
@@ -233,3 +223,28 @@ export async function saveTable2(body:{delegationId: number, data: any}) {
   })
 }
 //define your function here to get/save table14
+
+/**
+ * 获得软件文档评审表
+ * GET /admin-api/system/delegation/get/table14
+ * id
+ */
+export async function getTable14(params: {
+  id: string,//表格编号
+}) {
+  return request<API.Response>('/api/admin-api/system/delegation/get/table14',{
+    method: 'GET',
+    params: params,
+  });
+}
+/*保存软件文档评审表
+*/
+export async function saveTable14(body:{delegationId: number, data: any}) {
+  return request<API.Response>('/api/admin-api/system/delegation/save/table14', {
+    method: 'PUT',
+    data: {
+      delegationId: body.delegationId,
+      data: body.data,
+    }
+  })
+}
