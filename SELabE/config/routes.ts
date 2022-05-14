@@ -83,22 +83,22 @@
         component: './tester/delegation',
       },
       {
-        path: '/documention',
+        path: '/docs',
         name: '测试文档',
         icon: 'smile',
         routes: [
           {
-            path: '/documention/schemeReview',
+            path: '/docs/schemeReview',
             name: '测试方案评审表',
             icon: 'smile',
-            component: './tester/documention/schemeReview',
+            component: './tester/docs/schemeReview',
           },
           {
-            path: '/documention/documentReview',
+            path: '/docs/softDocReview',
             name: '软件文档评审表',
             icon: 'smile',
-            component: './tester/documention/documentReview'
-          }
+            component: './tester/docs/documentReview'
+          },
         ]
       },
     ],

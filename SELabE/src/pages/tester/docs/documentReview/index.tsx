@@ -6,11 +6,11 @@ import { EditableProTable } from '@ant-design/pro-table';
 
 type ReviewItemType = {
   id: React.Key;
-  type: number;
-  name: string;
-  desc: string;
-  result: string;
-  explain: string;
+  type?: string;
+  name?: string;
+  desc?: string;
+  result?: string;
+  explain?: string;
 }
 const reviewColumns:  ProColumns<ReviewItemType>[] = [
   {
@@ -43,7 +43,7 @@ const reviewColumns:  ProColumns<ReviewItemType>[] = [
 const reviewData: ReviewItemType[] = [
   {
     id: 11,
-    type: 1,
+    type: '1',
     name: '可用性',
     desc: '产品说明对于用户和潜在需方是可用的',
     result: '',
@@ -51,7 +51,7 @@ const reviewData: ReviewItemType[] = [
   },
   {
     id: 21,
-    type: 2,
+    type: '2',
     name: '内容',
     desc: '足够用于评价适用性',
     result: '',
@@ -75,7 +75,7 @@ const reviewData: ReviewItemType[] = [
   },
   {
     id: 31,
-    type: 3,
+    type: '3',
     name: '标识和标示',
     desc: '显示唯一标识',
     result: '',
@@ -99,7 +99,7 @@ const reviewData: ReviewItemType[] = [
   },
   {
     id: 41,
-    type: 4,
+    type: '4',
     name: '功能性陈述',
     desc: '根据GB/T 25000.51-2010规范对软件的功能进行陈述',
     result: '',
@@ -107,7 +107,7 @@ const reviewData: ReviewItemType[] = [
   },
   {
     id: 51,
-    type: 5,
+    type: '5',
     name: '可靠性陈述',
     desc: '根据GB/T 25000.51-2010规范对软件的可靠性进行陈述',
     result: '',
@@ -115,7 +115,7 @@ const reviewData: ReviewItemType[] = [
   },
   {
     id: 61,
-    type: 6,
+    type: '6',
     name: '易用性陈述',
     desc: '根据GB/T 25000.51-2010规范对软件的易用性进行陈述',
     result: '',
@@ -123,7 +123,7 @@ const reviewData: ReviewItemType[] = [
   },
   {
     id: 71,
-    type: 7,
+    type: '7',
     name: '效率陈述',
     desc: '根据GB/T 25000.51-2010规范对软件的效率进行陈述',
     result: '',
@@ -131,7 +131,7 @@ const reviewData: ReviewItemType[] = [
   },
   {
     id: 81,
-    type: 8,
+    type: '8',
     name: '维护性陈述',
     desc: '根据GB/T 25000.51-2010规范对软件的维护性进行陈述',
     result: '',
@@ -139,7 +139,7 @@ const reviewData: ReviewItemType[] = [
   },
   {
     id: 91,
-    type: 9,
+    type: '9',
     name: '可移植性陈述',
     desc: '根据GB/T 25000.51-2010规范对软件的可移植性进行陈述',
     result: '',
@@ -147,7 +147,7 @@ const reviewData: ReviewItemType[] = [
   },
   {
     id: 101,
-    type: 10,
+    type: '10',
     name: '使用质量陈述',
     desc: '根据GB/T 25000.51-2010规范对软件的使用质量进行陈述',
     result: '',
@@ -157,7 +157,7 @@ const reviewData: ReviewItemType[] = [
 const documentReviewData: ReviewItemType[] = [
   {
     id: 1001,
-    type: 1,
+    type: '1',
     name: '完备性',
     desc: '包含所有必需信息',
     result: '',
@@ -245,7 +245,7 @@ const documentReviewData: ReviewItemType[] = [
   },
   {
     id: 1021,
-    type: 2,
+    type: '2',
     name: '正确性',
     desc: '文档中所有的信息都是正确的',
     result: '',
@@ -269,7 +269,7 @@ const documentReviewData: ReviewItemType[] = [
   },
   {
     id: 1041,
-    type: 4,
+    type: '4',
     name: '易理解性',
     desc: '使用用户可理解的术语和文体',
     result: '',
@@ -277,7 +277,7 @@ const documentReviewData: ReviewItemType[] = [
   },
   {
     id: 1051,
-    type: 5,
+    type: '5',
     name: '易学性',
     desc: '为如何使用该软件提供了足够的信息',
     result: '',
@@ -285,7 +285,7 @@ const documentReviewData: ReviewItemType[] = [
   },
   {
     id: 1061,
-    type: 6,
+    type: '6',
     name: '可操作性',
     desc: '电子文档可打印',
     result: '',
@@ -316,24 +316,27 @@ export default () => {
   const [documentEditableKeys, setDocumentEditableRowKeys] = useState<React.Key[]>(() =>
     documentReviewData.map((item) => item.id)
   );
-  /*const [adviceEditable, setAdviceEditableRow] = useState<React.Key[]>(() =>
-    adviceData.map((item) => item.id)
-  );*/
+  /**
+   * TODO: fetch data from service
+   * you may fetch data by calling 'await xxx'(should by defined in /src/services/ant-design-pro/tester/api.ts)
+   * @return :object  for example {softName: '软件名称123'}
+   */
+  const request = async () => {
+    return {softName: '软件名称123'}
+  }
+  /**
+   * TODO: submit data
+   * you may submit data by calling 'await xxx'(should by defined in '/src/services/ant-design-pro/tester/api.ts')
+   * @return :boolean
+   */
+  const onFinish = async (values:any) => {
+    console.log(values);
+    message.success('提交成功');
+  }
   return (
-    <ProForm<{
-      name: string;
-      company: string;
-    }>
-      onFinish={async (values) => {
-        //await waitTime(2000);
-        console.log(values);
-        //todo
-        message.success('提交成功');
-      }}
-      initialValues={{
-        name: '001',
-        useMode: 'chapter',
-      }}
+    <ProForm
+      onFinish={onFinish}
+      request={request}
       submitter={{
         render: (_,dom) =>
           <div style={
@@ -346,11 +349,10 @@ export default () => {
           </div>,
       }}
     >
-
-      <ProForm.Group>
-        <PageHeader
+      <PageHeader
         title={'软件文档评审表'}
-         />
+      />
+      <ProForm.Group>
         <ProForm.Group>
 
         <ProFormText
@@ -418,7 +420,7 @@ export default () => {
             hidden: true,
             record: () => ({
               id: Date.now(),
-            }),
+            })
           }}
           editable={{
             type: 'multiple',
@@ -472,7 +474,7 @@ export default () => {
       >
         <ProFormText
           width="md"
-          name="reviewer"
+          name="checker"
           label="检查人"
           tooltip=""
           placeholder="请输入检查人"

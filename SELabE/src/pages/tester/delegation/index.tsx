@@ -644,7 +644,7 @@ const DelegationList: React.FC = () => {
             }}
           >
             {/*todo*/}
-            <Link to={{pathname: 'softDocReview',
+            <Link to={{pathname: '/docs/softDocReview',
               query: {id}}}>
               <Button type="primary">填写软件文档评审表</Button>
             </Link>

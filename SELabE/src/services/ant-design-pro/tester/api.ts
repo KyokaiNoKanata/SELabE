@@ -232,3 +232,4 @@ export async function saveTable2(body:{delegationId: number, data: any}) {
     }
   })
 }
+//define your function here to get/save table14
