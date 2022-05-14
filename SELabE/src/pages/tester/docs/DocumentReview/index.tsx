@@ -318,14 +318,10 @@ const DocumentReview = () => {
   const [documentEditableKeys, setDocumentEditableRowKeys] = useState<React.Key[]>(() =>
     documentReviewData.map((item) => item.id)
   );
-  /**
-   * TODO: fetch data from service
-   * you may fetch data by calling 'await xxx'(should by defined in /src/services/ant-design-pro/tester/api.ts)
-   * @return :object  for example {softName: '软件名称123'}
-   */
+
   const params = useLocation();
   const delegationId = (params as any).query.id;//ok
-
+  //get data from table14
   const request = async () => {
     const table14Id = (await getDelegationByIds({
       ids: String(delegationId),
@@ -337,14 +333,10 @@ const DocumentReview = () => {
       id: String(table14Id),
     });
     //json string -> obj
-    const obj = JSON.parse(resp.data);
-    return obj;
+    //const obj = JSON.parse(resp.data);
+    return resp.data;
   }
-  /**
-   * TODO: submit data
-   * you may submit data by calling 'await xxx'(should by defined in '/src/services/ant-design-pro/tester/api.ts')
-   * @return :boolean
-   */
+  // submit table14
   const onFinish = async (value: any) => {
     const id: number = parseInt(delegationId);
     const data = value;

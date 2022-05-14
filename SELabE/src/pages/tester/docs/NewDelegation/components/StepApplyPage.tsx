@@ -31,9 +31,9 @@ const StepApplyPage = () => {
       id: String(table2Id),
     });
     //json string -> obj
-    const obj = JSON.parse(resp.data);
+    //const obj = JSON.parse(resp.data);
     //console.log(obj)
-    return obj;
+    return resp.data;
   }
   const onSubmit = async (value: any) => {
     //console.log(value)

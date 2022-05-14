@@ -20,10 +20,10 @@ const FunctionList = () => {
       id: String(table3Id),
     });
     //json string -> obj
-    const obj = JSON.parse(resp.data);
-    console.log(obj)
-    //return obj;
-    return Promise.resolve(obj)
+    //const obj = JSON.parse(resp.data);
+    //console.log(obj)
+    console.log(resp.data)
+    return resp.data;
   }
   const onFinish = async (value: any) => {
     const id: number = parseInt(delegationId);
