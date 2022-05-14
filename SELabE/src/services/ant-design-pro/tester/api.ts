@@ -154,6 +154,29 @@ export async function marketingAuditSuccess(data: {
 }
 
 /**
+ * 测试部审批
+ */
+//不通过/admin-api/system/delegation/audit/fail/testing
+export async function testingAuditFail(data: {
+  id: number;//委托编号
+  remark: string;//建议
+}) {
+  return request<API.Response>('/api/admin-api/system/delegation/audit/fail/testing',{
+    method: 'PUT',
+    data:data
+  });
+}
+//通过/admin-api/system/delegation/audit/success/testing
+export async function testingAuditSuccess(data: {
+  id: number;//委托编号
+  remark: string;//建议
+}) {
+  return request<API.Response>('/api/admin-api/system/delegation/audit/success/testing',{
+    method: 'PUT',
+    data: data,
+  });
+}
+/**
  * 获取所有市场部人员的id和姓名
  */
 //getSimpleUserMarketing

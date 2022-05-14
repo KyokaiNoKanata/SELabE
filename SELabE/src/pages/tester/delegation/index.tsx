@@ -23,9 +23,11 @@ import {
   submitDelegation,
   getSimpleUserByRole,
   distributeDelegationMarketing,
-  distributeDelegationTesting
+  distributeDelegationTesting,
+  testingAuditFail,
+  testingAuditSuccess
 } from "@/services/ant-design-pro/tester/api";
-import SubmitForm from "@/pages/tester/delegation/components/SubmitForm";
+//import SubmitForm from "@/pages/tester/delegation/components/SubmitForm";
 import DistributeForm from "@/pages/tester/delegation/components/DistributeForm";
 import { Link } from 'umi';
 /** 根据id删除委托 */
@@ -141,6 +143,39 @@ const handleAuditSuccessMarketing = async (data: {
   remark: string,
 }) => {
   const res = await marketingAuditSuccess({
+    id: data.id,
+    remark: data.remark,
+  });
+  console.log(res)
+  if(res.code == 0) {
+    message.success('提交成功');
+  } else {
+    message.error(res.msg)
+  }
+}
+
+/** 测试部审批委托() */
+//不通过
+const handleAuditFailTesting = async (data: {
+  id: number,//委托编号
+  remark: string,//审核意见
+}) => {
+  const res = await testingAuditFail({
+    id: data.id,
+    remark: data.remark,
+  });
+  if(res.data == true) {
+    message.success('提交成功');
+  } else {
+    message.error(res.msg)
+  }
+}
+//通过
+const handleAuditSuccessTesting = async (data: {
+  id: number,
+  remark: string,
+}) => {
+  const res = await testingAuditSuccess({
     id: data.id,
     remark: data.remark,
   });
@@ -469,20 +504,16 @@ const DelegationList: React.FC = () => {
       render: (text, record) => {
         const {id} = record;
         return [
-        <Link to={{ pathname:'new-delegation', query: {id}}}>
+        /*<Link to={{ pathname:'new-delegation', query: {id}}}>
           <Button type="primary">填写表单</Button>
-        </Link>,
-          /*<Link to={{ pathname:'new-delegation', query: {id}}}>
-          <Link to={'new-delegation/${id}'}><Button type="primary">填写表单</Button></Link>,
-          </Link>,*/
-        /*/!**填写并提交表单*!/
+        </Link>,*/
         <ModalForm
           key={'submit'}
           title="填写表单"
-          trigger={<Button type="primary" onClick>填写</Button>}
+          trigger={<Button type="primary" >填写</Button>}
           submitter={{
             searchConfig: {
-              submitText: '完成',
+              submitText: '提交',
               resetText: '取消',
             },
           }}
@@ -495,23 +526,24 @@ const DelegationList: React.FC = () => {
             return true;
           }}
         >
-          {/!*todo*!/}
-          <SubmitForm onSubmitTable14={(values => {})} />
-        </ModalForm>*/
+          <Link to={{ pathname:'new-delegation', query: {id}}}>
+            <Button type="primary">前往填写表单</Button>
+          </Link>
+        </ModalForm>
         ];
       }
     },
     /**(市场部)审核委托*/
     {
       title: '市场部审核',
-      dataIndex: 'audit',
+      dataIndex: 'auditMarketing',
       valueType: 'option',
       hideInTable: false,
       sorter:false,
       render: (text, record) => [
         <ModalForm
-          key={'audit'}
-          title="审批审核"
+          key={'auditMarketing'}
+          title="市场部审核"
           trigger={
             <Button type="primary">
               审核
@@ -564,6 +596,79 @@ const DelegationList: React.FC = () => {
           />
         </ModalForm>,
       ]
+    },
+    /** 测试部审核委托 */
+    //x
+    {
+      title: '测试部审核',
+      dataIndex: 'auditTesting',
+      valueType: 'option',
+      hideInTable: false,
+      sorter:false,
+      render: (text, record) => {
+        const {id} = record;
+        return [
+          <ModalForm
+            key={'auditTesting'}
+            title="测试部审核"
+            trigger={
+              <Button type="primary">
+                审核
+              </Button>
+            }
+            submitter={{
+              searchConfig: {
+                submitText: '确认',
+                resetText: '取消',
+              },
+            }}
+            onFinish={async (values) => {
+              const id = record.id;
+              const remark = values.testingRemark;
+              //通过
+              if (values.pass == 0) {
+                await handleAuditSuccessTesting({
+                  id: id,
+                  remark: remark,
+                });
+              }
+              //不通过
+              else {
+                await handleAuditFailTesting({
+                  id: id,
+                  remark: remark,
+                });
+              }
+              actionRef.current?.reload();
+              return true;
+            }}
+          >
+            {/*todo*/}
+            <Link to={{pathname: 'softDocReview',
+              query: {id}}}>
+              <Button type="primary">填写软件文档评审表</Button>
+            </Link>
+            <ProFormSelect
+              showSearch
+              width="md"
+              label="是否通过"
+              name="pass"
+              placeholder={'选择是否通过'}
+              valueEnum={{
+                0: '通过',
+                1: '不通过',
+              }}
+            />
+            <ProFormText
+              width="md"
+              name="testingRemark"
+              label="审核意见"
+              placeholder="请输入审核意见"
+              initialValue={record.testingRemark}
+            />
+          </ModalForm>
+        ]
+      }
     },
     /**(市场部主管)分配委托给市场部人员*/
     ///admin-api/system/delegation/distribute/marketing
