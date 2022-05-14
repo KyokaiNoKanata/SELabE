@@ -151,20 +151,28 @@ const Register: FC = () => {
       <h3>注册</h3>
       <Form form={form} name="UserRegister" onFinish={onFinish}>
         <FormItem
-          name="mail"
+          name="username"
           rules={[
             {
               required: true,
-              message: '请输入邮箱地址!',
-            },
-            {
-              type: 'email',
-              message: '邮箱地址格式错误!',
+              message: '用户名为必填项！',
             },
           ]}
         >
-          <Input size="large" placeholder="邮箱" />
+          <Input size="large" placeholder="用户名" />
         </FormItem>
+        <FormItem
+          name="nickname"
+          rules={[
+            {
+              required: true,
+              message: '昵称为必填项！',
+            },
+          ]}
+        >
+          <Input size="large" placeholder="昵称" />
+        </FormItem>
+
         <Popover
           getPopupContainer={(node) => {
             if (node && node.parentNode) {
@@ -178,7 +186,7 @@ const Register: FC = () => {
                 {passwordStatusMap[getPasswordStatus()]}
                 {renderPasswordProgress()}
                 <div style={{ marginTop: 10 }}>
-                  <span>请至少输入 6 个字符。请不要使用容易被猜到的密码。</span>
+                  <span>请至少输入 8 个字符。请不要使用容易被猜到的密码。</span>
                 </div>
               </div>
             )
@@ -200,7 +208,7 @@ const Register: FC = () => {
               },
             ]}
           >
-            <Input size="large" type="password" placeholder="至少6位密码，区分大小写" />
+            <Input size="large" type="password" placeholder="至少8位密码，区分大小写" />
           </FormItem>
         </Popover>
         <FormItem

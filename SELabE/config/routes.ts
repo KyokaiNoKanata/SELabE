@@ -12,6 +12,12 @@ export default [
             component: './user/Login',
           },
           {
+            name: 'register-result',
+            icon: 'smile',
+            path: '/user/registerresult',
+            component: './user/RegisterResult',
+          },
+          {
             name: 'register',
             icon: 'smile',
             path: '/user/register',

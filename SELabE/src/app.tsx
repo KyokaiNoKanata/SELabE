@@ -28,7 +28,6 @@ export async function getInitialState(): Promise<{
   fetchUserInfo?: () => Promise<API.CurrentUser | undefined>;
 }> {
   const fetchUserInfo = async () => {
-    console.log(111);
     try {
       const msg = await queryCurrentUser();
       return msg.data;
@@ -38,7 +37,6 @@ export async function getInitialState(): Promise<{
     }
     return undefined;
   };
-  //如果不是登录或注册页面，执行
   if (history.location.pathname !== loginPath && history.location.pathname !== registerPath) {
     const currentUser = await fetchUserInfo();
     return {
@@ -52,6 +50,12 @@ export async function getInitialState(): Promise<{
     settings: defaultSettings,
   };
 }
+
+// export const request: RequestConfig = {
+//   errorHandler,
+//   // 新增自动添加AccessToken的请求前拦截器
+//   requestInterceptors: [authHeaderInterceptor],
+// };
 
 // ProLayout 支持的api https://procomponents.ant.design/components/layout
 export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) => {
