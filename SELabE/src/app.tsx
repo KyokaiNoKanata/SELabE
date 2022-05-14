@@ -13,8 +13,10 @@ import defaultSettings from '../config/defaultSettings';
 import cookie from 'react-cookies'
 
 const isDev = process.env.NODE_ENV === 'development';
-const loginPath = '/admin-api/system/login';
-const registerPath = '/admin-api/system/register';
+const loginPath = '/user/login';
+const registerPath = '/user/register';
+const loginAPI = '/admin-api/system/login';
+const registerAPI = '/admin-api/system/register';
 
 /** 获取用户信息比较慢的时候会展示一个 loading */
 export const initialStateConfig = {
@@ -55,7 +57,7 @@ export async function getInitialState(): Promise<{
 }
 
 const authHeaderInterceptor = (url: string, options: RequestOptionsInit) => {
-  if(url == loginPath || url == registerPath) {
+  if(url == loginAPI || url == registerAPI) {
     return {
       url: `${url}`,
       options: {...options, interceptors: true },
@@ -81,7 +83,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
     rightContentRender: () => <RightContent />,
     disableContentMargin: false,
     waterMarkProps: {
-      content: initialState?.currentUser?.name,
+      content: initialState?.currentUser?.data?.user?.id,
     },
     footerRender: () => <Footer />,
     onPageChange: () => {

@@ -52,6 +52,7 @@ const Login: React.FC = () => {
     try {
       // 登录
       const res = await login({ ...values, type });
+
       if (res.code === 0) {
         const defaultLoginSuccessMessage = intl.formatMessage({
           id: 'pages.login.success',
@@ -60,7 +61,7 @@ const Login: React.FC = () => {
         message.success(defaultLoginSuccessMessage);
         /**COOKIE**/
         if(res?.data?.token){
-          cookie.save('token', res?.data?.token, { path: '/' });
+          cookie.save('USER', res?.data?.token, { path: '/' });
         }
         await fetchUserInfo();
         /** 此方法会跳转到 redirect 参数所在的位置 */
