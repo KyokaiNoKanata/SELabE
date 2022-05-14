@@ -12,7 +12,7 @@ const FunctionList = () => {
     const table3Id = (await getDelegationByIds({
       ids: String(delegationId),
     })).data[0].table3Id;
-    //console.log('table3Id='+ table3Id);
+    console.log('table3Id='+ table3Id);
     if(table3Id == undefined) {
       return {};
     }
@@ -21,9 +21,11 @@ const FunctionList = () => {
     });
     //json string -> obj
     const obj = JSON.parse(resp.data);
-    return obj;
+    console.log(obj)
+    //return obj;
+    return Promise.resolve(obj)
   }
-  const onFinish = async (value:any) => {
+  const onFinish = async (value: any) => {
     const id: number = parseInt(delegationId);
     const data = value;
     saveTable3({
@@ -45,6 +47,7 @@ const FunctionList = () => {
         title="委托测试软件功能列表"
       />
       <ProForm onFinish={onFinish}
+               key={'function-list'}
                submitter={{
                  searchConfig: {
                    resetText: '重置',

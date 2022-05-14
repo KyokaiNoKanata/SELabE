@@ -311,7 +311,7 @@ const documentReviewData: ReviewItemType[] = [
   },
 
 ]
-export default () => {
+const DocumentReview = () => {
   const [editableKeys, setEditableRowKeys] = useState<React.Key[]>(() =>
     reviewData.map((item) => item.id)
   );
@@ -345,7 +345,7 @@ export default () => {
    * you may submit data by calling 'await xxx'(should by defined in '/src/services/ant-design-pro/tester/api.ts')
    * @return :boolean
    */
-  const onFinish = async (value:any) => {
+  const onFinish = async (value: any) => {
     const id: number = parseInt(delegationId);
     const data = value;
     saveTable14({
@@ -511,3 +511,4 @@ export default () => {
     </ProForm>
   );
 };
+export default DocumentReview;

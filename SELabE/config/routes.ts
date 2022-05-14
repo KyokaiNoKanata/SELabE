@@ -49,27 +49,6 @@
     component: './TableList',
   },
   {
-    name: '软件委托测试合同',
-    icon: 'table',
-    path: '/contract',
-    component: './Contract',
-  }
-  ,
-  {
-    name: '软件项目委托测试保密协议',
-    icon: 'table',
-    path: '/confidentiality-agreement',
-    component: './ConfidentialityAgreement',
-  }
-  ,
-  {
-    name:'填写委托',
-    icon:'table',
-    path:'/new-delegation/',
-    component: './NewDelegation',
-  }
-  ,
-  {
     path: '/',
     name: '委托',
     icon: 'crown',
@@ -80,25 +59,43 @@
         path: '/delegation',
         name: '查看委托',
         icon: 'smile',
-        component: './tester/delegation',
+        component: './tester/Delegation',
       },
       {
         path: '/docs',
-        name: '测试文档',
+        name: '文档',
         icon: 'smile',
         routes: [
           {
             path: '/docs/schemeReview',
             name: '测试方案评审表',
             icon: 'smile',
-            component: './tester/docs/schemeReview',
+            component: './tester/docs/SchemeReview',
           },
           {
             path: '/docs/softDocReview',
             name: '软件文档评审表',
             icon: 'smile',
-            component: './tester/docs/documentReview'
+            component: './tester/docs/DocumentReview'
           },
+          {
+            path:'/docs/new-delegation',
+            name:'填写委托',
+            icon:'table',
+            component: './tester/docs/NewDelegation',
+          },
+          {
+            name: '软件项目委托测试保密协议',
+            icon: 'table',
+            path: '/docs/confidentiality-agreement',
+            component: './tester/docs/ConfidentialityAgreement',
+          },
+          {
+            name: '软件委托测试合同',
+            icon: 'table',
+            path: '/docs/contract',
+            component: './tester/docs/Contract',
+          }
         ]
       },
     ],

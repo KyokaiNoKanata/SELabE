@@ -1,7 +1,7 @@
 import {useState} from 'react';
 import {Card} from 'antd';
-import StepApplyPage from "@/pages/StepApplyPage";
-import FuntionList from "@/pages/FuntionList";
+import StepApplyPage from "@/pages/tester/docs/NewDelegation/components/StepApplyPage";
+import FunctionList from "@/pages/tester/docs/NewDelegation/components/FunctionList";
 //import { useLocation } from 'react-router-dom';
 const delegationList = [
   {
@@ -17,7 +17,7 @@ const delegationList = [
 
 const TabsCard = () => {
   const [activeTabKey, setActiveTabKey] = useState('委托申请书');
-  const onTabChange = (key:any) => {
+  const onTabChange = (key: any) => {
     setActiveTabKey(key);
   };
   //const params = useLocation() as any;
@@ -28,7 +28,7 @@ const TabsCard = () => {
       <Card>
         <StepApplyPage/>
       </Card>,
-    委托功能列表: <Card><FuntionList /></Card>,
+    委托功能列表: <Card><FunctionList /></Card>,
   };
 
   return (

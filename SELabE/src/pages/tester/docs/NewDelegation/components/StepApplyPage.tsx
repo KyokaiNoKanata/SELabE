@@ -35,7 +35,7 @@ const StepApplyPage = () => {
     //console.log(obj)
     return obj;
   }
-  const onSubmit = async (value:any) => {
+  const onSubmit = async (value: any) => {
     //console.log(value)
     saveTable2({
       delegationId: delegationId,

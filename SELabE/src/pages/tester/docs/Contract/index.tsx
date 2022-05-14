@@ -1,10 +1,8 @@
 import { PageContainer} from '@ant-design/pro-layout';
-import {Typography, Form, Input, DatePicker, InputNumber, Button} from "antd";
-import React from "react";
-import {history} from 'umi';
+import {Typography, Form, Input, DatePicker, InputNumber} from "antd";
 import {Link} from "@umijs/preset-dumi/lib/theme";
 const {Title, Paragraph, Text, } = Typography;
-const index = () => {
+const Contract = () => {
   const Date: any = DatePicker;
   const information = () => {
     return(
@@ -138,4 +136,4 @@ const index = () => {
   );
 }
 
-export default index;
+export default Contract;

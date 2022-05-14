@@ -27,8 +27,7 @@ import {
   testingAuditFail,
   testingAuditSuccess
 } from "@/services/ant-design-pro/tester/api";
-//import SubmitForm from "@/pages/tester/delegation/components/SubmitForm";
-import DistributeForm from "@/pages/tester/delegation/components/DistributeForm";
+import DistributeForm from "@/pages/tester/Delegation/components/DistributeForm";
 import { Link } from 'umi';
 /** 根据id删除委托 */
 const handleDelete = async (id: number) => {
@@ -61,10 +60,12 @@ const handleGetDelegation = async (
   options?: Record<string, any>
 ) => {
   //修改参数名称
-  const p = params;
+  //const p = params;
   //p['pageNo'] = params.current;
-  (p as any).pageNo = params.current;
-  delete p.current;
+  const p: any = {
+    pageNo: params.current,
+    pageSize: params.pageSize,
+  };
   const res = await delegationPage(p,options);
   return {
     data:res.data.list,
@@ -484,7 +485,7 @@ const DelegationList: React.FC = () => {
                       content: '',
                       onOk() {
                         handleDelete(record.id).
-                        then(r => actionRef.current?.reload());//重新请求，更新表格
+                        then(() => actionRef.current?.reload());//重新请求，更新表格
                       },
                       onCancel() {
                         console.log('Cancel');
@@ -517,7 +518,7 @@ const DelegationList: React.FC = () => {
               resetText: '取消',
             },
           }}
-          onFinish={async (values) => {
+          onFinish={async () => {
             console.log('填写完成')
             await handleSubmitDelegation({
               id: record.id
@@ -526,7 +527,7 @@ const DelegationList: React.FC = () => {
             return true;
           }}
         >
-          <Link to={{ pathname:'new-delegation', query: {id}}}>
+          <Link to={{ pathname:'/docs/new-delegation', query: {id}}}>
             <Button type="primary">前往填写表单</Button>
           </Link>
         </ModalForm>
@@ -623,19 +624,18 @@ const DelegationList: React.FC = () => {
               },
             }}
             onFinish={async (values) => {
-              const id = record.id;
               const remark = values.testingRemark;
               //通过
               if (values.pass == 0) {
                 await handleAuditSuccessTesting({
-                  id: id,
+                  id: record.id,
                   remark: remark,
                 });
               }
               //不通过
               else {
                 await handleAuditFailTesting({
-                  id: id,
+                  id: record.id,
                   remark: remark,
                 });
               }
