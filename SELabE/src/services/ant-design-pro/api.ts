@@ -6,7 +6,7 @@ import { request } from 'umi';
 export async function currentUser(options?: { [key: string]: any }) {
   return request<{
     data: API.CurrentUser;
-  }>('http://8.130.96.23:48080/admin-api/system/get-permission-info', {
+  }>('/admin-api/system/get-permission-info', {
     method: 'GET',
     ...(options || {}),
   });
@@ -22,7 +22,7 @@ export async function outLogin(options?: { [key: string]: any }) {
 
 /** 登录接口 POST /api/login/account */
 export async function login(body: API.LoginParams, options?: { [key: string]: any }) {
-  return request<API.LoginResult>('http://8.130.96.23:48080/admin-api/system/login', {
+  return request<API.LoginResult>('/admin-api/system/login', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

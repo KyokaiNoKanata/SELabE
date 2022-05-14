@@ -53,7 +53,7 @@ export default defineConfig({
     '/admin-api/': {
       target: "http://8.130.96.23:48080/admin-api/",
       changeOrigin: true,
-      pathRewrite: { '^/server': '' },
+      pathRewrite: { '^/admin-api': '' },
     },
   },
   manifest: {

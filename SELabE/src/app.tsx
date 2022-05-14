@@ -7,11 +7,14 @@ import RightContent from '@/components/RightContent';
 import Footer from '@/components/Footer';
 import { currentUser as queryCurrentUser } from './services/ant-design-pro/api';
 import { BookOutlined, LinkOutlined } from '@ant-design/icons';
+import type {RequestConfig} from "@@/plugin-request/request";
+import type { RequestOptionsInit } from 'umi-request';
 import defaultSettings from '../config/defaultSettings';
+import cookie from 'react-cookies'
 
 const isDev = process.env.NODE_ENV === 'development';
-const loginPath = '/user/login';
-const registerPath = '/user/register';
+const loginPath = '/admin-api/system/login';
+const registerPath = '/admin-api/system/register';
 
 /** 获取用户信息比较慢的时候会展示一个 loading */
 export const initialStateConfig = {
@@ -51,11 +54,26 @@ export async function getInitialState(): Promise<{
   };
 }
 
-// export const request: RequestConfig = {
-//   errorHandler,
-//   // 新增自动添加AccessToken的请求前拦截器
-//   requestInterceptors: [authHeaderInterceptor],
-// };
+const authHeaderInterceptor = (url: string, options: RequestOptionsInit) => {
+  if(url == loginPath || url == registerPath) {
+    return {
+      url: `${url}`,
+      options: {...options, interceptors: true },
+    };
+  }
+  const authHeader = { Authorization: 'Bearer ' + cookie.load('USER') };
+  return {
+    url: `${url}`,
+    options: {...options, interceptors: true, headers: authHeader },
+  };
+};
+
+
+export const request: RequestConfig = {
+  //errorHandler,
+  requestInterceptors: [authHeaderInterceptor],
+};
+
 
 // ProLayout 支持的api https://procomponents.ant.design/components/layout
 export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) => {
