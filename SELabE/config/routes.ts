@@ -49,28 +49,10 @@
     component: './TableList',
   },
   {
-    name: 'delegate-list',
-    icon: 'table',
-    path: '/delegate-list',
-    component: './DelegateList',
-  },
-  {
-    name: 'apply-page',
-    icon: 'star',
-    path: '/apply-page',
-    component: './DelegateList/components/Applypage',
-  },
-  {
-    name: 'function-list',
-    icon: 'star',
-    path: '/function-list',
-    component: './DelegateList/components/FunctionList',
-  },
-  {
     path: '/',
     redirect: '/welcome',
   },
   {
-    component: './404a',
+    component: './404',
   },
 ];
