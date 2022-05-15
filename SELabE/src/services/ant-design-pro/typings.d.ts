@@ -97,4 +97,16 @@ declare namespace API {
     description?: string;
     type?: NoticeIconItemType;
   };
+
+  type MenuData = {
+    code?: string;
+    data: MenuDataItem[];
+    msg?: string;
+  }
+
+  type MenuDataItem = {
+    name?: string;
+    path?: string;
+    hideInMenu?: string;
+  }
 }

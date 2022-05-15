@@ -5,7 +5,7 @@ import type { RunTimeLayoutConfig } from 'umi';
 import { history, Link } from 'umi';
 import RightContent from '@/components/RightContent';
 import Footer from '@/components/Footer';
-import { currentUser as queryCurrentUser } from './services/ant-design-pro/api';
+import { currentUser as queryCurrentUser, menuData as queryMenuData } from './services/ant-design-pro/api';
 import { BookOutlined, LinkOutlined } from '@ant-design/icons';
 import type {RequestConfig} from "@@/plugin-request/request";
 import type { RequestOptionsInit } from 'umi-request';
@@ -70,16 +70,34 @@ const authHeaderInterceptor = (url: string, options: RequestOptionsInit) => {
   };
 };
 
-
 export const request: RequestConfig = {
   //errorHandler,
   requestInterceptors: [authHeaderInterceptor],
 };
 
+const fetchMenuData = async () => {
+  try {
+    const res = await queryMenuData();
+    return res.data;
+  } catch (error) {
+    console.log(error);
+  }
+  return undefined;
+};
 
 // ProLayout 支持的api https://procomponents.ant.design/components/layout
 export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) => {
   return {
+    menu: {
+      // 每当 initialState?.currentUser?.userid 发生修改时重新执行 request
+      params: {
+        userId: initialState?.currentUser?.data?.user?.id,
+      },
+      request: async (params, defaultMenuData) => {
+        const menuData = await fetchMenuData();
+        return menuData;
+      },
+    },
     rightContentRender: () => <RightContent />,
     disableContentMargin: false,
     waterMarkProps: {

@@ -83,3 +83,12 @@ export async function removeRule(options?: { [key: string]: any }) {
     ...(options || {}),
   });
 }
+
+export async function menuData(options?: { [key: string]: any }) {
+  return request<{
+    data: API.MenuData;
+  }>('/admin-api/system/list-menus', {
+    method: 'GET',
+    ...(options || {}),
+  });
+}
