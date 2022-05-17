@@ -16,7 +16,7 @@ export async function delegationPage(
       total: number,
     }
     msg: string
-  }>('/api/admin-api/system/delegation/page', {
+  }>('/admin-api/system/delegation/page', {
     method: 'GET',
     params: {
       ...params
@@ -32,7 +32,7 @@ export async function getDelegationByIds(params: {
     code: number,
     data: API.DelegationItem[],
     msg: string,
-  }>('/api/admin-api/system/delegation/list', {
+  }>('/admin-api/system/delegation/list', {
     method: 'GET',
     params: params,
   });
@@ -46,7 +46,7 @@ export async function getDelegationByIds(params: {
 export async function deleteDelegation(params: {
   id: number,
 }) {
-  return request<API.Response>('/api/admin-api/system/delegation/delete',{
+  return request<API.Response>('/admin-api/system/delegation/delete',{
     method: 'DELETE',
     params: {
       id:params.id,
@@ -62,7 +62,7 @@ export async function updateDelegation(data: {
   name: string,
   url: string,
 }) {
-  return request<API.Response>('/api/admin-api/system/delegation/update',{
+  return request<API.Response>('/admin-api/system/delegation/update',{
     method: 'PUT',
     data: data,
   });
@@ -71,7 +71,7 @@ export async function updateDelegation(data: {
 export async function createDelegation(data: {
   name: string,
 }) {
-  return request<API.Response>('/api/admin-api/system/delegation/create', {
+  return request<API.Response>('/admin-api/system/delegation/create', {
     method: 'POST',
     data: data
   })
@@ -85,7 +85,7 @@ export async function distributeDelegationMarketing(data: {
   acceptorId: number,//接收委托的工作人员id
   id: number,//委托编号
 }) {
-  return request<API.Response>('/api/admin-api/system/delegation/distribute/marketing',{
+  return request<API.Response>('/admin-api/system/delegation/distribute/marketing',{
     method: 'PUT',
     data: data,
   });
@@ -98,7 +98,7 @@ export async function distributeDelegationTesting(data: {
   acceptorId: number,//接收委托的工作人员id
   id: number,//委托编号
 }) {
-  return request<API.Response>('/api/admin-api/system/delegation/distribute/testing',{
+  return request<API.Response>('/admin-api/system/delegation/distribute/testing',{
     method: 'PUT',
     data: data,
   });
@@ -112,7 +112,7 @@ export async function distributeDelegationTesting(data: {
 export async function submitDelegation(data: {
   id: number,
 }) {
-  return request<API.Response>('/api/admin-api/system/delegation/submit',{
+  return request<API.Response>('/admin-api/system/delegation/submit',{
     method: 'PUT',
     data:data,
   });
@@ -125,7 +125,7 @@ export async function marketingAuditFail(data: {
   id: number;//委托编号
   remark: string;//建议
 }) {
-  return request<API.Response>('/api/admin-api/system/delegation/audit/fail/marketing',{
+  return request<API.Response>('/admin-api/system/delegation/audit/fail/marketing',{
     method: 'PUT',
     data:data
   });
@@ -135,7 +135,7 @@ export async function marketingAuditSuccess(data: {
   id: number;//委托编号
   remark: string;//建议
 }) {
-  return request<API.Response>('/api/admin-api/system/delegation/audit/success/marketing',{
+  return request<API.Response>('/admin-api/system/delegation/audit/success/marketing',{
     method: 'PUT',
     data: data,
   });
@@ -149,7 +149,7 @@ export async function testingAuditFail(data: {
   id: number;//委托编号
   remark: string;//建议
 }) {
-  return request<API.Response>('/api/admin-api/system/delegation/audit/fail/testing',{
+  return request<API.Response>('/admin-api/system/delegation/audit/fail/testing',{
     method: 'PUT',
     data:data
   });
@@ -159,7 +159,7 @@ export async function testingAuditSuccess(data: {
   id: number;//委托编号
   remark: string;//建议
 }) {
-  return request<API.Response>('/api/admin-api/system/delegation/audit/success/testing',{
+  return request<API.Response>('/admin-api/system/delegation/audit/success/testing',{
     method: 'PUT',
     data: data,
   });
@@ -178,7 +178,7 @@ export async function getSimpleUserByRole(params: {
       nickname: string,
     }[],
     msg: string,
-  }>('/api/admin-api/system/permission/list-role-simple-users',{
+  }>('/admin-api/system/permission/list-role-simple-users',{
     method: 'POST',
     params: params
   })
@@ -186,7 +186,7 @@ export async function getSimpleUserByRole(params: {
 export async function getTable3(params: {
   id: string,//表格id
 }) {
-  return request<API.Response>('/api/admin-api/system/delegation/get/table3', {
+  return request<API.Response>('/admin-api/system/delegation/get/table3', {
     method: 'GET',
     params:params,
   })
@@ -195,7 +195,7 @@ export async function getTable3(params: {
 
 //传输过去json格式
 export async function saveTable3(body:{delegationId: number, data: any}) {
-  return request<API.Response>('/api/admin-api/system/delegation/save/table3', {
+  return request<API.Response>('/admin-api/system/delegation/save/table3', {
     method: 'PUT',
     data: {
       delegationId: body.delegationId,
@@ -207,14 +207,14 @@ export async function saveTable3(body:{delegationId: number, data: any}) {
 export async function getTable2(params: {
   id: string,//表格id
 }) {
-  return request<API.Response>('/api/admin-api/system/delegation/get/table2', {
+  return request<API.Response>('/admin-api/system/delegation/get/table2', {
     method: 'GET',
     params:params,
   })
 }
 //传输过去json格式
 export async function saveTable2(body:{delegationId: number, data: any}) {
-  return request<API.Response>('/api/admin-api/system/delegation/save/table2', {
+  return request<API.Response>('/admin-api/system/delegation/save/table2', {
     method: 'PUT',
     data: {
       delegationId: body.delegationId,
@@ -232,7 +232,7 @@ export async function saveTable2(body:{delegationId: number, data: any}) {
 export async function getTable14(params: {
   id: string,//表格编号
 }) {
-  return request<API.Response>('/api/admin-api/system/delegation/get/table14',{
+  return request<API.Response>('/admin-api/system/delegation/get/table14',{
     method: 'GET',
     params: params,
   });
@@ -240,7 +240,7 @@ export async function getTable14(params: {
 /*保存软件文档评审表
 */
 export async function saveTable14(body:{delegationId: number, data: any}) {
-  return request<API.Response>('/api/admin-api/system/delegation/save/table14', {
+  return request<API.Response>('/admin-api/system/delegation/save/table14', {
     method: 'PUT',
     data: {
       delegationId: body.delegationId,
