@@ -397,9 +397,6 @@
           },
           "currentAuthority": {
             "type": "string"
-          },
-          "token": {
-            "type": "string"
           }
         }
       },
