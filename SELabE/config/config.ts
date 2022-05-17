@@ -3,10 +3,10 @@ import { defineConfig } from 'umi';
 import { join } from 'path';
 
 import defaultSettings from './defaultSettings';
-import proxy from './proxy';
+//import proxy from './proxy';
 import routes from './routes';
 
-const { REACT_APP_ENV } = process.env;
+//const { REACT_APP_ENV } = process.env;
 
 export default defineConfig({
   hash: true,
@@ -48,7 +48,14 @@ export default defineConfig({
   esbuild: {},
   title: false,
   ignoreMomentLocale: true,
-  proxy: proxy[REACT_APP_ENV || 'dev'],
+  //proxy: proxy[REACT_APP_ENV || 'dev'],
+  proxy: {
+    '/admin-api/': {
+      target: "http://8.130.96.23:48080/admin-api/",
+      changeOrigin: true,
+      pathRewrite: { '^/admin-api': '' },
+    },
+  },
   manifest: {
     basePath: '/',
   },
