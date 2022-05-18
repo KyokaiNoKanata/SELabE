@@ -2,6 +2,7 @@ import DelegationList from "@/pages/tester/Delegation/components/DelegationList"
 import {useState} from "react";
 import {delegationPage} from "@/services/ant-design-pro/tester/api";
 import {currentUser} from "@/services/ant-design-pro/api";
+import {API} from "@/services/ant-design-pro/typings";
 
 const Delegation: React.FC = () => {
   const [roles,setRoles] = useState<[string]>([]);
@@ -12,14 +13,11 @@ const Delegation: React.FC = () => {
       },
       options?: Record<string, any>
     ) => {
-    const p: any = {
-      pageNo: params.current,
-      pageSize: params.pageSize,
-    };
+    const p: API.PageParams = params;
+    p.pageNo = p.current;
     const res = await delegationPage(p,options);
     const user = await currentUser();
     setRoles(user.data.roles)
-    //console.log(user.data.roles)
     return {
       data:res.data.list,
       total: res.data.total, //分页固定属性

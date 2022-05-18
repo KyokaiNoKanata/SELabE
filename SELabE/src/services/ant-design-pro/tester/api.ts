@@ -3,12 +3,13 @@ import request from "umi-request";
 /** 获取委托列表 GET /api/admin-api/system/delegation/page */
 export async function delegationPage(
   params: {
-    pageNo: number;
-    pageSize: number;
+    pageNo?: number;
+    pageSize?: number;
   },
   options?: Record<string, any>,
 ) {
-  console.log("request")
+  //console.log("request")
+
   return request<{
     code: number,
     data: {

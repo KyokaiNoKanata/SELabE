@@ -66,10 +66,17 @@ declare namespace API {
     msg?: string;
   };
 
-  type PageParams = {
+  interface IPageParams {
     pageNo?: number;
+    current?: number;
     pageSize?: number;
-  };
+  }
+  type PageParams = Pick<IPageParams,"pageNo" | "current">
+  /*type PageParams = {
+    [key: string]: number;
+    //pageNo?: number;
+    pageSize?: number;
+  };*/
 
   type RuleListItem = {
     key?: number;
