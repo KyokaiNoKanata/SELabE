@@ -10,14 +10,14 @@ declare namespace API {
     msg: string,
   }
   type DelegationItem = {
-    key?: Key;
+    //key?: Key;
     /*avatar?: string;
     workId?: number
     delegationId?: number;*/
 
+    id?: number;//编号
     contractId?: number;//合同id*
     creatorId?: number;//发起者编号
-    id?: number;//编号
     launchTime?: string;//发起时间*
     marketDeptStaffId?: number;//分配的市场部人员id
     marketRemark?: string;//市场部人员处理意见*
@@ -71,13 +71,24 @@ declare namespace API {
     current?: number;
     pageSize?: number;
   }
-  type PageParams = Pick<IPageParams,"pageNo" | "current">
+  type PageParams = Pick<IPageParams,"pageNo" | "current"> & DelegationItem;
   /*type PageParams = {
     [key: string]: number;
     //pageNo?: number;
     pageSize?: number;
   };*/
-
+  type DelegationProcessItem = {
+    delegationId: number,
+    fromState: number, //原状态
+    toState: number,   //现状态
+    id: number,
+    remark: string,
+    operatorId: number,
+    operateTime: string,
+    mapValue: {
+      delegation: DelegationItem,
+    }
+  }
   type RuleListItem = {
     key?: number;
     disabled?: boolean;

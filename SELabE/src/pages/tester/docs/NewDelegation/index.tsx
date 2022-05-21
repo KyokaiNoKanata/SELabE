@@ -26,9 +26,9 @@ const TabsCard = () => {
   const contentList = {
     委托申请书:
       <Card>
-        <StepApplyPage/>
+        <StepApplyPage editable={true}/>
       </Card>,
-    委托功能列表: <Card><FunctionList /></Card>,
+    委托功能列表: <Card><FunctionList editable={true} /></Card>,
   };
 
   return (

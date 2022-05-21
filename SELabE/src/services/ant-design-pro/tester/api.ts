@@ -1,4 +1,5 @@
 import request from "umi-request";
+import {DelegationProcessItem} from "@/services/ant-design-pro/typings";
 
 /** 获取委托列表 GET /api/admin-api/system/delegation/page */
 export async function delegationPage(
@@ -247,5 +248,18 @@ export async function saveTable14(body:{delegationId: number, data: any}) {
       delegationId: body.delegationId,
       data: body.data,
     }
+  })
+}
+//获得委托流程列表
+export async function getProcessList(params: {
+  id: number
+}) {
+  return request<{
+    code: number,
+    data: DelegationProcessItem[],
+    msg: string,
+  }>('/admin-api/system/delegation/get-process-list',{
+    method: 'GET',
+    params: params
   })
 }

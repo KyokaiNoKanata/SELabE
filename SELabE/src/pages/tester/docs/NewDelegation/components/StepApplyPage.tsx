@@ -13,10 +13,10 @@ import {PageContainer} from '@ant-design/pro-layout';
 import TextArea from "antd/es/input/TextArea";
 import {useLocation} from "umi";
 import {getDelegationByIds, getTable2, saveTable2 } from '@/services/ant-design-pro/tester/api';
+import React from "react";
 
 const Date: any = ProFormDatePicker;
-
-const StepApplyPage = () => {
+const StepApplyPage: React.FC<{ editable: boolean }> = (prop) => {
   const params = useLocation();
   const delegationId = (params as any).query.id;//ok
   const request = async () => {
@@ -83,6 +83,7 @@ const StepApplyPage = () => {
                 <Button key="gotoTwo" onClick={() => props.onPre?.()}>
                   {'<'} 上一步
                 </Button>,
+                prop.editable &&
                 <Button type="primary" key="goToTree" onClick={() => props.onSubmit?.()}>
                   保存
                 </Button>,
@@ -94,6 +95,7 @@ const StepApplyPage = () => {
           }}
           //formRef={formRef}
           onFinish={onSubmit}
+
         >
           <StepsForm.StepForm<{
             name: string;

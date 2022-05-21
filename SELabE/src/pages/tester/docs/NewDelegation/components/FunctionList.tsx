@@ -1,10 +1,11 @@
-import ProForm, { ProFormGroup, ProFormList, ProFormText } from '@ant-design/pro-form';
+import ProForm, {ProFormGroup, ProFormList, ProFormText} from '@ant-design/pro-form';
 import ProCard from '@ant-design/pro-card';
 import { PageContainer } from '@ant-design/pro-layout';
-import {PageHeader, message } from 'antd';
+import {PageHeader, message, Button} from 'antd';
 import { useLocation } from 'react-router-dom';
-import { getTable3,getDelegationByIds, saveTable3 } from '@/services/ant-design-pro/tester/api';
-const FunctionList = () => {
+import {getTable3, getDelegationByIds, saveTable3, submitDelegation} from '@/services/ant-design-pro/tester/api';
+import React from "react";
+const FunctionList: React.FC<{ editable: boolean }> = (prop) => {
   const params = useLocation();
   const delegationId = (params as any).query.id;//ok
 
@@ -40,6 +41,18 @@ const FunctionList = () => {
     });
     return true;
   };
+  /** 提交委托 */
+  const handleSubmitDelegation = async () => {
+    const res = await submitDelegation({
+      id: delegationId,
+    })
+    if(res.code == 0) {
+      message.success('委托已提交');
+    } else {
+      //message.error(res.msg)
+      message.error('请先保存表单');
+    }
+  }
   return (
     <PageContainer>
       <PageHeader
@@ -53,6 +66,12 @@ const FunctionList = () => {
                    resetText: '重置',
                    submitText: '保存',
                  },
+                 render: (props, doms) => {
+                   return prop.editable && [
+                     ...doms,
+                     <Button htmlType="button" onClick={handleSubmitDelegation} key='submit'>提交委托</Button>
+                   ]
+                 }
                }}
                //从后端请求数据显示
                request={request}

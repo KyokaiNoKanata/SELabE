@@ -88,7 +88,20 @@ export default [
             path: '/docs/softDocReview',
             name: '软件文档评审表',
             icon: 'smile',
-            component: './tester/docs/DocumentReview'
+            routes: [
+              {
+                path: '/docs/softDocReview/marketing',
+                name: '市场部评审',
+                icon: 'smile',
+                component: './tester/docs/DocumentReview/Marketing',
+              },
+              {
+                path: '/docs/softDocReview/testing',
+                name: '测试部评审',
+                icon: 'smile',
+                component: './tester/docs/DocumentReview/Testing',
+              }
+            ]
           },
           {
             path:'/docs/new-delegation',
