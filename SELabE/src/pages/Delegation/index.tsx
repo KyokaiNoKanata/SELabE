@@ -1,6 +1,6 @@
-import DelegationList from "@/pages/tester/Delegation/components/DelegationList";
+import DelegationList from "@/pages/Delegation/components/DelegationList";
 import {useState} from "react";
-import {delegationPage} from "@/services/ant-design-pro/tester/api";
+import {delegationPage} from "@/services/ant-design-pro/delegation/api";
 import {currentUser} from "@/services/ant-design-pro/api";
 import {API} from "@/services/ant-design-pro/typings";
 

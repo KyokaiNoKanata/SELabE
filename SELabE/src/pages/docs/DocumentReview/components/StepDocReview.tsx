@@ -15,7 +15,7 @@ import {
   saveTable14,
   testingAuditFail,
   testingAuditSuccess,
-} from '@/services/ant-design-pro/tester/api';
+} from '@/services/ant-design-pro/delegation/api';
 import React, {useRef, useState} from "react";
 import {EditableProTable, ProColumns} from "@ant-design/pro-table";
 

@@ -12,7 +12,7 @@ import {
   acceptOffer,
   getDelegationByIds, getOffer, rejectOffer,
   saveOffer, submitOffer,
-} from "@/services/ant-design-pro/tester/api";
+} from "@/services/ant-design-pro/delegation/api";
 import {useLocation} from "react-router-dom";
 import {ProFormInstance} from "@ant-design/pro-form/lib/BaseForm/BaseForm";
 

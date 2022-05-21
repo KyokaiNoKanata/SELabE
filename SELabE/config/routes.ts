@@ -71,7 +71,7 @@ export default [
         path: '/delegation',
         name: '查看委托',
         icon: 'smile',
-        component: './tester/Delegation',
+        component: './Delegation',
       },
       {
         path: '/docs',
@@ -82,7 +82,7 @@ export default [
             path: '/docs/schemeReview',
             name: '测试方案评审表',
             icon: 'smile',
-            component: './tester/docs/SchemeReview',
+            component: './docs/SchemeReview',
           },
           {
             path: '/docs/softDocReview',
@@ -93,13 +93,13 @@ export default [
                 path: '/docs/softDocReview/marketing',
                 name: '市场部评审',
                 icon: 'smile',
-                component: './tester/docs/DocumentReview/Marketing',
+                component: './docs/DocumentReview/Marketing',
               },
               {
                 path: '/docs/softDocReview/testing',
                 name: '测试部评审',
                 icon: 'smile',
-                component: './tester/docs/DocumentReview/Testing',
+                component: './docs/DocumentReview/Testing',
               }
             ]
           },
@@ -107,31 +107,31 @@ export default [
             path:'/docs/new-delegation',
             name:'填写委托',
             icon:'table',
-            component: './tester/docs/NewDelegation',
+            component: './docs/NewDelegation',
           },
           {
             name: '软件项目委托测试保密协议',
             icon: 'table',
             path: '/docs/confidentiality-agreement',
-            component: './tester/docs/ConfidentialityAgreement',
+            component: './docs/ConfidentialityAgreement',
           },
           {
             name: '软件委托测试合同',
             icon: 'table',
             path: '/docs/contract',
-            component: './tester/docs/Contract',
+            component: './docs/Contract',
           },
           {
             name: '报价单',
             path: '/docs/quotation/marketing',
             icon: 'smile',
-            component: './tester/docs/Quotation/Marketing',
+            component: './docs/Quotation/Marketing',
           },
           {
             name: '查看报价单',
             path: '/docs/quotation/client',
             icon: 'smile',
-            component: './tester/docs/Quotation/Client',
+            component: './docs/Quotation/Client',
           },
         ]
       },

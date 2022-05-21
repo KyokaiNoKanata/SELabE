@@ -3,7 +3,7 @@ import ProCard from '@ant-design/pro-card';
 import { PageContainer } from '@ant-design/pro-layout';
 import {PageHeader, message, Button} from 'antd';
 import { useLocation } from 'react-router-dom';
-import {getTable3, getDelegationByIds, saveTable3, submitDelegation} from '@/services/ant-design-pro/tester/api';
+import {getTable3, getDelegationByIds, saveTable3, submitDelegation} from '@/services/ant-design-pro/delegation/api';
 import React from "react";
 const FunctionList: React.FC<{ editable: boolean }> = (prop) => {
   const params = useLocation();

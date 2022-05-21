@@ -1,4 +1,4 @@
-import QuotationForm from "@/pages/tester/docs/Quotation/components/QuotationForm";
+import QuotationForm from "@/pages/docs/Quotation/components/QuotationForm";
 
 const Quotation = () => {
   return (

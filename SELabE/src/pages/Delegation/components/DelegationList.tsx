@@ -20,8 +20,8 @@ import {
   getSimpleUserByRole,
   distributeDelegationMarketing,
   distributeDelegationTesting,
-} from "@/services/ant-design-pro/tester/api";
-import DistributeForm from "@/pages/tester/Delegation/components/DistributeForm";
+} from "@/services/ant-design-pro/delegation/api";
+import DistributeForm from "@/pages/Delegation/components/DistributeForm";
 import { Link } from 'umi';
 import {FormattedDate} from "@@/plugin-locale/localeExports";
 /** 根据id删除委托 */

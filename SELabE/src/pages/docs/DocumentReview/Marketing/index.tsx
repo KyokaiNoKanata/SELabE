@@ -5,9 +5,9 @@ import { useLocation } from 'umi';
 import {
   marketingAuditFail,
   marketingAuditSuccess
-} from '@/services/ant-design-pro/tester/api';
-import StepApplyPage from "@/pages/tester/docs/NewDelegation/components/StepApplyPage";
-import FunctionList from "@/pages/tester/docs/NewDelegation/components/FunctionList";
+} from '@/services/ant-design-pro/delegation/api';
+import StepApplyPage from "@/pages/docs/NewDelegation/components/StepApplyPage";
+import FunctionList from "@/pages/docs/NewDelegation/components/FunctionList";
 const DocumentReviewMarketing = () => {
   const [activeTabKey, setActiveTabKey] = useState('委托申请书');
   const list = [

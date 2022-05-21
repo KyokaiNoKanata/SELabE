@@ -12,7 +12,7 @@ import {Button, Col, Form, message, PageHeader, Row} from 'antd';
 import {PageContainer} from '@ant-design/pro-layout';
 import TextArea from "antd/es/input/TextArea";
 import {useLocation} from "umi";
-import {getDelegationByIds, getTable2, saveTable2 } from '@/services/ant-design-pro/tester/api';
+import {getDelegationByIds, getTable2, saveTable2 } from '@/services/ant-design-pro/delegation/api';
 import React from "react";
 
 const Date: any = ProFormDatePicker;
