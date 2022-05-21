@@ -37,6 +37,12 @@ export default [
     component: './Welcome',
   },
   {
+    path: '/quotation',
+    name: 'quotation',
+    icon: 'smile',
+    component: './tester/docs/Quotation',
+  },
+  {
     path: '/admin',
     name: 'admin',
     icon: 'crown',
@@ -125,7 +131,6 @@ export default [
       },
     ],
   },
-
   {
     path: '/',
     redirect: '/welcome',
