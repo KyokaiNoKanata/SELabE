@@ -263,3 +263,55 @@ export async function getProcessList(params: {
     params: params
   })
 }
+// 报价单的获取，保存，提交
+export async function getOffer(params: {
+  id: string,//表格编号
+}) {
+  return request<API.Response>('/admin-api/system/delegation/get/offer',{
+    method: 'GET',
+    params: params
+  })
+}
+export async function saveOffer(
+  body: {
+    delegationId: number,
+    data: object,
+  }
+) {
+  return request<API.Response>('/admin-api/system/delegation/offer/save',{
+    method: 'PUT',
+    data: body,
+  })
+}
+export async function submitOffer(
+  body: {
+    delegationId: number,
+  }
+) {
+  return request<API.Response>('/admin-api/system/delegation/offer/submit',{
+    method: 'PUT',
+    data: body,
+  })
+}
+//报价的接受与拒绝
+export async function acceptOffer(
+  body: {
+    delegationId: number,
+  }
+) {
+  return request<API.Response>('/admin-api/system/delegation/offer/accept',{
+    method: 'PUT',
+    data: body,
+  })
+}
+export async function rejectOffer(
+  body: {
+    delegationId: number,
+    reason: string,
+  }
+) {
+  return request<API.Response>('/admin-api/system/delegation/offer/reject',{
+    method: 'PUT',
+    data: body,
+  })
+}

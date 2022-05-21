@@ -183,6 +183,7 @@ const DelegationList: React.FC<DelegationListType> = (props) => {
     {
       title: '合同编号',
       dataIndex: 'contractId',
+      hideInSearch: true,
     },
     /** 发起者人编号 creatorId show */
     {
@@ -208,6 +209,7 @@ const DelegationList: React.FC<DelegationListType> = (props) => {
       title: <FormattedMessage id="pages.searchTable.titleStatus" defaultMessage="Status" />,
       dataIndex: 'state',
       hideInForm: false,
+      hideInSearch: true,//
       //todo:render
     },
     /** 分配的市场部人员id marketDeptStaffId hide */
@@ -312,7 +314,7 @@ const DelegationList: React.FC<DelegationListType> = (props) => {
 
     /**用户 修改、删除 */
     {
-      title:'修改',
+      title:'修改名称',
       dataIndex: 'modify',
       valueType: 'option',
       hideInTable: !roles.includes('client'),
@@ -470,13 +472,21 @@ const DelegationList: React.FC<DelegationListType> = (props) => {
             </Link>
           ]
         }
-        else if(record.state == '市场部生成报价中'
+        else if((record.state == '市场部生成报价中' || record.state?.includes('市场部修改报价'))
           && roles.includes('marketing_department_staff')
           && record.marketDeptStaffId == props.user.id) {
-          return [<Link to={{ pathname:'/docs/quota', query: {id}}}>
-            <Button type="primary">生成报价 todo</Button>
+          return [<Link to={{ pathname:'/docs/quotation/marketing', query: {id}}}>
+            <Button type="primary">生成报价</Button>
           </Link>
             ]
+        }
+        else if(record.state == '客户处理报价中'
+          && roles.includes('client')
+          && record.creatorId == props.user.id) {
+          return [<Link to={{ pathname:'/docs/quotation/client', query: {id}}}>
+            <Button type="primary">处理报价</Button>
+          </Link>
+          ]
         }
         else{
           const {id} = record;

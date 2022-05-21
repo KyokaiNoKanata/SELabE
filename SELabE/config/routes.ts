@@ -37,12 +37,6 @@ export default [
     component: './Welcome',
   },
   {
-    path: '/quotation',
-    name: 'quotation',
-    icon: 'smile',
-    component: './tester/docs/Quotation',
-  },
-  {
     path: '/admin',
     name: 'admin',
     icon: 'crown',
@@ -126,7 +120,19 @@ export default [
             icon: 'table',
             path: '/docs/contract',
             component: './tester/docs/Contract',
-          }
+          },
+          {
+            name: '报价单',
+            path: '/docs/quotation/marketing',
+            icon: 'smile',
+            component: './tester/docs/Quotation/Marketing',
+          },
+          {
+            name: '查看报价单',
+            path: '/docs/quotation/client',
+            icon: 'smile',
+            component: './tester/docs/Quotation/Client',
+          },
         ]
       },
     ],
