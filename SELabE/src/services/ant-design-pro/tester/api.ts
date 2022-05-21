@@ -62,7 +62,7 @@ export async function deleteDelegation(params: {
 export async function updateDelegation(data: {
   id: number,
   name: string,
-  url: string,
+  url?: string,
 }) {
   return request<API.Response>('/admin-api/system/delegation/update',{
     method: 'PUT',

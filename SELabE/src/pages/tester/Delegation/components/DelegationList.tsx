@@ -6,7 +6,7 @@ import { PageContainer} from '@ant-design/pro-layout';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
 import {
-  ModalForm, ProFormSelect,
+  ModalForm,
   ProFormText,
 } from '@ant-design/pro-form';
 import type { ProDescriptionsItemProps } from '@ant-design/pro-descriptions';
@@ -17,8 +17,6 @@ import {
   deleteDelegation,
   updateDelegation,
   createDelegation,
-  marketingAuditFail,
-  marketingAuditSuccess,
   getSimpleUserByRole,
   distributeDelegationMarketing,
   distributeDelegationTesting,
@@ -49,18 +47,13 @@ const handleDelete = async (id: number) => {
 };
 
 /** 更新委托(id->名称，url) */
-const handleUpdateDelegation = async (params: {
+const handleUpdateDelegation = async (data: {
                                         id: number,
                                         name: string,
-                                        //url: string,
+                                        url?: string,
                                       }
 ) => {
-  const res = await updateDelegation({
-      id: params.id,
-      name: params.name,
-      url: params.url,
-    }
-  )
+  const res = await updateDelegation(data)
   if(res.code == 0) {
     message.success('更新委托成功')
   } else {
@@ -139,6 +132,7 @@ const handleDistributeDelegationTesting = async (data: {
 export type DelegationListType = {
   request: any; //从后端获取数据（带条件，比如发起者是自己的）
   roles: [string];
+  user: any;//当前用户信息
 }
 const DelegationList: React.FC<DelegationListType> = (props) => {
 
@@ -362,7 +356,7 @@ const DelegationList: React.FC<DelegationListType> = (props) => {
       title: '删除',
       dataIndex: 'delete',
       valueType: 'option',
-      hideInTable: !roles.includes('client'),
+      hideInTable: true,
       sorter:false,
       render: (text, record) => [
         /**删除(含确认dialog)*/
@@ -398,21 +392,26 @@ const DelegationList: React.FC<DelegationListType> = (props) => {
       sorter:false,
       render: (text, record) => {
         const {id} = record;
-        if(record.state == '委托填写中') {
+        if(record.state == '委托填写中'
+          && roles.includes('client')
+          && record.creatorId == props.user.id) {
           return [
             <Link to={{ pathname:'/docs/new-delegation', query: {id}}}>
               <Button type="primary">填写委托</Button>
             </Link>
           ]
         }
-        else if(record.state?.includes('委托修改中')) {
+        else if(record.state?.includes('委托修改中')
+          && roles.includes('client')
+          && record.creatorId == props.user.id) {
           return [
             <Link to={{ pathname:'/docs/new-delegation', query: {id}}}>
               <Button type="primary">修改委托</Button>
             </Link>
           ]
         }
-        else if(record.state == '等待市场部主管分配市场部人员') {
+        else if(record.state == '等待市场部主管分配市场部人员'
+          && roles.includes('marketing_department_manger')) {
           return [
             <DistributeForm
               key={'distributeMarket'}
@@ -432,7 +431,8 @@ const DelegationList: React.FC<DelegationListType> = (props) => {
               }} />
           ]
         }
-        else if(record.state == '等待测试部主管分配测试部人员') {
+        else if(record.state == '等待测试部主管分配测试部人员'
+          && roles.includes('test_department_manager')) {
           return [
             <DistributeForm
               key={'distributeTest'}
@@ -452,21 +452,27 @@ const DelegationList: React.FC<DelegationListType> = (props) => {
               }}/>
           ]
         }
-        else if(record.state == '市场部审核委托中') {
+        else if(record.state == '市场部审核委托中'
+          && roles.includes('marketing_department_staff')
+          && record.marketDeptStaffId == props.user.id) {
           return [
             <Link to={{ pathname:'/docs/softDocReview/marketing', query: {id}}}>
               <Button type="primary">审核委托</Button>
             </Link>
           ]
         }
-        else if(record.state == '测试部审核委托中') {
+        else if(record.state == '测试部审核委托中'
+          && roles.includes('test_department_staff')
+          && record.testingDeptStaffId == props.user.id) {
           return [
             <Link to={{ pathname:'/docs/softDocReview/testing', query: {id}}}>
               <Button type="primary">审核委托</Button>
             </Link>
           ]
         }
-        else if(record.state == '市场部生成报价中') {
+        else if(record.state == '市场部生成报价中'
+          && roles.includes('marketing_department_staff')
+          && record.marketDeptStaffId == props.user.id) {
           return [<Link to={{ pathname:'/docs/quota', query: {id}}}>
             <Button type="primary">生成报价 todo</Button>
           </Link>
@@ -566,12 +572,16 @@ const DelegationList: React.FC<DelegationListType> = (props) => {
                     //console.log(selectedRowsState);
                     const ids = selectedRowsState.map(record => record.id);
                     //console.log(ids);
-
+                    setSelectedRows([]);
+                    if(!roles.includes('client')) {
+                      message.error('您没有权限删除委托');
+                      return;
+                    }
                     // ?
                     ids.forEach((id: any) => {
                       handleDelete(id).then(() => actionRef.current?.reloadAndRest?.());
                     })
-                    setSelectedRows([]);
+
                   },
                   onCancel() {
                     console.log('Cancel');
@@ -630,7 +640,11 @@ const DelegationList: React.FC<DelegationListType> = (props) => {
         onFinish={async (value: {
           name: string
         }) => {
-          console.log(value);
+          if(!roles.includes('client')) {
+            message.error('您没有权限创建委托');
+            return;
+          }
+          //console.log(value);
           const success = await handleCreateDelegation(value);
           if (success) {
             handleModalVisible(false);

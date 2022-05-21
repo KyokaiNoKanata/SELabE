@@ -6,6 +6,11 @@ import {API} from "@/services/ant-design-pro/typings";
 
 const Delegation: React.FC = () => {
   const [roles,setRoles] = useState<[string]>([]);
+  const [userInfo,setUser] = useState<{
+    avatar?: string,
+    nickname?: string,
+    id?: string,
+  }>({});
   const request= async (
       params: {//传入的参数名固定叫 current 和 pageSize
         pageSize?: number;
@@ -18,33 +23,31 @@ const Delegation: React.FC = () => {
     console.log(p);
 
     const user = await currentUser();
-    setRoles(user.data.roles);
-    console.log(user.data.roles)
-    //TODO:设置当前用户可见的委托
-    /*if(!roles.includes('super_admin')) {
-      //市场部主管->分配
-      if(user.data.roles.includes('marketing_department_manger')) {
-        p.state = '20';
-      }
-      //测试部主管->分配
-      else if(user.data.roles.includes('test_department_manager')) {
-        p.state = '30'
-      }
-      //市场部员工
-      else if(user.data.roles.includes('marketing_department_staff')) {
+    setUser(user.data.user)
+    const role = user.data.roles;
+    setRoles(role);
+    //console.log(user.data.roles)
+    //设置当前用户可见的委托
+    //super_admin/marketing_department_manger/test_department_manager:可以看到全部
+    //防止一个用户有多种role带来的问题
+    if(role.includes('super_admin')
+      || role.includes('marketing_department_manger')
+      || role.includes('test_department_manager')) {
+    } else {
+      if(user.data.roles.includes('marketing_department_staff')) {
         p.marketDeptStaffId = user.data.user.id;
-        p.state = '40';
+        //p.state = '40';
       }
       //测试部员工
       else if(user.data.roles.includes('testing_department_staff')) {
         p.testingDeptStaffId = user.data.user.id;
-        p.state = '50'
+        //p.state = '50';
       }
       //客户
       else if(user.data.roles.includes('client')) {
         p.creatorId = user.data.user.id;
       }
-    }*/
+    }
     const res = await delegationPage(p,options);
     return {
       data:res.data.list,
@@ -54,7 +57,8 @@ const Delegation: React.FC = () => {
   return (
     <DelegationList
       request={request}
-      roles={roles}>
+      roles={roles}
+      user={userInfo}>
     </DelegationList>
   )
 }
