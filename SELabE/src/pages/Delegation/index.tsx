@@ -1,9 +1,17 @@
 import DelegationList from "@/pages/Delegation/components/DelegationList";
 import {useState} from "react";
-import {delegationPage} from "@/services/ant-design-pro/delegation/api";
+import {delegationPage, getProcessList} from "@/services/ant-design-pro/delegation/api";
 import {currentUser} from "@/services/ant-design-pro/api";
 import {API} from "@/services/ant-design-pro/typings";
 
+//获取状态变更时间
+const getOperateTime = async (delegationId: number) => {
+  const process = await getProcessList({
+    id: delegationId,
+  });
+  const operateTime = process.data[process.data.length-1].operateTime;
+  return operateTime;
+}
 const Delegation: React.FC = () => {
   const [roles,setRoles] = useState<[string]>([]);
   const [userInfo,setUser] = useState<{
@@ -49,6 +57,11 @@ const Delegation: React.FC = () => {
       }
     }
     const res = await delegationPage(p,options);
+    //状态变更时间
+    for(let i = 0; i < res.data.list.length; i++) {
+      res.data.list[i].operateTime = await getOperateTime(res.data.list[i].id);
+    }
+
     return {
       data:res.data.list,
       total: res.data.total, //分页固定属性

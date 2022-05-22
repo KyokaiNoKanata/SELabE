@@ -10,10 +10,7 @@ declare namespace API {
     msg: string,
   }
   type DelegationItem = {
-    //key?: Key;
-    /*avatar?: string;
-    workId?: number
-    delegationId?: number;*/
+    operateTime?: string;//状态变更时间
 
     id?: number;//编号
     contractId?: number;//合同id*

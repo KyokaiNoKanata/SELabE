@@ -184,13 +184,14 @@ const DelegationList: React.FC<DelegationListType> = (props) => {
       title: '合同编号',
       dataIndex: 'contractId',
       hideInSearch: true,
+      hideInTable: true,
     },
     /** 发起者人编号 creatorId show */
     {
       title: '发起人编号',
       dataIndex: 'creatorId',
       hideInSearch: true,
-      hideInTable: false,
+      hideInTable: true,
     },
     /** 发起时间 launchTime show */
     {
@@ -201,7 +202,7 @@ const DelegationList: React.FC<DelegationListType> = (props) => {
       valueType: 'dateTime',
       render: (text, record) => [
         // todo format Date
-        <label key={'time'}>{FormattedDate((record.launchTime), 'yyyy-MM-dd HH:mm:ss')}</label>
+        new Date(record.launchTime).toLocaleString()
       ]
     },
     /**状态 status show */
@@ -211,6 +212,20 @@ const DelegationList: React.FC<DelegationListType> = (props) => {
       hideInForm: false,
       hideInSearch: true,//
       //todo:render
+    },
+    //状态变更时间
+    {
+      title: '状态变更时间',
+      dataIndex: 'operateTime',
+      hideInSearch: true,
+      hideInTable: false,
+      valueType: 'dateTime',
+      render: (text, record) => [
+        // todo format Date
+        //String(new Date(record.operateTime))
+        //new Date(record.operateTime).toLocaleTimeString()
+        new Date(record.operateTime).toLocaleString()
+      ]
     },
     /** 分配的市场部人员id marketDeptStaffId hide */
     {
