@@ -17,9 +17,10 @@ export default {
   },
   test: {
     '/api/': {
-      target: 'https://proapi.azurewebsites.net',
+      //target: 'http://127.0.0.1:4523/mock/923899',
+      target: 'http://127.0.0.1:48080',
       changeOrigin: true,
-      pathRewrite: { '^': '' },
+      pathRewrite: { '^/api': '' },
     },
   },
   pre: {
