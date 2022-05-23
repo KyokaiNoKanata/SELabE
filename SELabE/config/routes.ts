@@ -68,7 +68,7 @@ export default [
     //component: './tester/delegation',
     routes: [
       {
-        path: '/delegation',
+        path: 'delegation/checkAll/show/:id',
         name: '查看委托',
         icon: 'smile',
         component: './Delegation',
