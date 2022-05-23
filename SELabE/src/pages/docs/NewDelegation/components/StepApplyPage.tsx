@@ -505,42 +505,6 @@ const StepApplyPage: React.FC<{ editable: boolean,isClient: boolean }> = (prop) 
               </ProForm.Group>
             </ProCard>
             <ProCard bordered>
-              <ProForm.Group>
-                <ProFormSelect
-                  width='md'
-                  name='确认意见'
-                  label='确认意见'
-                  disabled={prop.isClient}
-                  valueEnum={
-                    {
-                      确认意见1: "测试所需材料不全，未达到受理条件。",
-                      确认意见2: "属依据国家标准或自编非标规范进行的常规检测，有资质、能力和资源满足委托方要求。",
-                      确认意见3: "无国家标准和规范依据，或实验室缺乏检测设备和工具，无法完成检测。",
-                      确认意见4: "超出实验室能力和资质范围，无法完成检测。"
-                    }
-                  }
-                  placeholder="请选择"
-                  rules={[{required: true}]}
-                />
-                <ProFormSelect
-                  width='md'
-                  name='受理意见'
-                  label='受理意见'
-                  disabled={prop.isClient}
-                  valueEnum={
-                    {
-                      受理意见1: "受理-进入项目立项和合同评审流程",
-                      受理意见2: "不受理",
-                      受理意见3: "进一步联系"
-                    }
-                  }
-                  placeholder="请选择"
-                  rules={[{required: true}]}
-                >
-                </ProFormSelect>
-              </ProForm.Group>
-            </ProCard>
-            <ProCard bordered>
               <ProFormText width='md' label='测试项目编号' name='测试项目编号' rules={[{required: true}]} disabled={prop.isClient}></ProFormText>
             </ProCard>
             <ProCard bordered>
