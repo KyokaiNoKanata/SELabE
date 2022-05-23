@@ -86,6 +86,7 @@ const fetchMenuData = async () => {
 };
 
 // ProLayout 支持的api https://procomponents.ant.design/components/layout
+/*
 export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) => {
   return {
     menu: {
@@ -151,3 +152,4 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
     ...initialState?.settings,
   };
 };
+*/

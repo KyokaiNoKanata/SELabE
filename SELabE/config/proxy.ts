@@ -10,7 +10,7 @@ export default {
   dev: {
     // localhost:8000/api/** -> https://preview.pro.ant.design/api/**
     '/admin-api/': {
-      target: "http://8.130.96.23:48080/admin-api/",
+      target: "http://210.28.133.13:21247/admin-api/",
       changeOrigin: true,
       pathRewrite: { '^/server': '' },
     },

@@ -51,7 +51,7 @@ export default defineConfig({
   //proxy: proxy[REACT_APP_ENV || 'dev'],
   proxy: {
     '/admin-api/': {
-      target: "http://8.130.96.23:48080/admin-api/",
+      target: "http://210.28.133.13:21247/admin-api/",
       changeOrigin: true,
       pathRewrite: { '^/admin-api': '' },
     },
