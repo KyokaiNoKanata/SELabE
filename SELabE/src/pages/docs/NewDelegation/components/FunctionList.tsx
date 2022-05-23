@@ -5,7 +5,7 @@ import {PageHeader, message, Button} from 'antd';
 import { useLocation } from 'react-router-dom';
 import {getTable3, getDelegationByIds, saveTable3, submitDelegation} from '@/services/ant-design-pro/delegation/api';
 import React from "react";
-const FunctionList: React.FC<{ editable: boolean }> = (prop) => {
+const FunctionList: React.FC<{ editable: boolean,isClient: boolean}> = (prop) => {
   const params = useLocation();
   const delegationId = (params as any).query.id;//ok
 
@@ -53,6 +53,8 @@ const FunctionList: React.FC<{ editable: boolean }> = (prop) => {
       message.error('请先保存表单');
     }
   }
+  // @ts-ignore
+  // @ts-ignore
   return (
     <PageContainer>
       <PageHeader
@@ -76,11 +78,18 @@ const FunctionList: React.FC<{ editable: boolean }> = (prop) => {
                //从后端请求数据显示
                request={request}
       >
-        <ProFormText key={'name'} name="name" label="软件名称" />
-        <ProFormText key={'version'} name="version" label="版本号" />
+        <ProFormText key={'name'} name="name" label="软件名称" disabled={prop.isClient}/>
+        <ProFormText key={'version'} name="version" label="版本号" disabled={prop.isClient}/>
         <ProFormList
           name="function"
           label="功能列表"
+          creatorButtonProps={prop.isClient ? false:{}}
+          copyIconProps={prop.isClient ? false:{
+            tooltipText: '复制此行到末尾',
+          }}
+          deleteIconProps={prop.isClient ? false:{
+            tooltipText: '不需要这行了',
+          }}
           itemRender={({ listDom, action }, { record }) => {
             return (
               <ProCard
@@ -97,12 +106,12 @@ const FunctionList: React.FC<{ editable: boolean }> = (prop) => {
           }}
         >
           <ProFormGroup>
-            <ProFormText name="ffunction" label="功能名称"  />
+            <ProFormText name="ffunction" label="功能名称" disabled={prop.isClient} />
           </ProFormGroup>
           <ProFormList
             name="mfunction"
             label="子功能列表"
-
+            creatorButtonProps={prop.isClient ? false:{}}
             itemRender={({ listDom, action }, { record }) => {
               return (
                 <ProCard
@@ -114,17 +123,17 @@ const FunctionList: React.FC<{ editable: boolean }> = (prop) => {
                 </ProCard>
               );
             }}
-            copyIconProps={{
+            copyIconProps={prop.isClient ? false:{
               tooltipText: '复制此行到末尾',
             }}
-            deleteIconProps={{
+            deleteIconProps={prop.isClient ? false:{
               tooltipText: '不需要这行了',
             }}
           >
 
             <ProFormGroup key="group">
-              <ProFormText name="value" label="子功能名称" />
-              <ProFormText name="label" label="子功能说明"  />
+              <ProFormText name="value" label="子功能名称" disabled={prop.isClient}/>
+              <ProFormText name="label" label="子功能说明"  disabled={prop.isClient}/>
             </ProFormGroup>
 
           </ProFormList>
