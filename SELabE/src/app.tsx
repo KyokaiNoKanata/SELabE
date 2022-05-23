@@ -86,9 +86,9 @@ const fetchMenuData = async () => {
 };
 
 // ProLayout 支持的api https://procomponents.ant.design/components/layout
-/*
 export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) => {
   return {
+    /*
     menu: {
       // 每当 initialState?.currentUser?.userid 发生修改时重新执行 request
       params: {
@@ -99,6 +99,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
         return menuData;
       },
     },
+    */
     rightContentRender: () => <RightContent />,
     disableContentMargin: false,
     waterMarkProps: {
@@ -152,4 +153,3 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
     ...initialState?.settings,
   };
 };
-*/

@@ -22,7 +22,7 @@ const DocumentReviewMarketing = () => {
     },
     {
       key: '评审表',
-      tab: '填写评审表',
+      tab: '填写评审意见',
     }
   ];
   const onTabChange = (key: any) => {
