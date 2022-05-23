@@ -518,10 +518,7 @@ const StepApplyPage: React.FC<{ editable: boolean,isClient: boolean }> = (prop) 
             </ProCard>
 
             <ProCard bordered={true}>
-              <ProForm.Group>
-                <ProFormText name="受理人（签字）" label="受理人（签字）" disabled={!prop.isClient}></ProFormText>
-                <Date name="受理人_日期" label="日期" disabled={!prop.isClient}></Date>
-              </ProForm.Group>
+
               <ProForm.Group>
                 <ProFormText name="委托人（签字）" label="委托人（签字）" rules={[{required: true}]} disabled={prop.isClient}></ProFormText>
                 <Date name="委托人_日期" label="日期" disabled={prop.isClient}></Date>

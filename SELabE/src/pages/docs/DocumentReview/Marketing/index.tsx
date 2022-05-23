@@ -1,6 +1,6 @@
 import React, {useRef, useState} from 'react';
 import {Card, message, PageHeader} from 'antd';
-import ProForm, {ProFormInstance, ProFormSelect, ProFormText} from '@ant-design/pro-form';
+import ProForm, {ProFormDatePicker, ProFormInstance, ProFormSelect, ProFormText} from '@ant-design/pro-form';
 import { useLocation } from 'umi';
 import {
   marketingAuditFail,
@@ -8,6 +8,7 @@ import {
 } from '@/services/ant-design-pro/delegation/api';
 import StepApplyPage from "@/pages/docs/NewDelegation/components/StepApplyPage";
 import FunctionList from "@/pages/docs/NewDelegation/components/FunctionList";
+const Date: any = ProFormDatePicker;
 const DocumentReviewMarketing = () => {
   const [activeTabKey, setActiveTabKey] = useState('委托申请书');
   const list = [
@@ -64,7 +65,8 @@ const DocumentReviewMarketing = () => {
   const formRef: React.MutableRefObject<ProFormInstance | undefined> = useRef<ProFormInstance>();
   const onSubmit = async () => {
     const pass = formRef.current?.getFieldFormatValue!(['pass']);
-    const remark = formRef.current?.getFieldFormatValue!(['testingRemark']);
+    const remark = formRef.current?.getFieldFormatValue!(['confirmopinion'])+formRef.current?.getFieldFormatValue!(['testingRemark']);
+    console.log(remark);
     if(pass == 0) {
       await handleAuditSuccessMarketing({
         id: delegationId,
@@ -103,68 +105,61 @@ const DocumentReviewMarketing = () => {
         }}
         formRef={formRef}
       onFinish={onSubmit}>
+
+      <ProForm.Group>
+        <PageHeader
+          //className="reviewMarketing"
+          title=""
+        />
+
+        <ProFormSelect
+          width='md'
+          name='confirmopinion'
+          label='确认意见'
+          valueEnum={
+            {
+              "测试所需材料不全，未达到受理条件。": "测试所需材料不全，未达到受理条件。",
+              "属依据国家标准或自编非标规范进行的常规检测，有资质、能力和资源满足委托方要求。": "属依据国家标准或自编非标规范进行的常规检测，有资质、能力和资源满足委托方要求。",
+              "无国家标准和规范依据，或实验室缺乏检测设备和工具，无法完成检测。": "无国家标准和规范依据，或实验室缺乏检测设备和工具，无法完成检测。",
+              "超出实验室能力和资质范围，无法完成检测。": "超出实验室能力和资质范围，无法完成检测。"
+            }
+          }
+          placeholder="请选择"
+          rules={[{required: true}]}
+        />
+        <ProFormText
+          width="md"
+          name="testingRemark"
+          label="备注"
+          placeholder="请输入审核意见"
+          initialValue={''}
+        />
+      </ProForm.Group>
         <ProForm.Group>
           <PageHeader
             //className="reviewMarketing"
             title=""
           />
           <ProFormSelect
-            width='md'
-            name='确认意见'
-            label='确认意见'
-            valueEnum={
-              {
-                确认意见1: "测试所需材料不全，未达到受理条件。",
-                确认意见2: "属依据国家标准或自编非标规范进行的常规检测，有资质、能力和资源满足委托方要求。",
-                确认意见3: "无国家标准和规范依据，或实验室缺乏检测设备和工具，无法完成检测。",
-                确认意见4: "超出实验室能力和资质范围，无法完成检测。"
-              }
-            }
-            placeholder="请选择"
-            rules={[{required: true}]}
+            showSearch
+            width="md"
+            label="受理意见"
+            name="pass"
+            placeholder={'选择是否通过'}
+            valueEnum={{
+              0: '受理',
+              1: '不受理',
+            }}
+            required
           />
-          <ProFormSelect
-            width='md'
-            name='受理意见'
-            label='受理意见'
-            valueEnum={
-              {
-                受理意见1: "受理-进入项目立项和合同评审流程",
-                受理意见2: "不受理",
-                受理意见3: "进一步联系"
-              }
-            }
-            placeholder="请选择"
-            rules={[{required: true}]}
-          >
-          </ProFormSelect>
         </ProForm.Group>
-      <ProForm.Group>
-        <PageHeader
-          //className="reviewMarketing"
-          title=""
-        />
-        <ProFormSelect
-          showSearch
-          width="md"
-          label="是否通过"
-          name="pass"
-          placeholder={'选择是否通过'}
-          valueEnum={{
-            0: '通过',
-            1: '不通过',
-          }}
-          required
-        />
-        <ProFormText
-          width="md"
-          name="testingRemark"
-          label="审核意见"
-          placeholder="请输入审核意见"
-          initialValue={''}
-        />
-      </ProForm.Group>
-
+        <ProForm.Group>
+          <PageHeader
+            //className="reviewMarketing"
+            title="">c</PageHeader>
+          <ProFormText name="受理人（签字）" label="受理人（签字）" rules={[{required: true}]} ></ProFormText>
+          <Date name="受理人_日期" label="日期"  rules={[{required: true}]}></Date>
+        </ProForm.Group>
       </ProForm>
     </Card>,
   };
