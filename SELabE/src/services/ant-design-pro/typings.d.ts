@@ -1,55 +1,58 @@
 // @ts-ignore
 /* eslint-disable */
 
-import {Key} from "react";
-
 declare namespace API {
   type Response = {
-    code: number,//0:ok
-    data: any,
-    msg: string,
-  }
+    code: number; //0:ok
+    data: any;
+    msg: string;
+  };
   type DelegationItem = {
-    operateTime?: string;//状态变更时间
+    operateTime?: string; //状态变更时间
 
-    id?: number;//编号
-    contractId?: number;//合同id*
-    creatorId?: number;//发起者编号
-    launchTime?: string;//发起时间*
-    marketDeptStaffId?: number;//分配的市场部人员id
-    marketRemark?: string;//市场部人员处理意见*
-    offerId?: string;//报价单ID
-    offerRemark?: string;//用户报价单意见*
-    reportId?: number;//测试报告id
-    sampleId?: number;//样品id
-    solutionId?: number;//测试方案id
-    state?: string;//状态*
-    table14Id?: string;//软件文档评审表ID
-    table2Id?: string;//软件项目委托测试申请表ID
-    table3Id?: string;//委托测试软件功能列表ID
-    testingDeptStaffId?: number;//分配的测试部人员id
-    testingRemark?: string;//测试部人员处理意见*
-    url?: string;//文档材料url
-  }
+    id?: number; //编号
+    contractId?: number; //合同id*
+    creatorId?: number; //发起者编号
+    launchTime?: string; //发起时间*
+    marketDeptStaffId?: number; //分配的市场部人员id
+    marketRemark?: string; //市场部人员处理意见*
+    offerId?: string; //报价单ID
+    offerRemark?: string; //用户报价单意见*
+    reportId?: number; //测试报告id
+    sampleId?: number; //样品id
+    solutionId?: number; //测试方案id
+    state?: string; //状态*
+    table14Id?: string; //软件文档评审表ID
+    table2Id?: string; //软件项目委托测试申请表ID
+    table3Id?: string; //委托测试软件功能列表ID
+    testingDeptStaffId?: number; //分配的测试部人员id
+    testingRemark?: string; //测试部人员处理意见*
+    url?: string; //文档材料url
+  };
   type DelegationList = {
-    data?: DelegationItem[],
+    data?: DelegationItem[];
     /** 列表的内容总数 */
     total?: number;
     success?: boolean;
-  }
+  };
   type CurrentUser = {
     code?: number;
     data?: {
-      user? :{
+      user?: {
         avatar?: string;
         nickname?: string;
         id?: string;
-      }
+      };
     };
     msg?: string;
-
   };
-
+  type SolutionItem = {
+    auditorId?: number;
+    createTime?: string;
+    id: ?number;
+    table13Id?: string;
+    table6Id?: string;
+  };
   type LoginResult = {
     status?: string;
     type?: string;
@@ -68,24 +71,25 @@ declare namespace API {
     current?: number;
     pageSize?: number;
   }
-  type PageParams = Pick<IPageParams,"pageNo" | "current"> & DelegationItem;
+
+  type PageParams = Pick<IPageParams, 'pageNo' | 'current'> & DelegationItem;
   /*type PageParams = {
     [key: string]: number;
     //pageNo?: number;
     pageSize?: number;
   };*/
   type DelegationProcessItem = {
-    delegationId: number,
-    fromState: number, //原状态
-    toState: number,   //现状态
-    id: number,
-    remark: string,
-    operatorId: number,
-    operateTime: string,
+    delegationId: number;
+    fromState: number; //原状态
+    toState: number; //现状态
+    id: number;
+    remark: string;
+    operatorId: number;
+    operateTime: string;
     mapValue: {
-      delegation: DelegationItem,
-    }
-  }
+      delegation: DelegationItem;
+    };
+  };
   type RuleListItem = {
     key?: number;
     disabled?: boolean;
@@ -151,3 +155,5 @@ declare namespace API {
     type?: NoticeIconItemType;
   };
 }
+
+export class SolutionItem {}

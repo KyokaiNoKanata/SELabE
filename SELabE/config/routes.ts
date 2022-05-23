@@ -74,6 +74,12 @@ export default [
         component: './Delegation',
       },
       {
+        path: '/solution',
+        name: '查看测试方案',
+        icon: 'smile',
+        component: './Solution',
+      },
+      {
         path: '/docs',
         name: '文档',
         icon: 'smile',
@@ -100,14 +106,20 @@ export default [
                 name: '测试部评审',
                 icon: 'smile',
                 component: './docs/DocumentReview/Testing',
-              }
-            ]
+              },
+            ],
           },
           {
-            path:'/docs/new-delegation',
-            name:'填写委托',
-            icon:'table',
+            path: '/docs/new-delegation',
+            name: '填写委托',
+            icon: 'table',
             component: './docs/NewDelegation',
+          },
+          {
+            path: '/docs/new-solution',
+            name: '填写测试方案',
+            icon: 'table',
+            component: './docs/NewSolution',
           },
           {
             name: '软件项目委托测试保密协议',
@@ -133,7 +145,7 @@ export default [
             icon: 'smile',
             component: './docs/Quotation/Client',
           },
-        ]
+        ],
       },
     ],
   },
