@@ -380,7 +380,7 @@ const StepDocReview = () => {
     if(res.data == true) {
       message.success('提交成功');
     } else {
-      message.warning('请先保存')
+      message.error(res.msg)
     }
   }
   //通过
@@ -396,7 +396,7 @@ const StepDocReview = () => {
     if(res.code == 0) {
       message.success('提交成功');
     } else {
-      message.warning('请先保存')
+      message.error(res.msg)
     }
   }
   const onSubmit = async () => {

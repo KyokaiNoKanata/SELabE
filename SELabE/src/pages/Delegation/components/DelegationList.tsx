@@ -17,13 +17,10 @@ import {
   deleteDelegation,
   updateDelegation,
   createDelegation,
-  getSimpleUserByRole,
-  distributeDelegationMarketing,
-  distributeDelegationTesting,
+  //getSimpleUserByRole,
+  getProcessList,
 } from "@/services/ant-design-pro/delegation/api";
-import DistributeForm from "@/pages/Delegation/components/DistributeForm";
-import { Link } from 'umi';
-import {FormattedDate} from "@@/plugin-locale/localeExports";
+import {API} from "@/services/ant-design-pro/typings";
 /** 根据id删除委托 */
 const handleDelete = async (id: number) => {
   const hide = message.loading('提交中');
@@ -46,7 +43,7 @@ const handleDelete = async (id: number) => {
   }
 };
 
-/** 更新委托(id->名称，url) */
+/** 更新委托(id->名称，url)
 const handleUpdateDelegation = async (data: {
                                         id: number,
                                         name: string,
@@ -61,6 +58,7 @@ const handleUpdateDelegation = async (data: {
   }
   return res.data;
 }
+ */
 
 /** 新增委托(name->id) */
 const handleCreateDelegation = async (params: {
@@ -85,58 +83,64 @@ const handleCreateDelegation = async (params: {
  * @return options:{label,value}[]
  */
 
-const handleGetUserByRole = async (params: {
-  roleCode: string,
-}) => {
-  const res = await getSimpleUserByRole(params);
-  //select 固定的格式
-  type Option = {
-    label: string,
-    value: string,
-  }
-  const options: Option[] = [];
-  res.data.forEach(item => {
-    options.push({
-      label: item.nickname,
-      value: item.id,
-    })
-  })
-  return options
-}
-/**市场部主管分配委托 */
-const handleDistributeDelegationMarketing = async (data: {
-  acceptorId: number,//接收委托的工作人员id
-  id: number,//委托编号
-}) => {
-  const resp = await  distributeDelegationMarketing(data);
-  if(resp.code == 0) {
-    message.success('分配成功');
+const handleUpdateDelegation = async (data: {
+                                        id: number,
+                                        name: string,
+                                        url?: string,
+                                      }
+) => {
+  console.log('handle update')
+  const res = await updateDelegation(data)
+  if(res.code == 0) {
+    message.success('更新委托成功')
   } else {
-    message.error(resp.msg)
+    message.error(res.msg)
   }
+  return res.data;
 }
-/**测试主管分配委托 */
-const handleDistributeDelegationTesting = async (data: {
-  acceptorId: number,//接收委托的工作人员id
-  id: number,//委托编号
-}) => {
-  const resp = await  distributeDelegationTesting(data);
-  if(resp.code == 0) {
-    message.success('分配成功');
-  } else {
-    message.error(resp.msg)
-  }
+const getOperateTime = async (delegationId: number) => {
+  const process = await getProcessList({
+    id: delegationId,
+  });
+  const operateTime = process.data[process.data.length-1].operateTime;
+  return operateTime;
 }
-
-
 export type DelegationListType = {
   request: any; //从后端获取数据（带条件，比如发起者是自己的）
-  roles: [string];
+  roles: string[];//权限集合
   user: any;//当前用户信息
+  //operation: string[];//操作集合，例如审核，填写，分配等
+  operationColumns: ProColumns<API.DelegationItem>[];//额外的操作列
+  actionRef?: React.MutableRefObject<ActionType | undefined>;
+  params?: (param: API.PageParams, roles: string[], user: {
+    avatar?: string,
+    nickname?: string,
+    id?: number,
+  }) => API.PageParams[];
 }
 const DelegationList: React.FC<DelegationListType> = (props) => {
-
-  const actionRef = useRef<ActionType>();
+  const request = async (
+    params: {//传入的参数名固定叫 current 和 pageSize
+      pageSize?: number;
+      current?: number;
+    },
+    options?: Record<string, any>
+  ) => {
+    const result = await props.request(params,options)
+      //状态变更时间
+    for(let i = 0; i < result.list.length; i++) {
+      result.list[i].operateTime = await getOperateTime(result.list[i].id!);
+    }
+    return {
+      data: result.list,
+      total: result.total, //分页固定属性
+      result: true,
+    }
+  }
+  let actionRef = useRef<ActionType>();
+  if(props.actionRef) {
+    actionRef = props.actionRef;
+  }
   const [currentRow, setCurrentRow] = useState<API.DelegationItem>();
   const [selectedRowsState, setSelectedRows] = useState<API.DelegationItem[]>([]);
   const [createModalVisible, handleModalVisible] = useState<boolean>(false);//新建
@@ -148,7 +152,7 @@ const DelegationList: React.FC<DelegationListType> = (props) => {
    * */
   const intl = useIntl();
   const roles = props.roles;
-  const columns: ProColumns<API.DelegationItem>[] = [
+  let columns: ProColumns<API.DelegationItem>[] = [
     /** 委托编号 show */
     {
       title: '编号',
@@ -202,7 +206,7 @@ const DelegationList: React.FC<DelegationListType> = (props) => {
       valueType: 'dateTime',
       render: (text, record) => [
         // todo format Date
-        new Date(record.launchTime).toLocaleString()
+        new Date(record.launchTime!).toLocaleString()
       ]
     },
     /**状态 status show */
@@ -224,7 +228,7 @@ const DelegationList: React.FC<DelegationListType> = (props) => {
         // todo format Date
         //String(new Date(record.operateTime))
         //new Date(record.operateTime).toLocaleTimeString()
-        new Date(record.operateTime).toLocaleString()
+        new Date(record.operateTime!).toLocaleString()
       ]
     },
     /** 分配的市场部人员id marketDeptStaffId hide */
@@ -241,6 +245,7 @@ const DelegationList: React.FC<DelegationListType> = (props) => {
       dataIndex: 'marketRemark',
       valueType: 'textarea',
       hideInSearch: true,
+      hideInTable: true,
     },
     /**报价单编号 offerId hide*/
     {
@@ -256,6 +261,7 @@ const DelegationList: React.FC<DelegationListType> = (props) => {
       dataIndex: 'offerRemark',
       valueType: 'textarea',
       hideInSearch: true,
+      hideInTable: true,
     },
 
     /**测试报告编号 offerId hide*/
@@ -318,6 +324,7 @@ const DelegationList: React.FC<DelegationListType> = (props) => {
       dataIndex: 'testingRemark',
       valueType: 'textarea',
       hideInSearch: true,
+      hideInTable: true,
     },
     /** 文档材料url url hide */
     {
@@ -327,12 +334,13 @@ const DelegationList: React.FC<DelegationListType> = (props) => {
       hideInTable: true,
     },
 
-    /**用户 修改、删除 */
+    /**用户 修改 */
     {
       title:'修改名称',
       dataIndex: 'modify',
       valueType: 'option',
-      hideInTable: !roles.includes('client'),
+      //hideInTable: !roles.includes('client'),
+      hideInTable: true,
       sorter:false,
       render: (text, record) => [
         /**修改名称和url*/
@@ -347,7 +355,7 @@ const DelegationList: React.FC<DelegationListType> = (props) => {
             },
           }}
           onFinish={async (values) => {
-            const id = record.id;
+            const id = record.id!;
             const name = values.name;
             //const url = values.url;
             await handleUpdateDelegation({
@@ -369,163 +377,11 @@ const DelegationList: React.FC<DelegationListType> = (props) => {
         </ModalForm>,
       ]
     },
-    {
-      title: '删除',
-      dataIndex: 'delete',
-      valueType: 'option',
-      hideInTable: true,
-      sorter:false,
-      render: (text, record) => [
-        /**删除(含确认dialog)*/
-        <Button type="primary"
-                danger
-                key='delete'
-                onClick={
-                  () => {
-                    confirm({
-                      title: '确认删除吗?',
-                      icon: <ExclamationCircleOutlined />,
-                      content: '',
-                      onOk() {
-                        handleDelete(record.id)
-                          .then(() => actionRef.current?.reload())//重新请求，更新表格
-                          .then(()=>setSelectedRows([]));
-                      },
-                      onCancel() {
-                        console.log('Cancel');
-                      },
-                    });
-                  }
-                }>删除</Button>
-      ]
-    },
-
-    //可以进行的操作
-    {
-      title: '操作',
-      dataIndex: 'option',
-      valueType: 'option',
-      hideInTable: false,
-      sorter:false,
-      render: (text, record) => {
-        const {id} = record;
-        if(record.state == '委托填写中'
-          && roles.includes('client')
-          && record.creatorId == props.user.id) {
-          return [
-            <Link to={{ pathname:'/docs/new-delegation', query: {id}}}>
-              <Button type="primary">填写委托</Button>
-            </Link>
-          ]
-        }
-        else if(record.state?.includes('委托修改中')
-          && roles.includes('client')
-          && record.creatorId == props.user.id) {
-          return [
-            <Link to={{ pathname:'/docs/new-delegation', query: {id}}}>
-              <Button type="primary">修改委托</Button>
-            </Link>
-          ]
-        }
-        else if(record.state == '等待市场部主管分配市场部人员'
-          && roles.includes('marketing_department_manger')) {
-          return [
-            <DistributeForm
-              key={'distributeMarket'}
-              request={async () => {
-                return await handleGetUserByRole({
-                  roleCode: 'marketing_department_staff',
-                })
-              }}
-              onSubmit={async (values) => {
-                //console.log(values)
-                await handleDistributeDelegationMarketing({
-                  acceptorId: values.acceptorId,
-                  id: record.id,
-                })
-                actionRef.current?.reload();
-                return true;
-              }} />
-          ]
-        }
-        else if(record.state == '等待测试部主管分配测试部人员'
-          && roles.includes('test_department_manager')) {
-          return [
-            <DistributeForm
-              key={'distributeTest'}
-              request={async () => {
-                return await handleGetUserByRole({
-                  roleCode: 'test_department_staff',
-                })
-              }}
-              onSubmit={async (values) => {
-                //console.log(values)
-                await handleDistributeDelegationTesting({
-                  acceptorId: values.acceptorId,
-                  id: record.id,
-                })
-                actionRef.current?.reload();
-                return true;
-              }}/>
-          ]
-        }
-        else if(record.state == '市场部审核委托中'
-          && roles.includes('marketing_department_staff')
-          && record.marketDeptStaffId == props.user.id) {
-          return [
-            <Link to={{ pathname:'/docs/softDocReview/marketing', query: {id}}}>
-              <Button type="primary">审核委托</Button>
-            </Link>
-          ]
-        }
-        else if(record.state == '测试部审核委托中'
-          && roles.includes('test_department_staff')
-          && record.testingDeptStaffId == props.user.id) {
-          return [
-            <Link to={{ pathname:'/docs/softDocReview/testing', query: {id}}}>
-              <Button type="primary">审核委托</Button>
-            </Link>
-          ]
-        }
-        else if((record.state == '市场部生成报价中' || record.state?.includes('市场部修改报价'))
-          && roles.includes('marketing_department_staff')
-          && record.marketDeptStaffId == props.user.id) {
-          return [<Link to={{ pathname:'/docs/quotation/marketing', query: {id}}}>
-            <Button type="primary">生成报价</Button>
-          </Link>
-            ]
-        }
-        else if(record.state == '客户处理报价中'
-          && roles.includes('client')
-          && record.creatorId == props.user.id) {
-          return [<Link to={{ pathname:'/docs/quotation/client', query: {id}}}>
-            <Button type="primary">处理报价</Button>
-          </Link>
-          ]
-        }
-        else{
-          const {id} = record;
-          return [
-          ]
-        }
-      }
-    },
-    /** 查看委托详情 */
-    {
-      title: '查看详情',
-      dataIndex: 'detail',
-      valueType: 'option',
-      hideInTable: false,
-      sorter:false,
-      render: (text, record) => {
-        const {id} = record;
-        return [
-        <Link to={{ pathname:'delegation/detail', query: {id}}}>
-          <Button type="primary">查看详情 todo</Button>
-        </Link>
-      ]}
-    },
   ];
+  if(props.operationColumns && props.operationColumns.length > 0) {
+    columns = columns.concat(props.operationColumns)
+  }
+
   return (
     <PageContainer>
       <ProTable<API.DelegationItem, API.PageParams>
@@ -572,6 +428,7 @@ const DelegationList: React.FC<DelegationListType> = (props) => {
         }}
         /*新建*/
         toolBarRender={() => [
+          (roles.includes('client') || roles.includes('super_admin'))&&
           <Button
             type="primary"
             key="primary"
@@ -582,6 +439,7 @@ const DelegationList: React.FC<DelegationListType> = (props) => {
             <PlusOutlined /> <FormattedMessage id="todo" defaultMessage="新建" />
           </Button>,
           /*删除*/
+          (roles.includes('client') || roles.includes('super_admin'))&&
           <Button
             type="primary"
             key="danger"
@@ -619,7 +477,7 @@ const DelegationList: React.FC<DelegationListType> = (props) => {
           </Button>,
         ]}
         /*请求数据*/
-        request={props.request}
+        request={request}
         columns={columns}
         rowSelection={{
           onChange: (_, selectedRows) => {

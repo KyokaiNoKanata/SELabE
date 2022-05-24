@@ -13,6 +13,7 @@ declare namespace API {
     operateTime?: string;//状态变更时间
 
     id?: number;//编号
+    name?: string;//名称
     contractId?: number;//合同id*
     creatorId?: number;//发起者编号
     launchTime?: string;//发起时间*

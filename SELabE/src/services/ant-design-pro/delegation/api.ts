@@ -1,4 +1,5 @@
 import request from "umi-request";
+import {API} from "@/services/ant-design-pro/typings";
 
 /** 获取委托列表 GET /api/admin-api/system/delegation/page */
 export async function delegationPage(
