@@ -35,7 +35,7 @@ const CheckDelegation: React.FC<{
       render: (text: ReactNode, record: API.DelegationItem) => {
         const {id} = record;
         return [
-          <Link to={{pathname: 'delegation/detail', query: {id}}}>
+          <Link to={{pathname: '/delegation/detail', query: {id}}}>
             <Button type="primary">查看详情</Button>
           </Link>
         ]

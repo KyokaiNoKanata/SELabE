@@ -14,6 +14,9 @@ const DelegationDetail: React.FC = () => {
   const delegationId = (params as any).query.id;//ok
   console.log(delegationId);
   const request = async () => {
+    if(!delegationId) {
+      return {};
+    }
     const state = (await getDelegationByIds({
       ids: String(delegationId),
     })).data[0];

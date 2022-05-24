@@ -121,6 +121,13 @@ export default [
         icon: 'smile',
         component: './Delegation/offer/Client',
       },
+      //详情页
+      {
+        path: './detail',
+        name: '委托详情',
+        icon: 'smile',
+        component: './Delegation/DelegationDetail'
+      }
     ],
   },
   {
