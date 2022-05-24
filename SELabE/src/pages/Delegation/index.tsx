@@ -10,6 +10,7 @@ const getOperateTime = async (delegationId: number) => {
     id: delegationId,
   });
   const operateTime = process.data[process.data.length-1].operateTime;
+  console.log(operateTime);
   return operateTime;
 }
 const Delegation: React.FC = () => {
