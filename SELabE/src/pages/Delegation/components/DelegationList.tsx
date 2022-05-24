@@ -520,8 +520,8 @@ const DelegationList: React.FC<DelegationListType> = (props) => {
       render: (text, record) => {
         const {id} = record;
         return [
-        <Link to={{ pathname:'delegation/detail', query: {id}}}>
-          <Button type="primary">查看详情 todo</Button>
+        <Link to={{ pathname:'/delegation/detail', query: {id}}}>
+          <Button type="primary">查看详情</Button>
         </Link>
       ]}
     },

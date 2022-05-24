@@ -74,6 +74,13 @@ export default [
         component: './Delegation',
       },
       {
+        path: 'delegation/detail',
+        name: '基本信息',
+        icon: 'smile',
+        component: './DelegationDetail'
+      }
+      ,
+      {
         path: '/docs',
         name: '文档',
         icon: 'smile',

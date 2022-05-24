@@ -151,7 +151,6 @@ const StepApplyPage: React.FC<{ editable: boolean,isClient: boolean }> = (prop) 
                 其它: '其它'
               }}
               disabled={prop.isClient}
-              placeholder="Please select"
               rules={[{required: false}]}
             />
             <Form.Item name="软件用户对象描述" label="软件用户对象描述" rules={[{required: true}]} >
@@ -304,7 +303,7 @@ const StepApplyPage: React.FC<{ editable: boolean,isClient: boolean }> = (prop) 
                     <ProForm.Group>
                       <ProFormText width="xs" name="客户端内存要求" label="内存要求" addonAfter='MB' rules={[{required: true}]} disabled={prop.isClient}/>
                     </ProForm.Group>
-                    <Form.Item name="客户端其他要求" label="其他要求" rules={[{required: false}]}>
+                    <Form.Item initialValue="" name="客户端其他要求" label="其他要求" rules={[{required: false}]}>
                       <TextArea style={{height: 60}} disabled={prop.isClient}/>
                     </Form.Item>
                   </ProCard>
@@ -328,7 +327,7 @@ const StepApplyPage: React.FC<{ editable: boolean,isClient: boolean }> = (prop) 
                                          rules={[{required: true}]} disabled={prop.isClient}/>
                             <ProFormText width="xs" name="服务器端硬盘要求" label="硬盘要求" addonAfter='MB'
                                          rules={[{required: true}]} disabled={prop.isClient}/>
-                            <Form.Item name="服务器端其他要求" label="其他要求" rules={[{required: false}]}>
+                            <Form.Item initialValue="" name="服务器端其他要求" label="其他要求" rules={[{required: false}]}>
                               <TextArea style={{height: 60}} disabled={prop.isClient}/>
                             </Form.Item>
                           </ProFormGroup>
@@ -396,8 +395,8 @@ const StepApplyPage: React.FC<{ editable: boolean,isClient: boolean }> = (prop) 
                     退还给我们: '退还给我们'
                   }}
                   disabled={prop.isClient}
-                  placeholder="退还给我们"
-                  rules={[{required: false}]}
+                  placeholder="Please select"
+                  rules={[{required: true}]}
                 />
               </ProCard>
 
@@ -448,9 +447,9 @@ const StepApplyPage: React.FC<{ editable: boolean,isClient: boolean }> = (prop) 
                   秘密: '秘密',
                   机密: '机密',
                 }}
-                placeholder="无密级"
+                placeholder="Please select"
                 disabled={prop.isClient}
-                rules={[{required: false}]}
+                rules={[{required: true}]}
               />
               <ProFormSelect
                 name="查杀病毒"
@@ -461,8 +460,7 @@ const StepApplyPage: React.FC<{ editable: boolean,isClient: boolean }> = (prop) 
                   无法完成: '无法完成',
                 }}
                 disabled={prop.isClient}
-                placeholder='已完成'
-                rules={[{required: false}]}
+                rules={[{required: true}]}
               />
               <ProFormText initialValue="" width="sm" name="所用查杀工具" addonBefore="所用查杀工具" disabled={prop.isClient}/>
             </ProCard>
