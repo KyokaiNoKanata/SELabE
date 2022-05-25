@@ -68,25 +68,25 @@ export function saveTable5(body: {
 }
 
 //市场部提交合同
-export function submitContractStaff(params: {
+export function submitContractStaff(body: {
   contractId?: number,
 }) {
   return request<API.Response>('/admin-api/system/contract/submit/staff',{
       method: 'PUT',
-      params: {
-        id: params.contractId,
+      data: {
+        id: body.contractId,
       }
     }
   )
 }
 //客户提交合同
-export function submitContractClient(params: {
+export function submitContractClient(body: {
   contractId?: number,
 }) {
   return request<API.Response>('/admin-api/system/contract/submit/client',{
       method: 'PUT',
-      params: {
-        id: params.contractId,
+      data: {
+        id: body.contractId,
       }
     }
   )
