@@ -1,17 +1,12 @@
 import { PageContainer} from '@ant-design/pro-layout';
-import ProForm, {
-  ProFormCheckbox,
+import {
   ProFormDatePicker,
-  ProFormGroup,
-  ProFormSelect,
   ProFormText,
-  ProFormTextArea,
   StepsForm,
-  ProFormDigit,
 } from '@ant-design/pro-form';
-import { ProCard } from '@ant-design/pro-components';
-import {Typography, Form, Input,Button, DatePicker, InputNumber} from "antd";
-import {Link} from "@umijs/preset-dumi/lib/theme";
+
+import {Typography, Form, Input,DatePicker, InputNumber} from "antd";
+import ProCard from "@ant-design/pro-card";
 const {Title, Paragraph, Text, } = Typography;
 
 const ContractForm : React.FC<{ isClient: boolean}> = (prop) => {
