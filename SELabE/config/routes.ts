@@ -137,10 +137,31 @@ export default [
     routes: [
       //市场部填写（创建）
       {
-        path: './create',
+        path: './create/staff',
         name: '（市场部)填写合同',
         icon: 'smile',
-        component: './Contract/create',
+        component: './Contract/create/Marketing',
+      },
+      //客户填写（创建）
+      {
+        path: './create/client',
+        name: '（客户)填写合同',
+        icon: 'smile',
+        component: './Contract/create/Client',
+      },
+      //客户检查合同
+      {
+        path: './audit/client',
+        name: '（客户)检查合同',
+        icon: 'smile',
+        component: './Contract/audit/Client',
+      },
+      //市场部审核合同
+      {
+        path: './audit/staff',
+        name: '（市场部)审核合同',
+        icon: 'smile',
+        component: './Contract/audit/Marketing',
       }
     ]
   },
@@ -196,13 +217,25 @@ export default [
             path: '/docs/contract/client',
             name: '(客户)填写合同',
             icon: 'smile',
-            component: './docs/Contract/Client',
+            component: './docs/Contract/fill/Client',
           },
           {
             path: '/docs/contract/marketing',
             name: '(市场部)填写合同',
             icon: 'smile',
-            component: './docs/Contract/Marketing',
+            component: './docs/Contract/fill/Marketing',
+          },
+          {
+            path: '/docs/contract/audit/client',
+            name: '(客户)检查合同',
+            icon: 'smile',
+            component: './docs/Contract/audit/Client',
+          },
+          {
+            path: '/docs/contract/audit/marketing',
+            name: '(市场部)检查合同',
+            icon: 'smile',
+            component: './docs/Contract/audit/Marketing',
           }
         ]
       },

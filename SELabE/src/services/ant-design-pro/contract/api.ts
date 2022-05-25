@@ -91,3 +91,53 @@ export function submitContractClient(body: {
     }
   )
 }
+//客户通过/不通过合同草稿
+export function acceptContractClient(body: {
+  contractId?: number,
+}) {
+  return request<API.Response>('/admin-api/system/contract/accept/client',{
+      method: 'PUT',
+      data: {
+        id: body.contractId,
+      }
+    }
+  )
+}
+export function rejectContractClient(body: {
+  contractId?: number,
+  reason?: string,
+}) {
+  return request<API.Response>('/admin-api/system/contract/reject/client',{
+      method: 'PUT',
+      data: {
+        id: body.contractId,
+        reason: body.reason,
+      }
+    }
+  )
+}
+//市场部通过/不通过合同
+export function acceptContractStaff(body: {
+  contractId?: number,
+}) {
+  return request<API.Response>('/admin-api/system/contract/accept/staff',{
+      method: 'PUT',
+      data: {
+        id: body.contractId,
+      }
+    }
+  )
+}
+export function rejectContractStaff(body: {
+  contractId?: number,
+  reason?: string,
+}) {
+  return request<API.Response>('/admin-api/system/contract/reject/staff',{
+      method: 'PUT',
+      data: {
+        id: body.contractId,
+        reason: body.reason,
+      }
+    }
+  )
+}

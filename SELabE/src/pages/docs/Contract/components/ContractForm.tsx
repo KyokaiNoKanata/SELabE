@@ -13,13 +13,18 @@ import {
   createContract,
   getContractById,
   getTable4,
-  saveTable4,
+  saveTable4, submitContractClient,
   submitContractStaff
 } from "@/services/ant-design-pro/contract/api";
 import React from "react";
+import {API} from "@/services/ant-design-pro/typings";
 const {Title, Paragraph, Text, } = Typography;
 
-const ContractForm: React.FC<{ isClient: boolean}> = (prop) => {
+//editable为false则双方都不可以编辑
+const ContractForm: React.FC<{
+  isClient: boolean
+  editable: boolean
+}> = (prop) => {
   const params = useLocation();
   const delegationId = (params as any).query.id;
   const request = async () => {
@@ -82,15 +87,19 @@ const ContractForm: React.FC<{ isClient: boolean}> = (prop) => {
       ids: String(delegationId),
     })).data[0].contractId!;
 
-    const c = (await getContractById({id: contractId}))
-    console.log(c);
-
     if(!contractId) {
       message.warning('请先保存');
     } else {
-      const resp = await submitContractStaff({
-        contractId:contractId,
-      });
+      let resp: API.Response;
+      if(prop.isClient) {
+        resp = await submitContractClient({
+          contractId:contractId,
+        })
+      } else {
+        resp = await submitContractStaff({
+          contractId:contractId,
+        });
+      }
       if(resp.code == 0) {
         message.success('提交合同成功');
       } else {

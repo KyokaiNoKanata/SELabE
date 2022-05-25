@@ -6,7 +6,11 @@ import {useLocation} from "umi";
 import {getDelegationByIds} from "@/services/ant-design-pro/delegation/api";
 
 const {Paragraph} = Typography;
-const CDA: React.FC<{isClient: boolean}> = (props) => {
+//editable为false则双方都不可以编辑
+const CDA: React.FC<{
+  isClient: boolean
+  editable: boolean
+}> = (props) => {
   const params = useLocation();
   const delegationId = (params as any).query.id;
   //todo 获取数据，保存 table5

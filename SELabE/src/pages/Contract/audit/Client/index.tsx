@@ -4,16 +4,12 @@ import {API} from "@/services/ant-design-pro/typings";
 import {currentUser} from "@/services/ant-design-pro/api";
 import {delegationPage} from "@/services/ant-design-pro/delegation/api";
 import DelegationList from "@/pages/Delegation/components/DelegationList";
-import {createContract} from "@/services/ant-design-pro/contract/api";
-import {Button, message, Modal} from "antd";
-import {ExclamationCircleOutlined} from "@ant-design/icons";
-import {FormattedMessage} from "@@/plugin-locale/localeExports";
+import {Button} from "antd";
 import {Link} from "umi";
-const { confirm } = Modal;
 /**
- * （市场部可见）创建合同
- * 根据委托Id创建合同
- * 显示委托列表，最后一列创建合同
+ * 客户审核合同草稿
+ * 根据委托Id填写合同
+ * 显示委托列表，最后一列审核合同，跳转到只读页面
  */
 export default ()=> {
   const actionRef: React.MutableRefObject<ActionType | undefined> = useRef<ActionType>();
@@ -25,16 +21,16 @@ export default ()=> {
   }>({});
   const operationColumns: ProColumns<API.DelegationItem>[] = [
     {
-      title: '填写合同',
-      dataIndex: 'createContract',
+      title: '检查合同',
+      dataIndex: 'auditContractClient',
       valueType: 'option',
-      hideInTable: !roles.includes('marketing_department_staff'),
+      hideInTable: !roles.includes('client'),
       sorter: false,
       render: (text: ReactNode, record: API.DelegationItem) => {
-        const {id} = record;//委托id
+        const {contractId} = record;//合同id
         return [
-          <Link to={{pathname: '/docs/contract/marketing', query: {id}}}>
-            <Button type="primary">填写合同</Button>
+          <Link to={{pathname: '/docs/contract/audit/client', query: {contractId}}}>
+            <Button type="primary">检查合同</Button>
           </Link>
         ]
       },
@@ -54,10 +50,11 @@ export default ()=> {
     setUser(user.data.user)
     const role = user.data.roles;
     setRoles(role);
-    //市场部员工
+    //客户
     if(role.includes('super_admin')
-      || role.includes('marketing_department_staff')) {
-      p.state ='150';//市场部填写合同草稿
+      || role.includes('client')) {
+      p.creatorId = user.data.user.id;
+      p.state ='160';// 160, "客户检查合同草稿中",  170, "客户接受市场部合同草稿，填写合同中"
     } else {
       p.state = '-1';
     }
