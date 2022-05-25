@@ -1,4 +1,4 @@
-import ContractForm from "@/pages/docs/Contract/components/ContractForm"
+import ContractForm from "@/pages/docs/Contract/components/ContractForm";
 
 const Contract = () => {
   return (

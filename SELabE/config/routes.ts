@@ -131,6 +131,20 @@ export default [
     ],
   },
   {
+    path: '/contract',
+    name: '合同管理',
+    icon: 'crown',
+    routes: [
+      //市场部填写（创建）
+      {
+        path: './create',
+        name: '（市场部)填写合同',
+        icon: 'smile',
+        component: './Contract/create',
+      }
+    ]
+  },
+  {
     path: '/docs',
     name: '文档',
     icon: 'smile',
@@ -176,7 +190,21 @@ export default [
         name: '软件委托测试合同',
         icon: 'table',
         path: '/docs/contract',
-        component: './docs/Contract/components',
+        //component: './docs/Contract/components',
+        routes: [
+          {
+            path: '/docs/contract/client',
+            name: '(客户)填写合同',
+            icon: 'smile',
+            component: './docs/Contract/Client',
+          },
+          {
+            path: '/docs/contract/marketing',
+            name: '(市场部)填写合同',
+            icon: 'smile',
+            component: './docs/Contract/Marketing',
+          }
+        ]
       },
       {
         name: '报价单',

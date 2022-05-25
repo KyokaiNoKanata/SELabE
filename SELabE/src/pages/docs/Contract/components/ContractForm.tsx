@@ -5,15 +5,75 @@ import {
   StepsForm,
 } from '@ant-design/pro-form';
 
-import {Typography, Form, Input,DatePicker, InputNumber} from "antd";
+import {Typography, Form, Input, DatePicker, InputNumber, message} from "antd";
 import ProCard from "@ant-design/pro-card";
+import {useLocation} from "umi";
+import {getDelegationByIds} from "@/services/ant-design-pro/delegation/api";
+import {createContract, getContractById, getTable4, saveTable4} from "@/services/ant-design-pro/contract/api";
 const {Title, Paragraph, Text, } = Typography;
 
-const ContractForm : React.FC<{ isClient: boolean}> = (prop) => {
+const ContractForm: React.FC<{ isClient: boolean}> = (prop) => {
+  const params = useLocation();
+  const delegationId = (params as any).query.id;
   const Date: any = DatePicker;
-  const onSubmit = async (value: any) => {
-      console.log(value)
+  const request = async () => {
+    const contractId = (await getDelegationByIds({
+      ids: String(delegationId),
+    })).data[0].contractId;
+    if(!contractId) {
+      return {};
     }
+    const table4Id = (await getContractById({id: contractId})).data.table4Id;
+    if(!table4Id) {
+      return {}
+    }
+    const resp = await getTable4({
+      id: table4Id,
+    });
+
+    const data = resp.data;
+    //const {_id, deleted, ...data} = resp.data;
+    console.log(data);
+    return data;
+  }
+  const onSave = async (value: any) => {
+    console.log(value)
+    let contractId = (await getDelegationByIds({
+      ids: String(delegationId),
+    })).data[0].contractId;
+    //还没有创建合同，那就创建一下
+    if(!contractId) {
+      const resp1 = await createContract({
+        delegationId: delegationId,
+      })
+      if(resp1.code!=0) {
+        message.error(resp1.msg);
+        return;
+      } else {
+        console.log('创建合同成功');
+        contractId = (await getDelegationByIds({
+          ids: String(delegationId),
+        })).data[0].contractId;
+        if(!contractId) {
+          message.error('获取合同id失败，请稍后再试');
+        }
+      }
+    }
+    console.log(contractId)
+    const resp = await saveTable4({
+      contractId: contractId,
+      data: value,
+    })
+    if(resp.code == 0) {
+      message.success('保存成功')
+    } else {
+      message.error(resp.msg);
+    }
+  }
+  //提交合同
+  const submitContract = async () => {
+
+  }
   const information = () => {
     return(
     <ProCard>
@@ -21,10 +81,10 @@ const ContractForm : React.FC<{ isClient: boolean}> = (prop) => {
               name: string;
             }>
               stepsProps={{
-                direction: 'vertical',
+                direction: "horizontal",
               }}
               //formRef={formRef}
-              onFinish={onSubmit}
+              onFinish={onSave}
               >
      <StepsForm.StepForm<{
                 name: string;
@@ -40,7 +100,7 @@ const ContractForm : React.FC<{ isClient: boolean}> = (prop) => {
                   //await waitTime(1000);
                   return true;
                 }}
-               // request={request}
+                request={request}
               >
       <Form.Item label="项目名称:" name = "项目名称" style={{ width: '50%' }}>
         <Input />
@@ -54,11 +114,7 @@ const ContractForm : React.FC<{ isClient: boolean}> = (prop) => {
       <Form.Item label = "签订地点:" name = "签订地点" style={{ width: '50%' }}>
         <Input />
       </Form.Item>
-      <Form.Item label = "签订日期" name = "签订日期" style={{ width: '50%' }}>
-        <Date date>
-
-        </Date>
-      </Form.Item>
+      <ProFormDatePicker label = "签订日期" name = "签订日期" style={{ width: '50%' }}/>
       {explanation()}
     </StepsForm.StepForm>
     <StepsForm.StepForm<{
@@ -74,31 +130,31 @@ const ContractForm : React.FC<{ isClient: boolean}> = (prop) => {
                   //console.log('第三页结束')
                   return true;
                 }}
-                //request={request}
+                request={request}
               >
         <ProCard title="委托方" bordered>
-          <ProFormText name='单位全称' label='单位全称' addonAfter='(签章)' disabled={!prop.isClient}/>
-          <ProFormText name='授权代表' label='授权代表' disabled={!prop.isClient}/>
-          <ProFormDatePicker name='签章日期' label='签章日期' disabled={!prop.isClient}/>
-          <ProFormText name='联系人' label='联系人' disabled={!prop.isClient}/>
-          <ProFormText name='通讯地址' label='通讯地址' disabled={!prop.isClient}/>
-          <ProFormText name='电话' label='电话' disabled={!prop.isClient}/>
+          <ProFormText name='单位全称1' label='单位全称' addonAfter='(签章)' disabled={!prop.isClient}/>
+          <ProFormText name='授权代表1' label='授权代表' disabled={!prop.isClient}/>
+          <ProFormDatePicker name='签章日期1' label='签章日期' disabled={!prop.isClient}/>
+          <ProFormText name='联系人1' label='联系人' disabled={!prop.isClient}/>
+          <ProFormText name='通讯地址1' label='通讯地址' disabled={!prop.isClient}/>
+          <ProFormText name='电话1' label='电话' disabled={!prop.isClient}/>
 
-          <ProFormText name='开户银行' label='开户银行' disabled={!prop.isClient}/>
-          <ProFormText name='账号' label='账号' disabled={!prop.isClient}/>
-          <ProFormText name='邮编' label='邮编' disabled={!prop.isClient}/>
+          <ProFormText name='开户银行1' label='开户银行' disabled={!prop.isClient}/>
+          <ProFormText name='账号1' label='账号' disabled={!prop.isClient}/>
+          <ProFormText name='邮编1' label='邮编' disabled={!prop.isClient}/>
           <div>传真:62661627</div>
         </ProCard>
         <ProCard title="受托方"bordered>
           <div>单位全称:南京大学计算机软件新技术国家重点实验室(签章)</div>
           <br/>
-          <ProFormText name='授权代表' label='授权代表' disabled={prop.isClient}/>
-          <ProFormDatePicker name='签章日期' label='签章日期'  disabled={prop.isClient}/>
-          <ProFormText name='联系人' label='联系人'  disabled={prop.isClient}/>
-          <ProFormText name='通讯地址' label='通讯地址'  disabled={prop.isClient}/>
-          <ProFormText name='电话' label='电话'  disabled={prop.isClient}/>
-          <ProFormText name='传真' label='传真'  disabled={prop.isClient}/>
-          <ProFormText name='邮编' label='邮编'  disabled={prop.isClient}/>
+          <ProFormText name='授权代表2' label='授权代表' disabled={prop.isClient}/>
+          <ProFormDatePicker name='签章日期2' label='签章日期'  disabled={prop.isClient}/>
+          <ProFormText name='联系人2' label='联系人'  disabled={prop.isClient}/>
+          <ProFormText name='通讯地址2' label='通讯地址'  disabled={prop.isClient}/>
+          <ProFormText name='电话2' label='电话'  disabled={prop.isClient}/>
+          <ProFormText name='传真2' label='传真'  disabled={prop.isClient}/>
+          <ProFormText name='邮编2' label='邮编'  disabled={prop.isClient}/>
           <div>开户银行:中国工商银行股份有限公司南京汉口路分理处</div>
           <div>户名:南京大学</div>
           <div>账号:4301011309001041656</div>

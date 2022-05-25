@@ -9,6 +9,15 @@ declare namespace API {
     data: any,
     msg: string,
   }
+  type ContractItem = {
+    id?: number;
+    createTime? :string;
+    clientRemark? :string;
+    staffRemark? :string;
+    table4Id: string;//
+    table5Id: string;
+    url: string;
+  }
   type DelegationItem = {
     operateTime?: string;//状态变更时间
 
