@@ -1,20 +1,60 @@
 import { PageContainer} from '@ant-design/pro-layout';
-import {Typography, Form, Input, DatePicker, InputNumber} from "antd";
+import ProForm, {
+  ProFormCheckbox,
+  ProFormDatePicker,
+  ProFormGroup,
+  ProFormSelect,
+  ProFormText,
+  ProFormTextArea,
+  StepsForm,
+  ProFormDigit,
+} from '@ant-design/pro-form';
+import { ProCard } from '@ant-design/pro-components';
+import {Typography, Form, Input,Button, DatePicker, InputNumber} from "antd";
 import {Link} from "@umijs/preset-dumi/lib/theme";
 const {Title, Paragraph, Text, } = Typography;
-const Contract = () => {
+
+const ContractForm : React.FC<{ isClient: boolean}> = (prop) => {
   const Date: any = DatePicker;
+  const onSubmit = async (value: any) => {
+      console.log(value)
+    }
   const information = () => {
     return(
-    <Form name = "contractInfo">
+    <ProCard>
+    <StepsForm<{
+              name: string;
+            }>
+              stepsProps={{
+                direction: 'vertical',
+              }}
+              //formRef={formRef}
+              onFinish={onSubmit}
+              >
+     <StepsForm.StepForm<{
+                name: string;
+              }>
+                name="step1"
+                title="第一页"
+                stepProps={{
+                  description: '合同第一页',
+                }}
+                onFinish={async () => {
+                  //console.log(formRef.current?.getFieldsValue());
+                  //console.log('第一页结束')
+                  //await waitTime(1000);
+                  return true;
+                }}
+               // request={request}
+              >
       <Form.Item label="项目名称:" name = "项目名称" style={{ width: '50%' }}>
         <Input />
       </Form.Item>
-      <Form.Item label = "委托方(甲方):" name = "委托方(甲方)" style={{ width: '50%' }}>
-        <Input />
+      <Form.Item label = "委托方(甲方):" name = "委托方(甲方)" style={{ width: '50%' }} >
+        <Input disabled={!prop.isClient}/>
       </Form.Item>
-      <Form.Item label = "委托方(乙方):" name = "委托方(乙方)" style={{ width: '50%' }}>
-        <Input />
+      <Form.Item label = "委托方(乙方):" name = "委托方(乙方)" style={{ width: '50%' }} >
+        <Input disabled={prop.isClient}/>
       </Form.Item>
       <Form.Item label = "签订地点:" name = "签订地点" style={{ width: '50%' }}>
         <Input />
@@ -24,25 +64,77 @@ const Contract = () => {
 
         </Date>
       </Form.Item>
-    </Form>
+      {explanation()}
+    </StepsForm.StepForm>
+    <StepsForm.StepForm<{
+                checkbox: string;
+              }>
+                name="step2"
+                title="第二步"
+                stepProps={{
+                  description: '签章',
+                }}
+                onFinish={async () => {
+                  //console.log(formRef.current?.getFieldsValue());
+                  //console.log('第三页结束')
+                  return true;
+                }}
+                //request={request}
+              >
+        <ProCard title="委托方" bordered>
+          <ProFormText name='单位全称' label='单位全称' addonAfter='(签章)' disabled={!prop.isClient}/>
+          <ProFormText name='授权代表' label='授权代表' disabled={!prop.isClient}/>
+          <ProFormDatePicker name='签章日期' label='签章日期' disabled={!prop.isClient}/>
+          <ProFormText name='联系人' label='联系人' disabled={!prop.isClient}/>
+          <ProFormText name='通讯地址' label='通讯地址' disabled={!prop.isClient}/>
+          <ProFormText name='电话' label='电话' disabled={!prop.isClient}/>
+
+          <ProFormText name='开户银行' label='开户银行' disabled={!prop.isClient}/>
+          <ProFormText name='账号' label='账号' disabled={!prop.isClient}/>
+          <ProFormText name='邮编' label='邮编' disabled={!prop.isClient}/>
+          <div>传真:62661627</div>
+        </ProCard>
+        <ProCard title="受托方"bordered>
+          <div>单位全称:南京大学计算机软件新技术国家重点实验室(签章)</div>
+          <br/>
+          <ProFormText name='授权代表' label='授权代表' disabled={prop.isClient}/>
+          <ProFormDatePicker name='签章日期' label='签章日期'  disabled={prop.isClient}/>
+          <ProFormText name='联系人' label='联系人'  disabled={prop.isClient}/>
+          <ProFormText name='通讯地址' label='通讯地址'  disabled={prop.isClient}/>
+          <ProFormText name='电话' label='电话'  disabled={prop.isClient}/>
+          <ProFormText name='传真' label='传真'  disabled={prop.isClient}/>
+          <ProFormText name='邮编' label='邮编'  disabled={prop.isClient}/>
+          <div>开户银行:中国工商银行股份有限公司南京汉口路分理处</div>
+          <div>户名:南京大学</div>
+          <div>账号:4301011309001041656</div>
+        </ProCard>
+    </StepsForm.StepForm>
+    </StepsForm>
+    </ProCard>
     );
   }
   const explanation = () => {
     return(
     <Typography>
       <Paragraph>
+      <Form.Item name='委托方名称'>
       本合同由作为委托方的<Input placeholder = "委托方名称" style={{ width: '50%' }}/>
       （以下简称“甲方”) 与作为受托方的<Text strong>南京大学计算机软件新技术国家重点实验室</Text>
       （以下简称“乙方”）在平等自愿的基础上，
       依据《中华人民共和国合同法》有关规定就项目的执行，经友好协商后订立。
+      </Form.Item>
       </Paragraph>
       <Title level={3}>一、任务表述</Title>
       <Paragraph>
+      <Form.Item name="软件名称" >
         乙方按照国家软件质量测试标准和测试规范，完成对甲方委托的软件（下称受测软件）
-        <Input placeholder = "软件名称" style={{ width: '50%' }}/>
+        <input  width="xl"/>
+        </Form.Item>
+         <Form.Item name="质量特性" >
         的质量特性
-        <Input placeholder = "质量特性" style={{ width: '50%' }}/>
+        <input   width="xl"/>
         进行测试，并出具相应的测试报告
+         </Form.Item>
       </Paragraph>
       <Title level={3}>二、双方的主要义务</Title>
       <ol>
@@ -87,10 +179,18 @@ const Contract = () => {
       <Title level={3}>六、履行的期限</Title>
       <Paragraph>
         <ol>
-          <li>本次测试的履行期限为合同生效之日起<InputNumber min = {0}/>个自然日内完成。</li>
+          <li>
+
+            本次测试的履行期限为合同生效之日起<InputNumber min = {0}/>个自然日内完成。
+
+          </li>
           <li>经甲乙双方同意，可对测试进度作适当修改，并以修改后的测试进度作为本合同执行的期限。</li>
-          <li>如受测软件在测试过程中出现的问题，导致继续进行测试会影响整体测试进度，则乙方暂停测试并以书面形式通知甲方进行整改。
-            在整个测试过程中，整改次数限于<InputNumber min = {0}/>次，每次不超过<InputNumber min = {0}/>天。</li>
+          <li><Form.Item name='整改次数' >如受测软件在测试过程中出现的问题，导致继续进行测试会影响整体测试进度，则乙方暂停测试并以书面形式通知甲方进行整改。
+            在整个测试过程中，整改次数限于<InputNumber  min = {0}/>次，
+            </Form.Item>
+            <Form.Item name='超过' >每次不超过<InputNumber min = {0}/>天。
+            </Form.Item>
+            </li>
           <li>如因甲方原因，导致测试进度延迟、应由甲方负责,乙方不承担责任。</li>
           <li>如因乙方原因，导致测试进度延迟，则甲方可酌情提出赔偿要求，赔偿金额不超过甲方已付金额的50%。双方经协商一致后另行签订书面协议，作为本合同的补充。</li>
         </ol>
@@ -128,12 +228,8 @@ const Contract = () => {
   return(
     <PageContainer title="软件委托测试合同">
       {information()}
-      {explanation()}
-      <Link to="new-delegation/100">
-        跳转
-      </Link>
     </PageContainer>
   );
 }
 
-export default Contract;
+export default ContractForm;

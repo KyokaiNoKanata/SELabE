@@ -176,7 +176,7 @@ export default [
         name: '软件委托测试合同',
         icon: 'table',
         path: '/docs/contract',
-        component: './docs/Contract',
+        component: './docs/Contract/components',
       },
       {
         name: '报价单',
