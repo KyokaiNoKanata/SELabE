@@ -1,21 +1,27 @@
 import { PageContainer} from '@ant-design/pro-layout';
-import {
+import ProForm, {
   ProFormDatePicker,
   ProFormText,
   StepsForm,
 } from '@ant-design/pro-form';
 
-import {Typography, Form, Input, DatePicker, InputNumber, message} from "antd";
+import {Typography, Form, Input, message, Button} from "antd";
 import ProCard from "@ant-design/pro-card";
 import {useLocation} from "umi";
 import {getDelegationByIds} from "@/services/ant-design-pro/delegation/api";
-import {createContract, getContractById, getTable4, saveTable4} from "@/services/ant-design-pro/contract/api";
+import {
+  createContract,
+  getContractById,
+  getTable4,
+  saveTable4,
+  submitContractStaff
+} from "@/services/ant-design-pro/contract/api";
+import React from "react";
 const {Title, Paragraph, Text, } = Typography;
 
 const ContractForm: React.FC<{ isClient: boolean}> = (prop) => {
   const params = useLocation();
   const delegationId = (params as any).query.id;
-  const Date: any = DatePicker;
   const request = async () => {
     const contractId = (await getDelegationByIds({
       ids: String(delegationId),
@@ -71,8 +77,26 @@ const ContractForm: React.FC<{ isClient: boolean}> = (prop) => {
     }
   }
   //提交合同
-  const submitContract = async () => {
+  const onSubmit = async () => {
+    const contractId: number = (await getDelegationByIds({
+      ids: String(delegationId),
+    })).data[0].contractId!;
 
+    const c = (await getContractById({id: contractId}))
+    console.log(c);
+
+    if(!contractId) {
+      message.warning('请先保存');
+    } else {
+      const resp = await submitContractStaff({
+        contractId:contractId,
+      });
+      if(resp.code == 0) {
+        message.success('提交合同成功');
+      } else {
+        message.error(resp.msg);//?
+      }
+    }
   }
   const information = () => {
     return(
@@ -80,6 +104,41 @@ const ContractForm: React.FC<{ isClient: boolean}> = (prop) => {
     <StepsForm<{
               name: string;
             }>
+      submitter={{
+        render: (props) => {
+          if (props.step === 0) {
+            return (
+              <div style={
+                {textAlign:"center",
+                  margin:20,
+                }
+              }><Button type="primary" onClick={() => props.onSubmit?.()}>
+                下一步 {'>'}
+              </Button>
+              </div>
+            );
+          }
+          else return [
+              <div style={
+                {textAlign:"right",
+                  margin:20,
+                }
+              }>
+                <ProForm.Group>
+                  <Button onClick={() => props.onPre?.()}>
+                    {'<'} 上一步
+                  </Button>
+                  <Button type="primary" key="submit" onClick={() => props.onSubmit?.()}>
+                    保存
+                  </Button>
+                  <Button type="primary" key="submit" onClick={()=> onSubmit()}>
+                    提交
+                  </Button>
+                </ProForm.Group>
+              </div>
+            ];
+        },
+      }}
               stepsProps={{
                 direction: "horizontal",
               }}

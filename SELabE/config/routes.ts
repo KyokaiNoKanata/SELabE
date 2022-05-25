@@ -180,12 +180,12 @@ export default [
         icon:'table',
         component: './docs/NewDelegation',
       },
-      {
+      /*{
         name: '软件项目委托测试保密协议',
         icon: 'table',
         path: '/docs/confidentiality-agreement',
         component: './docs/ConfidentialityAgreement',
-      },
+      },*/
       {
         name: '软件委托测试合同',
         icon: 'table',

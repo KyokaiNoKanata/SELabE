@@ -41,6 +41,32 @@ export function saveTable4(body: {
     }
   )
 }
+
+/**
+ * 保密协议(table5)的保存与获取
+ */
+//根据表格id获得合同表table5
+export function getTable5(params: {
+  id: number
+}) {
+  return request<API.Response>('/admin-api/system/contract/get/table5',{
+      method: 'GET',
+      params: params,
+    }
+  )
+}
+//保存合同表 table5
+export function saveTable5(body: {
+  contractId?: number,
+  data: object,
+}) {
+  return request<API.Response>('/admin-api/system/contract/save/table5',{
+      method: 'PUT',
+      data: body,
+    }
+  )
+}
+
 //市场部提交合同
 export function submitContractStaff(params: {
   contractId?: number,

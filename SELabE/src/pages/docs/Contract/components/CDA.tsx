@@ -1,10 +1,65 @@
 import {PageContainer} from "@ant-design/pro-layout";
-import {Card, Input, Typography} from "antd";
+import {Button, Card, Input, message, Typography} from "antd";
+import React from "react";
+import {createContract, getTable5, saveTable5} from "@/services/ant-design-pro/contract/api";
+import {useLocation} from "umi";
+import {getDelegationByIds} from "@/services/ant-design-pro/delegation/api";
 
 const {Paragraph} = Typography;
-const index = () => {
+const CDA: React.FC<{isClient: boolean}> = (props) => {
+  const params = useLocation();
+  const delegationId = (params as any).query.id;
+  //todo 获取数据，保存 table5
+  /**
+   * @params: any if you need
+   */
+  const onSave = async () => {
+    //todo: get value
+    const value = {
+      a: '张三',
+      b: 2,
+    }
+    console.log('save');
+    //console.log(value);
+    let contractId = (await getDelegationByIds({
+      ids: String(delegationId),
+    })).data[0].contractId;
+    //还没有创建合同，那就创建一下
+    if(!contractId) {
+      const resp1 = await createContract({
+        delegationId: delegationId,
+      })
+      if(resp1.code!=0) {
+        message.error(resp1.msg);
+        return;
+      } else {
+        console.log('创建合同成功');
+        contractId = (await getDelegationByIds({
+          ids: String(delegationId),
+        })).data[0].contractId;
+        if(!contractId) {
+          message.error('获取合同id失败，请稍后再试');
+        }
+      }
+    }
+    const resp = await saveTable5({
+      contractId: contractId,
+      data: value,
+    });
+    if(resp.code == 0) {
+      message.success('保存成功')
+    } else {
+      message.error(resp.msg);
+    }
+  }
+  //todo 加载table5
+  // 放在合适的位置
+  const request = async () => {
+    console.log('request');
+    return {};
+  }
   const explanation = () => {
-    return (
+    return ([
       <Typography>
         <Paragraph>
           委托方<Input placeholder="委托方名称" style={{width: '25%'}}/>
@@ -60,7 +115,12 @@ const index = () => {
         <Paragraph>
           本协议自双方授权代表签字盖章之日起生效，但有效期不限于合同有效期。
         </Paragraph>
-      </Typography>
+      </Typography>,
+        //todo: 放到中间
+        <Button type="primary" key="submit" onClick={onSave}>
+          保存
+        </Button>
+        ]
     );
   }
 
@@ -72,4 +132,4 @@ const index = () => {
 
 }
 
-export default index;
+export default CDA;
