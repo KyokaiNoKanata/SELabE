@@ -276,8 +276,8 @@ const documentReviewData: ReviewItemType[] = [
   },
   {
     id: 1031,
-    type: '',
-    name: '',
+    type: '3',
+    name: '一致性',
     desc: '文档集中的各文档不相互矛盾, 与产品说明也不矛盾',
     result: '',
     explain: '',
@@ -287,6 +287,14 @@ const documentReviewData: ReviewItemType[] = [
     type: '4',
     name: '易理解性',
     desc: '使用用户可理解的术语和文体',
+    result: '',
+    explain: '',
+  },
+  {
+    id: 1042,
+    type: '',
+    name: '',
+    desc: '文档集为用户使用该软件提供必要的信息',
     result: '',
     explain: '',
   },
@@ -309,16 +317,16 @@ const documentReviewData: ReviewItemType[] = [
   {
     id: 1062,
     type: '',
-    name: '功能性陈述',
-    desc: '根据GB/T 25000.51-2010规范对软件的功能进行陈述',
+    name: '',
+    desc: '有目次(主题词列表)和索引',
     result: '',
     explain: '',
   },
   {
     id: 1063,
     type: '',
-    name: '可靠性陈述',
-    desc: '根据GB/T 25000.51-2010规范对软件的可靠性进行陈述',
+    name: '',
+    desc: '不常用术语缩略语有定义',
     result: '',
     explain: '',
   },
@@ -589,7 +597,7 @@ const StepDocReview = () => {
               />
               <ProForm.Item
                 label=""
-                name="dataSource"
+                name="softwareReviewData"
                 initialValue={reviewData}
                 trigger="onValuesChange"
               >
