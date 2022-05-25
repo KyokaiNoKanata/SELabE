@@ -207,6 +207,12 @@ export default [
         ]
       },
       {
+        name: '测试报告检查表',
+        icon: 'table',
+        path: '/docs/testreportchecklist',
+        component: './docs/TestReportChecklist',
+      },
+      {
         name: '报价单',
         path: '/docs/quotation/marketing',
         icon: 'smile',
