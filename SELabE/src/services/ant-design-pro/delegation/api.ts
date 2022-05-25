@@ -184,6 +184,33 @@ export async function getSimpleUserByRole(params: {
     params: params
   })
 }
+
+/**
+ * 获取角色信息
+ */
+export async function getUserByID(params: {
+  userId: string
+}){
+  return request<{
+    code: number,
+    data: {
+      code: string,
+      createTime: string,
+      id: number,
+      name: string,
+      remark: string,
+      sort: number,
+      status: number,
+      type: number,
+    },
+    msg: string,
+  }>( '/admin-api/system/front/role/get',{
+    method: 'GET',
+    params: params
+  })
+}
+
+
 export async function getTable3(params: {
   id: string,//表格id
 }) {

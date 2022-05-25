@@ -1,23 +1,31 @@
 import React, {useState} from 'react';
 import {Row, Steps} from 'antd';
-import {getDelegationByIds} from "@/services/ant-design-pro/delegation/api";
+import {getDelegationByIds, getProcessList, getUserByID} from "@/services/ant-design-pro/delegation/api";
 import {useLocation} from "umi";
 import {PageContainer} from "@ant-design/pro-layout";
 import ProCard from "@ant-design/pro-card";
+import moment from 'moment';
 
 const {Step} = Steps;
 
 const DelegationDetail: React.FC = () => {
   const [delegationState, setDelegationState] = useState<String>();
   const [delegationName, setDelegationName] = useState<String>();
+  const [launchTime, setLaunchTime] = useState<String>();
+  const [operateTime, setOperateTime] = useState<String>();
+  const [marketRemark, setMarketRemark] = useState<String>();
+  const [testingRemark, setTestingRemark] = useState<String>();
+  const [marketDeptStaffId, setMarketDeptStaffId] = useState<String>();
+  const [testingDeptStaffId, setTestingDeptStaffId] = useState<String>();
+  const [marketDeptStaffName, setMarketDeptStaffName] = useState<String>();
   const params = useLocation();
   const delegationId = (params as any).query.id;//ok
-  console.log(delegationId);
+  //console.log(delegationId);
   const request = async () => {
     const state = (await getDelegationByIds({
       ids: String(delegationId),
     })).data[0];
-    console.log("state:" + state);
+    //console.log("state:" + state);
     if (state == undefined) {
       return {};
     }
@@ -27,8 +35,45 @@ const DelegationDetail: React.FC = () => {
     result => {
       setDelegationState(result.state);
       setDelegationName(result.name);
+      setLaunchTime(result.launchTime);
+      setMarketRemark(result.marketRemark);
+      setTestingRemark(result.testingRemark);
+      setMarketDeptStaffId(result.marketDeptStaffId);
+      setTestingDeptStaffId(result.testingDeptStaffId);
     }
   );
+
+  const getUserInfo = async () => {
+    const userData = (await getUserByID(
+      {
+        userId: String(testingDeptStaffId),
+      }));
+    return userData;
+  }
+  getUserInfo().then(
+    result => {
+      console.log(result);
+      //setMarketDeptStaffName(result.name);
+    }
+  );
+
+  const getStateTime = async () => {
+    const process = (await getProcessList(
+      {
+        id: delegationId,
+      }
+    ));
+    const operateStateTime = process.data[process.data.length - 1].operateTime;
+    //console.log(operateStateTime);
+    return operateStateTime;
+  }
+  getStateTime().then(
+    result => {
+      setOperateTime(result);
+    }
+  );
+
+
   const currentStep = () => {
     switch (delegationState) {
       case "委托填写中": {
@@ -122,18 +167,94 @@ const DelegationDetail: React.FC = () => {
         return 17
       }
         ;
-      /*
-      case "客户上传样品中": {return 18};
-      case "测试部/市场部验收样品中": {return 19};
-      case "样品验收不通过，用户重新修改": {return 20};
-      case "样品验收通过": {return 20};
-      case "测试部编写测试方案中": {return 21};
-      case "质量部审核测试方案中": {return 22};
-      case "测试方案审核未通过，测试部修改测试方案中": {return 23};
-      case "测试方案审核通过": {return 23};
-      case "测试部测试进行中，填写测试文档": {return 24};
-      case "测试部测试完成，生成测试报告": {return 25};
-      */
+      case "客户上传样品中": {
+        return 18
+      }
+        ;
+      case "测试部/市场部验收样品中": {
+        return 19
+      }
+        ;
+      case "样品验收不通过，用户重新修改": {
+        return 20
+      }
+        ;
+      case "样品验收通过": {
+        return 20
+      }
+        ;
+      case "测试部编写测试方案中": {
+        return 21
+      }
+        ;
+      case "质量部审核测试方案中": {
+        return 22
+      }
+        ;
+      case "测试方案审核未通过，测试部修改测试方案中": {
+        return 23
+      }
+        ;
+      case "测试方案审核通过": {
+        return 23
+      }
+        ;
+      case "测试部测试进行中，填写测试文档": {
+        return 24
+      }
+        ;
+      case "测试部测试完成，生成测试报告": {
+        return 25
+      }
+        ;
+      case "测试部主管审核测试报告中": {
+        return 26
+      }
+        ;
+      case "测试部主管测试报告审核未通过，测试部修改测试文档中": {
+        return 27
+      }
+        ;
+      case "测试部主管测试报告审核通过，用户审核中": {
+        return 27
+      }
+        ;
+      case "用户审核测试报告未通过，测试部修改测试文档中": {
+        return 28
+      }
+        ;
+      case "用户审核测试报告通过，授权签字人审核测试报告中": {
+        return 28
+      }
+        ;
+      case "授权签字人测试报告审核未通过， 测试部修改测试文档中": {
+        return 29
+      }
+        ;
+      case "授权签字人测试报告审核通过": {
+        return 29
+      }
+        ;
+      case "测试部测试文档归档，处理样品中": {
+        return 30
+      }
+        ;
+      case "市场部发送测试报告中": {
+        return 31
+      }
+        ;
+      case "等待客户接收测试报告中": {
+        return 32
+      }
+        ;
+      case "客户确认接收测试报告": {
+        return 33
+      }
+        ;
+      case "客户未确认接收，到期自动确认": {
+        return 33
+      }
+        ;
       default:
         return 0;
     }
@@ -232,22 +353,110 @@ const DelegationDetail: React.FC = () => {
         return "process"
       }
         ;
+      case "客户上传样品中": {
+        return "process"
+      }
+        ;
+      case "测试部/市场部验收样品中": {
+        return "process"
+      }
+        ;
+      case "样品验收不通过，用户重新修改": {
+        return "error"
+      }
+        ;
+      case "样品验收通过": {
+        return "process"
+      }
+        ;
+      case "测试部编写测试方案中": {
+        return "process"
+      }
+        ;
+      case "质量部审核测试方案中": {
+        return "process"
+      }
+        ;
+      case "测试方案审核未通过，测试部修改测试方案中": {
+        return "error"
+      }
+        ;
+      case "测试方案审核通过": {
+        return "process"
+      }
+        ;
+      case "测试部测试进行中，填写测试文档": {
+        return "process"
+      }
+        ;
+      case "测试部测试完成，生成测试报告": {
+        return "process"
+      }
+        ;
+      case "测试部主管审核测试报告中": {
+        return "process"
+      }
+        ;
+      case "测试部主管测试报告审核未通过，测试部修改测试文档中": {
+        return "error"
+      }
+        ;
+      case "测试部主管测试报告审核通过，用户审核中": {
+        return "process"
+      }
+        ;
+      case "用户审核测试报告未通过，测试部修改测试文档中": {
+        return "error"
+      }
+        ;
+      case "用户审核测试报告通过，授权签字人审核测试报告中": {
+        return "process"
+      }
+        ;
+      case "授权签字人测试报告审核未通过， 测试部修改测试文档中": {
+        return "error"
+      }
+        ;
+      case "授权签字人测试报告审核通过": {
+        return "process"
+      }
+        ;
+      case "测试部测试文档归档，处理样品中": {
+        return "process"
+      }
+        ;
+      case "市场部发送测试报告中": {
+        return "process"
+      }
+        ;
+      case "等待客户接收测试报告中": {
+        return "process"
+      }
+        ;
+      case "客户确认接收测试报告": {
+        return "finished"
+      }
+        ;
+      case "客户未确认接收，到期自动确认": {
+        return "finished"
+      }
+        ;
       default:
         return "error";
     }
   }
   const MarketingAuditMsg = () => {
     if (delegationState === "市场部审核委托不通过，委托修改中") {
-      return "审核委托不通过";
+      return "审核委托不通过" + " 【审核意见】:" + marketRemark + " 【审核人ID】:" + marketDeptStaffId;
     } else {
-      return "审核委托通过";
+      return "审核委托通过" + " 【审核意见】:" + marketRemark + " 【审核人ID】:" + marketDeptStaffId;
     }
   }
   const TestingAuditMsg = () => {
     if (delegationState === "测试部审核委托不通过，委托修改中") {
-      return "审核委托不通过";
+      return "审核委托不通过" + " 【审核意见】:" + testingRemark + " 【审核人ID】:" + testingDeptStaffId;
     } else {
-      return "审核委托通过";
+      return "审核委托通过" + " 【审核意见】:" + testingRemark + " 【审核人ID】:" + testingDeptStaffId;
     }
   }
   const ClientQuoteMsg = () => {
@@ -271,6 +480,43 @@ const DelegationDetail: React.FC = () => {
       return "审核合同通过";
     }
   }
+  const AcceptSampleMsg = () => {
+    if (delegationState === "样品验收不通过，用户重新修改") {
+      return "样品验收不通过";
+    } else {
+      return "样品验收通过";
+    }
+  }
+  const QualityTestPlanMsg = () => {
+    if (delegationState === "测试方案审核未通过，测试部修改测试方案中") {
+      return "测试方案审核未通过";
+    } else {
+      return "测试方案审核通过";
+    }
+  }
+  const TestingTestReportMsg = () => {
+    if (delegationState === "测试部主管测试报告审核未通过，测试部修改测试文档中") {
+      return "测试部主管测试报告审核未通过";
+    } else {
+      return "测试部主管测试报告审核通过";
+    }
+  }
+
+  const ClientTestReportMsg = () => {
+    if (delegationState === "用户审核测试报告未通过，测试部修改测试文档中") {
+      return "审核测试报告未通过";
+    } else {
+      return "审核测试报告通过";
+    }
+  }
+  const AuthorizeTestReportMsg = () => {
+    if (delegationState === "授权签字人测试报告审核未通过， 测试部修改测试文档中") {
+      return "测试报告审核未通过";
+    } else {
+      return "测试报告审核通过";
+    }
+  }
+
 
   return (
     <PageContainer>
@@ -295,6 +541,22 @@ const DelegationDetail: React.FC = () => {
             <Step title="市场部" description={MarketingContractMsg()}></Step>
             <Step title="合同签署中"></Step>
             <Step title="合同签署成功"/>
+            <Step title="客户" description="上传样品中"></Step>
+            <Step title="测试部/市场部" description="验收样品中"></Step>
+            <Step title="测试部/市场部" description={AcceptSampleMsg()}></Step>
+            <Step title="测试部" description="编写测试方案中"></Step>
+            <Step title="质量部" description="审核测试方案中"></Step>
+            <Step title="质量部" description={QualityTestPlanMsg()}></Step>
+            <Step title="测试部" description="测试进行中，填写测试文档"></Step>
+            <Step title="测试部" description="测试完成，生成测试报告"></Step>
+            <Step title="测试部" description="测试部主管审核测试报告中"></Step>
+            <Step title="测试部" description={TestingTestReportMsg()}></Step>
+            <Step title="用户" description={ClientTestReportMsg()}></Step>
+            <Step title="授权签字人" description={AuthorizeTestReportMsg()}></Step>
+            <Step title="测试部" description="测试文档归档，处理样品中"></Step>
+            <Step title="市场部" description="发送测试报告中"></Step>
+            <Step title="等待客户接受测试报告中" description=""></Step>
+            <Step title="客户" description="确认接受测试报告"></Step>
           </Steps>
         </ProCard>
         <ProCard>
@@ -304,10 +566,13 @@ const DelegationDetail: React.FC = () => {
           软件名: {delegationName}
         </ProCard>
         <ProCard>
+          发起时间: {moment(parseInt(String(launchTime))).format("YYYY-MM-DD HH:mm:ss")};
+        </ProCard>
+        <ProCard>
           状态: {delegationState}
         </ProCard>
         <ProCard>
-          备注
+          状态变更时间: {moment(parseInt(String(operateTime))).format("YYYY-MM-DD HH:mm:ss")}
         </ProCard>
       </Row>
     </PageContainer>
