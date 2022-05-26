@@ -201,6 +201,7 @@ const ContractForm: React.FC<{
                 }}
                 request={request}
               >
+        <Title level={3}>十二、签章</Title>
         <ProCard title="委托方" bordered>
           <ProFormText name='委托方单位全称' label='单位全称' addonAfter='(签章)' disabled={!prop.isClient||prop.editable}/>
           <ProFormText name='委托方授权代表' label='授权代表' disabled={!prop.isClient||prop.editable}/>
