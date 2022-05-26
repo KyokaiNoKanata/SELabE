@@ -18,6 +18,25 @@ declare namespace API {
     table5Id: string;
     url: string;
   }
+  type SubmitSampleItemType = {
+    id? :number;//样品编号
+    information?: string;//样品信息
+    processType?: string;//处理方式
+    type?: string; //样品上传方式，如果在线上传则填写为线上，其余需说明方式的具体信息
+    url?: string;  //如果样品为线上上传，需要填写样品的url
+  }
+  type SampleItem = SubmitSampleItemType & {
+    //id? :number;//样品编号
+    createTime?: string;//创建时间
+    //information?: string;//样品信息
+    modifyRemark?: string;//修改意见
+    //processType?: string;//处理方式
+    remark?: string; //审核意见
+    state?: number; //样品状态 0.未发送 1.已发送 2.已审核 3.待修改 4.已修改 5.已处理
+    //type?: string; //样品上传方式，如果在线上传则填写为线上，其余需说明方式的具体信息
+    //url?: string;  //如果样品为线上上传，需要填写样品的url
+    verifyId?: string; //审核人id，只能为选定的市场部或者测试部两个人中的一个
+  }
   type DelegationItem = {
     operateTime?: string;//状态变更时间
 

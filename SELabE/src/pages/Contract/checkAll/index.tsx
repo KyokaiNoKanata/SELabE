@@ -10,6 +10,7 @@ import ProForm, {ModalForm} from "@ant-design/pro-form";
 import {DownloadOutlined} from "@ant-design/icons";
 import {uploadFile} from "@/services/ant-design-pro/file/api";
 import {uploadContractFile} from "@/services/ant-design-pro/contract/api";
+import {RcFile} from "antd/es/upload";
 /**
  * 查看详情 最后一列查看合同
  * todo: 这里有问题，应该看到哪些状态的合同？ 或者应该直接查询合同分页
@@ -22,6 +23,7 @@ export default ()=> {
     nickname?: string,
     id?: string,
   }>({});
+  const [file,setFile] = useState<RcFile|undefined>(undefined)
   const operationColumns: ProColumns<API.DelegationItem>[] = [
     {
       title: '合同详情',
@@ -46,7 +48,7 @@ export default ()=> {
       sorter: false,
       render: (text: ReactNode, record: API.DelegationItem) => {
         const {contractId} = record;//合同id
-        const formData: FormData = new FormData();
+
         return [ record.state == '合同签署中' &&
           <ModalForm
             title="上传"
@@ -59,12 +61,13 @@ export default ()=> {
             }}
             onFinish={async (values) => {
               // 先上传文件，获取url再提交委托
-              // todo: 上传格式可能有问题
-              // console.log(formData)
-              const resp1 = await uploadFile('contract' + contractId, formData);
+              const formData: FormData = new FormData();
+              formData.append('file',file!);
+              const resp1 = await uploadFile('contract' + contractId + file?.name, formData);
+              //ok
               if(resp1.code!=0) {
                 message.error(resp1.msg);
-                return true;
+                return false;
               }
               const url = resp1.data;
               const resp2 = await uploadContractFile({
@@ -72,7 +75,7 @@ export default ()=> {
                 url: url,
               });
               if(resp2.code == 0) {
-                message.success('上传成功');
+                message.success('上传合同成功');
               } else {
                 message.error(resp2.msg);
               }
@@ -84,10 +87,10 @@ export default ()=> {
           >
             <ProForm.Group>
             <Upload
-              beforeUpload={(file) => {
+              beforeUpload={(rFile) => {
                 return new Promise(async (resolve, reject) => {
-                  formData.append('file',file);
-                  console.log(formData)
+                  //formData.append('file',rFile);
+                  setFile(rFile)
                   return reject(false);
                 });
               }}
@@ -131,7 +134,7 @@ export default ()=> {
       p.marketDeptStaffId = user.data.user.id;
     }
     else {
-      p.state = -1;
+      p.state = '-1';
     }
     const res = await delegationPage(p,options);
     return res.data;

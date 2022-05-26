@@ -173,6 +173,33 @@ export default [
     ]
   },
   {
+    path: '/sample',
+    name: '样品管理',
+    icon: 'crown',
+    routes: [
+      //(客户)上传样品
+      {
+        path: './submit',
+        name: '上传样品',
+        icon: 'smile',
+        component: './Sample/submit',
+      },
+      //(市场部)审核样品
+      {
+        path: './audit/marketing',
+        name: '(市场部)审核样品',
+        icon: 'smile',
+        component: './Sample/audit/Marketing'
+      },
+      {
+        path: './audit/testing',
+        name: '(测试部)审核样品',
+        icon: 'smile',
+        component: './Sample/audit/Testing'
+      },
+      ]
+  },
+  {
     path: '/docs',
     name: '文档',
     icon: 'smile',
