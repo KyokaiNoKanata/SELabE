@@ -1,15 +1,12 @@
-import React, {ReactNode, useRef, useState} from "react";
-import {API} from "@/services/ant-design-pro/typings";
-import {ActionType, ProColumns} from "@ant-design/pro-table";
+import type {ReactNode} from "react";
+import React, { useRef, useState} from "react";
+import type {API} from "@/services/ant-design-pro/typings";
+import type {ActionType, ProColumns} from "@ant-design/pro-table";
 import {Button, message} from "antd";
 import DelegationList from "@/pages/Delegation/components/DelegationList";
 import ProForm, {ModalForm} from "@ant-design/pro-form";
 import {DownloadOutlined} from "@ant-design/icons";
-import {
-  auditSampleFail,
-  auditSampleSuccess,
-  getSampleById,
-} from "@/services/ant-design-pro/sample/api";
+import {auditSampleFail, auditSampleSuccess, getSampleById,} from "@/services/ant-design-pro/sample/api";
 //用户提交样品
 const AuditSampleList: React.FC<{
   request: any;
@@ -19,14 +16,14 @@ const AuditSampleList: React.FC<{
   = (props) => {
   const actionRef: React.MutableRefObject<ActionType | undefined> = useRef<ActionType>();
   const [modalVisit, setModalVisit] = useState(false);
-  const [sampleId,setSampleId] = useState<number>(-1);
+  const [sampleId, setSampleId] = useState<number>(-1);
   //通过
   const onAccept = async () => {
     const resp = await auditSampleSuccess({
       sampleId: sampleId,
       remark: 'success todo',// todo
     })
-    if(resp.code != 0) {
+    if (resp.code != 0) {
       message.error(resp.msg);
       return false;
     }
@@ -41,7 +38,7 @@ const AuditSampleList: React.FC<{
       sampleId: sampleId,
       remark: 'fail todo'// todo
     })
-    if(resp.code != 0) {
+    if (resp.code != 0) {
       message.error(resp.msg);
       return false;
     }
@@ -53,20 +50,18 @@ const AuditSampleList: React.FC<{
   const onDownload = () => {
     console.log(sampleId);
     //根据sampleId获得sampleURL
-    getSampleById(sampleId!).
-    then(resp => {
-      if(resp.code!=0) {
+    getSampleById(sampleId!).then(resp => {
+      if (resp.code != 0) {
         message.error(resp.msg);
         return;
       }
-      const url: string|undefined = resp.data.url;
-      if(url) {
+      const url: string | undefined = resp.data.url;
+      if (url) {
         // 下载文件 todo 这种写法不太好但是可行的
         const a = document.createElement("a");
         a.href = url;
         a.click();
-      }
-      else {
+      } else {
         message.warning('没有对应的在线样品文件');
       }
     })
@@ -82,9 +77,9 @@ const AuditSampleList: React.FC<{
       sorter: false,
       render: (text: ReactNode, record: API.DelegationItem) => {
         //求一下样品url
-        return [ record.state == '测试部/市场部验收样品中' &&
+        return [record.state == '测试部/市场部验收样品中' &&
         <Button type="primary"
-                onClick={()=> {
+                onClick={() => {
                   setSampleId(record.sampleId!);
                   setModalVisit(true);
                 }}
@@ -107,8 +102,9 @@ const AuditSampleList: React.FC<{
               render: (props) => {
                 return (
                   <div style={
-                    {textAlign:"right",
-                      margin:20,
+                    {
+                      textAlign: "right",
+                      margin: 20,
                     }
                   }>
                     <ProForm.Group>
@@ -126,7 +122,7 @@ const AuditSampleList: React.FC<{
           >
             <ProForm.Group>
               <Button type="primary"
-                      icon={<DownloadOutlined />}
+                      icon={<DownloadOutlined/>}
                       onClick={onDownload}>
                 下载在线样品
               </Button>
@@ -143,8 +139,7 @@ const AuditSampleList: React.FC<{
       user={props.user}
       operationColumns={auditColumns}
       actionRef={actionRef}
-    >
-    </DelegationList>
+     />
   )
 }
 

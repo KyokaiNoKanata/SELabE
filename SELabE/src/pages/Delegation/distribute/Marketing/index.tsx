@@ -1,22 +1,21 @@
-import {API} from "@/services/ant-design-pro/typings";
+import type {API} from "@/services/ant-design-pro/typings";
 import {currentUser} from "@/services/ant-design-pro/api";
-import React, {ReactNode, useRef, useState} from "react";
+import type {ReactNode} from "react";
+import React, { useRef, useState} from "react";
 import {message} from "antd";
-import {
-  delegationPage,
-  distributeDelegationMarketing,
-} from "@/services/ant-design-pro/delegation/api";
+import {delegationPage, distributeDelegationMarketing,} from "@/services/ant-design-pro/delegation/api";
 import {handleGetUserByRole} from "@/pages/Delegation/distribute/api";
 import DelegationList from "@/pages/Delegation/components/DelegationList";
-import {ActionType, ProColumns} from "@ant-design/pro-table";
+import type {ActionType, ProColumns} from "@ant-design/pro-table";
 import DistributeForm from "@/pages/Delegation/components/DistributeForm";
+
 /**市场部主管分配委托 */
 const handleDistributeDelegationMarketing = async (data: {
   acceptorId: number,//接收委托的工作人员id
   id: number,//委托编号
 }) => {
-  const resp = await  distributeDelegationMarketing(data);
-  if(resp.code == 0) {
+  const resp = await distributeDelegationMarketing(data);
+  if (resp.code == 0) {
     message.success('分配成功');
   } else {
     message.error(resp.msg)
@@ -25,10 +24,10 @@ const handleDistributeDelegationMarketing = async (data: {
 
 //市场部分配:市场部主管可见所有待分配的
 //20, "等待市场部主管分配市场部人员"
-export default ()=> {
+export default () => {
   const actionRef: React.MutableRefObject<ActionType | undefined> = useRef<ActionType>();
-  const [roles,setRoles] = useState<string[]>([]);
-  const [userInfo,setUser] = useState<{
+  const [roles, setRoles] = useState<string[]>([]);
+  const [userInfo, setUser] = useState<{
     avatar?: string,
     nickname?: string,
     id?: string,
@@ -77,13 +76,13 @@ export default ()=> {
     const role = user.data.roles;
     setRoles(role);
     //主管能看到
-    if(role.includes('super_admin')
+    if (role.includes('super_admin')
       || role.includes('marketing_department_manger')) {
-      p.state ='20';
+      p.state = '20';
     } else {
       p.state = '-1';
     }
-    const res = await delegationPage(p,options);
+    const res = await delegationPage(p, options);
     return res.data;
   }
   return <DelegationList
@@ -92,6 +91,5 @@ export default ()=> {
     user={userInfo}
     operationColumns={operationColumns}
     actionRef={actionRef}
-  >
-  </DelegationList>
+   />
 }

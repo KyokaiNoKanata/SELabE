@@ -1,4 +1,5 @@
 import request from "umi-request";
+import type {API} from "@/services/ant-design-pro/typings"
 
 /** 获取委托列表 GET /api/admin-api/system/delegation/page */
 export async function delegationPage(
@@ -179,7 +180,7 @@ export async function getSimpleUserByRole(params: { roleCode: string }) {
  */
 export async function getUserByID(params: {
   userId: string
-}){
+}) {
   return request<{
     code: number,
     data: {
@@ -193,7 +194,7 @@ export async function getUserByID(params: {
       type: number,
     },
     msg: string,
-  }>( '/admin-api/system/front/role/get',{
+  }>('/admin-api/system/front/role/get', {
     method: 'GET',
     params: params
   })

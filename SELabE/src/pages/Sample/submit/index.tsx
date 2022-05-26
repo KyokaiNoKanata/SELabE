@@ -1,26 +1,27 @@
-import React, {ReactNode, useRef, useState} from "react";
-import {API} from "@/services/ant-design-pro/typings";
+import type {ReactNode} from "react";
+import React, { useRef, useState} from "react";
+import type {API} from "@/services/ant-design-pro/typings";
 import {currentUser} from "@/services/ant-design-pro/api";
 import {delegationPage} from "@/services/ant-design-pro/delegation/api";
-import {ActionType, ProColumns} from "@ant-design/pro-table";
+import type {ActionType, ProColumns} from "@ant-design/pro-table";
 import {Button, message, Upload} from "antd";
 import DelegationList from "@/pages/Delegation/components/DelegationList";
 import ProForm, {ModalForm} from "@ant-design/pro-form";
 import {uploadFile} from "@/services/ant-design-pro/file/api";
 import {DownloadOutlined} from "@ant-design/icons";
 import {createSample, submitSample, updateSample} from "@/services/ant-design-pro/sample/api";
-import {RcFile} from "antd/es/upload";
+import type {RcFile} from "antd/es/upload";
 //用户提交样品
 const Samples: React.FC
   = () => {
   const actionRef: React.MutableRefObject<ActionType | undefined> = useRef<ActionType>();
-  const [roles,setRoles] = useState<string[]>([]);
-  const [userInfo,setUser] = useState<{
+  const [roles, setRoles] = useState<string[]>([]);
+  const [userInfo, setUser] = useState<{
     avatar?: string,
     nickname?: string,
     id?: string,
   }>({});
-  const [file,setFile] = useState<RcFile|undefined>(undefined)
+  const [file, setFile] = useState<RcFile | undefined>(undefined)
   const submitSampleColumns: ProColumns<API.DelegationItem>[] = [
     /** 提交样品 */
     {
@@ -32,7 +33,7 @@ const Samples: React.FC
       render: (text: ReactNode, record: API.DelegationItem) => {
         const {contractId} = record; //合同id
         let {sampleId} = record;   //样品id，可能没有
-        return [ (record.state == '用户上传样品中' || record.state == '样品验收不通过，用户重新修改') &&
+        return [(record.state == '用户上传样品中' || record.state == '样品验收不通过，用户重新修改') &&
         <ModalForm
           title="上传"
           trigger={
@@ -45,12 +46,12 @@ const Samples: React.FC
           onFinish={async (values) => {
             // 上传样品：没有样品先创建样品
             // console.log(formData)
-            if(!sampleId) {
+            if (!sampleId) {
               //创建样品
               const createResp = await createSample({
                 delegationId: record.id!
               });
-              if(createResp.code!=0) {
+              if (createResp.code != 0) {
                 message.error(createResp.msg);
                 return;
               } else {
@@ -62,11 +63,11 @@ const Samples: React.FC
             //保存样品
             //如果是在线提交，需要上传文件
             let url: string = '';
-            if(file) {
+            if (file) {
               const formData: FormData = new FormData();
-              formData.append('file',file!);
+              formData.append('file', file!);
               const resp1 = await uploadFile('sample' + contractId + file?.name, formData);
-              if(resp1.code!=0) {
+              if (resp1.code != 0) {
                 message.error(resp1.msg);
                 return true;
               } /*else {
@@ -82,7 +83,7 @@ const Samples: React.FC
               type: '线上',//todo
               url: url,
             });
-            if(resp2.code == 0) {
+            if (resp2.code == 0) {
               //message.success('保存成功');
             } else {
               message.error(resp2.msg);
@@ -92,14 +93,14 @@ const Samples: React.FC
             //
             //顺便提交样品
             sampleId = record.sampleId!;
-            if(!sampleId) {
+            if (!sampleId) {
               message.error('没有样品');//不应该发生
               return false;
             }
             const resp = await submitSample({
               id: sampleId,
             });
-            if(resp.code == 0) {
+            if (resp.code == 0) {
               message.success('提交成功');
               actionRef.current?.reload();
             } else {
@@ -117,7 +118,7 @@ const Samples: React.FC
                 });
               }}
             >
-              <Button type="primary" icon={<DownloadOutlined />}>
+              <Button type="primary" icon={<DownloadOutlined/>}>
                 上传
               </Button>
             </Upload>
@@ -142,13 +143,13 @@ const Samples: React.FC
     setRoles(user.data.roles);
 
     //客户
-    if(user.data.roles.includes('client')){
+    if (user.data.roles.includes('client')) {
       p.creatorId = user.data.user.id;
       p.state = '250,280'//用户上传样品
     } else {
       p.state = '-1';
     }
-    const res = await delegationPage(p,options);
+    const res = await delegationPage(p, options);
     return res.data;
   }
   return (
@@ -158,8 +159,7 @@ const Samples: React.FC
       user={userInfo}
       operationColumns={submitSampleColumns}
       actionRef={actionRef}
-      >
-    </DelegationList>
+     />
   )
 }
 

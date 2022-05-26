@@ -9,20 +9,20 @@ import moment from 'moment';
 const {Step} = Steps;
 
 const DelegationDetail: React.FC = () => {
-  const [delegationState, setDelegationState] = useState<String>();
-  const [delegationName, setDelegationName] = useState<String>();
-  const [launchTime, setLaunchTime] = useState<String>();
-  const [operateTime, setOperateTime] = useState<String>();
-  const [marketRemark, setMarketRemark] = useState<String>();
-  const [testingRemark, setTestingRemark] = useState<String>();
-  const [marketDeptStaffId, setMarketDeptStaffId] = useState<String>();
-  const [testingDeptStaffId, setTestingDeptStaffId] = useState<String>();
-  const [marketDeptStaffName, setMarketDeptStaffName] = useState<String>();
+  const [delegationState, setDelegationState] = useState<string>();
+  const [delegationName, setDelegationName] = useState<string>();
+  const [launchTime, setLaunchTime] = useState<string>();
+  const [operateTime, setOperateTime] = useState<string>();
+  const [marketRemark, setMarketRemark] = useState<string>();
+  const [testingRemark, setTestingRemark] = useState<string>();
+  const [marketDeptStaffId, setMarketDeptStaffId] = useState<string>();
+  const [testingDeptStaffId, setTestingDeptStaffId] = useState<string>();
+  const [marketDeptStaffName, setMarketDeptStaffName] = useState<string>();
   const params = useLocation();
   const delegationId = (params as any).query.id;//ok
   //console.log(delegationId);
   const request = async () => {
-    if(!delegationId) {
+    if (!delegationId) {
       return {};
     }
     const state = (await getDelegationByIds({
@@ -85,179 +85,179 @@ const DelegationDetail: React.FC = () => {
       case "等待市场部主管分配市场部人员": {
         return 1
       }
-        ;
+
       case "等待测试部主管分配测试部人员": {
         return 2
       }
-        ;
+
       case "市场部审核委托中": {
         return 3
       }
-        ;
+
       case "市场部审核委托不通过，委托修改中": {
         return 4
       }
-        ;
+
       case "市场部审核委托通过": {
         return 4
       }
-        ;
+
       case "测试部审核委托中": {
         return 5
       }
-        ;
+
       case "测试部审核委托不通过，委托修改中": {
         return 6
       }
-        ;
+
       case "测试部审核委托通过": {
         return 6
       }
-        ;
+
       case "委托审核通过": {
         return 7
       }
-        ;
+
       case "市场部生成报价中": {
         return 8
       }
-        ;
+
       case "客户处理报价中": {
         return 9
       }
-        ;
+
       case "客户不接受报价，市场部修改报价": {
         return 10
       }
-        ;
+
       case "客户接受报价": {
         return 10
       }
-        ;
+
       case "市场部生成合同草稿中": {
         return 11
       }
-        ;
+
       case "客户检查合同草稿中": {
         return 12
       }
-        ;
+
       case "客户接受市场部合同草稿，填写合同中": {
         return 13
       }
-        ;
+
       case "客户不接受市场部合同草稿，市场部修改合同草稿": {
         return 13
       }
-        ;
+
       case "市场部审核客户填写的草稿中": {
         return 14
       }
-        ;
+
       case "市场部审核合同不通过，客户修改中": {
         return 15
       }
-        ;
+
       case "市场部审核合同通过": {
         return 15
       }
-        ;
+
       case "合同签署中": {
         return 16
       }
-        ;
+
       case "合同签署成功": {
         return 17
       }
-        ;
+
       case "客户上传样品中": {
         return 18
       }
-        ;
+
       case "测试部/市场部验收样品中": {
         return 19
       }
-        ;
+
       case "样品验收不通过，用户重新修改": {
         return 20
       }
-        ;
+
       case "样品验收通过": {
         return 20
       }
-        ;
+
       case "测试部编写测试方案中": {
         return 21
       }
-        ;
+
       case "质量部审核测试方案中": {
         return 22
       }
-        ;
+
       case "测试方案审核未通过，测试部修改测试方案中": {
         return 23
       }
-        ;
+
       case "测试方案审核通过": {
         return 23
       }
-        ;
+
       case "测试部测试进行中，填写测试文档": {
         return 24
       }
-        ;
+
       case "测试部测试完成，生成测试报告": {
         return 25
       }
-        ;
+
       case "测试部主管审核测试报告中": {
         return 26
       }
-        ;
+
       case "测试部主管测试报告审核未通过，测试部修改测试文档中": {
         return 27
       }
-        ;
+
       case "测试部主管测试报告审核通过，用户审核中": {
         return 27
       }
-        ;
+
       case "用户审核测试报告未通过，测试部修改测试文档中": {
         return 28
       }
-        ;
+
       case "用户审核测试报告通过，授权签字人审核测试报告中": {
         return 28
       }
-        ;
+
       case "授权签字人测试报告审核未通过， 测试部修改测试文档中": {
         return 29
       }
-        ;
+
       case "授权签字人测试报告审核通过": {
         return 29
       }
-        ;
+
       case "测试部测试文档归档，处理样品中": {
         return 30
       }
-        ;
+
       case "市场部发送测试报告中": {
         return 31
       }
-        ;
+
       case "等待客户接收测试报告中": {
         return 32
       }
-        ;
+
       case "客户确认接收测试报告": {
         return 33
       }
-        ;
+
       case "客户未确认接收，到期自动确认": {
         return 33
       }
-        ;
+
       default:
         return 0;
     }
@@ -267,183 +267,183 @@ const DelegationDetail: React.FC = () => {
       case "委托填写中": {
         return "process";
       }
-        ;
+
       case "等待市场部主管分配市场部人员": {
         return "process"
       }
-        ;
+
       case "等待测试部主管分配测试部人员": {
         return "process"
       }
-        ;
+
       case "市场部审核委托中": {
         return "process"
       }
-        ;
+
       case "测试部审核委托中": {
         return "process"
       }
-        ;
+
       case "市场部审核委托通过": {
         return "process"
       }
-        ;
+
       case "测试部审核委托通过": {
         return "process"
       }
-        ;
+
       case "市场部审核委托不通过，委托修改中": {
         return "error"
       }
-        ;
+
       case "测试部审核委托不通过，委托修改中": {
         return "error"
       }
-        ;
+
       case "委托审核通过": {
         return "process"
       }
-        ;
+
       case "市场部生成报价中": {
         return "process"
       }
-        ;
+
       case "客户处理报价中": {
         return "process"
       }
-        ;
+
       case "客户不接受报价，市场部修改报价": {
         return "error"
       }
-        ;
+
       case "客户接受报价": {
         return "process"
       }
-        ;
+
       case "市场部生成合同草稿中": {
         return "process"
       }
-        ;
+
       case "客户检查合同草稿中": {
         return "process"
       }
-        ;
+
       case "客户接受市场部合同草稿，填写合同中": {
         return "process"
       }
-        ;
+
       case "客户不接受市场部合同草稿，市场部修改合同草稿": {
         return "error"
       }
-        ;
+
       case "市场部审核客户填写的草稿中": {
         return "process"
       }
-        ;
+
       case "市场部审核合同不通过，客户修改中": {
         return "error"
       }
-        ;
+
       case "市场部审核合同通过": {
         return "process"
       }
-        ;
+
       case "合同签署中": {
         return "process"
       }
-        ;
+
       case "合同签署成功": {
         return "process"
       }
-        ;
+
       case "客户上传样品中": {
         return "process"
       }
-        ;
+
       case "测试部/市场部验收样品中": {
         return "process"
       }
-        ;
+
       case "样品验收不通过，用户重新修改": {
         return "error"
       }
-        ;
+
       case "样品验收通过": {
         return "process"
       }
-        ;
+
       case "测试部编写测试方案中": {
         return "process"
       }
-        ;
+
       case "质量部审核测试方案中": {
         return "process"
       }
-        ;
+
       case "测试方案审核未通过，测试部修改测试方案中": {
         return "error"
       }
-        ;
+
       case "测试方案审核通过": {
         return "process"
       }
-        ;
+
       case "测试部测试进行中，填写测试文档": {
         return "process"
       }
-        ;
+
       case "测试部测试完成，生成测试报告": {
         return "process"
       }
-        ;
+
       case "测试部主管审核测试报告中": {
         return "process"
       }
-        ;
+
       case "测试部主管测试报告审核未通过，测试部修改测试文档中": {
         return "error"
       }
-        ;
+
       case "测试部主管测试报告审核通过，用户审核中": {
         return "process"
       }
-        ;
+
       case "用户审核测试报告未通过，测试部修改测试文档中": {
         return "error"
       }
-        ;
+
       case "用户审核测试报告通过，授权签字人审核测试报告中": {
         return "process"
       }
-        ;
+
       case "授权签字人测试报告审核未通过， 测试部修改测试文档中": {
         return "error"
       }
-        ;
+
       case "授权签字人测试报告审核通过": {
         return "process"
       }
-        ;
+
       case "测试部测试文档归档，处理样品中": {
         return "process"
       }
-        ;
+
       case "市场部发送测试报告中": {
         return "process"
       }
-        ;
+
       case "等待客户接收测试报告中": {
         return "process"
       }
-        ;
+
       case "客户确认接收测试报告": {
         return "finished"
       }
-        ;
+
       case "客户未确认接收，到期自动确认": {
         return "finished"
       }
-        ;
+
       default:
         return "error";
     }
@@ -530,36 +530,36 @@ const DelegationDetail: React.FC = () => {
             <Step title="市场部" description="等待市场部主管分配市场部人员"/>
             <Step title="测试部" description="等待测试部主管分配测试部人员"/>
             <Step title="市场部" description="审核委托中"/>
-            <Step title="市场部" description={MarketingAuditMsg()}></Step>
-            <Step title="测试部" description="审核委托中"></Step>
-            <Step title="测试部" description={TestingAuditMsg()}></Step>
-            <Step title="委托审核通过" description=""></Step>
-            <Step title="市场部" description="市场部生成报价中"></Step>
-            <Step title="客户" description="客户处理报价中"></Step>
-            <Step title="客户" description={ClientQuoteMsg()}></Step>
-            <Step title="市场部" description="生成合同草稿中"></Step>
+            <Step title="市场部" description={MarketingAuditMsg()} />
+            <Step title="测试部" description="审核委托中" />
+            <Step title="测试部" description={TestingAuditMsg()} />
+            <Step title="委托审核通过" description="" />
+            <Step title="市场部" description="市场部生成报价中" />
+            <Step title="客户" description="客户处理报价中" />
+            <Step title="客户" description={ClientQuoteMsg()} />
+            <Step title="市场部" description="生成合同草稿中" />
             <Step title="客户" description="检查合同草稿中"/>
             <Step title="客户" description={ClientContractMsg()}/>
             <Step title="市场部" description="市场部审核客户填写的草稿中"/>
-            <Step title="市场部" description={MarketingContractMsg()}></Step>
-            <Step title="合同签署中"></Step>
+            <Step title="市场部" description={MarketingContractMsg()} />
+            <Step title="合同签署中" />
             <Step title="合同签署成功"/>
-            <Step title="客户" description="上传样品中"></Step>
-            <Step title="测试部/市场部" description="验收样品中"></Step>
-            <Step title="测试部/市场部" description={AcceptSampleMsg()}></Step>
-            <Step title="测试部" description="编写测试方案中"></Step>
-            <Step title="质量部" description="审核测试方案中"></Step>
-            <Step title="质量部" description={QualityTestPlanMsg()}></Step>
-            <Step title="测试部" description="测试进行中，填写测试文档"></Step>
-            <Step title="测试部" description="测试完成，生成测试报告"></Step>
-            <Step title="测试部" description="测试部主管审核测试报告中"></Step>
-            <Step title="测试部" description={TestingTestReportMsg()}></Step>
-            <Step title="用户" description={ClientTestReportMsg()}></Step>
-            <Step title="授权签字人" description={AuthorizeTestReportMsg()}></Step>
-            <Step title="测试部" description="测试文档归档，处理样品中"></Step>
-            <Step title="市场部" description="发送测试报告中"></Step>
-            <Step title="等待客户接受测试报告中" description=""></Step>
-            <Step title="客户" description="确认接受测试报告"></Step>
+            <Step title="客户" description="上传样品中" />
+            <Step title="测试部/市场部" description="验收样品中" />
+            <Step title="测试部/市场部" description={AcceptSampleMsg()} />
+            <Step title="测试部" description="编写测试方案中" />
+            <Step title="质量部" description="审核测试方案中" />
+            <Step title="质量部" description={QualityTestPlanMsg()} />
+            <Step title="测试部" description="测试进行中，填写测试文档" />
+            <Step title="测试部" description="测试完成，生成测试报告" />
+            <Step title="测试部" description="测试部主管审核测试报告中" />
+            <Step title="测试部" description={TestingTestReportMsg()} />
+            <Step title="用户" description={ClientTestReportMsg()} />
+            <Step title="授权签字人" description={AuthorizeTestReportMsg()} />
+            <Step title="测试部" description="测试文档归档，处理样品中" />
+            <Step title="市场部" description="发送测试报告中" />
+            <Step title="等待客户接受测试报告中" description="" />
+            <Step title="客户" description="确认接受测试报告" />
           </Steps>
         </ProCard>
         <ProCard>

@@ -1,5 +1,5 @@
 import request from "umi-request";
-import {API} from "@/services/ant-design-pro/typings";
+import type {API} from "@/services/ant-design-pro/typings";
 
 //通过委托id创建样品
 export async function createSample(
@@ -12,6 +12,7 @@ export async function createSample(
     data: body,
   });
 }
+
 //客户 更新样品
 //admin-api/system/sample/update
 export async function updateSample(
@@ -28,6 +29,7 @@ export async function updateSample(
     data: body,
   });
 }
+
 //客户 提交样品
 export async function submitSample(
   body: {
@@ -39,6 +41,7 @@ export async function submitSample(
     data: body,
   });
 }
+
 //通过样品 id 获得样品
 export async function getSampleById(
   sampleId: number
@@ -50,11 +53,12 @@ export async function getSampleById(
     },
   });
 }
+
 //市场部/测试部 审核样品通过/不通过
 export async function auditSampleSuccess(body: {
-    sampleId: number,
-    remark: string,
-  }
+                                           sampleId: number,
+                                           remark: string,
+                                         }
 ) {
   return request<API.Response>('/admin-api/system/sample/audit/success', {
     method: 'PUT',
@@ -64,9 +68,11 @@ export async function auditSampleSuccess(body: {
     }
   });
 }
+
 export async function auditSampleFail(body: {
-  sampleId: number,
-  remark: string, }
+                                        sampleId: number;
+                                        remark: string;
+                                      }
 ) {
   return request<API.Response>('/admin-api/system/sample/audit/fail', {
     method: 'PUT',

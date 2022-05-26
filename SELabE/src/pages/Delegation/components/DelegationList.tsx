@@ -1,36 +1,33 @@
 import {ExclamationCircleOutlined, PlusOutlined} from '@ant-design/icons';
-import {Button, message, Drawer, Modal} from 'antd';
-import React, {useState, useRef} from 'react';
-import {useIntl, FormattedMessage} from 'umi';
-import { PageContainer} from '@ant-design/pro-layout';
-import type { ProColumns, ActionType } from '@ant-design/pro-table';
+import {Button, Drawer, message, Modal} from 'antd';
+import React, {useRef, useState} from 'react';
+import {FormattedMessage, useIntl} from 'umi';
+import {PageContainer} from '@ant-design/pro-layout';
+import type {ActionType, ProColumns} from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
-import {
-  ModalForm,
-  ProFormText,
-} from '@ant-design/pro-form';
-import type { ProDescriptionsItemProps } from '@ant-design/pro-descriptions';
+import {ModalForm, ProFormText,} from '@ant-design/pro-form';
+import type {ProDescriptionsItemProps} from '@ant-design/pro-descriptions';
 import ProDescriptions from '@ant-design/pro-descriptions';
-const { confirm } = Modal;
-
 import {
-  deleteDelegation,
-  updateDelegation,
   createDelegation,
-  //getSimpleUserByRole,
+  deleteDelegation,
   getProcessList,
+  updateDelegation,
 } from "@/services/ant-design-pro/delegation/api";
-import {API} from "@/services/ant-design-pro/typings";
+import type {API} from "@/services/ant-design-pro/typings";
+
+const {confirm} = Modal;
+
 /** 根据id删除委托 */
 const handleDelete = async (id: number) => {
   const hide = message.loading('提交中');
   try {
     const resp = await deleteDelegation({
-      id:id,
+      id: id,
     });
     console.log(resp)
     hide();
-    if(resp.code == 0) {
+    if (resp.code == 0) {
       message.success('委托已删除');
     } else {
       message.error(resp.msg);
@@ -44,12 +41,12 @@ const handleDelete = async (id: number) => {
 };
 
 /** 更新委托(id->名称，url)
-const handleUpdateDelegation = async (data: {
+ const handleUpdateDelegation = async (data: {
                                         id: number,
                                         name: string,
                                         url?: string,
                                       }
-) => {
+ ) => {
   const res = await updateDelegation(data)
   if(res.code == 0) {
     message.success('更新委托成功')
@@ -65,17 +62,16 @@ const handleCreateDelegation = async (params: {
   name: string
 }) => {
   const res = await createDelegation({
-    name:params.name
+    name: params.name
   })
   //todo:check condition
-  if(res.code == 0) {
+  if (res.code == 0) {
     message.success('创建委托成功')
   } else {
     message.error(res.msg)
   }
   return res.data;
 }
-
 
 
 /**
@@ -91,7 +87,7 @@ const handleUpdateDelegation = async (data: {
 ) => {
   console.log('handle update')
   const res = await updateDelegation(data)
-  if(res.code == 0) {
+  if (res.code == 0) {
     message.success('更新委托成功')
   } else {
     message.error(res.msg)
@@ -102,7 +98,7 @@ const getOperateTime = async (delegationId: number) => {
   const process = await getProcessList({
     id: delegationId,
   });
-  const operateTime = process.data[process.data.length-1].operateTime;
+  const operateTime = process.data[process.data.length - 1].operateTime;
   return operateTime;
 }
 export type DelegationListType = {
@@ -126,9 +122,9 @@ const DelegationList: React.FC<DelegationListType> = (props) => {
     },
     options?: Record<string, any>
   ) => {
-    const result = await props.request(params,options)
-      //状态变更时间
-    for(let i = 0; i < result.list.length; i++) {
+    const result = await props.request(params, options)
+    //状态变更时间
+    for (let i = 0; i < result.list.length; i++) {
       result.list[i].operateTime = await getOperateTime(result.list[i].id!);
     }
     return {
@@ -138,7 +134,7 @@ const DelegationList: React.FC<DelegationListType> = (props) => {
     }
   }
   let actionRef = useRef<ActionType>();
-  if(props.actionRef) {
+  if (props.actionRef) {
     actionRef = props.actionRef;
   }
   const [currentRow, setCurrentRow] = useState<API.DelegationItem>();
@@ -183,21 +179,21 @@ const DelegationList: React.FC<DelegationListType> = (props) => {
         );
       },
     },
-    /** 合同编号 contractId show */
+    /** 合同编号 contractId  */
     {
       title: '合同编号',
       dataIndex: 'contractId',
       hideInSearch: true,
       hideInTable: true,
     },
-    /** 发起者人编号 creatorId show */
+    /** 发起者人编号 creatorId  */
     {
       title: '发起人编号',
       dataIndex: 'creatorId',
       hideInSearch: true,
       hideInTable: true,
     },
-    /** 发起时间 launchTime show */
+    /** 发起时间 launchTime  */
     {
       title: '发起时间',
       dataIndex: 'launchTime',
@@ -209,9 +205,9 @@ const DelegationList: React.FC<DelegationListType> = (props) => {
         new Date(record.launchTime!).toLocaleString()
       ]
     },
-    /**状态 status show */
+    /**状态 status */
     {
-      title: <FormattedMessage id="pages.searchTable.titleStatus" defaultMessage="Status" />,
+      title: <FormattedMessage id="pages.searchTable.titleStatus" defaultMessage="Status"/>,
       dataIndex: 'state',
       hideInForm: false,
       hideInSearch: true,//
@@ -231,7 +227,7 @@ const DelegationList: React.FC<DelegationListType> = (props) => {
         new Date(record.operateTime!).toLocaleString()
       ]
     },
-    /** 分配的市场部人员id marketDeptStaffId hide */
+    /** 分配的市场部人员id marketDeptStaffId  */
     {
       title: '分配的市场部人员编号',
       dataIndex: 'marketDeptStaffId',
@@ -239,7 +235,7 @@ const DelegationList: React.FC<DelegationListType> = (props) => {
       hideInTable: true,
       valueType: 'textarea',
     },
-    /**市场部人员处理意见 show */
+    /**市场部人员处理意见  */
     {
       title: "市场部人员处理意见",
       dataIndex: 'marketRemark',
@@ -247,7 +243,7 @@ const DelegationList: React.FC<DelegationListType> = (props) => {
       hideInSearch: true,
       hideInTable: true,
     },
-    /**报价单编号 offerId hide*/
+    /**报价单编号 offerId */
     {
       title: "报价单编号",
       dataIndex: 'offerId',
@@ -255,7 +251,7 @@ const DelegationList: React.FC<DelegationListType> = (props) => {
       hideInSearch: true,
       hideInTable: true,
     },
-    /** 用户报价单意见 show */
+    /** 用户报价单意见  */
     {
       title: "用户报价单意见",
       dataIndex: 'offerRemark',
@@ -264,7 +260,7 @@ const DelegationList: React.FC<DelegationListType> = (props) => {
       hideInTable: true,
     },
 
-    /**测试报告编号 offerId hide*/
+    /**测试报告编号 offerId */
     {
       title: "测试报告编号",
       dataIndex: 'reportId',
@@ -272,7 +268,7 @@ const DelegationList: React.FC<DelegationListType> = (props) => {
       hideInSearch: true,
       hideInTable: true,
     },
-    /**样品编号 sampleId hide*/
+    /**样品编号 sampleId */
     {
       title: "样品编号",
       dataIndex: 'sampleId',
@@ -280,7 +276,7 @@ const DelegationList: React.FC<DelegationListType> = (props) => {
       hideInSearch: true,
       hideInTable: true,
     },
-    /**测试方案编号 solutionId hide*/
+    /**测试方案编号 solutionId */
     {
       title: "测试方案编号",
       dataIndex: 'solutionId',
@@ -289,21 +285,21 @@ const DelegationList: React.FC<DelegationListType> = (props) => {
       hideInTable: true,
     },
 
-    /** 软件文档评审表ID table14Id hide */
+    /** 软件文档评审表ID table14Id  */
     {
       title: '软件文档评审表ID',
       dataIndex: 'table14Id',
       hideInSearch: true,
       hideInTable: true,
     },
-    /** 软件项目委托测试申请表ID table2Id hide */
+    /** 软件项目委托测试申请表ID table2Id  */
     {
       title: '软件项目委托测试申请表ID',
       dataIndex: 'table2Id',
       hideInSearch: true,
       hideInTable: true,
     },
-    /** 委托测试软件功能列表ID table3Id hide */
+    /** 委托测试软件功能列表ID table3Id  */
     {
       title: '委托测试软件功能列表ID',
       dataIndex: 'table3Id',
@@ -311,14 +307,14 @@ const DelegationList: React.FC<DelegationListType> = (props) => {
       hideInTable: true,
     },
 
-    /** 分配的测试部人员ID testingDeptStaffId hide */
+    /** 分配的测试部人员ID testingDeptStaffId */
     {
       title: '测试部人员ID',
       dataIndex: 'testingDeptStaffId',
       hideInSearch: true,
       hideInTable: true,
     },
-    /** 测试部人员处理意见 show*/
+    /** 测试部人员处理意见 */
     {
       title: "测试部人员处理意见",
       dataIndex: 'testingRemark',
@@ -326,7 +322,7 @@ const DelegationList: React.FC<DelegationListType> = (props) => {
       hideInSearch: true,
       hideInTable: true,
     },
-    /** 文档材料url url hide */
+    /** 文档材料url */
     {
       title: '文档材料url',
       dataIndex: 'url',
@@ -336,12 +332,12 @@ const DelegationList: React.FC<DelegationListType> = (props) => {
 
     /**用户 修改 */
     {
-      title:'修改名称',
+      title: '修改名称',
       dataIndex: 'modify',
       valueType: 'option',
       //hideInTable: !roles.includes('client'),
       hideInTable: true,
-      sorter:false,
+      sorter: false,
       render: (text, record) => [
         /**修改名称和url*/
         <ModalForm
@@ -359,8 +355,8 @@ const DelegationList: React.FC<DelegationListType> = (props) => {
             const name = values.name;
             //const url = values.url;
             await handleUpdateDelegation({
-              id:id,
-              name:name,
+              id: id,
+              name: name,
               //url:url,
             });
             actionRef.current?.reload();
@@ -378,7 +374,7 @@ const DelegationList: React.FC<DelegationListType> = (props) => {
       ]
     },
   ];
-  if(props.operationColumns && props.operationColumns.length > 0) {
+  if (props.operationColumns && props.operationColumns.length > 0) {
     columns = columns.concat(props.operationColumns)
   }
 
@@ -428,7 +424,7 @@ const DelegationList: React.FC<DelegationListType> = (props) => {
         }}
         /*新建*/
         toolBarRender={() => [
-          (roles.includes('client') || roles.includes('super_admin'))&&
+          (roles.includes('client') || roles.includes('super_admin')) &&
           <Button
             type="primary"
             key="primary"
@@ -436,10 +432,10 @@ const DelegationList: React.FC<DelegationListType> = (props) => {
               handleModalVisible(true);
             }}
           >
-            <PlusOutlined /> <FormattedMessage id="todo" defaultMessage="新建" />
+            <PlusOutlined/> <FormattedMessage id="todo" defaultMessage="新建"/>
           </Button>,
           /*删除*/
-          (roles.includes('client') || roles.includes('super_admin'))&&
+          (roles.includes('client') || roles.includes('super_admin')) &&
           <Button
             type="primary"
             key="danger"
@@ -448,7 +444,7 @@ const DelegationList: React.FC<DelegationListType> = (props) => {
               () => {
                 confirm({
                   title: '确认删除吗?',
-                  icon: <ExclamationCircleOutlined />,
+                  icon: <ExclamationCircleOutlined/>,
                   content: '',
                   onOk() {
                     //console.log('批量删除');
@@ -456,7 +452,7 @@ const DelegationList: React.FC<DelegationListType> = (props) => {
                     const ids = selectedRowsState.map(record => record.id);
                     //console.log(ids);
                     setSelectedRows([]);
-                    if(!roles.includes('client')) {
+                    if (!roles.includes('client')) {
                       message.error('您没有权限删除委托');
                       return;
                     }
@@ -473,7 +469,7 @@ const DelegationList: React.FC<DelegationListType> = (props) => {
               }
             }
           >
-            <FormattedMessage id="todo" defaultMessage="删除" />
+            <FormattedMessage id="todo" defaultMessage="删除"/>
           </Button>,
         ]}
         /*请求数据*/
@@ -523,7 +519,7 @@ const DelegationList: React.FC<DelegationListType> = (props) => {
         onFinish={async (value: {
           name: string
         }) => {
-          if(!roles.includes('client')) {
+          if (!roles.includes('client')) {
             message.error('您没有权限创建委托');
             return;
           }

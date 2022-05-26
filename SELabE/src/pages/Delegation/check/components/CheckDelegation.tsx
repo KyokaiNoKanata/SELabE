@@ -1,9 +1,10 @@
-import React, {ReactNode, useState} from "react";
-import {API} from "@/services/ant-design-pro/typings";
+import type {ReactNode} from "react";
+import React, { useState} from "react";
+import type {API} from "@/services/ant-design-pro/typings";
 import {currentUser} from "@/services/ant-design-pro/api";
 import {delegationPage} from "@/services/ant-design-pro/delegation/api";
 import DelegationList from "@/pages/Delegation/components/DelegationList";
-import {ActionType, ProColumns} from "@ant-design/pro-table";
+import type {ActionType, ProColumns} from "@ant-design/pro-table";
 import {Link} from "umi";
 import {Button} from "antd";
 //查看委托列表
@@ -18,8 +19,8 @@ const CheckDelegation: React.FC<{
   actionRef?: React.MutableRefObject<ActionType | undefined>,
 }>
   = (props) => {
-  const [roles,setRoles] = useState<string[]>([]);
-  const [userInfo,setUser] = useState<{
+  const [roles, setRoles] = useState<string[]>([]);
+  const [userInfo, setUser] = useState<{
     avatar?: string,
     nickname?: string,
     id?: string,
@@ -56,25 +57,25 @@ const CheckDelegation: React.FC<{
     const role = user.data.roles;
     setRoles(user.data.roles);
     //主管都能看到
-    if(role.includes('super_admin')
+    if (role.includes('super_admin')
       || role.includes('marketing_department_manger')
       || role.includes('test_department_manager')) {
     }
     //市场部员工
-    else if(user.data.roles.includes('marketing_department_staff')) {
+    else if (user.data.roles.includes('marketing_department_staff')) {
       p.marketDeptStaffId = user.data.user.id;
     }
     //测试部员工
-    else if(user.data.roles.includes('test_department_staff')) {
+    else if (user.data.roles.includes('test_department_staff')) {
       p.testingDeptStaffId = user.data.user.id;
     }
     //客户
-    else if(user.data.roles.includes('client')){
+    else if (user.data.roles.includes('client')) {
       p.creatorId = user.data.user.id;
     } else {
       p.state = '-1';
     }
-    const res = await delegationPage(p,options);
+    const res = await delegationPage(p, options);
     return res.data;
   }
   return (
@@ -83,8 +84,7 @@ const CheckDelegation: React.FC<{
       roles={roles}
       user={userInfo}
       operationColumns={props.operationColumns.concat(checkDetailColumns)}
-      actionRef={props.actionRef}>
-    </DelegationList>
+      actionRef={props.actionRef} />
   )
 }
 

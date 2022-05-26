@@ -1,20 +1,20 @@
 /**
  * 客户 处理报价
  */
-import {API} from "@/services/ant-design-pro/typings";
+import type {API} from "@/services/ant-design-pro/typings";
 import {currentUser} from "@/services/ant-design-pro/api";
-import React, { ReactNode, useRef, useState} from "react";
+import type {ReactNode} from "react";
+import React, { useRef, useState} from "react";
 import {Link} from "umi";
 import {Button} from "antd";
-import {
-  delegationPage,
-} from "@/services/ant-design-pro/delegation/api";
+import {delegationPage,} from "@/services/ant-design-pro/delegation/api";
 import DelegationList from "@/pages/Delegation/components/DelegationList";
-import {ActionType, ProColumns} from "@ant-design/pro-table";
-export default ()=> {
+import type {ActionType, ProColumns} from "@ant-design/pro-table";
+
+export default () => {
   const actionRef: React.MutableRefObject<ActionType | undefined> = useRef<ActionType>();
-  const [roles,setRoles] = useState<string[]>([]);
-  const [userInfo,setUser] = useState<{
+  const [roles, setRoles] = useState<string[]>([]);
+  const [userInfo, setUser] = useState<{
     avatar?: string,
     nickname?: string,
     id?: string,
@@ -28,7 +28,7 @@ export default ()=> {
       sorter: false,
       render: (text: ReactNode, record: API.DelegationItem) => {
         const {id} = record;
-        return [<Link to={{ pathname:'/docs/quotation/client', query: {id}}}>
+        return [<Link to={{pathname: '/docs/quotation/client', query: {id}}}>
           <Button type="primary">处理报价</Button>
         </Link>
         ]
@@ -49,14 +49,14 @@ export default ()=> {
     const role = user.data.roles;
     setRoles(role);
     //市场部员工
-    if(role.includes('super_admin')
+    if (role.includes('super_admin')
       || role.includes('client')) {
       p.creatorId = user.data.user.id;
-      p.state ='120';
+      p.state = '120';
     } else {
       p.state = '-1';
     }
-    const res = await delegationPage(p,options);
+    const res = await delegationPage(p, options);
     return res.data;
   }
   return <DelegationList
@@ -65,6 +65,5 @@ export default ()=> {
     user={userInfo}
     operationColumns={operationColumns}
     actionRef={actionRef}
-  >
-  </DelegationList>
+   />
 }
