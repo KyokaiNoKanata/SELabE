@@ -48,7 +48,7 @@ const ContractForm: React.FC<{
     return data;
   }
   const onSave = async (value: any) => {
-    console.log(value)
+    console.log(value);
     let contractId = (await getDelegationByIds({
       ids: String(delegationId),
     })).data[0].contractId;
@@ -83,6 +83,7 @@ const ContractForm: React.FC<{
   }
   //提交合同
   const onSubmit = async () => {
+
     const contractId: number = (await getDelegationByIds({
       ids: String(delegationId),
     })).data[0].contractId!;
@@ -137,7 +138,7 @@ const ContractForm: React.FC<{
                   <Button onClick={() => props.onPre?.()}>
                     {'<'} 上一步
                   </Button>
-                  <Button type="primary" key="submit" onClick={() => props.onSubmit?.()}>
+                  <Button type="primary" key="save" onClick={() => props.onSubmit?.()}>
                     保存
                   </Button>
                   <Button type="primary" key="submit" onClick={()=> onSubmit()}>
@@ -171,18 +172,18 @@ const ContractForm: React.FC<{
                 request={request}
               >
       <Form.Item label="项目名称:" name = "项目名称" style={{ width: '50%' }}>
-        <Input />
+        <Input disabled={prop.editable}/>
       </Form.Item>
       <Form.Item label = "委托方(甲方):" name = "委托方(甲方)" style={{ width: '50%' }} >
-        <Input disabled={!prop.isClient}/>
+        <Input disabled={!prop.isClient||prop.editable}/>
       </Form.Item>
       <Form.Item label = "委托方(乙方):" name = "委托方(乙方)" style={{ width: '50%' }} >
-        <Input disabled={prop.isClient}/>
+        <Input disabled={prop.isClient||prop.editable}/>
       </Form.Item>
       <Form.Item label = "签订地点:" name = "签订地点" style={{ width: '50%' }}>
-        <Input />
+        <Input disabled={prop.editable}/>
       </Form.Item>
-      <ProFormDatePicker label = "签订日期" name = "签订日期" style={{ width: '50%' }}/>
+      <ProFormDatePicker disabled={prop.editable} label = "签订日期" name = "签订日期" style={{ width: '50%' }}/>
        {explanation()}
      </StepsForm.StepForm>
     <StepsForm.StepForm<{
@@ -201,28 +202,28 @@ const ContractForm: React.FC<{
                 request={request}
               >
         <ProCard title="委托方" bordered>
-          <ProFormText name='委托方单位全称' label='单位全称' addonAfter='(签章)' disabled={!prop.isClient}/>
-          <ProFormText name='委托方授权代表' label='授权代表' disabled={!prop.isClient}/>
-          <ProFormDatePicker name='委托方签章日期' label='签章日期' disabled={!prop.isClient}/>
-          <ProFormText name='委托方联系人' label='联系人' disabled={!prop.isClient}/>
-          <ProFormText name='委托方通讯地址' label='通讯地址' disabled={!prop.isClient}/>
-          <ProFormText name='委托方电话' label='电话' disabled={!prop.isClient}/>
+          <ProFormText name='委托方单位全称' label='单位全称' addonAfter='(签章)' disabled={!prop.isClient||prop.editable}/>
+          <ProFormText name='委托方授权代表' label='授权代表' disabled={!prop.isClient||prop.editable}/>
+          <ProFormDatePicker name='委托方签章日期' label='签章日期' disabled={!prop.isClient||prop.editable}/>
+          <ProFormText name='委托方联系人' label='联系人' disabled={!prop.isClient||prop.editable}/>
+          <ProFormText name='委托方通讯地址' label='通讯地址' disabled={!prop.isClient||prop.editable}/>
+          <ProFormText name='委托方电话' label='电话' disabled={!prop.isClient||prop.editable}/>
 
-          <ProFormText name='委托方开户银行' label='开户银行' disabled={!prop.isClient}/>
-          <ProFormText name='委托方账号' label='账号' disabled={!prop.isClient}/>
-          <ProFormText name='委托方邮编' label='邮编' disabled={!prop.isClient}/>
+          <ProFormText name='委托方开户银行' label='开户银行' disabled={!prop.isClient||prop.editable}/>
+          <ProFormText name='委托方账号' label='账号' disabled={!prop.isClient||prop.editable}/>
+          <ProFormText name='委托方邮编' label='邮编' disabled={!prop.isClient||prop.editable}/>
           <div>传真:62661627</div>
         </ProCard>
         <ProCard title="受托方"bordered>
           <div>单位全称:南京大学计算机软件新技术国家重点实验室(签章)</div>
           <br/>
-          <ProFormText name='受托方授权代表' label='授权代表' disabled={prop.isClient}/>
-          <ProFormDatePicker name='受托方签章日期' label='签章日期'  disabled={prop.isClient}/>
-          <ProFormText name='受托方联系人' label='联系人'  disabled={prop.isClient}/>
-          <ProFormText name='受托方通讯地址' label='通讯地址'  disabled={prop.isClient}/>
-          <ProFormText name='受托方电话' label='电话'  disabled={prop.isClient}/>
-          <ProFormText name='受托方传真' label='传真'  disabled={prop.isClient}/>
-          <ProFormText name='受托方邮编' label='邮编'  disabled={prop.isClient}/>
+          <ProFormText name='受托方授权代表' label='授权代表' disabled={prop.isClient||prop.editable}/>
+          <ProFormDatePicker name='受托方签章日期' label='签章日期'  disabled={prop.isClient||prop.editable}/>
+          <ProFormText name='受托方联系人' label='联系人'  disabled={prop.isClient||prop.editable}/>
+          <ProFormText name='受托方通讯地址' label='通讯地址'  disabled={prop.isClient||prop.editable}/>
+          <ProFormText name='受托方电话' label='电话'  disabled={prop.isClient||prop.editable}/>
+          <ProFormText name='受托方传真' label='传真'  disabled={prop.isClient||prop.editable}/>
+          <ProFormText name='受托方邮编' label='邮编'  disabled={prop.isClient||prop.editable}/>
           <div>开户银行:中国工商银行股份有限公司南京汉口路分理处</div>
           <div>户名:南京大学</div>
           <div>账号:4301011309001041656</div>
@@ -236,14 +237,17 @@ const ContractForm: React.FC<{
     return(
     <Typography>
       <Paragraph>
-      <ProFormText name='委托方名称'addonBefore=' 本合同由作为委托方的' addonAfter='（以下简称“甲方”) 与作为受托方的'/>
+      <ProFormText name='委托方名称'addonBefore=' 本合同由作为委托方的' addonAfter='（以下简称“甲方”) 与作为受托方的'
+      disabled={!prop.isClient||prop.editable}/>
       <Text strong>南京大学计算机软件新技术国家重点实验室</Text> （以下简称“乙方”）在平等自愿的基础上，
     依据《中华人民共和国合同法》有关规定就项目的执行，经友好协商后订立。
       </Paragraph>
       <Title level={3}>一、任务表述</Title>
       <Paragraph>
-      <ProFormText name='软件名称' addonBefore=' 乙方按照国家软件质量测试标准和测试规范，完成对甲方委托的软件（下称受测软件）'/>
-      <ProFormText name='质量特性' addonBefore='的质量特性' addonAfter='进行测试，并出具相应的测试报告'/>
+      <ProFormText name='软件名称' addonBefore=' 乙方按照国家软件质量测试标准和测试规范，完成对甲方委托的软件（下称受测软件）'
+      disabled={prop.editable}/>
+      <ProFormText name='质量特性' addonBefore='的质量特性' addonAfter='进行测试，并出具相应的测试报告'
+      disabled={prop.editable}/>
 
       </Paragraph>
       <Title level={3}>二、双方的主要义务</Title>
@@ -282,7 +286,8 @@ const ContractForm: React.FC<{
       </Paragraph>
       <Title level={3}>四、合同价款</Title>
       <Paragraph>
-      <ProFormText name='合同价款' addonBefore='本合同软件测试费用为人民币' addonAfter='元'/>
+      <ProFormText name='合同价款' addonBefore='本合同软件测试费用为人民币' addonAfter='元'
+      disabled={prop.isClient||prop.editable}/>
       </Paragraph>
       <Title level={3}>五、测试费用支付方式</Title>
       <Paragraph>本合同签定后，十个工作日内甲方合同价款至乙方帐户。</Paragraph>
@@ -290,14 +295,17 @@ const ContractForm: React.FC<{
       <Paragraph>
         <ol>
           <li>
-            <ProFormText name='完成天数' addonBefore='本次测试的履行期限为合同生效之日起' addonAfter='个自然日内完成。'/>
+            <ProFormText name='完成天数' addonBefore='本次测试的履行期限为合同生效之日起' addonAfter='个自然日内完成。'
+            disabled={prop.editable}/>
           </li>
           <li>经甲乙双方同意，可对测试进度作适当修改，并以修改后的测试进度作为本合同执行的期限。</li>
           <li><ProFormText
           addonBefore="如受测软件在测试过程中出现的问题，导致继续进行测试会影响整体测试进度，则乙方暂停测试并以书面形式通知甲方进行整改。在整个测试过程中，整改次数限于"
           addonAfter='次，'
-          width= 'md' name="整改次数" />
-            <ProFormText addonBefore='每次不超过' addonAfter='天' name="超过天数"/>
+          width= 'md' name="整改次数"
+          disabled={prop.isClient||prop.editable}/>
+            <ProFormText addonBefore='每次不超过' addonAfter='天' name="超过天数"
+            disabled={prop.isClient||prop.editable}/>
 
             </li>
           <li>如因甲方原因，导致测试进度延迟、应由甲方负责,乙方不承担责任。</li>

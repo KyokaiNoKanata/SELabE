@@ -4,6 +4,10 @@ import React from "react";
 import {createContract, getTable5, saveTable5} from "@/services/ant-design-pro/contract/api";
 import {useLocation} from "umi";
 import {getDelegationByIds} from "@/services/ant-design-pro/delegation/api";
+import ProForm, {
+  ProFormDatePicker,
+  ProFormText,
+} from '@ant-design/pro-form';
 
 const {Paragraph} = Typography;
 //editable为false则双方都不可以编辑
@@ -14,16 +18,32 @@ const CDA: React.FC<{
   const params = useLocation();
   const delegationId = (params as any).query.id;
   //todo 获取数据，保存 table5
+  const request = async () => {
+      const contractId = (await getDelegationByIds({
+        ids: String(delegationId),
+      })).data[0].contractId;
+      if(!contractId) {
+        return {};
+      }
+      const table5Id = (await getContractById({id: contractId})).data.table5Id;
+      if(!table5Id) {
+        return {}
+      }
+      const resp = await getTable5({
+        id: table5Id,
+      });
+
+      const data = resp.data;
+      //const {_id, deleted, ...data} = resp.data;
+      console.log(data);
+      return data;
+    }
   /**
    * @params: any if you need
    */
-  const onSave = async () => {
+  const onSave = async (value:any) => {
     //todo: get value
-    const value = {
-      a: '张三',
-      b: 2,
-    }
-    console.log('save');
+    console.log(value);
     //console.log(value);
     let contractId = (await getDelegationByIds({
       ids: String(delegationId),
@@ -56,20 +76,25 @@ const CDA: React.FC<{
       message.error(resp.msg);
     }
   }
-  //todo 加载table5
-  // 放在合适的位置
-  const request = async () => {
-    console.log('request');
-    return {};
-  }
+
   const explanation = () => {
     return ([
+    <ProForm
+    onFinish={onSave}
+    request={request}
+    key={'CDA'}
+    submitter={{
+      searchConfig: {
+        resetText: '重置',
+        submitText: '保存',
+        },
+       }}>
       <Typography>
         <Paragraph>
-          委托方<Input placeholder="委托方名称" style={{width: '25%'}}/>
-          （以下简称“甲方”）
-          与南京大学计算机软件新技术国家重点实验室（简称“乙方”）在签订《<Input placeholder="项目名称" style={{width: '25%'}}/>
-          软件项目委托测试》委托合同的前提下，为保证双方的合法权利，经协双方达成如下保密协议：
+          <ProFormText disabled={props.editable} name='保密协议委托方名称'
+           addonBefore='委托方' addonAfter='（以下简称“甲方”）与南京大学计算机软件新技术国家重点实验室（简称“乙方”）'/>
+          <ProFormText disabled={props.editable} name= '保密协议项目名称'
+           addonBefore='在签订《' addonAfter='软件项目委托测试》委托合同的前提下，为保证双方的合法权利，经协双方达成如下保密协议：'/>
         </Paragraph>
         <Card>
           <Paragraph>
@@ -119,11 +144,8 @@ const CDA: React.FC<{
         <Paragraph>
           本协议自双方授权代表签字盖章之日起生效，但有效期不限于合同有效期。
         </Paragraph>
-      </Typography>,
-        //todo: 放到中间
-        <Button type="primary" key="submit" onClick={onSave}>
-          保存
-        </Button>
+      </Typography>
+        </ProForm>
         ]
     );
   }
