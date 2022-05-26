@@ -141,3 +141,17 @@ export function rejectContractStaff(body: {
     }
   )
 }
+//上传合同材料的url
+export function uploadContractFile(body: {
+  contractId?: number,
+  url?: string,
+}) {
+  return request<API.Response>('/admin-api/system/contract/upload/doc',{
+      method: 'PUT',
+      data: {
+        id: body.contractId,
+        url: body.url,
+      }
+    }
+  )
+}

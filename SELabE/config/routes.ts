@@ -135,6 +135,13 @@ export default [
     name: '合同管理',
     icon: 'crown',
     routes: [
+      //查看合同详情
+      {
+        path: './check/All',
+        name: '查看合同',
+        icon: 'smile',
+        component: './Contract/checkAll',
+      },
       //市场部填写（创建）
       {
         path: './create/staff',
