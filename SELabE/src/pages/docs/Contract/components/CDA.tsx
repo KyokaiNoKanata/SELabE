@@ -91,9 +91,9 @@ const CDA: React.FC<{
        }}>
       <Typography>
         <Paragraph>
-          <ProFormText disabled={props.editable} name='保密协议委托方名称'
+          <ProFormText disabled={props.editable||!props.isClient} name='保密协议委托方名称'
            addonBefore='委托方' addonAfter='（以下简称“甲方”）与南京大学计算机软件新技术国家重点实验室（简称“乙方”）'/>
-          <ProFormText disabled={props.editable} name= '保密协议项目名称'
+          <ProFormText disabled={props.editable||props.isClient} name= '保密协议项目名称'
            addonBefore='在签订《' addonAfter='软件项目委托测试》委托合同的前提下，为保证双方的合法权利，经协双方达成如下保密协议：'/>
         </Paragraph>
         <Card>

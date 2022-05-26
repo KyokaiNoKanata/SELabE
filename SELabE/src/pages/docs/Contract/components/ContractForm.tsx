@@ -172,7 +172,7 @@ const ContractForm: React.FC<{
                 request={request}
               >
       <Form.Item label="项目名称:" name = "项目名称" style={{ width: '50%' }}>
-        <Input disabled={prop.editable}/>
+        <Input disabled={prop.editable||prop.isClient}/>
       </Form.Item>
       <Form.Item label = "委托方(甲方):" name = "委托方(甲方)" style={{ width: '50%' }} >
         <Input disabled={!prop.isClient||prop.editable}/>
@@ -181,9 +181,9 @@ const ContractForm: React.FC<{
         <Input disabled={prop.isClient||prop.editable}/>
       </Form.Item>
       <Form.Item label = "签订地点:" name = "签订地点" style={{ width: '50%' }}>
-        <Input disabled={prop.editable}/>
+        <Input disabled={prop.editable||prop.isClient}/>
       </Form.Item>
-      <ProFormDatePicker disabled={prop.editable} label = "签订日期" name = "签订日期" style={{ width: '50%' }}/>
+      <ProFormDatePicker disabled={prop.editable||prop.isClient} label = "签订日期" name = "签订日期" style={{ width: '50%' }}/>
        {explanation()}
      </StepsForm.StepForm>
     <StepsForm.StepForm<{
@@ -238,16 +238,16 @@ const ContractForm: React.FC<{
     <Typography>
       <Paragraph>
       <ProFormText name='委托方名称'addonBefore=' 本合同由作为委托方的' addonAfter='（以下简称“甲方”) 与作为受托方的'
-      disabled={!prop.isClient||prop.editable}/>
+      disabled={prop.isClient||prop.editable}/>
       <Text strong>南京大学计算机软件新技术国家重点实验室</Text> （以下简称“乙方”）在平等自愿的基础上，
     依据《中华人民共和国合同法》有关规定就项目的执行，经友好协商后订立。
       </Paragraph>
       <Title level={3}>一、任务表述</Title>
       <Paragraph>
       <ProFormText name='软件名称' addonBefore=' 乙方按照国家软件质量测试标准和测试规范，完成对甲方委托的软件（下称受测软件）'
-      disabled={prop.editable}/>
+      disabled={prop.editable||prop.isClient}/>
       <ProFormText name='质量特性' addonBefore='的质量特性' addonAfter='进行测试，并出具相应的测试报告'
-      disabled={prop.editable}/>
+      disabled={prop.editable||prop.isClient}/>
 
       </Paragraph>
       <Title level={3}>二、双方的主要义务</Title>
@@ -296,7 +296,7 @@ const ContractForm: React.FC<{
         <ol>
           <li>
             <ProFormText name='完成天数' addonBefore='本次测试的履行期限为合同生效之日起' addonAfter='个自然日内完成。'
-            disabled={prop.editable}/>
+            disabled={prop.editable||prop.isClient}/>
           </li>
           <li>经甲乙双方同意，可对测试进度作适当修改，并以修改后的测试进度作为本合同执行的期限。</li>
           <li><ProFormText
