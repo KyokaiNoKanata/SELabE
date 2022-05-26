@@ -79,11 +79,11 @@ const ContractPageComponent: React.FC<{
   }
   const contentList = {
     CDA: <Card>
-      <CDA isClient={props.isClient} editable={false} />
+      <CDA isClient={props.isClient} editable={props.audit} />
     </Card>,
     ContractForm:
       <Card>
-        <ContractForm isClient={props.isClient} editable={false}/>
+        <ContractForm isClient={props.isClient} editable={props.audit}/>
       </Card>,
     Audit:
     <Card>
