@@ -42,20 +42,21 @@ const DelegationDetail: React.FC = () => {
       setTestingDeptStaffId(result.testingDeptStaffId);
     }
   );
-
+  /*
   const getUserInfo = async () => {
     const userData = (await getUserByID(
       {
-        userId: String(testingDeptStaffId),
+        userId: 131,
       }));
     return userData;
   }
+
   getUserInfo().then(
     result => {
-      console.log(result);
-      //setMarketDeptStaffName(result.name);
+      setMarketDeptStaffName(result.data.name);
     }
   );
+  */
 
   const getStateTime = async () => {
     const process = (await getProcessList(
@@ -447,16 +448,16 @@ const DelegationDetail: React.FC = () => {
   }
   const MarketingAuditMsg = () => {
     if (delegationState === "市场部审核委托不通过，委托修改中") {
-      return "审核委托不通过" + " 【审核意见】:" + marketRemark + " 【审核人ID】:" + marketDeptStaffId;
+      return "审核委托不通过" + " 【审核意见】:" + marketRemark + " 【审核人】:" + marketDeptStaffId;
     } else {
-      return "审核委托通过" + " 【审核意见】:" + marketRemark + " 【审核人ID】:" + marketDeptStaffId;
+      return "审核委托通过" + " 【审核意见】:" + marketRemark + " 【审核人】:" + marketDeptStaffId;
     }
   }
   const TestingAuditMsg = () => {
     if (delegationState === "测试部审核委托不通过，委托修改中") {
-      return "审核委托不通过" + " 【审核意见】:" + testingRemark + " 【审核人ID】:" + testingDeptStaffId;
+      return "审核委托不通过" + " 【审核意见】:" + testingRemark + " 【审核人】:" + testingDeptStaffId;
     } else {
-      return "审核委托通过" + " 【审核意见】:" + testingRemark + " 【审核人ID】:" + testingDeptStaffId;
+      return "审核委托通过" + " 【审核意见】:" + testingRemark + " 【审核人】:" + testingDeptStaffId;
     }
   }
   const ClientQuoteMsg = () => {
@@ -573,6 +574,9 @@ const DelegationDetail: React.FC = () => {
         </ProCard>
         <ProCard>
           状态变更时间: {moment(parseInt(String(operateTime))).format("YYYY-MM-DD HH:mm:ss")}
+        </ProCard>
+        <ProCard>
+          市场部人员: {marketDeptStaffName}
         </ProCard>
       </Row>
     </PageContainer>

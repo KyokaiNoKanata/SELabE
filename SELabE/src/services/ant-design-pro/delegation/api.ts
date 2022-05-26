@@ -189,7 +189,7 @@ export async function getSimpleUserByRole(params: {
  * 获取角色信息
  */
 export async function getUserByID(params: {
-  userId: string
+  userId: number
 }){
   return request<{
     code: number,
