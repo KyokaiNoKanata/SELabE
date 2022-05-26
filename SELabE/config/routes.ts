@@ -291,8 +291,28 @@ export default [
         icon: 'smile',
         component: './docs/Quotation/Client',
       },
+      {
+        path: '/docs/new-solution',
+        name: '填写测试方案',
+        icon: 'table',
+        component: './docs/NewSolution',
+      }
     ]
   },
+  {
+    path: '/solution',
+    name: '测试方案',
+    icon: 'smile',
+    routes: [
+      {
+        path: '/solution/checkAll',
+        name: '查看测试方案',
+        icon: 'smile',
+        component: './Solution',
+      },
+    ]
+  },
+
   {
     path: '/',
     redirect: '/welcome',

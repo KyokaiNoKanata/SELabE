@@ -78,7 +78,13 @@ declare namespace API {
     msg?: string;
 
   };
-
+  type SolutionItem = {
+    auditorId?: number;
+    createTime?: string;
+    id:? number;
+    table13Id?: string;
+    table6Id?: string;
+  };
   type LoginResult = {
     status?: string;
     type?: string;
@@ -192,3 +198,4 @@ declare namespace API {
     hideInMenu?: string;
   }
 }
+export class SolutionItem {}
