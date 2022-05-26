@@ -29,9 +29,9 @@ const DocumentReview = () => {
     委托申请书:
       <Card>
         {/*todo: make it non-editable (only remove submit button in this edition)*/}
-        <StepApplyPage editable={false}/>
+        <StepApplyPage editable={false} isClient={true}/>
       </Card>,
-    委托功能列表: <Card><FunctionList editable={false}/></Card>,
+    委托功能列表: <Card><FunctionList editable={false} isClient={true}/></Card>,
     评审表:<Card><StepDocReview></StepDocReview></Card>,
   };
   return (

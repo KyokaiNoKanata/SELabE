@@ -9,10 +9,20 @@ declare namespace API {
     data: any,
     msg: string,
   }
+  type ContractItem = {
+    id?: number;
+    createTime? :string;
+    clientRemark? :string;
+    staffRemark? :string;
+    table4Id: string;//
+    table5Id: string;
+    url: string;
+  }
   type DelegationItem = {
     operateTime?: string;//状态变更时间
 
     id?: number;//编号
+    name?: string;//名称
     contractId?: number;//合同id*
     creatorId?: number;//发起者编号
     launchTime?: string;//发起时间*

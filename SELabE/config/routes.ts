@@ -61,88 +61,203 @@ export default [
     component: './TableList',
   },
   {
-    path: '/',
-    name: '委托',
+    path: '/delegation',
+    name: '委托管理',
     icon: 'crown',
     //access:,
     //component: './tester/delegation',
     routes: [
+      //客户（可以新增删除填写委托）
       {
-        path: 'delegation/checkAll/show/:id',
+        path: './check/client',
+        name: '（客户)查看委托',
+        icon: 'smile',
+        component: './Delegation/check/Client',
+      },
+      //其他人：只能看
+      {
+        path: './check/normal',
         name: '查看委托',
         icon: 'smile',
-        component: './Delegation',
+        component: './Delegation/check',
+      },
+      //市场部分配
+      {
+        path: './distribute/marketing',
+        name: '(市场部)分配委托',
+        icon: 'smile',
+        component: './Delegation/distribute/Marketing',
+      },
+      //测试部分配
+      {
+        path: './distribute/testing',
+        name: '(测试部)分配委托',
+        icon: 'smile',
+        component: './Delegation/distribute/Testing',
+      },
+      //审核
+      {
+        path: './audit/marketing',
+        name: '(市场部)审核委托',
+        icon: 'smile',
+        component: './Delegation/audit/Marketing'
       },
       {
-        path: 'delegation/detail',
-        name: '基本信息',
+        path: './audit/testing',
+        name: '(测试部)审核委托',
         icon: 'smile',
-        component: './DelegationDetail'
-      }
-      ,
+        component: './Delegation/audit/Testing'
+      },
+      //报价
       {
-        path: '/docs',
-        name: '文档',
+        path: './offer/market',
+        name: '(市场部)生成报价',
+        icon: 'smile',
+        component: './Delegation/offer/Market',
+      },
+      {
+        path: './offer/client',
+        name: '(客户)处理报价',
+        icon: 'smile',
+        component: './Delegation/offer/Client',
+      },
+      //详情页
+      {
+        path: './detail',
+        name: '委托详情',
+        icon: 'smile',
+        component: './Delegation/DelegationDetail'
+      }
+    ],
+  },
+  {
+    path: '/contract',
+    name: '合同管理',
+    icon: 'crown',
+    routes: [
+      //市场部填写（创建）
+      {
+        path: './create/staff',
+        name: '（市场部)填写合同',
+        icon: 'smile',
+        component: './Contract/create/Marketing',
+      },
+      //客户填写（创建）
+      {
+        path: './create/client',
+        name: '（客户)填写合同',
+        icon: 'smile',
+        component: './Contract/create/Client',
+      },
+      //客户检查合同
+      {
+        path: './audit/client',
+        name: '（客户)检查合同',
+        icon: 'smile',
+        component: './Contract/audit/Client',
+      },
+      //市场部审核合同
+      {
+        path: './audit/staff',
+        name: '（市场部)审核合同',
+        icon: 'smile',
+        component: './Contract/audit/Marketing',
+      }
+    ]
+  },
+  {
+    path: '/docs',
+    name: '文档',
+    icon: 'smile',
+    routes: [
+      {
+        path: '/docs/schemeReview',
+        name: '测试方案评审表',
+        icon: 'smile',
+        component: './docs/SchemeReview',
+      },
+      {
+        path: '/docs/softDocReview',
+        name: '软件文档评审表',
         icon: 'smile',
         routes: [
           {
-            path: '/docs/schemeReview',
-            name: '测试方案评审表',
+            path: '/docs/softDocReview/marketing',
+            name: '市场部评审',
             icon: 'smile',
-            component: './docs/SchemeReview',
+            component: './docs/DocumentReview/Marketing',
           },
           {
-            path: '/docs/softDocReview',
-            name: '软件文档评审表',
+            path: '/docs/softDocReview/testing',
+            name: '测试部评审',
             icon: 'smile',
-            routes: [
-              {
-                path: '/docs/softDocReview/marketing',
-                name: '市场部评审',
-                icon: 'smile',
-                component: './docs/DocumentReview/Marketing',
-              },
-              {
-                path: '/docs/softDocReview/testing',
-                name: '测试部评审',
-                icon: 'smile',
-                component: './docs/DocumentReview/Testing',
-              }
-            ]
-          },
-          {
-            path:'/docs/new-delegation',
-            name:'填写委托',
-            icon:'table',
-            component: './docs/NewDelegation',
-          },
-          {
-            name: '软件项目委托测试保密协议',
-            icon: 'table',
-            path: '/docs/confidentiality-agreement',
-            component: './docs/ConfidentialityAgreement',
-          },
-          {
-            name: '软件委托测试合同',
-            icon: 'table',
-            path: '/docs/contract',
-            component: './docs/Contract',
-          },
-          {
-            name: '报价单',
-            path: '/docs/quotation/marketing',
-            icon: 'smile',
-            component: './docs/Quotation/Marketing',
-          },
-          {
-            name: '查看报价单',
-            path: '/docs/quotation/client',
-            icon: 'smile',
-            component: './docs/Quotation/Client',
-          },
+            component: './docs/DocumentReview/Testing',
+          }
         ]
       },
-    ],
+      {
+        path:'/docs/new-delegation',
+        name:'填写委托',
+        icon:'table',
+        component: './docs/NewDelegation',
+      },
+      /*{
+        name: '软件项目委托测试保密协议',
+        icon: 'table',
+        path: '/docs/confidentiality-agreement',
+        component: './docs/ConfidentialityAgreement',
+      },*/
+      {
+        name: '软件委托测试合同',
+        icon: 'table',
+        path: '/docs/contract',
+        //component: './docs/Contract/components',
+        routes: [
+          {
+            path: '/docs/contract/client',
+            name: '(客户)填写合同',
+            icon: 'smile',
+            component: './docs/Contract/fill/Client',
+          },
+          {
+            path: '/docs/contract/marketing',
+            name: '(市场部)填写合同',
+            icon: 'smile',
+            component: './docs/Contract/fill/Marketing',
+          },
+          {
+            path: '/docs/contract/audit/client',
+            name: '(客户)检查合同',
+            icon: 'smile',
+            component: './docs/Contract/audit/Client',
+          },
+          {
+            path: '/docs/contract/audit/marketing',
+            name: '(市场部)检查合同',
+            icon: 'smile',
+            component: './docs/Contract/audit/Marketing',
+          }
+        ]
+      },
+      {
+        name: '测试报告检查表',
+        icon: 'table',
+        path: '/docs/testreportchecklist',
+        component: './docs/TestReportChecklist',
+      },
+      {
+        name: '报价单',
+        path: '/docs/quotation/marketing',
+        icon: 'smile',
+        component: './docs/Quotation/Marketing',
+      },
+      {
+        name: '查看报价单',
+        path: '/docs/quotation/client',
+        icon: 'smile',
+        component: './docs/Quotation/Client',
+      },
+    ]
   },
   {
     path: '/',
