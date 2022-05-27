@@ -11,8 +11,6 @@ export async function solutionPage(
   },
   options?: Record<string, any>,
 ) {
-  //console.log("request")
-
   return request<{
     code: number;
     data: {
@@ -88,4 +86,51 @@ export async function submitSolution(solutionId: number) {
       solutionId: solutionId,
     },
   });
+}
+
+/**
+ * 质量部审核通过/不通过
+ */
+export async function auditSolutionSuccess(solutionId: number) {
+  return request<API.Response>('/admin-api/system/solution/audit/success', {
+    method: 'PUT',
+    data: {
+      solutionId: solutionId
+    }
+  });
+}
+
+export async function auditSolutionFail(solutionId: number) {
+  return request<API.Response>('/admin-api/system/solution/audit/fail', {
+    method: 'PUT',
+    data: {
+      solutionId: solutionId
+    }
+  });
+}
+
+/**
+ * 测试方案评审表 table13
+ */
+//根据表格id获得合同表table13
+export function getTable13(params: {
+  id: number
+}) {
+  return request<API.Response>('/admin-api/system/solution/get/table13', {
+      method: 'GET',
+      params: params,
+    }
+  )
+}
+
+//保存 测试方案评审表 table13
+export function saveTable13(body: {
+  solutionId: number,
+  data: object,
+}) {
+  return request<API.Response>('/admin-api/system/solution/save/table13', {
+      method: 'PUT',
+      data: body,
+    }
+  )
 }

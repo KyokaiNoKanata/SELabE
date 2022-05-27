@@ -200,16 +200,35 @@ export default [
     ]
   },
   {
+    path: '/solution',
+    name: '测试方案',
+    icon: 'crown',
+    routes: [
+      {
+        path: '/solution/checkAll',
+        name: '查看测试方案',
+        icon: 'smile',
+        component: './Solution',
+      },
+      {
+        path: '/solution/fill',
+        name: '填写测试方案',
+        icon: 'smile',
+        component: './Solution/fill',
+      },
+      {
+        path: '/solution/audit',
+        name: '审核测试方案',
+        icon: 'smile',
+        component: './Solution/audit'
+      }
+    ]
+  },
+  {
     path: '/docs',
     name: '文档',
     icon: 'smile',
     routes: [
-      {
-        path: '/docs/schemeReview',
-        name: '测试方案评审表',
-        icon: 'smile',
-        component: './docs/SchemeReview',
-      },
       {
         path: '/docs/softDocReview',
         name: '软件文档评审表',
@@ -292,32 +311,33 @@ export default [
         component: './docs/Quotation/Client',
       },
       {
-        path: '/docs/new-solution',
-        name: '填写测试方案',
-        icon: 'table',
-        component: './docs/NewSolution',
-      }
+        path: '/docs/solution',
+        name: '测试方案',
+        routes: [
+          {
+            path: '/docs/solution/new-solution',
+            name: '填写测试方案',
+            icon: 'table',
+            component: './docs/Solution/NewSolution',
+          },
+          {
+            path: '/docs/solution/audit-solution',
+            name: '审核测试方案',
+            icon: 'table',
+            component: './docs/Solution/AuditSolution',
+          },
+          {
+            path: '/docs/solution/scheme-review',
+            name: '测试方案评审表',
+            icon: 'table',
+            component: './docs/Solution/SchemeReview',
+          }
+        ]
+      },
+
     ]
   },
-  {
-    path: '/solution',
-    name: '测试方案',
-    icon: 'smile',
-    routes: [
-      {
-        path: '/solution/checkAll',
-        name: '查看测试方案',
-        icon: 'smile',
-        component: './Solution',
-      },
-      {
-        path: '/solution/fill',
-        name: '填写测试方案',
-        icon: 'smile',
-        component: './Solution/fill',
-      },
-    ]
-  },
+
 
   {
     path: '/',

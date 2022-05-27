@@ -1,4 +1,3 @@
-/*
 import React, {useRef, useState} from 'react';
 import type {ProFormInstance} from '@ant-design/pro-form';
 import ProForm, {ProFormDateRangePicker, ProFormText, ProFormTextArea, StepsForm,} from '@ant-design/pro-form';
@@ -15,30 +14,39 @@ import {Button, message} from 'antd';
 import {useLocation} from 'react-router-dom';
 import {getDelegationById} from "@/services/ant-design-pro/delegation/api";
 
-export default () => {
+//测试方案表单 table6
+const SolutionForm: React.FC<{
+  editable: boolean,//可编辑说明是测试部人员填写，不然说明是查看
+  audit: boolean,//审核，提供审核通过/不通过按钮
+}> = (props) => {
   const [solutionId, setSolutionId] = useState<number | undefined>(undefined);
   const params = useLocation();
-  const delegationId: number = parseInt((params as any).query.id);
+  const delegationId: number = (params as any).query.id;
   const formRef = useRef<ProFormInstance>();
   const request = async () => {
     //如果已经有了对应的solutionId,填一下
+    //console.log('delegationId = ' + delegationId);
     const sId = (await getDelegationById(delegationId)).data.solutionId;
-    if (!solutionId) {
+    //console.log(sId);
+    //注意useState异步更新，不同步
+    setSolutionId(sId);
+    //console.log('solutionId = ' + sId);
+    if (!sId) {
       return {};
     }
-    setSolutionId(sId);
 
-    const solution = await getSolution({id: solutionId});
+    const solution = await getSolution({id: sId!});
     const id: string = solution.data.table6Id;
     const resp = await getSolutionTable({id: id});
     if (resp.data == null) {
       return {};
     }
+    //console.log(solutionId)//undefined
     return resp.data;
   };
-  /!**
+  /**
    * 提交测试方案
-   *!/
+   */
   const onSubmit = async () => {
     if (!solutionId) {
       message.warning('请先保存');
@@ -52,25 +60,23 @@ export default () => {
     message.success('提交成功');
     return true;
   }
+  const onSave = async (values: any) => {
+    //第一次保存，根据委托id创建solution,获得solutionId
+    if (!solutionId) {
+      setSolutionId((await createSolution(delegationId)).data);
+    }
+    console.log(solutionId);
+    const res = await saveSolution({solutionId: solutionId!, data: values});
+    if (res.code == 0) {
+      message.success('保存成功');
+    } else {
+      message.error(res.msg);
+    }
+  }//需要写评审表
   return (
     <ProCard>
-      <StepsForm<{
-        name: string;
-      }>
-        onFinish={async (values) => {
-          //第一次保存，根据委托id创建solution,获得solutionId
-          if (!solutionId) {
-            setSolutionId((await createSolution(delegationId)).data);
-          }
-          console.log(solutionId);
-          saveSolution({solutionId: solutionId!, data: values}).then((res) => {
-            if (res.code == 0) {
-              message.success('保存成功');
-            } else {
-              message.error(res.msg);
-            }
-          });
-        }}
+      <StepsForm
+        onFinish={onSave}
         formRef={formRef}
         formProps={{
           validateMessages: {
@@ -78,8 +84,8 @@ export default () => {
           },
         }}
         submitter={{
-          render: (props) => {
-            if (props.step != 4) {
+          render: (submitterProps) => {
+            if (submitterProps.step != 4) {
               return [
                 <div style={
                   {
@@ -87,33 +93,57 @@ export default () => {
                     margin: 20,
                   }
                 }>
-                  <Button onClick={() => props.onPre?.()}>
+                  <Button onClick={() => submitterProps.onPre?.()}>
                     {'<'} 上一步
                   </Button>,
-                  <Button type="primary" onClick={() => props.onSubmit?.()}>
+                  <Button type="primary" onClick={() => submitterProps.onSubmit?.()}>
                     下一步 {'>'}
                   </Button></div>,
               ];
-            } else return ([
-              <div style={
-                {
-                  textAlign: "right",
-                  margin: 20,
-                }
-              }>
-                <ProForm.Group>
-                  <Button onClick={() => props.onPre?.()}>
-                    {'<'} 上一步
-                  </Button>
-                  <Button type="primary" key="submit" onClick={() => props.onSubmit?.()}>
-                    保存
-                  </Button>
-                  <Button type="primary" key="submit" onClick={onSubmit}>
-                    提交
-                  </Button>
-                </ProForm.Group>
-              </div>
-            ]);
+            }
+            //最后一页
+            //可以保存，提交
+            if (props.editable) {
+              return ([
+                <div style={
+                  {
+                    textAlign: "right",
+                    margin: 20,
+                  }
+                }>
+                  <ProForm.Group>
+                    <Button onClick={() => submitterProps.onPre?.()}>
+                      {'<'} 上一步
+                    </Button>,
+                    <Button type="primary" key="submit" onClick={() => submitterProps.onSubmit?.()}>
+                      保存
+                    </Button>
+                    <Button type="primary" key="submit" onClick={onSubmit}>
+                      提交
+                    </Button>
+                  </ProForm.Group>
+                </div>
+              ]);
+            }
+            //评审
+            else if (props.audit) {
+              return ([
+                <div style={
+                  {
+                    textAlign: "right",
+                    margin: 20,
+                  }
+                }>
+                  <ProForm.Group>
+                    <Button onClick={() => submitterProps.onPre?.()}>
+                      {'<'} 上一步
+                    </Button>,
+                  </ProForm.Group>
+                </div>
+              ]);
+            } else {
+              return [];
+            }
           },
         }}
       >
@@ -305,4 +335,4 @@ export default () => {
     </ProCard>
   );
 };
-*/
+export default SolutionForm;

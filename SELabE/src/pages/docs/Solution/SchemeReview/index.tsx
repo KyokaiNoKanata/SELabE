@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import { Input, message } from 'antd';
-import ProForm, { ProFormText } from '@ant-design/pro-form';
-import type { ProColumns } from '@ant-design/pro-table';
-import { EditableProTable } from '@ant-design/pro-table';
+import React, {useState} from 'react';
+import {Input, message} from 'antd';
+import ProForm, {ProFormText} from '@ant-design/pro-form';
+import type {ProColumns} from '@ant-design/pro-table';
+import {EditableProTable} from '@ant-design/pro-table';
 
 
 type DataSourceType = {
@@ -11,7 +11,7 @@ type DataSourceType = {
   reason?: string;
   state?: string;
 };
-type AdviceType =  {
+type AdviceType = {
   id: React.Key;
   duty?: string;
   advice?: string;
@@ -74,7 +74,7 @@ const columns: ProColumns<DataSourceType>[] = [
     title: '评审内容',
     dataIndex: 'title',
     width: '30%',
-    editable:false,
+    editable: false,
   },
   {
     title: '是否通过',
@@ -96,9 +96,9 @@ const columns: ProColumns<DataSourceType>[] = [
   {
     title: '不通过原因',
     dataIndex: 'reason',
-    renderFormItem: (_, { record }) => {
+    renderFormItem: (_, {record}) => {
       console.log('----===>', record);
-      return <Input addonBefore={(record as any)?.addonBefore} />;
+      return <Input addonBefore={(record as any)?.addonBefore}/>;
     },
   },
 ];
@@ -107,7 +107,7 @@ const adviceColumns: ProColumns<AdviceType>[] = [
     title: '职责',
     dataIndex: 'duty',
     width: '30%',
-    editable:false,
+    editable: false,
   },
   {
     title: '评审意见',
@@ -116,49 +116,49 @@ const adviceColumns: ProColumns<AdviceType>[] = [
   {
     title: '签字',
     dataIndex: 'signature',
-    renderFormItem: (_, { record }) => {
+    renderFormItem: (_, {record}) => {
       console.log('----===>', record);
-      return <Input addonBefore={(record as any)?.addonBefore} />;
+      return <Input addonBefore={(record as any)?.addonBefore}/>;
     },
   },
   {
     title: '日期',
     dataIndex: 'date',
-    valueType:"date",
+    valueType: "date",
   },
 ];
 const adviceData: AdviceType[] = [
   {
-    id:624748504,
-    duty:'测试工程师',
+    id: 20001,
+    duty: '测试工程师',
     advice: '',
     signature: '',
     date: '',
   },
   {
-    id:624748505,
-    duty:'测试室负责人',
+    id: 20002,
+    duty: '测试室负责人',
     advice: '',
     signature: '',
     date: '',
   },
   {
-    id:624748506,
-    duty:'质量负责人',
+    id: 20003,
+    duty: '质量负责人',
     advice: '',
     signature: '',
     date: '',
   },
   {
-    id:624748507,
-    duty:'技术负责人',
+    id: 20004,
+    duty: '技术负责人',
     advice: '',
     signature: '',
     date: '',
   },
   {
-    id:624748508,
-    duty:'监督人',
+    id: 20005,
+    duty: '监督人',
     advice: '',
     signature: '',
     date: '',
@@ -172,21 +172,20 @@ export default () => {
   const [adviceEditable, setAdviceEditableRow] = useState<React.Key[]>(() =>
     adviceData.map((item) => item.id)
   );
+
+  const request = async () => {
+    return {}
+  }
+  const onFinish = async (values: any) => {
+    //await waitTime(2000);
+    console.log(values);
+    //todo
+    message.success('提交成功');
+  }
   return (
-    <ProForm<{
-      name: string;
-      company: string;
-    }>
-      onFinish={async (values) => {
-        //await waitTime(2000);
-        console.log(values);
-        //todo
-        message.success('提交成功');
-      }}
-      initialValues={{
-        name: '001',
-        useMode: 'chapter',
-      }}
+    <ProForm
+      onFinish={onFinish}
+      request={request}
     >
 
       <ProForm.Group>
@@ -196,13 +195,13 @@ export default () => {
           label="软件名称"
           tooltip="最长为 24 位"
           placeholder="请输入名称"
-          rules={[{ required: true, message: '这是必填项' }]}
+          rules={[{required: true, message: '这是必填项'}]}
         />
         <ProFormText width="md"
                      name="version"
                      label="版本号"
                      placeholder="请输入版本号"
-                     rules={[{ required: true, message: '这是必填项' }]}
+                     rules={[{required: true, message: '这是必填项'}]}
         />
         <ProForm.Group>
           <ProFormText
@@ -211,13 +210,13 @@ export default () => {
             label="主合同编号"
             tooltip="最长为 24 位"
             placeholder="请输入编号"
-            rules={[{ required: true, message: '这是必填项' }]}
+            rules={[{required: true, message: '这是必填项'}]}
           />
           <ProFormText width="md"
                        name="type"
                        label="测试类别"
                        placeholder="请输入类别"
-                       rules={[{ required: true, message: '这是必填项' }]}
+                       rules={[{required: true, message: '这是必填项'}]}
           />
         </ProForm.Group>
       </ProForm.Group>
