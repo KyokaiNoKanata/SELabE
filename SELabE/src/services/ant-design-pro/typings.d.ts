@@ -1,8 +1,6 @@
 // @ts-ignore
 /* eslint-disable */
 
-import {Key} from "react";
-
 declare namespace API {
   type Response = {
     code: number,//0:ok
@@ -11,15 +9,15 @@ declare namespace API {
   }
   type ContractItem = {
     id?: number;
-    createTime? :string;
-    clientRemark? :string;
-    staffRemark? :string;
+    createTime?: string;
+    clientRemark?: string;
+    staffRemark?: string;
     table4Id: string;//
     table5Id: string;
     url: string;
   }
   type SubmitSampleItemType = {
-    id? :number;//样品编号
+    id?: number;//样品编号
     information?: string;//样品信息
     processType?: string;//处理方式
     type?: string; //样品上传方式，如果在线上传则填写为线上，其余需说明方式的具体信息
@@ -59,6 +57,9 @@ declare namespace API {
     testingDeptStaffId?: number;//分配的测试部人员id
     testingRemark?: string;//测试部人员处理意见*
     url?: string;//文档材料url
+
+    asc?: string;//是否升序, true 升序, false 降序
+    orderField?: string;//排序字段
   }
   type DelegationList = {
     data?: DelegationItem[],
@@ -69,7 +70,7 @@ declare namespace API {
   type CurrentUser = {
     code?: number;
     data?: {
-      user? :{
+      user?: {
         avatar?: string;
         nickname?: string;
         id?: string;
@@ -81,7 +82,7 @@ declare namespace API {
   type SolutionItem = {
     auditorId?: number;
     createTime?: string;
-    id:? number;
+    id: ? number;
     table13Id?: string;
     table6Id?: string;
   };
@@ -103,7 +104,8 @@ declare namespace API {
     current?: number;
     pageSize?: number;
   }
-  type PageParams = Pick<IPageParams,"pageNo" | "current"> & DelegationItem;
+
+  type PageParams = Pick<IPageParams, "pageNo" | "current"> & DelegationItem;
   /*type PageParams = {
     [key: string]: number;
     //pageNo?: number;
@@ -198,4 +200,6 @@ declare namespace API {
     hideInMenu?: string;
   }
 }
-export class SolutionItem {}
+
+export class SolutionItem {
+}

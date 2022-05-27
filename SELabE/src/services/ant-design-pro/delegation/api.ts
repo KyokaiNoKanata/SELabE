@@ -6,11 +6,15 @@ export async function delegationPage(
   params: {
     pageNo?: number;
     pageSize?: number;
-  },
+  } & API.DelegationItem,
   options?: Record<string, any>,
 ) {
   //console.log("request")
-
+  //排序
+  if (!params.orderField) {
+    params.orderField = 'state';
+    params.asc = 'true';
+  }
   return request<{
     code: number;
     data: {
