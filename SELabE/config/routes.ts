@@ -235,6 +235,24 @@ export default [
         icon: 'smile',
         component: './Report/fill',
       },
+      {
+        path: '/report/audit/manager',
+        name: '(测试部主管)审核测试报告',
+        icon: 'smile',
+        component: './Report/audit/Manager',
+      },
+      {
+        path: '/report/audit/client',
+        name: '(用户)审核测试报告',
+        icon: 'smile',
+        component: './Report/audit/Client',
+      },
+      /*{
+        path: '/report/audit/signatory',
+        name: '(测试部主管)审核测试报告',
+        icon: 'smile',
+        component: './Report/audit/Signatory',
+      },*/
     ]
   },
   {
@@ -305,12 +323,7 @@ export default [
           }
         ]
       },
-      {
-        name: '测试报告检查表',
-        icon: 'table',
-        path: '/docs/testreportchecklist',
-        component: './docs/TestReportChecklist',
-      },
+
       {
         name: '报价单',
         path: '/docs/quotation/marketing',
@@ -357,7 +370,32 @@ export default [
             name: '填写测试文档',
             icon: 'table',
             component: './docs/Report/FillInReport',
-          }
+          },
+          {
+            path: '/docs/report/audit',
+            name: '审核测试报告',
+            icon: 'table',
+            routes: [
+              {
+                path: '/docs/report/audit/manager',
+                name: '(测试部主管)审核测试报告',
+                icon: 'table',
+                component: './docs/Report/Audit/Manager',
+              },
+              {
+                path: '/docs/report/audit/client',
+                name: '(客户)审核测试报告',
+                icon: 'table',
+                component: './docs/Report/Audit/Client',
+              },
+              {
+                path: '/docs/report/audit/signatory',
+                name: '(授权签字人)审核测试报告',
+                icon: 'table',
+                component: './docs/Report/Audit/Signatory',
+              },
+            ]
+          },
         ]
       }
     ]

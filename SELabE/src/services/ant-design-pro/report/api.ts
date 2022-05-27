@@ -99,3 +99,79 @@ export function saveTable8(body: {
     }
   )
 }
+
+//测试报告 table7
+export function getTable7(params: {
+  id: number //表格编号
+}) {
+  return request<API.Response>('/admin-api/system/report/get/table7', {
+      method: 'GET',
+      params: params,
+    }
+  )
+}
+
+export function saveTable7(body: {
+  reportId: number,
+  data: object,
+}) {
+  return request<API.Response>('/admin-api/system/report/save/table7', {
+      method: 'PUT',
+      data: body,
+    }
+  )
+}
+
+//测试报告监察部 table10
+export function getTable10(params: {
+  id: number //表格编号
+}) {
+  return request<API.Response>('/admin-api/system/report/get/table10', {
+      method: 'GET',
+      params: params,
+    }
+  )
+}
+
+export function saveTable10(body: {
+  reportId: number,
+  data: object,
+}) {
+  return request<API.Response>('/admin-api/system/report/save/table10', {
+      method: 'PUT',
+      data: body,
+    }
+  )
+}
+
+/**
+ * 审核不通过：分测试部主管，用户，签字人
+ * @params: person = {manager,client,signatory}中的一个
+ */
+export function rejectReport(params: { person: string, reportId: number, remark: string }) {
+  const url = '/admin-api/system/report/reject/' + params.person;
+  return request<API.Response>(url, {
+      method: 'PUT',
+      data: {
+        id: params.reportId,
+        remark: params.remark,
+      },
+    }
+  )
+}
+
+/**
+ * 审核通过：分测试部主管，用户，签字人
+ * @params: person = {manager,client,signatory}中的一个
+ */
+export function acceptReport(params: { person: string, reportId: number, remark: string }) {
+  const url = '/admin-api/system/report/accept/' + params.person;
+  return request<API.Response>(url, {
+      method: 'PUT',
+      data: {
+        id: params.reportId,
+        remark: params.remark,
+      },
+    }
+  )
+}
