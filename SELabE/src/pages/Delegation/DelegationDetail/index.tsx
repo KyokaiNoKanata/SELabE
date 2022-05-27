@@ -66,9 +66,10 @@ const DelegationDetail: React.FC = () => {
         id: delegationId,
       }
     ));
-    const operateStateTime = process.data[process.data.length - 1].operateTime;
-    //console.log(operateStateTime);
-    return operateStateTime;
+    if (process.data.length > 0) {
+      return process.data[process.data.length - 1].operateTime;
+    }
+    return 0;
   }
   getStateTime().then(
     result => {
@@ -530,36 +531,36 @@ const DelegationDetail: React.FC = () => {
             <Step title="市场部" description="等待市场部主管分配市场部人员"/>
             <Step title="测试部" description="等待测试部主管分配测试部人员"/>
             <Step title="市场部" description="审核委托中"/>
-            <Step title="市场部" description={MarketingAuditMsg()} />
-            <Step title="测试部" description="审核委托中" />
-            <Step title="测试部" description={TestingAuditMsg()} />
-            <Step title="委托审核通过" description="" />
-            <Step title="市场部" description="市场部生成报价中" />
-            <Step title="客户" description="客户处理报价中" />
-            <Step title="客户" description={ClientQuoteMsg()} />
-            <Step title="市场部" description="生成合同草稿中" />
+            <Step title="市场部" description={MarketingAuditMsg()}/>
+            <Step title="测试部" description="审核委托中"/>
+            <Step title="测试部" description={TestingAuditMsg()}/>
+            <Step title="委托审核通过" description=""/>
+            <Step title="市场部" description="市场部生成报价中"/>
+            <Step title="客户" description="客户处理报价中"/>
+            <Step title="客户" description={ClientQuoteMsg()}/>
+            <Step title="市场部" description="生成合同草稿中"/>
             <Step title="客户" description="检查合同草稿中"/>
             <Step title="客户" description={ClientContractMsg()}/>
             <Step title="市场部" description="市场部审核客户填写的草稿中"/>
-            <Step title="市场部" description={MarketingContractMsg()} />
-            <Step title="合同签署中" />
+            <Step title="市场部" description={MarketingContractMsg()}/>
+            <Step title="合同签署中"/>
             <Step title="合同签署成功"/>
-            <Step title="客户" description="上传样品中" />
-            <Step title="测试部/市场部" description="验收样品中" />
-            <Step title="测试部/市场部" description={AcceptSampleMsg()} />
-            <Step title="测试部" description="编写测试方案中" />
-            <Step title="质量部" description="审核测试方案中" />
-            <Step title="质量部" description={QualityTestPlanMsg()} />
-            <Step title="测试部" description="测试进行中，填写测试文档" />
-            <Step title="测试部" description="测试完成，生成测试报告" />
-            <Step title="测试部" description="测试部主管审核测试报告中" />
-            <Step title="测试部" description={TestingTestReportMsg()} />
-            <Step title="用户" description={ClientTestReportMsg()} />
-            <Step title="授权签字人" description={AuthorizeTestReportMsg()} />
-            <Step title="测试部" description="测试文档归档，处理样品中" />
-            <Step title="市场部" description="发送测试报告中" />
-            <Step title="等待客户接受测试报告中" description="" />
-            <Step title="客户" description="确认接受测试报告" />
+            <Step title="客户" description="上传样品中"/>
+            <Step title="测试部/市场部" description="验收样品中"/>
+            <Step title="测试部/市场部" description={AcceptSampleMsg()}/>
+            <Step title="测试部" description="编写测试方案中"/>
+            <Step title="质量部" description="审核测试方案中"/>
+            <Step title="质量部" description={QualityTestPlanMsg()}/>
+            <Step title="测试部" description="测试进行中，填写测试文档"/>
+            <Step title="测试部" description="测试完成，生成测试报告"/>
+            <Step title="测试部" description="测试部主管审核测试报告中"/>
+            <Step title="测试部" description={TestingTestReportMsg()}/>
+            <Step title="用户" description={ClientTestReportMsg()}/>
+            <Step title="授权签字人" description={AuthorizeTestReportMsg()}/>
+            <Step title="测试部" description="测试文档归档，处理样品中"/>
+            <Step title="市场部" description="发送测试报告中"/>
+            <Step title="等待客户接受测试报告中" description=""/>
+            <Step title="客户" description="确认接受测试报告"/>
           </Steps>
         </ProCard>
         <ProCard>
