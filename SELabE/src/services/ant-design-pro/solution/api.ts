@@ -29,6 +29,22 @@ export async function solutionPage(
   });
 }
 
+/**
+ * 创建测试方案
+ * @param delegationId: 委托编号
+ * @return resp.data = solutionId
+ */
+///admin-api/system/solution/create
+export async function createSolution(delegationId: number) {
+  return request<API.Response>('/admin-api/system/solution/create', {
+    method: 'POST',
+    data: {
+      delegationId: delegationId,
+    },
+  });
+}
+
+
 export async function saveSolution(body: { solutionId: number; data: object }) {
   return request<API.Response>('/admin-api/system/solution/save/table6', {
     method: 'PUT',
@@ -59,5 +75,17 @@ export async function getSolutionTable(params: { id: string }) {
   return request<API.Response>('/admin-api/system/solution/get/table6', {
     method: 'GET',
     params: params,
+  });
+}
+
+/**
+ * 提交测试方案
+ */
+export async function submitSolution(solutionId: number) {
+  return request<API.Response>('/admin-api/system/solution/submit/table6', {
+    method: 'PUT',
+    data: {
+      solutionId: solutionId,
+    },
   });
 }

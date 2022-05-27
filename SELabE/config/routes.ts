@@ -197,7 +197,7 @@ export default [
         icon: 'smile',
         component: './Sample/audit/Testing'
       },
-      ]
+    ]
   },
   {
     path: '/docs',
@@ -230,9 +230,9 @@ export default [
         ]
       },
       {
-        path:'/docs/new-delegation',
-        name:'填写委托',
-        icon:'table',
+        path: '/docs/new-delegation',
+        name: '填写委托',
+        icon: 'table',
         component: './docs/NewDelegation',
       },
       /*{
@@ -309,6 +309,12 @@ export default [
         name: '查看测试方案',
         icon: 'smile',
         component: './Solution',
+      },
+      {
+        path: '/solution/fill',
+        name: '填写测试方案',
+        icon: 'smile',
+        component: './Solution/fill',
       },
     ]
   },

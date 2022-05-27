@@ -27,6 +27,19 @@ export async function delegationPage(
   });
 }
 
+export async function getDelegationById(id: number) {
+  return request<{
+    code: number;
+    data: API.DelegationItem;
+    msg: string;
+  }>('/admin-api/system/delegation/get', {
+    method: 'GET',
+    params: {
+      id: id,
+    },
+  });
+}
+
 //ids:委托id，以逗号分割
 export async function getDelegationByIds(params: { ids: string }) {
   return request<{
