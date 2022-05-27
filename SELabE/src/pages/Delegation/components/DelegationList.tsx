@@ -1,20 +1,17 @@
 import {ExclamationCircleOutlined, PlusOutlined} from '@ant-design/icons';
 import {Button, Drawer, message, Modal} from 'antd';
 import React, {useRef, useState} from 'react';
-import {FormattedMessage, useIntl} from 'umi';
+
 import {PageContainer} from '@ant-design/pro-layout';
 import type {ActionType, ProColumns} from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
 import {ModalForm, ProFormText,} from '@ant-design/pro-form';
 import type {ProDescriptionsItemProps} from '@ant-design/pro-descriptions';
 import ProDescriptions from '@ant-design/pro-descriptions';
-import {
-  createDelegation,
-  deleteDelegation,
-  getProcessList,
-  updateDelegation,
-} from "@/services/ant-design-pro/delegation/api";
+import {createDelegation, deleteDelegation, updateDelegation,} from "@/services/ant-design-pro/delegation/api";
 import type {API} from "@/services/ant-design-pro/typings";
+import {FormattedMessage} from "@@/plugin-locale/localeExports";
+import {useIntl} from "umi";
 
 const {confirm} = Modal;
 
@@ -94,13 +91,13 @@ const handleUpdateDelegation = async (data: {
   }
   return res.data;
 }
-const getOperateTime = async (delegationId: number) => {
+/*const getOperateTime = async (delegationId: number) => {
   const process = await getProcessList({
     id: delegationId,
   });
   const operateTime = process.data[process.data.length - 1].operateTime;
   return operateTime;
-}
+}*/
 export type DelegationListType = {
   request: any; //从后端获取数据（带条件，比如发起者是自己的）
   roles: string[];//权限集合
@@ -123,10 +120,6 @@ const DelegationList: React.FC<DelegationListType> = (props) => {
     options?: Record<string, any>
   ) => {
     const result = await props.request(params, options)
-    //状态变更时间
-    for (let i = 0; i < result.list.length; i++) {
-      result.list[i].operateTime = await getOperateTime(result.list[i].id!);
-    }
     return {
       data: result.list,
       total: result.total, //分页固定属性
@@ -213,20 +206,20 @@ const DelegationList: React.FC<DelegationListType> = (props) => {
       hideInSearch: true,//
       //todo:render
     },
-    //状态变更时间
+    /*//状态变更时间
     {
       title: '状态变更时间',
-      dataIndex: 'operateTime',
+      dataIndex: 'update_time',
       hideInSearch: true,
-      hideInTable: false,
+      hideInTable: true,
       valueType: 'dateTime',
       render: (text, record) => [
         // todo format Date
         //String(new Date(record.operateTime))
         //new Date(record.operateTime).toLocaleTimeString()
-        new Date(record.operateTime!).toLocaleString()
+        new Date(record.update_time!).toLocaleString()
       ]
-    },
+    },*/
     /** 分配的市场部人员id marketDeptStaffId  */
     {
       title: '分配的市场部人员编号',

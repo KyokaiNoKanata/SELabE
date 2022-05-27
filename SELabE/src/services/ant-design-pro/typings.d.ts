@@ -36,7 +36,7 @@ declare namespace API {
     verifyId?: string; //审核人id，只能为选定的市场部或者测试部两个人中的一个
   }
   type DelegationItem = {
-    operateTime?: string;//状态变更时间
+    update_time?: string;//状态变更时间 不管
 
     id?: number;//编号
     name?: string;//名称

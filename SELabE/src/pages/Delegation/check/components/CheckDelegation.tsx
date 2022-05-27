@@ -1,5 +1,5 @@
 import type {ReactNode} from "react";
-import React, { useState} from "react";
+import React, {useState} from "react";
 import type {API} from "@/services/ant-design-pro/typings";
 import {currentUser} from "@/services/ant-design-pro/api";
 import {delegationPage} from "@/services/ant-design-pro/delegation/api";
@@ -50,16 +50,17 @@ const CheckDelegation: React.FC<{
     },
     options?: Record<string, any>
   ) => {
-    const p: API.PageParams = params;
-    p.pageNo = p.current;
+    const p1: API.PageParams = params;
+    p1.pageNo = p1.current;
+    const {current, ...p} = p1;
     const user = await currentUser();
     setUser(user.data.user)
-    const role = user.data.roles;
     setRoles(user.data.roles);
+    console.log(user.data.roles)
     //主管都能看到
-    if (role.includes('super_admin')
-      || role.includes('marketing_department_manger')
-      || role.includes('test_department_manager')) {
+    if (user.data.roles.includes('super_admin')
+      || user.data.roles.includes('marketing_department_manger')
+      || user.data.roles.includes('test_department_manager')) {
     }
     //市场部员工
     else if (user.data.roles.includes('marketing_department_staff')) {
@@ -84,7 +85,7 @@ const CheckDelegation: React.FC<{
       roles={roles}
       user={userInfo}
       operationColumns={props.operationColumns.concat(checkDetailColumns)}
-      actionRef={props.actionRef} />
+      actionRef={props.actionRef}/>
   )
 }
 
