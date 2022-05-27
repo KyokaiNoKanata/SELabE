@@ -6,7 +6,7 @@ import {delegationPage} from "@/services/ant-design-pro/delegation/api";
 import type {ActionType, ProColumns} from "@ant-design/pro-table";
 import {Button, message, Upload} from "antd";
 import DelegationList from "@/pages/Delegation/components/DelegationList";
-import ProForm, {ModalForm} from "@ant-design/pro-form";
+import ProForm, {ModalForm,ProFormText} from "@ant-design/pro-form";
 import {uploadFile} from "@/services/ant-design-pro/file/api";
 import {DownloadOutlined} from "@ant-design/icons";
 import {createSample, submitSample, updateSample} from "@/services/ant-design-pro/sample/api";
@@ -45,7 +45,10 @@ const Samples: React.FC
           }}
           onFinish={async (values) => {
             // 上传样品：没有样品先创建样品
-            // console.log(formData)
+
+            let information=values.information;
+            let processType=values.processType;
+            let type=values.type;
             if (!sampleId) {
               //创建样品
               const createResp = await createSample({
@@ -70,17 +73,15 @@ const Samples: React.FC
               if (resp1.code != 0) {
                 message.error(resp1.msg);
                 return true;
-              } /*else {
-                message.success('上传文件成功');
-              }*/
+              }
               url = resp1.data;
             }
             //todo:获取并提交这些数据
             const resp2 = await updateSample({
               id: sampleId!,
-              information: 'info',//todo
-              processType: '方式',//todo
-              type: '线上',//todo
+              information: information,//todo
+              processType: processType,//todo
+              type: type,//todo
               url: url,
             });
             if (resp2.code == 0) {
@@ -123,6 +124,10 @@ const Samples: React.FC
               </Button>
             </Upload>
           </ProForm.Group>
+          <br/>
+          <ProFormText  name='information' label='样品信息' width='md'/>
+          <ProFormText  name='processType' label='处理方式' width='md'/>
+          <ProFormText  name='type' label='样品上传方式，如果在线上传则填写为线上，其余需说明方式的具体信息' width='md'/>
         </ModalForm>
         ]
       }

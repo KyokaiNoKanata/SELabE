@@ -4,7 +4,7 @@ import type {API} from "@/services/ant-design-pro/typings";
 import type {ActionType, ProColumns} from "@ant-design/pro-table";
 import {Button, message} from "antd";
 import DelegationList from "@/pages/Delegation/components/DelegationList";
-import ProForm, {ModalForm} from "@ant-design/pro-form";
+import ProForm, {ModalForm,ProFormText} from "@ant-design/pro-form";
 import {DownloadOutlined} from "@ant-design/icons";
 import {auditSampleFail, auditSampleSuccess, getSampleById,} from "@/services/ant-design-pro/sample/api";
 //用户提交样品
@@ -15,13 +15,19 @@ const AuditSampleList: React.FC<{
 }>
   = (props) => {
   const actionRef: React.MutableRefObject<ActionType | undefined> = useRef<ActionType>();
+  const formRef: React.MutableRefObject<ActionType | undefined> = useRef<ActionType>();
+
+
   const [modalVisit, setModalVisit] = useState(false);
   const [sampleId, setSampleId] = useState<number>(-1);
   //通过
   const onAccept = async () => {
+
+    const remark=formRef.current?.getFieldFormatValue!(['remark']);
+    //console.log(remark);
     const resp = await auditSampleSuccess({
       sampleId: sampleId,
-      remark: 'success todo',// todo
+      remark: remark,// todo
     })
     if (resp.code != 0) {
       message.error(resp.msg);
@@ -34,9 +40,11 @@ const AuditSampleList: React.FC<{
   }
   //不通过
   const onReject = async () => {
+    const remark=formRef.current?.getFieldFormatValue!(['remark']);
+    //console.log(remark);
     const resp = await auditSampleFail({
       sampleId: sampleId,
-      remark: 'fail todo'// todo
+      remark: remark// todo
     })
     if (resp.code != 0) {
       message.error(resp.msg);
@@ -77,6 +85,7 @@ const AuditSampleList: React.FC<{
       sorter: false,
       render: (text: ReactNode, record: API.DelegationItem) => {
         //求一下样品url
+
         return [record.state == '测试部/市场部验收样品中' &&
         <Button type="primary"
                 onClick={() => {
@@ -89,6 +98,7 @@ const AuditSampleList: React.FC<{
             /*trigger={
               <Button type="primary">审核样品</Button>
             }*/
+            formRef={formRef}
             visible={modalVisit}
             onVisibleChange={setModalVisit}
             autoFocusFirstInput
@@ -127,6 +137,8 @@ const AuditSampleList: React.FC<{
                 下载在线样品
               </Button>
             </ProForm.Group>
+            <br/>
+            <ProFormText name='remark' label='审核意见'/>
           </ModalForm>
         ]
       }
