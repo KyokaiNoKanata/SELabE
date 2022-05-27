@@ -225,6 +225,19 @@ export default [
     ]
   },
   {
+    path: '/report',
+    name: '测试报告',
+    icon: 'crown',
+    routes: [
+      {
+        path: '/report/fill-in-docs',
+        name: '填写测试文档',
+        icon: 'smile',
+        component: './Report/fill',
+      },
+    ]
+  },
+  {
     path: '/docs',
     name: '文档',
     icon: 'smile',
@@ -331,10 +344,22 @@ export default [
             name: '测试方案评审表',
             icon: 'table',
             component: './docs/Solution/SchemeReview',
-          }
+          },
+
         ]
       },
-
+      {
+        name: '测试报告',
+        path: '/docs/report',
+        routes: [
+          {
+            path: '/docs/report/fill-in-report',
+            name: '填写测试文档',
+            icon: 'table',
+            component: './docs/Report/FillInReport',
+          }
+        ]
+      }
     ]
   },
 

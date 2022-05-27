@@ -1,15 +1,14 @@
 import {PageContainer} from "@ant-design/pro-layout";
-import {Button, message, PageHeader} from "antd";
-import ProForm, {
-  ProFormDatePicker,
-  ProFormDateRangePicker,
-  ProFormText
-} from "@ant-design/pro-form";
-import React, {useRef, useState} from 'react';
+import {message, PageHeader} from "antd";
+import ProForm from "@ant-design/pro-form";
+import React, {useState} from 'react';
 import ProCard from "@ant-design/pro-card";
-import {EditableProTable, ProColumns} from "@ant-design/pro-table";
+import type {ProColumns} from "@ant-design/pro-table";
+import {EditableProTable} from "@ant-design/pro-table";
 import {useLocation} from "react-router-dom";
-import {ProFormInstance} from "@ant-design/pro-form/lib/BaseForm/BaseForm";
+import {getDelegationById} from "@/services/ant-design-pro/delegation/api";
+
+import {createReport, getReport, getTable8, saveTable8} from "@/services/ant-design-pro/report/api";
 
 type DataSourceType = {
   id: React.Key;
@@ -18,8 +17,8 @@ type DataSourceType = {
   design?: string;
   statute?: string;
   result?: string;
-  author?:string;
-  time?:string;
+  author?: string;
+  time?: string;
   children?: DataSourceType[];
 };
 
@@ -31,7 +30,7 @@ const columns: ProColumns<DataSourceType>[] = [
   {
     title: 'ID',
     dataIndex: 'tid',
-    width:"10%",
+    width: "10%",
   },
   {
     title: '测试用例设计说明',
@@ -46,21 +45,20 @@ const columns: ProColumns<DataSourceType>[] = [
     dataIndex: 'result',
   },
   {
-      title: '测试用例设计者',
-      dataIndex: 'author',
+    title: '测试用例设计者',
+    dataIndex: 'author',
   },
   {
-      title: '测试时间',
-      dataIndex: 'time',
+    title: '测试时间',
+    dataIndex: 'time',
   },
 
   {
     title: '操作',
     valueType: 'option',
-    width:'5%',
+    width: '5%',
   },
 ];
-
 
 
 /**
@@ -68,30 +66,58 @@ const columns: ProColumns<DataSourceType>[] = [
  * @constructor
  */
 //editable为true可编辑
-const TestCaseForm: React.FC<{editable: boolean}> = (props) => {
-  const Display=async()=>{
-    if(props.editable)
-      {return '';}
-     else
-     {return 'none';}
-
+const TestCaseForm: React.FC<{ editable: boolean }> = (props) => {
+  const [reportId, setReportId] = useState<number | undefined>(undefined);
+  const params = useLocation();
+  const delegationId: number = (params as any).query.id;
+  //const formRef = useRef<ProFormInstance>();
+  const Display = async () => {
+    if (props.editable) {
+      return '';
+    } else {
+      return 'none';
+    }
   }
-  const sub={Display};
+  const sub = {Display};
   const [editableKeys, setEditableRowKeys] = useState<React.Key[]>(() => []);
   const request = async () => {
-   return {};
+    //如果已经有了对应的reportId,填一下
+    const rId = (await getDelegationById(delegationId)).data.reportId;
+    setReportId(rId);
+    //console.log('solutionId = ' + sId);
+    if (!rId) {
+      //创建一下report
+      const resp = await createReport({
+        delegationId: delegationId,
+      })
+      setReportId(resp.data);
+      return {};
+    }
+    //测试用例 table8
+    const report = await getReport({reportId: rId!});
+    console.log(report);
+    const table8Id = report.data.table8Id;
+    const resp = await getTable8({id: table8Id})
+    if (resp.data == null) {
+      return {};
+    }
+    console.log(resp.data);
+    return resp.data;
   };
   //保存
-  const onFinish = async (value: any) => {
-   console.log(value);
-      };
-  //提交:提交委托号即可
-  const handleSubmit = async () => {
-    console.log("提交")
-  }
-  //接受，需要签字
-
-
+  const onFinish = async (values: any) => {
+    console.log(values);
+    const resp = await saveTable8({
+      reportId: reportId!,
+      data: values,
+    })
+    if (resp.code != 0) {
+      message.error(resp.msg);
+    } else {
+      message.success('保存成功');
+    }
+    return true;
+  };
   return (
     <PageContainer>
       <PageHeader
@@ -110,13 +136,13 @@ const TestCaseForm: React.FC<{editable: boolean}> = (props) => {
             },
             submitButtonProps: {
               style: {
-                  display: sub,
-                }
+                display: sub,
+              }
             },
             render: (_, doms) => {
-              return  [
+              return [
                 props.editable && (doms[0], doms[1]),
-                props.editable && <Button htmlType="button" onClick={handleSubmit} key='submit'>提交</Button>,
+                //props.editable && <Button htmlType="button" onClick={handleSubmit} key='submit'>提交</Button>,
 
               ]
             }
