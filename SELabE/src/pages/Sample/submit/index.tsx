@@ -1,5 +1,5 @@
 import type {ReactNode} from "react";
-import React, { useRef, useState} from "react";
+import React, {useRef, useState} from "react";
 import type {API} from "@/services/ant-design-pro/typings";
 import {currentUser} from "@/services/ant-design-pro/api";
 import {delegationPage} from "@/services/ant-design-pro/delegation/api";
@@ -58,7 +58,7 @@ const Samples: React.FC
                 message.success('创建样品成功')
               }
               actionRef.current?.reload();
-              sampleId = record.sampleId;
+              sampleId = createResp.data;
             }
             //保存样品
             //如果是在线提交，需要上传文件
@@ -159,7 +159,7 @@ const Samples: React.FC
       user={userInfo}
       operationColumns={submitSampleColumns}
       actionRef={actionRef}
-     />
+    />
   )
 }
 
