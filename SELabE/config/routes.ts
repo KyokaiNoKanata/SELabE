@@ -247,12 +247,19 @@ export default [
         icon: 'smile',
         component: './Report/audit/Client',
       },
-      /*{
+      {
         path: '/report/audit/signatory',
-        name: '(测试部主管)审核测试报告',
+        name: '(签字人)审核测试报告',
         icon: 'smile',
         component: './Report/audit/Signatory',
-      },*/
+      },
+      //测试部员工 归档测试报告
+      {
+        path: '/report/archive',
+        name: '(测试部员工)归档测试报告',
+        icon: 'smile',
+        component: './Report/archive',
+      },
     ]
   },
   {

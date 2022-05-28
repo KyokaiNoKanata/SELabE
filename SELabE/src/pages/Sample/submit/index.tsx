@@ -72,7 +72,6 @@ const Samples: React.FC
               }
               url = resp1.data;
             }
-            //todo:获取并提交这些数据
             const resp2 = await updateSample({
               id: sampleId!,
               information: values.information,
@@ -89,6 +88,7 @@ const Samples: React.FC
             actionRef.current?.reload();
             //
             //顺便提交样品
+            //todo:这里写得不对，第一次不能及时更新
             sampleId = record.sampleId!;
             if (!sampleId) {
               message.error('没有样品');//不应该发生

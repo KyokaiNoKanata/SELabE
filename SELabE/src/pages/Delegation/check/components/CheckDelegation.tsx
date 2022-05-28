@@ -56,10 +56,13 @@ const CheckDelegation: React.FC<{
     const user = await currentUser();
     setUser(user.data.user)
     setRoles(user.data.roles);
-    //主管都能看到
+    //这些人能看到全部
     if (user.data.roles.includes('super_admin')
       || user.data.roles.includes('marketing_department_manger')
-      || user.data.roles.includes('test_department_manager')) {
+      || user.data.roles.includes('test_department_manager')
+      || user.data.roles.includes('signatory')
+      || user.data.roles.includes('quality_department_staff')
+    ) {
     }
     //市场部员工
     else if (user.data.roles.includes('marketing_department_staff')) {

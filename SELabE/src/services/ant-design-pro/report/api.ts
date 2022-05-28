@@ -175,3 +175,18 @@ export function acceptReport(params: { person: string, reportId: number, remark:
     }
   )
 }
+
+/**
+ * 测试部归档
+ */
+export function archiveReport(body: {
+  reportId: number,
+}) {
+  return request<API.Response>('/admin-api/system/report/archive', {
+      method: 'PUT',
+      data: {
+        id: body.reportId,
+      },
+    }
+  )
+}
