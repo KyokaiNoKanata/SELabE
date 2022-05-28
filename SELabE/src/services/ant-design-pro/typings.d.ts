@@ -67,6 +67,30 @@ declare namespace API {
     total?: number;
     success?: boolean;
   }
+  type DelegationQueryParams = {
+    beginCreateTime?: string;//开始创建时间
+    beginLaunchTime?: string;//开始发起时间
+    cancelRemark?: string;//取消原因
+    contractId?: number;//合同id
+    creatorId?: number;//发起者编号
+    endCreateTime?: string;//结束创建时间
+    endLaunchTime?: string;//结束发起时间
+    marketDeptStaffId?: number;//分配的市场部人员id
+    name?: string;//名称
+    offerId?: string;//报价单ID
+    orderField?: string;//排序字段 注意格式ab_cd
+    pageNo?: number;
+    pageSize?: number;
+    reportId?: number;//测试报告id
+    sampleId?: number;//样品id
+    solutionId?: number;//测试方案id
+    state?: string;//状态
+    table14Id?: string;//软件文档评审表ID
+    table2Id?: string;//软件项目委托测试申请表ID
+    table3Id?: string;//委托测试软件功能列表ID
+    testingDeptStaffId?: number;//分配的测试部人员id
+    //update_time?: string;查询里没有但可以作为排序字段
+  }
   type CurrentUser = {
     code?: number;
     data?: {

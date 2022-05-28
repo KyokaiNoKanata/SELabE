@@ -8,10 +8,16 @@ import ProTable from '@ant-design/pro-table';
 import {ModalForm, ProFormText,} from '@ant-design/pro-form';
 import type {ProDescriptionsItemProps} from '@ant-design/pro-descriptions';
 import ProDescriptions from '@ant-design/pro-descriptions';
-import {createDelegation, deleteDelegation, updateDelegation,} from "@/services/ant-design-pro/delegation/api";
+import {
+  createDelegation,
+  delegationPage,
+  deleteDelegation,
+  updateDelegation,
+} from "@/services/ant-design-pro/delegation/api";
 import type {API} from "@/services/ant-design-pro/typings";
 import {FormattedMessage} from "@@/plugin-locale/localeExports";
 import {useIntl} from "umi";
+import {currentUser} from "@/services/ant-design-pro/api";
 
 const {confirm} = Modal;
 
@@ -61,7 +67,6 @@ const handleCreateDelegation = async (params: {
   const res = await createDelegation({
     name: params.name
   })
-  //todo:check condition
   if (res.code == 0) {
     message.success('创建委托成功')
   } else {
@@ -99,33 +104,19 @@ const handleUpdateDelegation = async (data: {
   return operateTime;
 }*/
 export type DelegationListType = {
-  request: any; //从后端获取数据（带条件，比如发起者是自己的）
-  roles: string[];//权限集合
-  user: any;//当前用户信息
+  //request?: any; //从后端获取数据（带条件，比如发起者是自己的）
+  roles?: string[];//权限集合
+  user?: any;//当前用户信息
   //operation: string[];//操作集合，例如审核，填写，分配等
   operationColumns: ProColumns<API.DelegationItem>[];//额外的操作列
   actionRef?: React.MutableRefObject<ActionType | undefined>;
-  params?: (param: API.PageParams, roles: string[], user: {
-    avatar?: string,
-    nickname?: string,
-    id?: number,
-  }) => API.PageParams[];
+  queryParams: (
+    param: API.DelegationQueryParams,
+    roles: string[],
+    userId: number,
+  ) => Promise<API.DelegationQueryParams>,
 }
 const DelegationList: React.FC<DelegationListType> = (props) => {
-  const request = async (
-    params: {//传入的参数名固定叫 current 和 pageSize
-      pageSize?: number;
-      current?: number;
-    },
-    options?: Record<string, any>
-  ) => {
-    const result = await props.request(params, options)
-    return {
-      data: result.list,
-      total: result.total, //分页固定属性
-      result: true,
-    }
-  }
   let actionRef = useRef<ActionType>();
   if (props.actionRef) {
     actionRef = props.actionRef;
@@ -134,13 +125,38 @@ const DelegationList: React.FC<DelegationListType> = (props) => {
   const [selectedRowsState, setSelectedRows] = useState<API.DelegationItem[]>([]);
   const [createModalVisible, handleModalVisible] = useState<boolean>(false);//新建
   const [showDetail, setShowDetail] = useState<boolean>(false);
-  //const [roles,setRoles] = useState<[string]>([]);
+  const [roles, setRoles] = useState<[string]>([]);
   /**
    * @en-US International configuration
    * @zh-CN 国际化配置
    * */
   const intl = useIntl();
-  const roles = props.roles;
+  const request = async (
+    params: {//传入的参数名固定叫 current 和 pageSize
+      pageSize?: number;
+      current?: number;
+    },
+    options?: Record<string, any>
+  ) => {
+    /*if (props.request) {
+      await props.request(params, options);
+    }*/
+    const user = (await currentUser()).data;
+    const userId = user.user.id;
+    setRoles(user.roles);
+    const p1: API.DelegationQueryParams = {
+      pageSize: params.pageSize,
+      pageNo: params.current,
+    }
+    //remove params.current
+    const p = await props.queryParams!(p1, user.roles, userId);//获得参数
+    const result = (await delegationPage(p, options)).data;
+    return {
+      data: result.list,
+      total: result.total, //分页固定属性
+      result: true,
+    }
+  }
   let columns: ProColumns<API.DelegationItem>[] = [
     /** 委托编号 show */
     {

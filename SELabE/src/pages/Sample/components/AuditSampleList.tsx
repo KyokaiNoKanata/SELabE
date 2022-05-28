@@ -1,17 +1,22 @@
 import type {ReactNode} from "react";
-import React, { useRef, useState} from "react";
+import React, {useRef, useState} from "react";
 import type {API} from "@/services/ant-design-pro/typings";
 import type {ActionType, ProColumns} from "@ant-design/pro-table";
 import {Button, message} from "antd";
 import DelegationList from "@/pages/Delegation/components/DelegationList";
-import ProForm, {ModalForm,ProFormText} from "@ant-design/pro-form";
+import ProForm, {ModalForm, ProFormText} from "@ant-design/pro-form";
 import {DownloadOutlined} from "@ant-design/icons";
 import {auditSampleFail, auditSampleSuccess, getSampleById,} from "@/services/ant-design-pro/sample/api";
 //用户提交样品
 const AuditSampleList: React.FC<{
-  request: any;
+  /*request: any;
   roles: string[];//权限集合
-  user: any;//当前用户信息
+  user: any;//当前用户信息*/
+  queryParams: (
+    param: API.DelegationQueryParams,
+    roles: string[],
+    userId: number,
+  ) => Promise<API.DelegationQueryParams>,
 }>
   = (props) => {
   const actionRef: React.MutableRefObject<ActionType | undefined> = useRef<ActionType>();
@@ -23,7 +28,7 @@ const AuditSampleList: React.FC<{
   //通过
   const onAccept = async () => {
 
-    const remark=formRef.current?.getFieldFormatValue!(['remark']);
+    const remark = formRef.current?.getFieldFormatValue!(['remark']);
     //console.log(remark);
     const resp = await auditSampleSuccess({
       sampleId: sampleId,
@@ -40,7 +45,7 @@ const AuditSampleList: React.FC<{
   }
   //不通过
   const onReject = async () => {
-    const remark=formRef.current?.getFieldFormatValue!(['remark']);
+    const remark = formRef.current?.getFieldFormatValue!(['remark']);
     //console.log(remark);
     const resp = await auditSampleFail({
       sampleId: sampleId,
@@ -80,8 +85,8 @@ const AuditSampleList: React.FC<{
       title: '审核样品',
       dataIndex: 'auditSample',
       valueType: 'option',
-      hideInTable: !(props.roles.includes('marketing_department_staff')
-        || props.roles.includes('test_department_staff')),
+      //hideInTable: !(props.roles.includes('marketing_department_staff')
+      //  || props.roles.includes('test_department_staff')),
       sorter: false,
       render: (text: ReactNode, record: API.DelegationItem) => {
         //求一下样品url
@@ -109,7 +114,7 @@ const AuditSampleList: React.FC<{
             }}
             submitter={{
               //todo
-              render: (props) => {
+              render: (submitterProps) => {
                 return (
                   <div style={
                     {
@@ -146,12 +151,10 @@ const AuditSampleList: React.FC<{
   ];
   return (
     <DelegationList
-      request={props.request}
-      roles={props.roles}
-      user={props.user}
+      queryParams={props.queryParams}
       operationColumns={auditColumns}
       actionRef={actionRef}
-     />
+    />
   )
 }
 

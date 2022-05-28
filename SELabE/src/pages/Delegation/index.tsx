@@ -1,4 +1,4 @@
-import DelegationList from "@/pages/Delegation/components/DelegationList";
+/*import DelegationList from "@/pages/Delegation/components/DelegationList";
 import {useState} from "react";
 import {delegationPage, getProcessList} from "@/services/ant-design-pro/delegation/api";
 import {currentUser} from "@/services/ant-design-pro/api";
@@ -77,4 +77,4 @@ const Delegation: React.FC = () => {
     </DelegationList>
   )
 }
-export default Delegation;
+export default Delegation;*/

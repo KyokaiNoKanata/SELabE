@@ -1,8 +1,6 @@
 import type {ReactNode} from "react";
 import React, {useRef, useState} from "react";
 import type {API} from "@/services/ant-design-pro/typings";
-import {currentUser} from "@/services/ant-design-pro/api";
-import {delegationPage} from "@/services/ant-design-pro/delegation/api";
 import type {ActionType, ProColumns} from "@ant-design/pro-table";
 import {Button, message, Upload} from "antd";
 import DelegationList from "@/pages/Delegation/components/DelegationList";
@@ -15,12 +13,6 @@ import type {RcFile} from "antd/es/upload";
 const Samples: React.FC
   = () => {
   const actionRef: React.MutableRefObject<ActionType | undefined> = useRef<ActionType>();
-  const [roles, setRoles] = useState<string[]>([]);
-  const [userInfo, setUser] = useState<{
-    avatar?: string,
-    nickname?: string,
-    id?: string,
-  }>({});
   const [file, setFile] = useState<RcFile | undefined>(undefined)
   const handleSubmitSample = async (id: number | undefined) => {
     if (!id) {
@@ -78,7 +70,8 @@ const Samples: React.FC
       title: '提交样品',
       dataIndex: 'submitSample',
       valueType: 'option',
-      hideInTable: !roles.includes('client'),
+      //hideInTable: !roles.includes('client'),
+      hideInTable: false,
       sorter: false,
       render: (text: ReactNode, record: API.DelegationItem) => {
         const {contractId} = record; //合同id
@@ -110,13 +103,14 @@ const Samples: React.FC
               url: url,
             });
             if (resp2.code == 0) {
+              //提交样品
+              await handleSubmitSample(sampleId)
+              return true;
               //message.success('保存成功');
             } else {
               message.error(resp2.msg);
               return false;
             }
-            //顺便提交样品
-            return await handleSubmitSample(sampleId);
           }}
         >
           <ProForm.Group>
@@ -142,35 +136,21 @@ const Samples: React.FC
       }
     }
   ];
-  const request = async (
-    params: {//传入的参数名固定叫 current 和 pageSize
-      pageSize?: number;
-      current?: number;
-    },
-    options?: Record<string, any>
-  ) => {
-    const p: API.PageParams = params;
-    p.pageNo = p.current;
-    const user = await currentUser();
-    setUser(user.data.user)
-    //const role = user.data.roles;
-    setRoles(user.data.roles);
-
-    //客户
-    if (user.data.roles.includes('client')) {
-      p.creatorId = user.data.user.id;
-      p.state = '250,280'//用户上传样品
+  const queryParams = async (
+    param: API.DelegationQueryParams,
+    roles: string[],
+    userId: number) => {
+    if (roles.includes('client')) {
+      param.creatorId = userId;
+      param.state = '250,280'//用户上传样品
     } else {
-      p.state = '-1';
+      param.state = '-1';
     }
-    const res = await delegationPage(p, options);
-    return res.data;
+    return param;
   }
   return (
     <DelegationList
-      request={request}
-      roles={roles}
-      user={userInfo}
+      queryParams={queryParams}
       operationColumns={submitSampleColumns}
       actionRef={actionRef}
     />
