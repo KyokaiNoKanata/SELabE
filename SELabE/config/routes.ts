@@ -260,6 +260,13 @@ export default [
         icon: 'smile',
         component: './Report/archive',
       },
+      //市场部员工 发送报告
+      {
+        path: '/report/send',
+        name: '(市场部员工)发送测试报告',
+        icon: 'smile',
+        component: './Report/send',
+      },
     ]
   },
   {

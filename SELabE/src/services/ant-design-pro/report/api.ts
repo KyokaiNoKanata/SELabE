@@ -190,3 +190,18 @@ export function archiveReport(body: {
     }
   )
 }
+
+/**
+ * 市场部发送报告
+ */
+export function sendReport(body: {
+  reportId: number,
+}) {
+  return request<API.Response>('/admin-api/system/report/send', {
+      method: 'PUT',
+      data: {
+        id: body.reportId,
+      },
+    }
+  )
+}
