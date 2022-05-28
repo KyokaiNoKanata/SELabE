@@ -22,6 +22,56 @@ const Samples: React.FC
     id?: string,
   }>({});
   const [file, setFile] = useState<RcFile | undefined>(undefined)
+  const handleSubmitSample = async (id: number | undefined) => {
+    if (!id) {
+      message.error('没有样品');//不应该发生
+      return false;
+    }
+    const resp = await submitSample({
+      id: id,
+    });
+    if (resp.code == 0) {
+      message.success('提交成功');
+      actionRef.current?.reload();
+    } else {
+      message.error(resp.msg);
+    }
+    return true;
+  }
+  /**
+   * 上传文件返回url
+   * @param file
+   * @path
+   */
+  const handleUploadFile = async (rcFile: RcFile | undefined, path: string) => {
+    if (!rcFile) {
+      return "";
+    }
+    const formData: FormData = new FormData();
+    formData.append('file', rcFile!);
+    const resp1 = await uploadFile(path, formData);
+    if (resp1.code != 0) {
+      message.error(resp1.msg);
+      return "";
+    }
+    return resp1.data;
+  }
+  /**
+   * @param delegationId
+   * @return sampleId
+   */
+  const handleCreateSample = async (delegationId: number) => {
+    const createResp = await createSample({
+      delegationId: delegationId!
+    });
+    if (createResp.code != 0) {
+      message.error(createResp.msg);
+      return -1;
+    } else {
+      message.success('创建样品成功')
+    }
+    return createResp.data;
+  }
   const submitSampleColumns: ProColumns<API.DelegationItem>[] = [
     /** 提交样品 */
     {
@@ -46,32 +96,12 @@ const Samples: React.FC
           onFinish={async (values) => {
             // 上传样品：没有样品先创建样品
             if (!sampleId) {
-              //创建样品
-              const createResp = await createSample({
-                delegationId: record.id!
-              });
-              if (createResp.code != 0) {
-                message.error(createResp.msg);
-                return;
-              } else {
-                sampleId = createResp.data;
-                message.success('创建样品成功')
-              }
-              actionRef.current?.reload();
+              sampleId = await handleCreateSample(record.id!);
+              //actionRef.current?.reload();
             }
             //保存样品
             //如果是在线提交，需要上传文件
-            let url: string = '';
-            if (file) {
-              const formData: FormData = new FormData();
-              formData.append('file', file!);
-              const resp1 = await uploadFile('sample' + contractId + file?.name, formData);
-              if (resp1.code != 0) {
-                message.error(resp1.msg);
-                return true;
-              }
-              url = resp1.data;
-            }
+            const url: string = await handleUploadFile(file, 'sample' + contractId + file?.name);
             const resp2 = await updateSample({
               id: sampleId!,
               information: values.information,
@@ -85,25 +115,8 @@ const Samples: React.FC
               message.error(resp2.msg);
               return false;
             }
-            actionRef.current?.reload();
-            //
             //顺便提交样品
-            //todo:这里写得不对，第一次不能及时更新
-            sampleId = record.sampleId!;
-            if (!sampleId) {
-              message.error('没有样品');//不应该发生
-              return false;
-            }
-            const resp = await submitSample({
-              id: sampleId,
-            });
-            if (resp.code == 0) {
-              message.success('提交成功');
-              actionRef.current?.reload();
-            } else {
-              message.error(resp.msg);
-            }
-            return true;
+            return await handleSubmitSample(sampleId);
           }}
         >
           <ProForm.Group>
