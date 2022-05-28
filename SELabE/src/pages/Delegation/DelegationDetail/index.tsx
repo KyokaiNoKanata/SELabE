@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {Row, Steps} from 'antd';
-import {getDelegationByIds, getProcessList, getUserByID} from "@/services/ant-design-pro/delegation/api";
+import {getDelegationByIds, getProcessList, getUserByID, getUserList} from "@/services/ant-design-pro/delegation/api";
 import {useLocation} from "umi";
 import {PageContainer} from "@ant-design/pro-layout";
 import ProCard from "@ant-design/pro-card";
@@ -45,21 +45,34 @@ const DelegationDetail: React.FC = () => {
       setTestingDeptStaffId(result.testingDeptStaffId);
     }
   );
-  /*
-  const getUserInfo = async () => {
+
+
+  const getRoleInfo = async () => {
     const userData = (await getUserByID(
       {
-        userId: 131,
+        userId: Number(marketDeptStaffId),
       }));
     return userData;
   }
 
-  getUserInfo().then(
+  getRoleInfo().then(
     result => {
-      setMarketDeptStaffName(result.data.name);
+      //setMarketDeptStaffName(result.data);
+      console.log(result);
     }
   );
-  */
+
+  const getUserInfo = async () => {
+    const userList = (await getUserList());
+    return userList;
+  }
+
+  getUserInfo().then(
+    result => {
+      console.log(result);
+    }
+  );
+
 
   const getStateTime = async () => {
     const process = (await getProcessList(

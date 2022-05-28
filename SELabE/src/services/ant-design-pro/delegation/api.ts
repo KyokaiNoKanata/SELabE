@@ -211,6 +211,18 @@ export async function getUserByID(params: {
   })
 }
 
+export async function getUserList(){
+  return request<{
+    code: number,
+    data: {
+      id: number,
+      name: string,
+    }[],
+    msg: string,
+  }>('/admin-api/system/front/role/list-all-simple',{
+    method: 'GET',
+  })
+}
 
 export async function getTable3(params: {
   id: string,//表格id
