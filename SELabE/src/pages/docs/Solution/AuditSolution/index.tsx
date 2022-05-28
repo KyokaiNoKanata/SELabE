@@ -23,7 +23,7 @@ const AuditSolutionForm = () => {
   const contentList = {
     测试方案:
       <Card>
-        <SolutionForm audit={true} editable={false}/>
+        <SolutionForm editable={false}/>
       </Card>,
     测试方案评审表: <Card><SchemeReviewForm editable={true}/></Card>,
   };

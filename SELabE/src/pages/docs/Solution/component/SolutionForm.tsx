@@ -16,21 +16,17 @@ import {getDelegationById} from "@/services/ant-design-pro/delegation/api";
 
 //测试方案表单 table6
 const SolutionForm: React.FC<{
-  editable: boolean,//可编辑说明是测试部人员填写，不然说明是查看
-  audit: boolean,//审核，提供审核通过/不通过按钮
+  editable: boolean,//是否可编辑
 }> = (props) => {
   const [solutionId, setSolutionId] = useState<number | undefined>(undefined);
   const params = useLocation();
   const delegationId: number = (params as any).query.id;
   const formRef = useRef<ProFormInstance>();
   const request = async () => {
-    //如果已经有了对应的solutionId,填一下
-    //console.log('delegationId = ' + delegationId);
     const sId = (await getDelegationById(delegationId)).data.solutionId;
     //console.log(sId);
     //注意useState异步更新，不同步
     setSolutionId(sId);
-    //console.log('solutionId = ' + sId);
     if (!sId) {
       return {};
     }
