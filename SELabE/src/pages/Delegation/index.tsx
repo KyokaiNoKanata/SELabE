@@ -13,6 +13,9 @@ const getOperateTime = async (delegationId: number) => {
   console.log(operateTime);
   return operateTime;
 }
+
+
+
 const Delegation: React.FC = () => {
   const [roles,setRoles] = useState<string[]>([]);
   const [userInfo,setUser] = useState<{
