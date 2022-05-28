@@ -1,6 +1,6 @@
 // https://umijs.org/config/
-import { defineConfig } from 'umi';
-import { join } from 'path';
+import {defineConfig} from 'umi';
+import {join} from 'path';
 
 import defaultSettings from './defaultSettings';
 //import proxy from './proxy';
@@ -53,7 +53,7 @@ export default defineConfig({
     '/admin-api/': {
       target: "http://210.28.133.13:21247/admin-api/",
       changeOrigin: true,
-      pathRewrite: { '^/admin-api': '' },
+      pathRewrite: {'^/admin-api': ''},
     },
   },
   manifest: {
@@ -75,8 +75,8 @@ export default defineConfig({
       projectName: 'swagger',
     },
   ],
-  nodeModulesTransform: { type: 'none' },
-  mfsu: {},
+  nodeModulesTransform: {type: 'none'},
+  //mfsu: {},
   webpack5: {},
   exportStatic: {},
 });
