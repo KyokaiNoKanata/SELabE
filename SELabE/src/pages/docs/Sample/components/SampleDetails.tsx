@@ -17,10 +17,10 @@ const SampleDetails: React.FC = () => {
   const [creatTime, setCreateTime] = useState<string>();
   const [Sid, setSid] = useState<number>();
   const [inforamtion, setInforamtion] = useState<string>();
-  const [modifyRemark, setModifyRemark] = useState<string>();
+  //const [modifyRemark, setModifyRemark] = useState<string>();
   const [processType, setProcessType] = useState<string>();
   //const [remark, setRemark] = useState<string>();
-  const [state, setState] = useState<number>();
+  //const [state, setState] = useState<number>();
   const [type, setType] = useState<string>();
   //const [verifyId, setVerifyId] = useState<number>();
   const request = async () => {
@@ -40,10 +40,10 @@ const SampleDetails: React.FC = () => {
       setSid(result.id);
       setInforamtion(result.information);
       // setVerifyId(result.verifyId);
-      setModifyRemark(result.modifyRemark);
+      //setModifyRemark(result.modifyRemark);
       setProcessType(result.processType);
       //setRemark(result.remark);
-      setState(result.state);
+      //setState(result.state);
       setType(result.type);
     }
   );
@@ -98,7 +98,7 @@ const SampleDetails: React.FC = () => {
     actionRef.current?.reload();
     return true
   }
-  const currentState = () => {
+  /*const currentState = () => {
     switch (state) {
       case 0: {
         return "未发送";
@@ -121,7 +121,7 @@ const SampleDetails: React.FC = () => {
       default:
         return "";
     }
-  }
+  }*/
   return (
     <ProForm
       title="审核"
@@ -131,7 +131,7 @@ const SampleDetails: React.FC = () => {
       formRef={formRef}
       submitter={{
         //todo
-        render: (submitterProps) => {
+        render: () => {
           return (
             <div style={
               {
@@ -149,9 +149,6 @@ const SampleDetails: React.FC = () => {
               </ProCard>
               <ProCard bordered>
                 <div><strong>处理方式</strong>:{processType}</div>
-              </ProCard>
-              <ProCard bordered>
-                <div><strong>状态</strong>:{currentState()}</div>
               </ProCard>
               <ProCard bordered>
                 <div><strong>上传方式</strong>:{type}</div>
