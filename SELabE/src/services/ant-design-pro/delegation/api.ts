@@ -193,29 +193,37 @@ export async function getSimpleUserByRole(params: { roleCode: string }) {
 
 
 /**
- * 获取角色信息
+ * 获取用户信息
  */
 export async function getUserByID(params: {
-  userId: string
+  userId: number
 }) {
   return request<{
     code: number,
     data: {
-      code: string,
+      avatar: string,
       createTime: string,
+      email: string,
       id: number,
-      name: string,
+      loginDate: string,
+      loginIp: string,
+      mobile: string,
+      nickname: string,
       remark: string,
-      sort: number,
+      sex: number,
       status: number,
-      type: number,
+      username: string,
     },
     msg: string,
-  }>('/admin-api/system/front/role/get', {
+  }>('/admin-api/system/front/user/get', {
     method: 'GET',
-    params: params
+    params: {
+      id: params.userId,
+    }
   })
 }
+
+
 
 export async function getUserList(){
   return request<{
