@@ -10,56 +10,6 @@ import {getDelegationById} from "@/services/ant-design-pro/delegation/api";
 
 import {createReport, getReport, getTable8, saveTable8} from "@/services/ant-design-pro/report/api";
 
-type DataSourceType = {
-  id: React.Key;
-  classification?: string;
-  tid?: string;
-  design?: string;
-  statute?: string;
-  result?: string;
-  author?: string;
-  time?: string;
-  children?: DataSourceType[];
-};
-
-const columns: ProColumns<DataSourceType>[] = [
-  {
-    title: '测试分类',
-    dataIndex: 'classification',
-  },
-  {
-    title: 'ID',
-    dataIndex: 'tid',
-    width: "10%",
-  },
-  {
-    title: '测试用例设计说明',
-    dataIndex: 'design',
-  },
-  {
-    title: '与本测试用例有关的规约说明',
-    dataIndex: 'statute',
-  },
-  {
-    title: '预期的结果',
-    dataIndex: 'result',
-  },
-  {
-    title: '测试用例设计者',
-    dataIndex: 'author',
-  },
-  {
-    title: '测试时间',
-    dataIndex: 'time',
-  },
-
-  {
-    title: '操作',
-    valueType: 'option',
-    width: '5%',
-  },
-];
-
 
 /**
  * @param props isClient 判断身份是不是客户，如果是，则前面只能看不能写，最后签字，不然，是市场部，
@@ -67,6 +17,63 @@ const columns: ProColumns<DataSourceType>[] = [
  */
 //editable为true可编辑
 const TestCaseForm: React.FC<{ editable: boolean }> = (props) => {
+  type DataSourceType = {
+    id: React.Key;
+    classification?: string;
+    tid?: string;
+    design?: string;
+    statute?: string;
+    result?: string;
+    author?: string;
+    time?: string;
+    children?: DataSourceType[];
+  };
+
+  const columns: ProColumns<DataSourceType>[] = [
+    {
+      title: '测试分类',
+      dataIndex: 'classification',
+      editable: props.editable,
+    },
+    {
+      title: 'ID',
+      dataIndex: 'tid',
+      width: "10%",
+      editable: props.editable,
+    },
+    {
+      title: '测试用例设计说明',
+      dataIndex: 'design',
+      editable: props.editable,
+    },
+    {
+      title: '与本测试用例有关的规约说明',
+      dataIndex: 'statute',
+      editable: props.editable,
+    },
+    {
+      title: '预期的结果',
+      dataIndex: 'result',
+      editable: props.editable,
+    },
+    {
+      title: '测试用例设计者',
+      dataIndex: 'author',
+      editable: props.editable,
+    },
+    {
+      title: '测试时间',
+      dataIndex: 'time',
+      editable: props.editable,
+    },
+
+    {
+      title: '操作',
+      valueType: 'option',
+      editable: props.editable,
+      width: '5%',
+    },
+  ];
   const [reportId, setReportId] = useState<number | undefined>(undefined);
   const params = useLocation();
   const delegationId: number = (params as any).query.id;

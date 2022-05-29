@@ -9,83 +9,6 @@ import {useLocation} from "react-router-dom";
 import {getDelegationById} from "@/services/ant-design-pro/delegation/api";
 import {createReport, getReport, getTable9, saveTable9} from "@/services/ant-design-pro/report/api";
 
-type DataSourceType = {
-  id: React.Key;
-  classification?: string;
-  tid?: string;
-  design?: string;
-  statute?: string;
-  preconditions?: string;
-  process?: string;
-  result?: string;
-  author?: string;
-  reality?: string;
-  accord?: string;
-  bugid?: string;
-  executor?: string;
-  confirmor?: string;
-  children?: DataSourceType[];
-};
-
-const columns: ProColumns<DataSourceType>[] = [
-  {
-    title: '测试分类',
-    dataIndex: 'classification',
-  },
-  {
-    title: 'ID',
-    dataIndex: 'tid',
-  },
-  {
-    title: '测试用例设计说明',
-    dataIndex: 'design',
-  },
-  {
-    title: '与本测试用例有关的规约说明',
-    dataIndex: 'statute',
-  },
-  {
-    title: '前提条件',
-    dataIndex: 'preconditions',
-  },
-  {
-    title: '预期的结果',
-    dataIndex: 'result',
-  },
-  {
-    title: '测试用例设计者',
-    dataIndex: 'author',
-  },
-  {
-    title: '实际结果',
-    dataIndex: 'reality',
-  },
-  {
-    title: '是否与预期结果一致',
-    dataIndex: 'accord',
-  },
-  {
-    title: '相关的BUG编号',
-    dataIndex: 'bugid',
-  },
-  {
-    title: '用例执行者',
-    dataIndex: 'executor',
-  },
-  {
-    title: '执行测试时间',
-    dataIndex: 'time',
-  },
-  {
-    title: '确认人',
-    dataIndex: 'confirmor',
-  },
-  {
-    title: '操作',
-    valueType: 'option',
-    width: '1%',
-  },
-];
 
 //测试记录table9
 
@@ -95,6 +18,97 @@ const columns: ProColumns<DataSourceType>[] = [
  */
 //editable为true可编辑
 const TestRecordForm: React.FC<{ editable: boolean }> = (props) => {
+  type DataSourceType = {
+    id: React.Key;
+    classification?: string;
+    tid?: string;
+    design?: string;
+    statute?: string;
+    preconditions?: string;
+    process?: string;
+    result?: string;
+    author?: string;
+    reality?: string;
+    accord?: string;
+    bugid?: string;
+    executor?: string;
+    confirmor?: string;
+    children?: DataSourceType[];
+  };
+
+  const columns: ProColumns<DataSourceType>[] = [
+    {
+      title: '测试分类',
+      editable: props.editable,
+      dataIndex: 'classification',
+    },
+    {
+      title: 'ID',
+      editable: props.editable,
+      dataIndex: 'tid',
+    },
+    {
+      title: '测试用例设计说明',
+      editable: props.editable,
+      dataIndex: 'design',
+    },
+    {
+      title: '与本测试用例有关的规约说明',
+      editable: props.editable,
+      dataIndex: 'statute',
+    },
+    {
+      title: '前提条件',
+      editable: props.editable,
+      dataIndex: 'preconditions',
+    },
+    {
+      title: '预期的结果',
+      editable: props.editable,
+      dataIndex: 'result',
+    },
+    {
+      title: '测试用例设计者',
+      editable: props.editable,
+      dataIndex: 'author',
+    },
+    {
+      title: '实际结果',
+      editable: props.editable,
+      dataIndex: 'reality',
+    },
+    {
+      title: '是否与预期结果一致',
+      editable: props.editable,
+      dataIndex: 'accord',
+    },
+    {
+      title: '相关的BUG编号',
+      editable: props.editable,
+      dataIndex: 'bugid',
+    },
+    {
+      title: '用例执行者',
+      editable: props.editable,
+      dataIndex: 'executor',
+    },
+    {
+      title: '执行测试时间',
+      editable: props.editable,
+      dataIndex: 'time',
+    },
+    {
+      title: '确认人',
+      dataIndex: 'confirmor',
+      editable: props.editable,
+    },
+    {
+      title: '操作',
+      valueType: 'option',
+      editable: props.editable,
+      width: '1%',
+    },
+  ];
   const [reportId, setReportId] = useState<number | undefined>(undefined);
   const params = useLocation();
   const delegationId: number = (params as any).query.id;
