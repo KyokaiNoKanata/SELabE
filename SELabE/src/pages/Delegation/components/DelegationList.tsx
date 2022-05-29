@@ -136,6 +136,7 @@ const DelegationList: React.FC<DelegationListType> = (props) => {
       pageSize?: number;
       current?: number;
     },
+    sort?: object,
     options?: Record<string, any>
   ) => {
     /*if (props.request) {
@@ -147,6 +148,18 @@ const DelegationList: React.FC<DelegationListType> = (props) => {
     const p1: API.DelegationQueryParams = {
       pageSize: params.pageSize,
       pageNo: params.current,
+    }
+    if (sort && sort != {}) {
+      //todo
+      //应该驼峰转下划线，应该统一处理一下，现在就需要 id，state，launchTime，就将就下
+      const key = Object.keys(sort!)[0];
+      const value = Object.values(sort!)[0];
+      p1.asc = (value == 'ascend');
+      p1.orderField = new Map([
+        ['id', 'id'],
+        ['state', 'state'],
+        ['launchTime', 'launch_time'],
+      ]).get(key);
     }
     //remove params.current
     const p = await props.queryParams!(p1, user.roles, userId);//获得参数
@@ -165,6 +178,7 @@ const DelegationList: React.FC<DelegationListType> = (props) => {
       //valueType: 'textarea',
       hideInSearch: false,
       hideInTable: false,
+      sorter: true,
     },
     /** 名称 name show */
     {
@@ -209,6 +223,7 @@ const DelegationList: React.FC<DelegationListType> = (props) => {
       hideInSearch: true,
       hideInTable: false,
       valueType: 'dateTime',
+      sorter: true,
       render: (text, record) => [
         // todo format Date
         new Date(record.launchTime!).toLocaleString()
@@ -220,6 +235,7 @@ const DelegationList: React.FC<DelegationListType> = (props) => {
       dataIndex: 'state',
       hideInForm: false,
       hideInSearch: true,//
+      sorter: true,
       //todo:render
     },
     /*//状态变更时间

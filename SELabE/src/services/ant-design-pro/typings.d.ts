@@ -36,7 +36,7 @@ declare namespace API {
     verifyId?: string; //审核人id，只能为选定的市场部或者测试部两个人中的一个
   }
   type DelegationItem = {
-    update_time?: string;//状态变更时间 不管
+    //update_time?: string;//状态变更时间 不管
 
     id?: number;//编号
     name?: string;//名称
@@ -57,9 +57,6 @@ declare namespace API {
     testingDeptStaffId?: number;//分配的测试部人员id
     testingRemark?: string;//测试部人员处理意见*
     url?: string;//文档材料url
-
-    asc?: string;//是否升序, true 升序, false 降序
-    orderField?: string;//排序字段
   }
   type DelegationList = {
     data?: DelegationItem[],
@@ -68,6 +65,7 @@ declare namespace API {
     success?: boolean;
   }
   type DelegationQueryParams = {
+    asc?: boolean;//是否升序, true 升序, false 降序
     beginCreateTime?: string;//开始创建时间
     beginLaunchTime?: string;//开始发起时间
     cancelRemark?: string;//取消原因

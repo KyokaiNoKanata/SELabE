@@ -3,18 +3,9 @@ import type {API} from "@/services/ant-design-pro/typings"
 
 /** 获取委托列表 GET /api/admin-api/system/delegation/page */
 export async function delegationPage(
-  params: {
-    pageNo?: number;
-    pageSize?: number;
-  } & API.DelegationItem,
+  params: API.DelegationQueryParams,
   options?: Record<string, any>,
 ) {
-  //console.log("request")
-  //排序
-  if (!params.orderField) {
-    params.orderField = 'state';
-    params.asc = 'true';
-  }
   return request<{
     code: number;
     data: {
@@ -217,7 +208,7 @@ export async function getUserByID(params: {
   })
 }
 
-export async function getUserList(){
+export async function getUserList() {
   return request<{
     code: number,
     data: {
@@ -225,7 +216,7 @@ export async function getUserList(){
       name: string,
     }[],
     msg: string,
-  }>('/admin-api/system/front/role/list-all-simple',{
+  }>('/admin-api/system/front/role/list-all-simple', {
     method: 'GET',
   })
 }
