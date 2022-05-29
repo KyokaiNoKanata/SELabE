@@ -197,6 +197,12 @@ export default [
         icon: 'smile',
         component: './Sample/audit/Testing'
       },
+      {
+        path: './audit/sample-detail',
+        name: '样品详情',
+        icon: 'smile',
+        component: 'docs/Sample/SampleDetails'
+      },
     ]
   },
   {

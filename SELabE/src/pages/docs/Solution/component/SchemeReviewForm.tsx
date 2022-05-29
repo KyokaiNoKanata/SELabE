@@ -1,9 +1,10 @@
 import React, {useRef, useState} from 'react';
-import {Button, Input, message} from 'antd';
+import {Button, Input, message, PageHeader} from 'antd';
 import type {ProFormInstance} from '@ant-design/pro-form';
 import ProForm, {ProFormText} from '@ant-design/pro-form';
 import type {ProColumns} from '@ant-design/pro-table';
 import {EditableProTable} from '@ant-design/pro-table';
+import {PageContainer, ProCard} from '@ant-design/pro-components';
 import {
   auditSolutionFail,
   auditSolutionSuccess,
@@ -79,65 +80,7 @@ const defaultData: DataSourceType[] = [
   },
 ];
 
-const columns: ProColumns<DataSourceType>[] = [
-  {
-    title: '评审内容',
-    dataIndex: 'title',
-    width: '30%',
-    editable: false,
-  },
-  {
-    title: '是否通过',
-    width: 120,
-    key: 'state',
-    dataIndex: 'state',
-    valueType: 'select',
-    valueEnum: {
-      open: {
-        text: '不通过',
-        status: 'Error',
-      },
-      closed: {
-        text: '通过',
-        status: 'Success',
-      },
-    },
-  },
-  {
-    title: '不通过原因',
-    dataIndex: 'reason',
-    renderFormItem: (_, {record}) => {
-      console.log('----===>', record);
-      return <Input addonBefore={(record as any)?.addonBefore}/>;
-    },
-  },
-];
-const adviceColumns: ProColumns<AdviceType>[] = [
-  {
-    title: '职责',
-    dataIndex: 'duty',
-    width: '30%',
-    editable: false,
-  },
-  {
-    title: '评审意见',
-    dataIndex: 'advice',
-  },
-  {
-    title: '签字',
-    dataIndex: 'signature',
-    renderFormItem: (_, {record}) => {
-      console.log('----===>', record);
-      return <Input addonBefore={(record as any)?.addonBefore}/>;
-    },
-  },
-  {
-    title: '日期',
-    dataIndex: 'date',
-    valueType: "date",
-    initialValue: new Date(),
-  },
-];
+
 const adviceData: AdviceType[] = [
   {
     id: 20001,
@@ -179,6 +122,70 @@ const adviceData: AdviceType[] = [
 const SchemeReviewFrom: React.FC<{
   editable: boolean,
 }> = (props) => {
+  const columns: ProColumns<DataSourceType>[] = [
+    {
+      title: '评审内容',
+      dataIndex: 'title',
+      width: '30%',
+      editable: false,
+    },
+    {
+      title: '是否通过',
+      editable: props.editable,
+      width: 120,
+      key: 'state',
+      dataIndex: 'state',
+      valueType: 'select',
+      valueEnum: {
+        open: {
+          text: '不通过',
+          status: 'Error',
+        },
+        closed: {
+          text: '通过',
+          status: 'Success',
+        },
+      },
+    },
+    {
+      title: '不通过原因',
+      editable: props.editable,
+      dataIndex: 'reason',
+      renderFormItem: (_, {record}) => {
+        console.log('----===>', record);
+        return <Input addonBefore={(record as any)?.addonBefore}/>;
+      },
+    },
+  ];
+  const adviceColumns: ProColumns<AdviceType>[] = [
+    {
+      title: '职责',
+      dataIndex: 'duty',
+      width: '30%',
+      editable: false,
+    },
+    {
+      title: '评审意见',
+      editable: props.editable,
+      dataIndex: 'advice',
+    },
+    {
+      title: '签字',
+      editable: props.editable,
+      dataIndex: 'signature',
+      renderFormItem: (_, {record}) => {
+        console.log('----===>', record);
+        return <Input addonBefore={(record as any)?.addonBefore}/>;
+      },
+    },
+    {
+      title: '日期',
+      editable: props.editable,
+      dataIndex: 'date',
+      valueType: "date",
+      initialValue: new Date(),
+    },
+  ];
   const [solutionId, setSolutionId] = useState<number | undefined>(undefined);
   const params = useLocation();
   const delegationId: number = (params as any).query.id;
@@ -244,125 +251,136 @@ const SchemeReviewFrom: React.FC<{
     return true;
   }
   return (
-    <ProForm
-      onFinish={onSave}
-      request={request}
-      formRef={formRef}
-      submitter={{
-        render: (submitterProps) => {
-          if (props.editable) {
-            return ([
-              <div style={
-                {
-                  textAlign: "right",
-                  margin: 20,
-                }
-              }>
-                <ProForm.Group>
-                  <Button type="primary" key="submit" onClick={onSave}>
-                    保存
-                  </Button>
-                  <Button danger type="primary" key="submit" onClick={auditFail}>
-                    不通过
-                  </Button>
-                  <Button type="primary" key="submit" onClick={auditSuccess}>
-                    通过
-                  </Button>
-                </ProForm.Group>
-              </div>
-            ]);
-          }
-          return [];
-        },
-      }}
-    >
-
-      <ProForm.Group>
-        <ProFormText
-          width="md"
-          name="softName"
-          label="软件名称"
-          tooltip="最长为 24 位"
-          placeholder="请输入名称"
-          rules={[{required: true, message: '这是必填项'}]}
-        />
-        <ProFormText width="md"
-                     name="version"
-                     label="版本号"
-                     placeholder="请输入版本号"
-                     rules={[{required: true, message: '这是必填项'}]}
-        />
-        <ProForm.Group>
-          <ProFormText
-            width="md"
-            name="contractId"
-            label="主合同编号"
-            tooltip="最长为 24 位"
-            placeholder="请输入编号"
-            rules={[{required: true, message: '这是必填项'}]}
-          />
-          <ProFormText width="md"
-                       name="type"
-                       label="测试类别"
-                       placeholder="请输入类别"
-                       rules={[{required: true, message: '这是必填项'}]}
-          />
-        </ProForm.Group>
-      </ProForm.Group>
-      <ProForm.Item
-        label=""
-        name="result"
-        initialValue={defaultData}
-        trigger="onValuesChange"
-      >
-        <EditableProTable<DataSourceType>
-          rowKey="id"
-          toolBarRender={false}
-          columns={columns}
-          recordCreatorProps={{
-            newRecordType: 'dataSource',
-            hidden: true,
-            record: () => ({
-              id: Date.now(),
-            }),
-          }}
-          editable={{
-            type: 'multiple',
-            editableKeys,
-            onChange: setEditableRowKeys,
-            actionRender: (row, _, dom) => {
-              return [dom.delete];
+    <PageContainer>
+      <PageHeader
+        className="test-form"
+        title="测试方案评审表"
+      />
+      <ProCard>
+        <ProForm
+          onFinish={onSave}
+          request={request}
+          formRef={formRef}
+          submitter={{
+            render: (submitterProps) => {
+              if (props.editable) {
+                return ([
+                  <div style={
+                    {
+                      textAlign: "right",
+                      margin: 20,
+                    }
+                  }>
+                    <ProForm.Group>
+                      <Button type="primary" key="submit" onClick={onSave}>
+                        保存
+                      </Button>
+                      <Button danger type="primary" key="submit" onClick={auditFail}>
+                        不通过
+                      </Button>
+                      <Button type="primary" key="submit" onClick={auditSuccess}>
+                        通过
+                      </Button>
+                    </ProForm.Group>
+                  </div>
+                ]);
+              }
+              return [];
             },
           }}
-        />
-      </ProForm.Item>
+        >
+          <ProForm.Group>
+            <ProFormText
+              width="md"
+              name="softName"
+              label="软件名称"
+              tooltip="最长为 24 位"
+              placeholder="请输入名称"
+              rules={[{required: true, message: '这是必填项'}]}
+              disabled={!props.editable}
+            />
+            <ProFormText width="md"
+                         name="version"
+                         label="版本号"
+                         placeholder="请输入版本号"
+                         rules={[{required: true, message: '这是必填项'}]}
+                         disabled={!props.editable}
+            />
+            <ProForm.Group>
+              <ProFormText
+                width="md"
+                name="contractId"
+                label="主合同编号"
+                tooltip="最长为 24 位"
+                placeholder="请输入编号"
+                rules={[{required: true, message: '这是必填项'}]}
+                disabled={!props.editable}
+              />
+              <ProFormText width="md"
+                           name="type"
+                           label="测试类别"
+                           placeholder="请输入类别"
+                           rules={[{required: true, message: '这是必填项'}]}
+                           disabled={!props.editable}
+              />
+            </ProForm.Group>
+          </ProForm.Group>
+          <ProForm.Item
+            label=""
+            name="result"
+            initialValue={defaultData}
+            trigger="onValuesChange"
+          >
+            <EditableProTable<DataSourceType>
+              rowKey="id"
+              toolBarRender={false}
+              columns={columns}
+              recordCreatorProps={{
+                newRecordType: 'dataSource',
+                hidden: true,
+                record: () => ({
+                  id: Date.now(),
+                }),
+              }}
+              editable={{
+                type: 'multiple',
+                editableKeys,
+                onChange: setEditableRowKeys,
+                actionRender: (row, _, dom) => {
+                  return [dom.delete];
+                },
+              }}
+            />
+          </ProForm.Item>
 
-      <ProForm.Item
-        label=""
-        name="advice"
-        initialValue={adviceData}
-        trigger="onValuesChange"
-      >
-        <EditableProTable<AdviceType>
-          rowKey="id"
-          toolBarRender={false}
-          columns={adviceColumns}
-          recordCreatorProps={{
-            newRecordType: undefined,
-            hidden: true,
-            record: () => ({
-              id: Date.now(),
-            }),
-          }}
-          editable={{
-            type: 'multiple',
-            editableKeys: adviceEditable,
-            onChange: setAdviceEditableRow,
-            //actionRender: (row, config, dom) => []
-          }}
-        />
-      </ProForm.Item>
-    </ProForm>
+          <ProForm.Item
+            label=""
+            name="advice"
+            initialValue={adviceData}
+            trigger="onValuesChange"
+          >
+            <EditableProTable<AdviceType>
+              rowKey="id"
+              toolBarRender={false}
+              columns={adviceColumns}
+              recordCreatorProps={{
+                newRecordType: undefined,
+                hidden: true,
+                record: () => ({
+                  id: Date.now(),
+                }),
+              }}
+              editable={{
+                type: 'multiple',
+                editableKeys: adviceEditable,
+                onChange: setAdviceEditableRow,
+                //actionRender: (row, config, dom) => []
+              }}
+            />
+          </ProForm.Item>
+        </ProForm>
+      </ProCard>
+    </PageContainer>
   );
 };
 export default SchemeReviewFrom;

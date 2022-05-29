@@ -5,6 +5,7 @@ import DelegationList from "@/pages/Delegation/components/DelegationList";
 import type {ActionType, ProColumns} from "@ant-design/pro-table";
 import {Link} from "umi";
 import {Button} from "antd";
+import {useLocation} from "umi";
 //查看委托列表
 //只显示自己可以查看的委托
 //操作栏只有查看详情
