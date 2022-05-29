@@ -4,7 +4,6 @@ import type {ProFormInstance} from '@ant-design/pro-form';
 import ProForm, {ProFormText} from '@ant-design/pro-form';
 import type {ProColumns} from '@ant-design/pro-table';
 import {EditableProTable} from '@ant-design/pro-table';
-import {PageContainer, ProCard} from '@ant-design/pro-components';
 import {
   auditSolutionFail,
   auditSolutionSuccess,
@@ -14,8 +13,9 @@ import {
 } from "@/services/ant-design-pro/solution/api";
 import {useLocation} from "react-router-dom";
 import {getDelegationById} from "@/services/ant-design-pro/delegation/api";
+import ProCard from "@ant-design/pro-card";
+import {PageContainer} from "@ant-design/pro-layout";
 
-//todo: 检查并重写table13
 type DataSourceType = {
   id: React.Key;
   title?: string;

@@ -197,12 +197,6 @@ export default [
         icon: 'smile',
         component: './Sample/audit/Testing'
       },
-      {
-        path: './audit/sample-detail',
-        name: '样品详情',
-        icon: 'smile',
-        component: 'docs/Sample/SampleDetails'
-      },
     ]
   },
   {
@@ -355,6 +349,19 @@ export default [
         path: '/docs/quotation/client',
         icon: 'smile',
         component: './docs/Quotation/Client',
+      },
+      {
+        name: '样品',
+        path: '/docs/sample',
+        icon: 'smile',
+        routes: [
+          {
+            name: '样品详情',
+            path: './detail',
+            icon: 'smile',
+            component: './docs/Sample/detail',
+          },
+        ]
       },
       {
         path: '/docs/solution',

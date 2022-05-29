@@ -7,7 +7,7 @@ import DelegationList from "@/pages/Delegation/components/DelegationList";
 import ProForm, {ModalForm, ProFormText} from "@ant-design/pro-form";
 import {uploadFile} from "@/services/ant-design-pro/file/api";
 import {DownloadOutlined} from "@ant-design/icons";
-import {createSample, submitSample, updateSample} from "@/services/ant-design-pro/sample/api";
+import {createSample, getSampleById, submitSample, updateSample} from "@/services/ant-design-pro/sample/api";
 import type {RcFile} from "antd/es/upload";
 //用户提交样品
 const Samples: React.FC
@@ -64,6 +64,18 @@ const Samples: React.FC
     }
     return createResp.data;
   }
+  //如果之前提交过，回显,暂时就回显需要填写的数据
+  const request = async (sampleId: number | undefined) => {
+    if (!sampleId) {
+      return {};
+    }
+    const sample = (await getSampleById(sampleId)).data;
+    return {
+      information: sample.information,
+      processType: sample.processType,
+      type: sample.type,
+    };
+  }
   const submitSampleColumns: ProColumns<API.DelegationItem>[] = [
     /** 提交样品 */
     {
@@ -86,7 +98,8 @@ const Samples: React.FC
           modalProps={{
             //onCancel: () => console.log('cancel'),
           }}
-          onFinish={async (values) => {
+          request={async () => await request(sampleId)}
+          onFinish={async (values: any) => {
             // 上传样品：没有样品先创建样品
             if (!sampleId) {
               sampleId = await handleCreateSample(record.id!);

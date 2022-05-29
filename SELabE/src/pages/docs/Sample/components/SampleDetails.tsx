@@ -1,8 +1,8 @@
 import React, {useRef, useState} from "react";
-import ProForm, {ProFormText, ProFormTextArea} from "@ant-design/pro-form";
+import ProForm, {ProFormTextArea} from "@ant-design/pro-form";
 import {Button, message} from "antd";
 import {auditSampleFail, auditSampleSuccess, getSampleById} from "@/services/ant-design-pro/sample/api";
-import {ActionType} from "@ant-design/pro-table";
+import type {ActionType} from "@ant-design/pro-table";
 import ProCard from "@ant-design/pro-card";
 import {DownloadOutlined} from "@ant-design/icons";
 import {useLocation} from "umi";
@@ -11,7 +11,7 @@ import moment from "moment";
 
 const SampleDetails: React.FC = () => {
   const actionRef: React.MutableRefObject<ActionType | undefined> = useRef<ActionType>();
-  const formRef: React.MutableRefObject<ActionType | undefined> = useRef<ActionType>();
+  const formRef: any = useRef<ActionType>();
   const params = useLocation();
   const sampleId = (params as any).query.sampleId;
   const [creatTime, setCreateTime] = useState<string>();
@@ -27,19 +27,19 @@ const SampleDetails: React.FC = () => {
     if (!sampleId) {
       return {};
     }
-    const state = (await getSampleById(sampleId)).data;
-    console.log("state:" + state);
-    if (state == undefined) {
+    const currentState = (await getSampleById(sampleId)).data;
+    console.log("state:" + currentState);
+    if (currentState == undefined) {
       return {};
     }
-    return state;
+    return currentState;
   };
   request().then(
     result => {
       setCreateTime(result.createTime);
       setSid(result.id);
       setInforamtion(result.information);
-     // setVerifyId(result.verifyId);
+      // setVerifyId(result.verifyId);
       setModifyRemark(result.modifyRemark);
       setProcessType(result.processType);
       //setRemark(result.remark);
@@ -167,7 +167,7 @@ const SampleDetails: React.FC = () => {
                 <br/>
                 <ProFormTextArea name='remark' label='审核意见'/>
                 <ProForm.Group>
-                  <Button type="primary" key="submit" onClick={onReject}>
+                  <Button type="primary" danger key="submit" onClick={onReject}>
                     不通过
                   </Button>
                   <Button type="primary" key="submit" onClick={onAccept}>
@@ -178,10 +178,7 @@ const SampleDetails: React.FC = () => {
             </div>
           );
         },
-      }}>
-
-
-    </ProForm>
+      }}/>
   );
 
 
