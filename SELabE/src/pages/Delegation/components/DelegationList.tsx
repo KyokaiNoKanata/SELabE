@@ -125,7 +125,7 @@ const DelegationList: React.FC<DelegationListType> = (props) => {
   const [selectedRowsState, setSelectedRows] = useState<API.DelegationItem[]>([]);
   const [createModalVisible, handleModalVisible] = useState<boolean>(false);//新建
   const [showDetail, setShowDetail] = useState<boolean>(false);
-  const [roles, setRoles] = useState<[string]>([]);
+  const [roles, setRoles] = useState<string[]>([]);
   /**
    * @en-US International configuration
    * @zh-CN 国际化配置
@@ -135,6 +135,8 @@ const DelegationList: React.FC<DelegationListType> = (props) => {
     params: {//传入的参数名固定叫 current 和 pageSize
       pageSize?: number;
       current?: number;
+    } & {
+      name?: string;
     },
     sort?: object,
     options?: Record<string, any>
@@ -148,6 +150,7 @@ const DelegationList: React.FC<DelegationListType> = (props) => {
     const p1: API.DelegationQueryParams = {
       pageSize: params.pageSize,
       pageNo: params.current,
+      name: params.name,
     }
     if (sort && sort != {}) {
       //todo
@@ -176,7 +179,7 @@ const DelegationList: React.FC<DelegationListType> = (props) => {
       title: '编号',
       dataIndex: 'id',
       //valueType: 'textarea',
-      hideInSearch: false,
+      hideInSearch: true,
       hideInTable: false,
       sorter: true,
     },
