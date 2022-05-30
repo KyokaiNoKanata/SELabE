@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react';
+import React, {useRef} from 'react';
 import type {ProFormInstance} from '@ant-design/pro-form';
 import ProForm, {ProFormDateRangePicker, ProFormText, ProFormTextArea, StepsForm,} from '@ant-design/pro-form';
 import ProCard from '@ant-design/pro-card';
@@ -19,19 +19,19 @@ const SolutionForm: React.FC<{
   editable: boolean,//是否可编辑
   audit?: boolean,
 }> = (props) => {
-  const [solutionId, setSolutionId] = useState<number | undefined>(undefined);
+  //const [solutionId, setSolutionId] = useState<number | undefined>(undefined);
   const params = useLocation();
   const delegationId: number = (params.state as any).id;
   const formRef = useRef<ProFormInstance>();
+  let solutionId: number | undefined = undefined;
   const request = async () => {
-    const sId = (await getDelegationById(delegationId)).data.solutionId;
+    solutionId = (await getDelegationById(delegationId)).data.solutionId;
     //注意useState异步更新，不同步
-    setSolutionId(sId);
-    if (!sId) {
+    if (!solutionId) {
       return {};
     }
 
-    const solution = await getSolution({id: sId!});
+    const solution = await getSolution({id: solutionId!});
     const id: string = solution.data.table6Id;
     const resp = await getSolutionTable({id: id});
     if (resp.data == null) {
@@ -59,9 +59,8 @@ const SolutionForm: React.FC<{
   const onSave = async (values: any) => {
     //第一次保存，根据委托id创建solution,获得solutionId
     if (!solutionId) {
-      setSolutionId((await createSolution(delegationId)).data);
+      solutionId = (await createSolution(delegationId)).data;
     }
-    console.log(solutionId);
     const res = await saveSolution({solutionId: solutionId!, data: values});
     if (res.code == 0) {
       message.success('保存成功');

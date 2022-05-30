@@ -62,7 +62,6 @@ const ContractForm: React.FC<{
         }
       }
     }
-    console.log(contractId)
     const resp = await saveTable4({
       contractId: contractId,
       data: value,
@@ -75,11 +74,6 @@ const ContractForm: React.FC<{
   }
   //提交合同
   const onSubmit = async () => {
-
-    const contractId: number = (await getDelegationByIds({
-      ids: String(delegationId),
-    })).data[0].contractId!;
-
     if (!contractId) {
       message.warning('请先保存');
     } else {
@@ -131,10 +125,10 @@ const ContractForm: React.FC<{
                     <Button onClick={() => props.onPre?.()}>
                       {'<'} 上一步
                     </Button>
-                    <Button type="primary" key="save" onClick={() => props.onSubmit?.()}>
+                    <Button hidden={prop.editable} type="primary" key="save" onClick={() => props.onSubmit?.()}>
                       保存
                     </Button>
-                    <Button type="primary" key="submit" onClick={() => onSubmit()}>
+                    <Button hidden={prop.editable} type="primary" key="submit" onClick={() => onSubmit()}>
                       提交
                     </Button>
                   </ProForm.Group>
