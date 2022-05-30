@@ -1,10 +1,11 @@
 import React, {useState} from 'react';
 import {Row, Steps} from 'antd';
-import {getDelegationByIds, getProcessList, getUserByID, getUserList} from "@/services/ant-design-pro/delegation/api";
+import {getDelegationByIds, getProcessList, getUserByID} from "@/services/ant-design-pro/delegation/api";
 import {useLocation} from "umi";
 import {PageContainer} from "@ant-design/pro-layout";
 import ProCard from "@ant-design/pro-card";
 import moment from 'moment';
+import {Link} from "@umijs/preset-dumi/lib/theme";
 
 const {Step} = Steps;
 
@@ -18,8 +19,11 @@ const DelegationDetail: React.FC = () => {
   const [marketDeptStaffId, setMarketDeptStaffId] = useState<string>();
   const [testingDeptStaffId, setTestingDeptStaffId] = useState<string>();
   const [marketDeptStaffName, setMarketDeptStaffName] = useState<string>();
+  const [testingDeptStaffName, setTestingDeptStaffName] = useState<string>();
+  const [offerRemark, setOfferRemark] = useState<string>();
   const params = useLocation();
   const delegationId = (params as any).query.id;//ok
+  let tran_pathName = "";
   //console.log(delegationId);
   const request = async () => {
     if (!delegationId) {
@@ -29,11 +33,59 @@ const DelegationDetail: React.FC = () => {
       ids: String(delegationId),
     })).data[0];
     //console.log("state:" + state);
-    if (state == undefined) {
+    if (state === undefined) {
       return {};
     }
     return state;
   };
+
+  const getMarketUserInfo = () => {
+    if (isNaN(Number(marketDeptStaffId))) {
+      return "0";
+    } else {
+      if (Number(marketDeptStaffId) === 0) {
+        setMarketDeptStaffName("暂无");
+        return "0";
+      }
+      const userData = (getUserByID(
+        {
+          userId: Number(marketDeptStaffId),
+        }));
+      if (userData != null) {
+        userData.then(
+          result => {
+            setMarketDeptStaffName(result.data.nickname);
+          }
+        );
+        return userData;
+      } else return "0";
+    }
+  }
+
+  const getTestingUserInfo = () => {
+    if (isNaN(Number(testingDeptStaffId))) {
+      return "0";
+    } else {
+      if (Number(marketDeptStaffId) === 0) {
+        setTestingDeptStaffName("暂无");
+        return "0";
+      }
+      const userData = (getUserByID(
+        {
+          userId: Number(testingDeptStaffId),
+        }
+      ));
+      if (userData != null) {
+        userData.then(
+          result => {
+            setTestingDeptStaffName(result.data.nickname);
+          }
+        );
+        return userData;
+      } else return "0";
+    }
+  }
+
   request().then(
     result => {
       setDelegationState(result.state);
@@ -43,36 +95,11 @@ const DelegationDetail: React.FC = () => {
       setTestingRemark(result.testingRemark);
       setMarketDeptStaffId(result.marketDeptStaffId);
       setTestingDeptStaffId(result.testingDeptStaffId);
+      setOfferRemark(result.offerRemark);
+      getMarketUserInfo();
+      getTestingUserInfo();
     }
   );
-
-
-  const getRoleInfo = async () => {
-    const userData = (await getUserByID(
-      {
-        userId: Number(marketDeptStaffId),
-      }));
-    return userData;
-  }
-
-  getRoleInfo().then(
-    result => {
-      //setMarketDeptStaffName(result.data);
-      console.log(result);
-    }
-  );
-
-  const getUserInfo = async () => {
-    const userList = (await getUserList());
-    return userList;
-  }
-
-  getUserInfo().then(
-    result => {
-      console.log(result);
-    }
-  );
-
 
   const getStateTime = async () => {
     const process = (await getProcessList(
@@ -95,10 +122,12 @@ const DelegationDetail: React.FC = () => {
   const currentStep = () => {
     switch (delegationState) {
       case "委托填写中": {
+        tran_pathName = '/docs/new-delegation';
         return 0;
       }
       case "等待市场部主管分配市场部人员": {
-        return 1
+        //tran_pathName = '/delegation/distribute/marketing';
+        return 1;
       }
 
       case "等待测试部主管分配测试部人员": {
@@ -106,10 +135,12 @@ const DelegationDetail: React.FC = () => {
       }
 
       case "市场部审核委托中": {
+        tran_pathName = '/docs/softDocReview/marketing';
         return 3
       }
 
       case "市场部审核委托不通过，委托修改中": {
+        tran_pathName = '/docs/new-delegation';
         return 4
       }
 
@@ -118,10 +149,12 @@ const DelegationDetail: React.FC = () => {
       }
 
       case "测试部审核委托中": {
+        tran_pathName = '/docs/softDocReview/testing';
         return 5
       }
 
       case "测试部审核委托不通过，委托修改中": {
+        tran_pathName = '/docs/new-delegation';
         return 6
       }
 
@@ -134,14 +167,17 @@ const DelegationDetail: React.FC = () => {
       }
 
       case "市场部生成报价中": {
+        tran_pathName = '/docs/quotation/marketing';
         return 8
       }
 
       case "客户处理报价中": {
+        tran_pathName = '/docs/quotation/client';
         return 9
       }
 
       case "客户不接受报价，市场部修改报价": {
+        tran_pathName = '/docs/quotation/marketing';
         return 10
       }
 
@@ -150,26 +186,32 @@ const DelegationDetail: React.FC = () => {
       }
 
       case "市场部生成合同草稿中": {
+        tran_pathName = '/docs/contract/marketing';
         return 11
       }
 
       case "客户检查合同草稿中": {
+        tran_pathName = '/docs/contract/audit/client';
         return 12
       }
 
       case "客户接受市场部合同草稿，填写合同中": {
+        tran_pathName = '/docs/contract/client';
         return 13
       }
 
       case "客户不接受市场部合同草稿，市场部修改合同草稿": {
+        tran_pathName = '/docs/contract/marketing';
         return 13
       }
 
       case "市场部审核客户填写的草稿中": {
+        tran_pathName = '/docs/contract/audit/marketing';
         return 14
       }
 
       case "市场部审核合同不通过，客户修改中": {
+        tran_pathName = '/docs/contract/client';
         return 15
       }
 
@@ -202,14 +244,17 @@ const DelegationDetail: React.FC = () => {
       }
 
       case "测试部编写测试方案中": {
+        tran_pathName = '/docs/new-solution';
         return 21
       }
 
       case "质量部审核测试方案中": {
+        tran_pathName = '/docs/solution/audit-solution';
         return 22
       }
 
       case "测试方案审核未通过，测试部修改测试方案中": {
+        tran_pathName = '/docs/new-solution';
         return 23
       }
 
@@ -222,30 +267,37 @@ const DelegationDetail: React.FC = () => {
       }
 
       case "测试部测试完成，生成测试报告": {
+        tran_pathName = '/docs/report/fill-in-report';
         return 25
       }
 
       case "测试部主管审核测试报告中": {
+        tran_pathName = '/docs/report/audit/manager';
         return 26
       }
 
       case "测试部主管测试报告审核未通过，测试部修改测试文档中": {
+        tran_pathName = '/docs/report/fill-in-report';
         return 27
       }
 
       case "测试部主管测试报告审核通过，用户审核中": {
+        tran_pathName = '/docs/report/audit/client';
         return 27
       }
 
       case "用户审核测试报告未通过，测试部修改测试文档中": {
+        tran_pathName = '/docs/report/fill-in-report';
         return 28
       }
 
       case "用户审核测试报告通过，授权签字人审核测试报告中": {
+        tran_pathName = '/docs/report/audit/signatory';
         return 28
       }
 
       case "授权签字人测试报告审核未通过， 测试部修改测试文档中": {
+        tran_pathName = '/docs/report/fill-in-report';
         return 29
       }
 
@@ -465,23 +517,23 @@ const DelegationDetail: React.FC = () => {
   }
   const MarketingAuditMsg = () => {
     if (delegationState === "市场部审核委托不通过，委托修改中") {
-      return "审核委托不通过" + " 【审核意见】:" + marketRemark + " 【审核人】:" + marketDeptStaffId;
+      return "审核委托不通过" + " 【审核意见】:" + marketRemark + " 【审核人】:" + marketDeptStaffName;
     } else {
-      return "审核委托通过" + " 【审核意见】:" + marketRemark + " 【审核人】:" + marketDeptStaffId;
+      return "审核委托通过" + " 【审核意见】:" + marketRemark + " 【审核人】:" + marketDeptStaffName;
     }
   }
   const TestingAuditMsg = () => {
     if (delegationState === "测试部审核委托不通过，委托修改中") {
-      return "审核委托不通过" + " 【审核意见】:" + testingRemark + " 【审核人】:" + testingDeptStaffId;
+      return "审核委托不通过" + " 【审核意见】:" + testingRemark + " 【审核人】:" + testingDeptStaffName;
     } else {
-      return "审核委托通过" + " 【审核意见】:" + testingRemark + " 【审核人】:" + testingDeptStaffId;
+      return "审核委托通过" + " 【审核意见】:" + testingRemark + " 【审核人】:" + testingDeptStaffName;
     }
   }
   const ClientQuoteMsg = () => {
     if (delegationState === "客户不接受报价，市场部修改报价") {
-      return "不接受报价";
+      return "不接受报价" + " 【报价单意见】:" + offerRemark;
     } else {
-      return "接受报价";
+      return "接受报价" + " 【报价单意见】:" + offerRemark;
     }
   }
   const ClientContractMsg = () => {
@@ -532,6 +584,19 @@ const DelegationDetail: React.FC = () => {
       return "测试报告审核未通过";
     } else {
       return "测试报告审核通过";
+    }
+  }
+
+  const tran_path = () => {
+    if(tran_pathName === ""){
+      return delegationState;
+    }
+    else {
+      return (
+        <Link to={{pathname: tran_pathName, query: {id: delegationId}}}>
+          {delegationState} (点击跳转)
+        </Link>
+      )
     }
   }
 
@@ -587,13 +652,10 @@ const DelegationDetail: React.FC = () => {
           发起时间: {moment(parseInt(String(launchTime))).format("YYYY-MM-DD HH:mm:ss")};
         </ProCard>
         <ProCard>
-          状态: {delegationState}
+          {tran_path()}
         </ProCard>
         <ProCard>
           状态变更时间: {moment(parseInt(String(operateTime))).format("YYYY-MM-DD HH:mm:ss")}
-        </ProCard>
-        <ProCard>
-          市场部人员: {marketDeptStaffName}
         </ProCard>
       </Row>
     </PageContainer>
