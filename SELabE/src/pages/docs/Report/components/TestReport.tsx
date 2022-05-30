@@ -1,18 +1,153 @@
 //todo:table7 测试报告
 import {Button, Col, message, PageHeader, Row, Typography} from "antd";
 import {useLocation} from "react-router-dom";
+import ProForm, {ProFormDatePicker, ProFormDateRangePicker, ProFormText, ProFormTextArea} from "@ant-design/pro-form";
 import {PageContainer} from "@ant-design/pro-layout";
 import ProCard from "@ant-design/pro-card";
-import {ProFormDatePicker, ProFormDateRangePicker, ProFormText, ProFormTextArea, StepsForm} from "@ant-design/pro-form";
 import React, {useState} from "react";
 import {getDelegationById} from "@/services/ant-design-pro/delegation/api";
 import {createReport, getReport, getTable7, saveTable7} from "@/services/ant-design-pro/report/api";
+import type {ProColumns} from "@ant-design/pro-table";
+import {EditableProTable} from "@ant-design/pro-table";
+import {StepsForm} from "@ant-design/pro-form/es/layouts/StepsForm";
 
 const {Title, Paragraph} = Typography;
+
+
+type DataSourceType = {
+  id: React.Key; //id在json中是乱码，这个ID其实不能提交？
+  basis?: string;
+  children?: DataSourceType[];
+}
+
+type Reference = {
+  rid: React.Key;
+  refer?: string;
+  children?: Reference[];
+}
+
+type FunctionalType = {
+  id: React.Key;
+  module?: string;
+  require?: string;
+  result?: string;
+}
+
+type OtherTestingType = {
+  id: React.Key;
+  features?: string;
+  instruction?: string;
+  result?: string;
+}
+
+type softwareEnviron = {
+  id: React.Key;
+  type?: string;
+  name?: string;
+  version?: string;
+}
+
+const softwareEnvironColumns: ProColumns<softwareEnviron>[] = [
+  {
+    title: '软件类别',
+    dataIndex: 'type',
+  }
+  ,
+  {
+    title: '软件名称',
+    dataIndex: 'name',
+  }
+  ,
+  {
+    title: '版本',
+    dataIndex: 'version',
+  }
+  ,
+];
+
+const testBasisColumns: ProColumns<DataSourceType>[] = [
+  {
+    title: '测试依据',
+    dataIndex: 'basis',
+  },
+  {
+    title: '操作',
+    valueType: 'option',
+    width: '5%',
+  }
+  ,
+];
+
+const referenceColumns: ProColumns<Reference>[] = [
+  {
+    title: '参考资料',
+    dataIndex: 'refer',
+  }
+  ,
+  {
+    title: '操作',
+    valueType: 'option',
+    width: '5%',
+  }
+  ,
+];
+
+const functionalTestColumns: ProColumns<FunctionalType>[] = [
+  {
+    title: '功能模块',
+    dataIndex: 'module',
+  }
+  ,
+  {
+    title: '功能要求',
+    dataIndex: 'require',
+  }
+  ,
+  {
+    title: '测试结果',
+    dataIndex: 'result',
+  }
+  ,
+  {
+    title: '操作',
+    valueType: 'option',
+    width: '5%',
+  }
+  ,
+];
+
+const otherTestColumns: ProColumns<OtherTestingType>[] = [
+  {
+    title: '测试特性',
+    dataIndex: 'module',
+  }
+  ,
+  {
+    title: '测试说明',
+    dataIndex: 'require',
+  }
+  ,
+  {
+    title: '测试结果',
+    dataIndex: 'result',
+  }
+  ,
+  {
+    title: '操作',
+    valueType: 'option',
+    width: '5%',
+  }
+  ,
+];
 
 //TODO
 const TestReport: React.FC<{ editable: boolean }> = () => {
   const [reportId, setReportId] = useState<number | undefined>(undefined);
+  const [testBasisKeys, setTestBasisRowKeys] = useState<React.Key[]>(() => []);
+  const [referKeys, setReferRowKeys] = useState<React.Key[]>(() => []);
+  const [functionTestKeys, setFuntionTestRowKeys] = useState<React.Key[]>(()=> []);
+  const [OtherTestKeys, setOtherTestRowKeys] = useState<React.Key[]>(() => []);
+  const [softwareEnvironKeys, setSoftwareEnvironRowKeys] = useState<React.Key[]>(()=> []);
   const params = useLocation();
   const delegationId: number = (params as any).query.id;
   const request = async () => {
@@ -55,11 +190,11 @@ const TestReport: React.FC<{ editable: boolean }> = () => {
   const frontPage = () => {
     return (
       <ProCard>
-        <ProFormText name="软件名称_1" label="软件名称" width="md"/>
-        <ProFormText name="版本号_1" label="版本号" width="md"/>
-        <ProFormText name="委托单位_1" label="委托单位" width="md"/>
-        <ProFormText name="测试类别_1" label="测试类别" width="md"/>
-        <ProFormDatePicker name="报告日期_1" label="报告日期" width="md"></ProFormDatePicker>
+        <ProFormText name="软件名称_1" label="软件名称" width="md" required={true}/>
+        <ProFormText name="版本号_1" label="版本号" width="md" required={true}/>
+        <ProFormText name="委托单位_1" label="委托单位" width="md" required={true}/>
+        <ProFormText name="测试类别_1" label="测试类别" width="md" required={true}/>
+        <ProFormDatePicker name="报告日期_1" label="报告日期" width="md" required={true}></ProFormDatePicker>
       </ProCard>
     )
   }
@@ -106,52 +241,170 @@ const TestReport: React.FC<{ editable: boolean }> = () => {
   const reportForm = () => {
     return (
       <ProCard>
-        <ProFormText name="委托单位" label="委托单位" width="md"/>
-        <ProFormText name="项目编号" label="项目编号" width="md"/>
-        <ProFormText name="样品名称" label="样品名称" width="md"/>
-        <ProFormText name="版本/型号" label="版本/型号" width="md"/>
-        <ProFormDatePicker name="来样日期" label="来样日期" width="md"/>
-        <ProFormDateRangePicker name="测试时间" label="测试时间"></ProFormDateRangePicker>
-        <ProFormTextArea name="样品状态" label="样品状态"/>
-        <ProFormTextArea name="测试依据" label="测试依据"/>
-        <ProFormTextArea name="测试结论" label="测试结论"/>
+        <ProFormText name="委托单位" label="委托单位" width="md" required={true}/>
+        <ProFormText name="项目编号" label="项目编号" width="md" required={true}/>
+        <ProFormText name="样品名称" label="样品名称" width="md" required={true}/>
+        <ProFormText name="版本/型号" label="版本/型号" width="md" required={true}/>
+        <ProFormDatePicker name="来样日期" label="来样日期" width="md" required={true}/>
+        <ProFormDateRangePicker name="测试时间" label="测试时间" required={true}></ProFormDateRangePicker>
+        <ProFormTextArea name="样品状态" label="样品状态" required={true}/>
+        <ProFormTextArea name="测试依据" label="测试依据" required={true}/>
+        <ProFormTextArea name="测试结论" label="测试结论" required={true}/>
         <Row>
           <Col span={12}>
-            <ProFormText name="主测人" label="主测人" width="md"/>
+            <ProFormText name="主测人" label="主测人" width="md" required={true}/>
           </Col>
           <Col span={12}>
-            <ProFormDatePicker name="主测_日期" label="日期"/>
+            <ProFormDatePicker name="主测_日期" label="日期" required={true}/>
           </Col>
         </Row>
         <Row>
           <Col span={12}>
-            <ProFormText name="审核人" label="审核人" width="md"/>
+            <ProFormText name="审核人" label="审核人" width="md" required={true}/>
           </Col>
           <Col span={12}>
-            <ProFormDatePicker name="审核_日期" label="日期"/>
+            <ProFormDatePicker name="审核_日期" label="日期" required={true}/>
           </Col>
         </Row>
         <Row>
           <Col span={12}>
-            <ProFormText name="批准人" label="批准人" width="md"/>
+            <ProFormText name="批准人" label="批准人" width="md" required={true}/>
           </Col>
           <Col span={12}>
-            <ProFormDatePicker name="批准_日期" label="日期"/>
+            <ProFormDatePicker name="批准_日期" label="日期" required={true}/>
           </Col>
         </Row>
-        <ProFormText label = "电话" name = "电话" width = "md"/>
-        <ProFormText label = "传真" name = "传真" width = "md"/>
-        <ProFormText label = "地址" name = "地址" width = "md"/>
-        <ProFormText label = "邮编" name = "邮编" width = "md"/>
-        <ProFormText label = "联系人" name = "联系人" width = "md"/>
-        <ProFormText label = "E-mail" name = "E-mail" width = "md"/>
+        <ProFormText label="电话" name="电话" width="md" required={true}/>
+        <ProFormText label="传真" name="传真" width="md" required={true}/>
+        <ProFormText label="地址" name="地址" width="md" required={true}/>
+        <ProFormText label="邮编" name="邮编" width="md" required={true}/>
+        <ProFormText label="联系人" name="联系人" width="md" required={true}/>
+        <ProFormText label="E-mail" name="E-mail" width="md" required={true}/>
         <div>测试单位联系方式</div>
-        <div>单位地址：南京市栖霞区仙林大道163号</div>
-        <div>邮政编码：210023</div>
+        <div>单位地址: 南京市栖霞区仙林大道163号</div>
+        <div>邮政编码: 210023</div>
+        <div>电话: 86-25-89683467</div>
+        <div>传真: 86-25-89686596</div>
+        <div><a href="http://keysoftlab.nju.edu.cn">网址: http://keysoftlab.nju.edu.cn</a></div>
+        <div>E-mail: keysoftlab@nju.edu.cn</div>
       </ProCard>
     )
   }
 
+  const testSetting = () => {
+    return (
+      <ProCard title="测试环境">
+        <Row>
+          <ProCard title="硬件环境" bordered>
+            <div>本次测试中使用到的硬件环境如下:</div>
+            <br/>
+            <ProFormText label="硬件类别" name="硬件类别" width="md" required={true}/>
+            <ProFormText label="硬件名称" name="硬件名称" width="md" required={true}/>
+            <ProFormText label="配置" name="配置" width="md" required={true}/>
+            <ProFormText label="数量" name="数量" width="md" required={true}/>
+          </ProCard>
+        </Row>
+        <Row>
+          <ProCard title="软件环境" bordered>
+            <div>本次测试中使用到的软件环境如下:</div>
+            <br/>
+            <ProForm.Item>
+              <EditableProTable<softwareEnviron>
+                rowKey = "id"
+                toolBarRender={false}
+                columns={softwareEnvironColumns}
+                recordCreatorProps={false}
+                editable={{
+                  type: 'multiple',
+                  editableKeys:softwareEnvironKeys,
+                  onChange: setSoftwareEnvironRowKeys,
+                }}
+              />
+            </ProForm.Item>
+          </ProCard>
+        </Row>
+        <Row>
+          <ProCard title="网络环境" bordered>
+            <ProFormTextArea label="网络环境" name="网络环境" required={true}/>
+          </ProCard>
+        </Row>
+      </ProCard>
+    )
+  }
+
+  const referenceTable = () => {
+    return (
+      <EditableProTable<Reference>
+        rowKey = "rid"
+        toolBarRender={false}
+        columns={referenceColumns}
+        recordCreatorProps={{
+          newRecordType: 'dataSource',
+          position: 'bottom',
+          record: () => ({
+            rid: Date.now(),
+          }),
+        }}
+        editable = {{
+          type: 'multiple',
+          editableKeys: referKeys,
+          onChange: setReferRowKeys,
+          actionRender: (row, _, dom) => {
+            return [dom.delete];
+          },
+        }}
+      />)
+  }
+
+  const functionalTesting = () => {
+    return (
+      <EditableProTable<FunctionalType>
+        rowKey = "id"
+        toolBarRender={false}
+        columns = {functionalTestColumns}
+        recordCreatorProps={{
+          newRecordType: 'dataSource',
+          position: 'bottom',
+          record: () => ({
+            id: Date.now(),
+          }),
+        }}
+        editable = {{
+          type: 'multiple',
+          editableKeys: functionTestKeys,
+          onChange: setFuntionTestRowKeys,
+          actionRender: (row, _, dom) => {
+            return [dom.delete];
+          },
+        }}
+      />
+    )
+  }
+
+  const otherTesting = () => {
+    return (
+      <EditableProTable<OtherTestingType>
+        rowKey = "id"
+        toolBarRender = {false}
+        columns = {otherTestColumns}
+        recordCreatorProps={{
+          newRecordType: 'dataSource',
+          position: 'bottom',
+          record: () => ({
+            id: Date.now(),
+          }),
+        }}
+        editable = {{
+          type: 'multiple',
+          editableKeys: OtherTestKeys,
+          onChange: setOtherTestRowKeys,
+          actionRender: (row, _, dom) => {
+            return [dom.delete];
+          },
+        }}
+      />
+    )
+  }
 
   return (
     <PageContainer>
@@ -173,7 +426,7 @@ const TestReport: React.FC<{ editable: boolean }> = () => {
                 );
               }
 
-              if (props.step === 1) {
+              if (props.step === 1 || props.step === 2 || props.step === 3 || props.step === 4) {
                 return [
                   <Button key="pre" onClick={() => props.onPre?.()}>
                     {'<'} 上一步
@@ -183,7 +436,6 @@ const TestReport: React.FC<{ editable: boolean }> = () => {
                   </Button>,
                 ];
               }
-
               return [
                 <Button key="gotoTwo" onClick={() => props.onPre?.()}>
                   {'<'} 上一步
@@ -235,11 +487,161 @@ const TestReport: React.FC<{ editable: boolean }> = () => {
             }}
             request={request}
           >
-            {reportForm()}
+            <Row>
+              {reportForm()}
+            </Row>
+          </StepsForm.StepForm>
+          <StepsForm.StepForm<{
+            checkbox: string,
+          }>
+            name="step3"
+            title="第三页"
+            stepProps={{
+              description: '测试环境'
+            }}
+            onFinish={
+              async () => {
+                return true;
+              }}
+            request={request}
+          >
+            <Row>
+              {testSetting()}
+            </Row>
+          </StepsForm.StepForm>
+          <StepsForm.StepForm<{
+            checkbox: string,
+          }>
+            name="step4"
+            title="第四页"
+            stepProps={{
+              description: '测试依据和参考资料'
+            }}
+            onFinish={
+              async (values: any) => {
+                console.log(values);
+                return true;
+              }}
+            request={request}
+          >
+
+            <ProForm.Item
+              label="测试依据列表"
+              name="测试依据"
+              trigger="onValuesChange"
+            >
+              <EditableProTable<DataSourceType>
+                rowKey="id"
+                toolBarRender={false}
+                columns={testBasisColumns}
+                recordCreatorProps={{
+                  newRecordType: 'dataSource',
+                  position: 'bottom',
+                  record: () => ({
+                    id: Date.now(),
+                  }),
+                }}
+                editable={{
+                  type: 'multiple',
+                  editableKeys: testBasisKeys,
+                  onChange: setTestBasisRowKeys,
+                  actionRender: (row, _, dom) => {
+                    return [dom.delete];
+                  },
+                }}
+              />
+            </ProForm.Item>
+            <ProForm.Item
+              label = "参考资料列表"
+              name = "参考资料"
+              trigger = "onValuesChange"
+            >
+              {referenceTable()}
+            </ProForm.Item>
+          </StepsForm.StepForm>
+          <StepsForm.StepForm<{
+            checkbox: string,
+          }>
+            name="step5"
+            title="第五页"
+            stepProps={{
+              description: '测试内容'
+            }}
+            onFinish={
+              async (values: any) => {
+                console.log(values);
+                return true;
+              }}
+            request={request}
+          >
+            <ProForm.Item
+              label = "功能性测试"
+              name = "功能性测试"
+              trigger = "onValuesChange"
+            >
+              {functionalTesting()}
+            </ProForm.Item>
+            <ProForm.Item
+              label = "效率测试"
+              name = "效率测试"
+              trigger = "onValuesChange"
+            >
+              {otherTesting()}
+            </ProForm.Item>
+            <ProForm.Item
+              label = "可移植性测试"
+              name = "可移植性测试"
+              trigger = "onValuesChange"
+            >
+              {otherTesting()}
+            </ProForm.Item>
+            <ProForm.Item
+              label = "易用性测试"
+              name = "易用性测试"
+              trigger = "onValuesChange"
+            >
+              {otherTesting()}
+            </ProForm.Item>
+            <ProForm.Item
+              label = "可靠性测试"
+              name = "可靠性测试"
+              trigger = "onValuesChange"
+            >
+              {otherTesting()}
+            </ProForm.Item>
+            <ProForm.Item
+              label = "可维护性测试"
+              name = "可维护性测试"
+              trigger = "onValuesChange"
+            >
+              {otherTesting()}
+            </ProForm.Item>
+          </StepsForm.StepForm>
+          <StepsForm.StepForm<{
+            checkbox: string,
+          }>
+            name="step6"
+            title="第六页"
+            stepProps={{
+              description: '测试执行记录'
+            }}
+            onFinish={
+              async (values: any) => {
+                console.log(values);
+                return true;
+              }}
+            request={request}
+          >
+            <ProCard>
+              <ProFormTextArea
+                label = "测试执行记录"
+                name = "测试执行记录"
+                required={true}
+              />
+            </ProCard>
           </StepsForm.StepForm>
         </StepsForm>
       </ProCard>
-
     </PageContainer>
   )
 }

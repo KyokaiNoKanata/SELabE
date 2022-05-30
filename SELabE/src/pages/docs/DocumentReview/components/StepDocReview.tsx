@@ -723,8 +723,7 @@ const StepDocReview = () => {
         </StepsForm>
       </ProCard>
     </PageContainer>
-  )
-    ;
+  );
 };
 
 export default StepDocReview;
