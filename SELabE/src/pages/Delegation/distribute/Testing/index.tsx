@@ -1,4 +1,4 @@
-import type {API} from "@/services/ant-design-pro/typings";
+import type API from "@/services/ant-design-pro/typings";
 import type {ReactNode} from "react";
 import React, {useRef} from "react";
 import {message} from "antd";

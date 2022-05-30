@@ -1,7 +1,7 @@
 import type {ReactNode} from "react";
 import React, {useRef, useState} from "react";
 import type {ActionType, ProColumns} from "@ant-design/pro-table";
-import type {API} from "@/services/ant-design-pro/typings";
+import type API from "@/services/ant-design-pro/typings";
 import DelegationList from "@/pages/Delegation/components/DelegationList";
 import {Button, message, Upload} from "antd";
 import {Link} from "umi";
@@ -46,7 +46,7 @@ export default () => {
       render: (text: ReactNode, record: API.DelegationItem) => {
         const {contractId} = record;//合同id
         return [
-          <Link to={{pathname: '/docs/contract/detail', query: {contractId}}}>
+          <Link to={{pathname: '/docs/contract/detail', state: {contractId: contractId}}}>
             <Button type="primary">查看详情 todo</Button>
           </Link>
         ]
@@ -71,7 +71,7 @@ export default () => {
           modalProps={{
             //onCancel: () => console.log('cancel'),
           }}
-          onFinish={async (values) => {
+          onFinish={async () => {
             const url = await handleUploadFile(file, 'contract' + contractId + file?.name);
             const resp2 = await uploadContractFile({
               contractId: contractId,

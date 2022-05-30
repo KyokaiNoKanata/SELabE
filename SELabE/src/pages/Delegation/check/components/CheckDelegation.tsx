@@ -1,11 +1,10 @@
 import type {ReactNode} from "react";
 import React from "react";
-import type {API} from "@/services/ant-design-pro/typings";
+import type API from "@/services/ant-design-pro/typings";
 import DelegationList from "@/pages/Delegation/components/DelegationList";
 import type {ActionType, ProColumns} from "@ant-design/pro-table";
 import {Link} from "umi";
 import {Button} from "antd";
-import {useLocation} from "umi";
 //查看委托列表
 //只显示自己可以查看的委托
 //操作栏只有查看详情
@@ -29,7 +28,7 @@ const CheckDelegation: React.FC<{
       render: (text: ReactNode, record: API.DelegationItem) => {
         const {id} = record;
         return [
-          <Link to={{pathname: '/delegation/detail', query: {id}}}>
+          <Link to={{pathname: '/delegation/detail', state: {id: id}}}>
             <Button type="primary">查看详情</Button>
           </Link>
         ]

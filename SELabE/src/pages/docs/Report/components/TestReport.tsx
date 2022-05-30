@@ -14,7 +14,7 @@ const {Title, Paragraph} = Typography;
 const TestReport: React.FC<{ editable: boolean }> = () => {
   const [reportId, setReportId] = useState<number | undefined>(undefined);
   const params = useLocation();
-  const delegationId: number = (params as any).query.id;
+  const delegationId: number = (params.state as any).id;
   const request = async () => {
     //如果已经有了对应的reportId,填一下
     const rId = (await getDelegationById(delegationId)).data.reportId;

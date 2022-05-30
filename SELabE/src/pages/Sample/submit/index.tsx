@@ -1,6 +1,6 @@
 import type {ReactNode} from "react";
 import React, {useRef, useState} from "react";
-import type {API} from "@/services/ant-design-pro/typings";
+import type API from "@/services/ant-design-pro/typings";
 import type {ActionType, ProColumns} from "@ant-design/pro-table";
 import {Button, message, Upload} from "antd";
 import DelegationList from "@/pages/Delegation/components/DelegationList";

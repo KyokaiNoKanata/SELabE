@@ -14,9 +14,6 @@ const handleGetSolution = async (params: {
   pageSize?: number;
   current?: number;
 }) => {
-  //修改参数名称
-  //const p = params;
-  //p['pageNo'] = params.current;
   const param: any = {
     pageNo: params.current,
     pageSize: params.pageSize,
@@ -68,9 +65,9 @@ const DelegationList: React.FC = () => {
       dataIndex: 'option',
       valueType: 'option',
       render: (text, record) => {
-        const { id } = record;
+        const {id} = record;
         return [
-          <Link to={{ pathname: '/docs/new-solution', query: { id } }}>
+          <Link to={{pathname: '/docs/new-solution', state: {id: id}}}>
             <Button type="primary">填写</Button>
           </Link>,
         ];
@@ -95,8 +92,9 @@ const DelegationList: React.FC = () => {
         }}
         /*新建*/
         toolBarRender={() => [
-          <Button type="primary" key="primary" onClick={() => {}}>
-            <PlusOutlined /> <FormattedMessage id="pages.searchTable.new" defaultMessage="New" />
+          <Button type="primary" key="primary" onClick={() => {
+          }}>
+            <PlusOutlined/> <FormattedMessage id="pages.searchTable.new" defaultMessage="New"/>
           </Button>,
         ]}
         /*请求数据*/

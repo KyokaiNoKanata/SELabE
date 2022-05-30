@@ -1,20 +1,20 @@
 import ProForm, {ProFormGroup, ProFormList, ProFormText} from '@ant-design/pro-form';
 import ProCard from '@ant-design/pro-card';
-import { PageContainer } from '@ant-design/pro-layout';
-import {PageHeader, message, Button} from 'antd';
-import { useLocation } from 'react-router-dom';
-import {getTable3, getDelegationByIds, saveTable3, submitDelegation} from '@/services/ant-design-pro/delegation/api';
+import {PageContainer} from '@ant-design/pro-layout';
+import {Button, message, PageHeader} from 'antd';
+import {useLocation} from 'react-router-dom';
+import {getDelegationByIds, getTable3, saveTable3, submitDelegation} from '@/services/ant-design-pro/delegation/api';
 import React from "react";
-const FunctionList: React.FC<{ editable: boolean,isClient: boolean}> = (prop) => {
-  const params = useLocation();
-  const delegationId = (params as any).query.id;//ok
 
+const FunctionList: React.FC<{ editable: boolean, isClient: boolean }> = (prop) => {
+  const params = useLocation();
+  const delegationId = (params.state as any).id
   const request = async () => {
     const table3Id = (await getDelegationByIds({
       ids: String(delegationId),
     })).data[0].table3Id;
-    console.log('table3Id='+ table3Id);
-    if(table3Id == undefined) {
+    console.log('table3Id=' + table3Id);
+    if (table3Id == undefined) {
       return {};
     }
     const resp = await getTable3({
@@ -33,7 +33,7 @@ const FunctionList: React.FC<{ editable: boolean,isClient: boolean}> = (prop) =>
       delegationId: id,
       data: data,
     }).then(res => {
-      if(res.code == 0) {
+      if (res.code == 0) {
         message.success('保存成功');
       } else {
         message.error(res.msg);
@@ -46,7 +46,7 @@ const FunctionList: React.FC<{ editable: boolean,isClient: boolean}> = (prop) =>
     const res = await submitDelegation({
       id: delegationId,
     })
-    if(res.code == 0) {
+    if (res.code == 0) {
       message.success('委托已提交');
     } else {
       //message.error(res.msg)
@@ -75,7 +75,7 @@ const FunctionList: React.FC<{ editable: boolean,isClient: boolean}> = (prop) =>
                    ]
                  }
                }}
-               //从后端请求数据显示
+        //从后端请求数据显示
                request={request}
       >
         <ProFormText key={'name'} name="name" label="软件名称" disabled={prop.isClient}/>
@@ -83,14 +83,14 @@ const FunctionList: React.FC<{ editable: boolean,isClient: boolean}> = (prop) =>
         <ProFormList
           name="function"
           label="功能列表"
-          creatorButtonProps={prop.isClient ? false:{}}
-          copyIconProps={prop.isClient ? false:{
+          creatorButtonProps={prop.isClient ? false : {}}
+          copyIconProps={prop.isClient ? false : {
             tooltipText: '复制此行到末尾',
           }}
-          deleteIconProps={prop.isClient ? false:{
+          deleteIconProps={prop.isClient ? false : {
             tooltipText: '不需要这行了',
           }}
-          itemRender={({ listDom, action }, { record }) => {
+          itemRender={({listDom, action}, {record}) => {
             return (
               <ProCard
                 bordered
@@ -106,13 +106,13 @@ const FunctionList: React.FC<{ editable: boolean,isClient: boolean}> = (prop) =>
           }}
         >
           <ProFormGroup>
-            <ProFormText name="ffunction" label="功能名称" disabled={prop.isClient} />
+            <ProFormText name="ffunction" label="功能名称" disabled={prop.isClient}/>
           </ProFormGroup>
           <ProFormList
             name="mfunction"
             label="子功能列表"
-            creatorButtonProps={prop.isClient ? false:{}}
-            itemRender={({ listDom, action }, { record }) => {
+            creatorButtonProps={prop.isClient ? false : {}}
+            itemRender={({listDom, action}, {record}) => {
               return (
                 <ProCard
                   bordered
@@ -123,17 +123,17 @@ const FunctionList: React.FC<{ editable: boolean,isClient: boolean}> = (prop) =>
                 </ProCard>
               );
             }}
-            copyIconProps={prop.isClient ? false:{
+            copyIconProps={prop.isClient ? false : {
               tooltipText: '复制此行到末尾',
             }}
-            deleteIconProps={prop.isClient ? false:{
+            deleteIconProps={prop.isClient ? false : {
               tooltipText: '不需要这行了',
             }}
           >
 
             <ProFormGroup key="group">
               <ProFormText name="value" label="子功能名称" disabled={prop.isClient}/>
-              <ProFormText name="label" label="子功能说明"  disabled={prop.isClient}/>
+              <ProFormText name="label" label="子功能说明" disabled={prop.isClient}/>
             </ProFormGroup>
 
           </ProFormList>

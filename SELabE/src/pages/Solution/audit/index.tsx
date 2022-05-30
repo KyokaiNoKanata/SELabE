@@ -2,17 +2,18 @@
  * 测试部填写测试方案入口
  */
 import type {ReactNode} from "react";
-import React, {useRef} from "react";
-import type {API} from "@/services/ant-design-pro/typings";
-import type {ActionType, ProColumns} from "@ant-design/pro-table";
+import type API from "@/services/ant-design-pro/typings";
+import type {ProColumns} from "@ant-design/pro-table";
 import {Button} from "antd";
 import DelegationList from "@/pages/Delegation/components/DelegationList";
 import {Link} from "umi";
-//用户提交样品
+
+/**
+ * 审核测试方案
+ */
 export default () => {
-  const actionRef: React.MutableRefObject<ActionType | undefined> = useRef<ActionType>();
   const auditColumns: ProColumns<API.DelegationItem>[] = [
-    /** 填写测试方案 */
+    /** 审核测试方案 */
     {
       title: '审核测试方案',
       dataIndex: 'auditSolution',
@@ -24,7 +25,7 @@ export default () => {
         //统一
         const {id} = record;
         return [
-          <Link to={{pathname: '/docs/solution/audit-solution', query: {id}}}>
+          <Link to={{pathname: '/docs/solution/audit-solution', state: {id: id}}}>
             <Button type="primary">审核测试方案</Button>
           </Link>,
         ];
@@ -34,8 +35,7 @@ export default () => {
 
   const queryParams = async (
     param: API.DelegationQueryParams,
-    roles: string[],
-    userId: number) => {
+    roles: string[]) => {
     if (roles.includes('quality_department_staff')) {
       param.state = '310'//质量部审核方案
     } else {

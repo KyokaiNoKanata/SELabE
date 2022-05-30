@@ -14,7 +14,7 @@ import {
   submitContractStaff
 } from "@/services/ant-design-pro/contract/api";
 import React from "react";
-import type {API} from "@/services/ant-design-pro/typings";
+import type API from "@/services/ant-design-pro/typings";
 
 const {Title, Paragraph, Text,} = Typography;
 
@@ -24,11 +24,9 @@ const ContractForm: React.FC<{
   editable: boolean
 }> = (prop) => {
   const params = useLocation();
-  const delegationId = (params as any).query.id;
+  const delegationId = (params.state as any).id;
+  let contractId = (params.state as any).contractId;
   const request = async () => {
-    const contractId = (await getDelegationByIds({
-      ids: String(delegationId),
-    })).data[0].contractId;
     if (!contractId) {
       return {};
     }
@@ -46,10 +44,6 @@ const ContractForm: React.FC<{
     return data;
   }
   const onSave = async (value: any) => {
-    console.log(value);
-    let contractId = (await getDelegationByIds({
-      ids: String(delegationId),
-    })).data[0].contractId;
     //还没有创建合同，那就创建一下
     if (!contractId) {
       const resp1 = await createContract({
@@ -59,7 +53,7 @@ const ContractForm: React.FC<{
         message.error(resp1.msg);
         return;
       } else {
-        console.log('创建合同成功');
+        message.success('创建合同成功');
         contractId = (await getDelegationByIds({
           ids: String(delegationId),
         })).data[0].contractId;

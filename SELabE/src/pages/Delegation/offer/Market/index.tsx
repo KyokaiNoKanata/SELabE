@@ -1,7 +1,7 @@
 /**
  * 市场部 生成报价
  */
-import type {API} from "@/services/ant-design-pro/typings";
+import type API from "@/services/ant-design-pro/typings";
 import type {ReactNode} from "react";
 import React, {useRef} from "react";
 import {Link} from "umi";
@@ -21,7 +21,7 @@ export default () => {
       sorter: false,
       render: (text: ReactNode, record: API.DelegationItem) => {
         const {id} = record;
-        return [<Link to={{pathname: '/docs/quotation/marketing', query: {id}}}>
+        return [<Link to={{pathname: '/docs/quotation/marketing', state: {id: id}}}>
           <Button type="primary">生成报价</Button>
         </Link>
         ]

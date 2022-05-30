@@ -1,7 +1,7 @@
 /**
  * 客户 处理报价
  */
-import type {API} from "@/services/ant-design-pro/typings";
+import type API from "@/services/ant-design-pro/typings";
 import type {ReactNode} from "react";
 import React, {useRef} from "react";
 import {Link} from "umi";
@@ -20,7 +20,7 @@ export default () => {
       sorter: false,
       render: (text: ReactNode, record: API.DelegationItem) => {
         const {id} = record;
-        return [<Link to={{pathname: '/docs/quotation/client', query: {id}}}>
+        return [<Link to={{pathname: '/docs/quotation/client', state: {id: id}}}>
           <Button type="primary">处理报价</Button>
         </Link>
         ]

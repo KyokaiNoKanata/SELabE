@@ -1,6 +1,6 @@
 // 软件测试问题清单 table11
 import request from "umi-request";
-import type {API} from "@/services/ant-design-pro/typings";
+import type API from "@/services/ant-design-pro/typings";
 
 /**
  * 测试报告的创建，获得，提交

@@ -1,5 +1,5 @@
 import React from "react";
-import type {API} from "@/services/ant-design-pro/typings";
+import type API from "@/services/ant-design-pro/typings";
 import DelegationList from "@/pages/Delegation/components/DelegationList";
 import type {ProColumns} from "@ant-design/pro-table";
 //待审核的委托：分市场部、测试部的审核
@@ -31,7 +31,7 @@ const AuditDelegation: React.FC<{
   return (
     <DelegationList
       queryParams={queryParams}
-      operationColumns={props.operationColumns} />
+      operationColumns={props.operationColumns}/>
   )
 }
 

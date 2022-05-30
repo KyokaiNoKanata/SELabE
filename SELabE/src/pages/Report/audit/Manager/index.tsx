@@ -1,14 +1,17 @@
 /**
- * 填写测试文档
+ * 审核测试报告
  */
 import type {ReactNode} from "react";
-import type {API} from "@/services/ant-design-pro/typings";
 import type {ProColumns} from "@ant-design/pro-table";
 import {Button} from "antd";
 import DelegationList from "@/pages/Delegation/components/DelegationList";
 import {Link} from "umi";
+import type API from "@/services/ant-design-pro/typings";
 
 export default () => {
+  /**
+   * 审核列
+   */
   const auditColumns: ProColumns<API.DelegationItem>[] = [
     /** 审核测试报告 */
     {
@@ -20,7 +23,7 @@ export default () => {
       render: (text: ReactNode, record: API.DelegationItem) => {
         const {id} = record;
         return [
-          <Link to={{pathname: '/docs/report/audit/manager', query: {id}}}>
+          <Link to={{pathname: '/docs/report/audit/manager', state: {id: id}}}>
             <Button type="primary">审核测试报告</Button>
           </Link>,
         ];
@@ -29,8 +32,7 @@ export default () => {
   ];
   const queryParams = async (
     param: API.DelegationQueryParams,
-    roles: string[],
-    userId: number) => {
+    roles: string[]) => {
     //市场部 发送报告
     if (roles.includes('test_department_manager')) {
       param.state = '360'//测试部主管审核

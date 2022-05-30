@@ -13,7 +13,7 @@ const CDA: React.FC<{
   editable: boolean
 }> = (props) => {
   const params = useLocation();
-  const delegationId = (params as any).query.id;
+  const delegationId = (params.state as any).id;
   //todo 获取数据，保存 table5
   const request = async () => {
     const contractId = (await getDelegationByIds({

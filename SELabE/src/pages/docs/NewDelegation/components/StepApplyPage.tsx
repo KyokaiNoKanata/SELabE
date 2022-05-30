@@ -12,36 +12,31 @@ import {Button, Col, Form, message, PageHeader, Row} from 'antd';
 import {PageContainer} from '@ant-design/pro-layout';
 import TextArea from "antd/es/input/TextArea";
 import {useLocation} from "umi";
-import {getDelegationByIds, getTable2, saveTable2 } from '@/services/ant-design-pro/delegation/api';
+import {getDelegationByIds, getTable2, saveTable2} from '@/services/ant-design-pro/delegation/api';
 import React from "react";
 
 const Date: any = ProFormDatePicker;
-const StepApplyPage: React.FC<{ editable: boolean,isClient: boolean }> = (prop) => {
+const StepApplyPage: React.FC<{ editable: boolean, isClient: boolean }> = (prop) => {
   const params = useLocation();
-  const delegationId = (params as any).query.id;//ok
+  const delegationId = (params.state as any).id
   const request = async () => {
     const table2Id = (await getDelegationByIds({
       ids: String(delegationId),
     })).data[0].table2Id;
-    console.log('table2Id='+ table2Id);
-    if(table2Id == undefined) {
+    if (table2Id == undefined) {
       return {};
     }
     const resp = await getTable2({
       id: String(table2Id),
     });
-    //json string -> obj
-    //const obj = JSON.parse(resp.data);
-    //console.log(obj)
     return resp.data;
   }
   const onSubmit = async (value: any) => {
-    //console.log(value)
     saveTable2({
       delegationId: delegationId,
       data: value,
     }).then(res => {
-      if(res.code == 0) {
+      if (res.code == 0) {
         message.success('保存成功');
       } else {
         message.error(res.msg);
@@ -55,9 +50,7 @@ const StepApplyPage: React.FC<{ editable: boolean,isClient: boolean }> = (prop) 
         title="软件项目委托测试申请书"
       />
       <ProCard>
-        <StepsForm<{
-          name: string;
-        }>
+        <StepsForm
           submitter={{
             render: (props) => {
               if (props.step === 0) {
@@ -67,7 +60,6 @@ const StepApplyPage: React.FC<{ editable: boolean,isClient: boolean }> = (prop) 
                   </Button>
                 );
               }
-
               if (props.step === 1) {
                 return [
                   <Button key="pre" onClick={() => props.onPre?.()}>
@@ -95,20 +87,14 @@ const StepApplyPage: React.FC<{ editable: boolean,isClient: boolean }> = (prop) 
           }}
           //formRef={formRef}
           onFinish={onSubmit}
-
         >
-          <StepsForm.StepForm<{
-            name: string;
-          }>
+          <StepsForm.StepForm
             name="step1"
             title="第一页"
             stepProps={{
               description: '软件项目基本信息',
             }}
             onFinish={async () => {
-              //console.log(formRef.current?.getFieldsValue());
-              //console.log('第一页结束')
-              //await waitTime(1000);
               return true;
             }}
             request={request}
@@ -122,9 +108,7 @@ const StepApplyPage: React.FC<{ editable: boolean,isClient: boolean }> = (prop) 
                   layout="vertical"
                   disabled={prop.isClient}
                   rules={[{required: false}]}
-                >
-
-                </ProFormCheckbox.Group>
+                />
               </Col>
               <Col span={12}>
                 <ProCard>
@@ -153,7 +137,7 @@ const StepApplyPage: React.FC<{ editable: boolean,isClient: boolean }> = (prop) 
               disabled={prop.isClient}
               rules={[{required: false}]}
             />
-            <Form.Item name="软件用户对象描述" label="软件用户对象描述" rules={[{required: true}]} >
+            <Form.Item name="软件用户对象描述" label="软件用户对象描述" rules={[{required: true}]}>
               <TextArea style={{height: 60}} disabled={prop.isClient}/>
             </Form.Item>
             <Form.Item name="主要功能及用途简介（限200字）" label="主要功能及用途简介（限200字）" rules={[{required: true}]}>
@@ -161,17 +145,13 @@ const StepApplyPage: React.FC<{ editable: boolean,isClient: boolean }> = (prop) 
             </Form.Item>
 
           </StepsForm.StepForm>
-          <StepsForm.StepForm<{
-            checkbox: string;
-          }>
+          <StepsForm.StepForm
             name="step2"
             title="第二页"
             stepProps={{
               description: '软件项目详情',
             }}
             onFinish={async () => {
-              //console.log(formRef.current?.getFieldsValue());
-              //console.log('第二页结束')
               return true;
             }}
             request={request}
@@ -205,16 +185,19 @@ const StepApplyPage: React.FC<{ editable: boolean,isClient: boolean }> = (prop) 
                     rules={[{required: false}]}
                     disabled={prop.isClient}
                   />
-                  <ProFormText initialValue="" width="md" name="需要测试的技术指标_其它" addonBefore="其它" disabled={prop.isClient}/>
+                  <ProFormText initialValue="" width="md" name="需要测试的技术指标_其它" addonBefore="其它"
+                               disabled={prop.isClient}/>
                 </ProCard>
               </Col>
             </Row>
             <Row>
               <ProCard title='软件规模（至少一种）' bordered layout={"default"}>
                 <ProForm.Group>
-                  <ProFormText width="md" name="功能数" label="功能数（到最后一级菜单）" rules={[{required: true}]} disabled={prop.isClient}/>
+                  <ProFormText width="md" name="功能数" label="功能数（到最后一级菜单）" rules={[{required: true}]}
+                               disabled={prop.isClient}/>
                   <ProFormText width="md" name="功能点数" label="功能点数" rules={[{required: true}]} disabled={prop.isClient}/>
-                  <ProFormText width="md" name="代码行数" label="代码行数（不包括注释行、空行）" rules={[{required: true}]} disabled={prop.isClient}/>
+                  <ProFormText width="md" name="代码行数" label="代码行数（不包括注释行、空行）" rules={[{required: true}]}
+                               disabled={prop.isClient}/>
                 </ProForm.Group>
               </ProCard>
             </Row>
@@ -284,24 +267,28 @@ const StepApplyPage: React.FC<{ editable: boolean,isClient: boolean }> = (prop) 
                   <ProCard title='客户端' type="inner" bordered>
                     <Col>
                       <ProForm.Group>
-                        <ProFormCheckbox initialValue={false} name="Windows" disabled={prop.isClient}>Windows</ProFormCheckbox>
+                        <ProFormCheckbox initialValue={false} name="Windows"
+                                         disabled={prop.isClient}>Windows</ProFormCheckbox>
                         <ProFormText initialValue="" name="WindowsVersion" addonAfter="(版本)" disabled={prop.isClient}/>
                       </ProForm.Group>
                     </Col>
                     <Col>
                       <ProForm.Group>
-                        <ProFormCheckbox initialValue={false} name="Linux" disabled={prop.isClient}>Linux</ProFormCheckbox>
+                        <ProFormCheckbox initialValue={false} name="Linux"
+                                         disabled={prop.isClient}>Linux</ProFormCheckbox>
                         <ProFormText initialValue="" name="LinuxVersion" addonAfter="(版本)" disabled={prop.isClient}/>
                       </ProForm.Group>
                     </Col>
                     <Col>
                       <ProForm.Group>
-                        <ProFormCheckbox initialValue={false} name="操作系统_其它" disabled={prop.isClient}>其它</ProFormCheckbox>
+                        <ProFormCheckbox initialValue={false} name="操作系统_其它"
+                                         disabled={prop.isClient}>其它</ProFormCheckbox>
                         <ProFormText initialValue="" name="操作系统_其它版本" addonAfter="(版本)" disabled={prop.isClient}/>
                       </ProForm.Group>
                     </Col>
                     <ProForm.Group>
-                      <ProFormText width="xs" name="客户端内存要求" label="内存要求" addonAfter='MB' rules={[{required: true}]} disabled={prop.isClient}/>
+                      <ProFormText width="xs" name="客户端内存要求" label="内存要求" addonAfter='MB' rules={[{required: true}]}
+                                   disabled={prop.isClient}/>
                     </ProForm.Group>
                     <Form.Item initialValue="" name="客户端其他要求" label="其他要求" rules={[{required: false}]}>
                       <TextArea style={{height: 60}} disabled={prop.isClient}/>
@@ -322,7 +309,8 @@ const StepApplyPage: React.FC<{ editable: boolean,isClient: boolean }> = (prop) 
                               rules={[{required: true}]}
                               disabled={prop.isClient}
                             />
-                            <ProFormText initialValue="" width="sm" name="架构_其它" addonBefore="其它" disabled={prop.isClient}/>
+                            <ProFormText initialValue="" width="sm" name="架构_其它" addonBefore="其它"
+                                         disabled={prop.isClient}/>
                             <ProFormText width="xs" name="服务器端内存要求" label="内存要求" addonAfter='MB'
                                          rules={[{required: true}]} disabled={prop.isClient}/>
                             <ProFormText width="xs" name="服务器端硬盘要求" label="硬盘要求" addonAfter='MB'
@@ -336,12 +324,18 @@ const StepApplyPage: React.FC<{ editable: boolean,isClient: boolean }> = (prop) 
                       <Col span={24}>
                         <ProCard title='软件' type="inner" bordered>
                           <ProFormGroup>
-                            <ProFormText width="md" name="操作系统" label="操作系统" rules={[{required: true}]} disabled={prop.isClient}/>
-                            <ProFormText width="md" name="版本" label="版本" rules={[{required: true}]} disabled={prop.isClient}/>
-                            <ProFormText width="md" name="编程语言" label="编程语言" rules={[{required: true}]} disabled={prop.isClient}/>
-                            <ProFormText width="md" name="数据库" label="数据库" rules={[{required: true}]} disabled={prop.isClient}/>
-                            <ProFormText width="md" name="中间件" label="中间件" rules={[{required: true}]} disabled={prop.isClient}/>
-                            <ProFormText width="md" name="其他支撑软件" label="其他支撑软件" rules={[{required: true}]} disabled={prop.isClient}/>
+                            <ProFormText width="md" name="操作系统" label="操作系统" rules={[{required: true}]}
+                                         disabled={prop.isClient}/>
+                            <ProFormText width="md" name="版本" label="版本" rules={[{required: true}]}
+                                         disabled={prop.isClient}/>
+                            <ProFormText width="md" name="编程语言" label="编程语言" rules={[{required: true}]}
+                                         disabled={prop.isClient}/>
+                            <ProFormText width="md" name="数据库" label="数据库" rules={[{required: true}]}
+                                         disabled={prop.isClient}/>
+                            <ProFormText width="md" name="中间件" label="中间件" rules={[{required: true}]}
+                                         disabled={prop.isClient}/>
+                            <ProFormText width="md" name="其他支撑软件" label="其他支撑软件" rules={[{required: true}]}
+                                         disabled={prop.isClient}/>
                           </ProFormGroup>
                           <ProFormCheckbox.Group
                             name="构架"
@@ -425,14 +419,22 @@ const StepApplyPage: React.FC<{ editable: boolean,isClient: boolean }> = (prop) 
             <Row>
               <Col span={24}>
                 <ProCard title='委托单位信息' bordered>
-                  <ProFormText width="md" name="委托单位_电话" label="电话" rules={[{required: true}]} disabled={prop.isClient}></ProFormText>
-                  <ProFormText width="md" name="委托单位_传真" label="传真" rules={[{required: true}]} disabled={prop.isClient}></ProFormText>
-                  <ProFormText width="md" name="委托单位_地址" label="地址" rules={[{required: true}]} disabled={prop.isClient}></ProFormText>
-                  <ProFormText width="md" name="委托单位_邮编" label="邮编" rules={[{required: true}]} disabled={prop.isClient}></ProFormText>
-                  <ProFormText width="md" name="委托单位_联系人" label="联系人" rules={[{required: true}]} disabled={prop.isClient}></ProFormText>
-                  <ProFormText width="md" name="委托单位_手机" label="手机" rules={[{required: true}]} disabled={prop.isClient}></ProFormText>
-                  <ProFormText width="md" name="委托单位_Email" label="E-mail" rules={[{required: true}]} disabled={prop.isClient}></ProFormText>
-                  <ProFormText width="md" name="委托单位_网址" label="网址" rules={[{required: true}]} disabled={prop.isClient}></ProFormText>
+                  <ProFormText width="md" name="委托单位_电话" label="电话" rules={[{required: true}]}
+                               disabled={prop.isClient}/>
+                  <ProFormText width="md" name="委托单位_传真" label="传真" rules={[{required: true}]}
+                               disabled={prop.isClient}/>
+                  <ProFormText width="md" name="委托单位_地址" label="地址" rules={[{required: true}]}
+                               disabled={prop.isClient}/>
+                  <ProFormText width="md" name="委托单位_邮编" label="邮编" rules={[{required: true}]}
+                               disabled={prop.isClient}/>
+                  <ProFormText width="md" name="委托单位_联系人" label="联系人" rules={[{required: true}]}
+                               disabled={prop.isClient}/>
+                  <ProFormText width="md" name="委托单位_手机" label="手机" rules={[{required: true}]}
+                               disabled={prop.isClient}/>
+                  <ProFormText width="md" name="委托单位_Email" label="E-mail" rules={[{required: true}]}
+                               disabled={prop.isClient}/>
+                  <ProFormText width="md" name="委托单位_网址" label="网址" rules={[{required: true}]}
+                               disabled={prop.isClient}/>
                 </ProCard>
               </Col>
             </Row>
@@ -499,11 +501,12 @@ const StepApplyPage: React.FC<{ editable: boolean,isClient: boolean }> = (prop) 
                   rules={[{required: true}]}
                   disabled={prop.isClient}
                 />
-                <ProFormText label='其他' name='材料检查_其他' disabled={prop.isClient}></ProFormText>
+                <ProFormText label='其他' name='材料检查_其他' disabled={prop.isClient}/>
               </ProForm.Group>
             </ProCard>
             <ProCard bordered>
-              <ProFormText width='md' label='测试项目编号' name='测试项目编号' rules={[{required: true}]} disabled={prop.isClient}></ProFormText>
+              <ProFormText width='md' label='测试项目编号' name='测试项目编号' rules={[{required: true}]}
+                           disabled={prop.isClient}/>
             </ProCard>
             <ProCard bordered>
               <ProFormTextArea
@@ -511,15 +514,15 @@ const StepApplyPage: React.FC<{ editable: boolean,isClient: boolean }> = (prop) 
                 label="备注"
                 rules={[{required: true}]}
                 disabled={prop.isClient}
-              >
-              </ProFormTextArea>
+              />
             </ProCard>
 
             <ProCard bordered={true}>
 
               <ProForm.Group>
-                <ProFormText name="委托人（签字）" label="委托人（签字）" rules={[{required: true}]} disabled={prop.isClient}></ProFormText>
-                <Date name="委托人_日期" label="日期" disabled={prop.isClient}></Date>
+                <ProFormText name="委托人（签字）" label="委托人（签字）" rules={[{required: true}]}
+                             disabled={prop.isClient}/>
+                <Date name="委托人_日期" label="日期" disabled={prop.isClient}/>
               </ProForm.Group>
             </ProCard>
             <ProCard title='国家重点实验室联系方式' bordered>
@@ -528,7 +531,7 @@ const StepApplyPage: React.FC<{ editable: boolean,isClient: boolean }> = (prop) 
               <div>电话： 86-25-89683467</div>
               <div>传真： 86-25-89686596</div>
               <div>网址： http://keysoftlab.nju.edu.cn</div>
-              <div>E-mail: keysoftlab@nju.edu.cn</div>
+              <div>E-mail： keysoftlab@nju.edu.cn</div>
             </ProCard>
 
 
