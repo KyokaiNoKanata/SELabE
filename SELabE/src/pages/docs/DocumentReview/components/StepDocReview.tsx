@@ -1,6 +1,7 @@
+import type {
+  ProFormInstance} from '@ant-design/pro-form';
 import ProForm, {
   ProFormDatePicker,
-  ProFormInstance,
   ProFormSelect,
   ProFormText,
   StepsForm,
@@ -17,8 +18,9 @@ import {
   testingAuditSuccess,
 } from '@/services/ant-design-pro/delegation/api';
 import React, {useRef, useState} from "react";
-import {EditableProTable, ProColumns} from "@ant-design/pro-table";
-
+import type { ProColumns} from "@ant-design/pro-table";
+import {EditableProTable} from "@ant-design/pro-table";
+//todo:editable
 type ReviewItemType = {
   id: React.Key;
   type?: string;
@@ -27,7 +29,7 @@ type ReviewItemType = {
   result?: string;
   explain?: string;
 }
-const reviewColumns:  ProColumns<ReviewItemType>[] = [
+const reviewColumns: ProColumns<ReviewItemType>[] = [
   {
     title: '评审类别',
     dataIndex: 'type',
@@ -347,7 +349,7 @@ const StepDocReview = () => {
     const table14Id = (await getDelegationByIds({
       ids: String(delegationId),
     })).data[0].table14Id;
-    if(table14Id == undefined) {
+    if (table14Id == undefined) {
       return {};
     }
     const resp = await getTable14({
@@ -368,7 +370,7 @@ const StepDocReview = () => {
       delegationId: id,
       data: data,
     }).then(res => {
-      if(res.code == 0) {
+      if (res.code == 0) {
         message.success('保存成功');
       } else {
         message.error(res.msg);
@@ -385,7 +387,7 @@ const StepDocReview = () => {
       id: data.id,
       remark: data.remark,
     });
-    if(res.data == true) {
+    if (res.data == true) {
       message.success('提交成功');
     } else {
       message.error(res.msg)
@@ -401,7 +403,7 @@ const StepDocReview = () => {
       remark: data.remark,
     });
     console.log(res)
-    if(res.code == 0) {
+    if (res.code == 0) {
       message.success('提交成功');
     } else {
       message.error(res.msg)
@@ -413,20 +415,19 @@ const StepDocReview = () => {
     const pass = formRef.current?.getFieldFormatValue!(['pass']);
     const remark = formRef.current?.getFieldFormatValue!(['marketRemark']);
     //通过
-    if(pass == 0) {
+    if (pass == 0) {
       await handleAuditSuccessTesting({
         id: id,
-        remark:remark
+        remark: remark
       });
     }
     //不通过
-    else if(pass == 1){
+    else if (pass == 1) {
       await handleAuditFailTesting({
         id: id,
-        remark:remark
+        remark: remark
       });
-    }
-    else {
+    } else {
       message.warning('请选择是否通过')
     }
     return false;
@@ -448,36 +449,36 @@ const StepDocReview = () => {
               if (props.step === 0) {
                 return (
                   <div style={
-                    {textAlign:"center",
-                      margin:20,
+                    {
+                      textAlign: "center",
+                      margin: 20,
                     }
                   }><Button type="primary" onClick={() => props.onSubmit?.()}>
                     下一步 {'>'}
                   </Button>
                   </div>
                 );
-              }
-
-              else if (props.step === 1) {
+              } else if (props.step === 1) {
                 return [
                   <div style={
-                    {textAlign:"center",
-                      margin:20,
+                    {
+                      textAlign: "center",
+                      margin: 20,
                     }
                   }>
-                  <Button onClick={() => props.onPre?.()}>
-                    {'<'} 上一步
-                  </Button>,
-                  <Button type="primary"  onClick={() => props.onSubmit?.()}>
-                    下一步 {'>'}
-                  </Button></div>,
+                    <Button onClick={() => props.onPre?.()}>
+                      {'<'} 上一步
+                    </Button>,
+                    <Button type="primary" onClick={() => props.onSubmit?.()}>
+                      下一步 {'>'}
+                    </Button></div>,
                 ];
-              }
-              else if(props.step === 2) {
+              } else if (props.step === 2) {
                 return [
                   <div style={
-                    {textAlign:"center",
-                      margin:20,
+                    {
+                      textAlign: "center",
+                      margin: 20,
                     }
                   }>
                     <Button onClick={() => props.onPre?.()}>
@@ -488,13 +489,13 @@ const StepDocReview = () => {
                     </Button>,
                   </div>,
                 ];
-              }
-              else return [
-                  <div style={
-                    {textAlign:"right",
-                      margin:20,
-                    }
-                  }>
+              } else return [
+                <div style={
+                  {
+                    textAlign: "right",
+                    margin: 20,
+                  }
+                }>
                   <ProForm.Group>
                     <Button onClick={() => props.onPre?.()}>
                       {'<'} 上一步
@@ -502,11 +503,11 @@ const StepDocReview = () => {
                     <Button type="primary" key="submit" onClick={() => props.onSubmit?.()}>
                       保存
                     </Button>
-                    <Button type="primary" key="submit" onClick={()=> onSubmit()}>
+                    <Button type="primary" key="submit" onClick={() => onSubmit()}>
                       提交
                     </Button>
                   </ProForm.Group>
-                  </div>
+                </div>
               ];
             },
           }}
@@ -540,13 +541,13 @@ const StepDocReview = () => {
                   label="软件名称"
                   tooltip=""
                   placeholder="请输入名称"
-                  rules={[{ required: true, message: '这是必填项' }]}
+                  rules={[{required: true, message: '这是必填项'}]}
                 />
                 <ProFormText width="md"
                              name="version"
                              label="版本号"
                              placeholder="请输入版本号"
-                             rules={[{ required: true, message: '这是必填项' }]}
+                             rules={[{required: true, message: '这是必填项'}]}
                 />
               </ProForm.Group>
               <ProForm.Group>
@@ -556,7 +557,7 @@ const StepDocReview = () => {
                   label="委托单位"
                   tooltip=""
                   placeholder="请输入委托单位"
-                  rules={[{ required: true, message: '这是必填项' }]}
+                  rules={[{required: true, message: '这是必填项'}]}
                 />
               </ProForm.Group>
               <ProForm.Group>
@@ -566,13 +567,13 @@ const StepDocReview = () => {
                   label="评审人"
                   tooltip=""
                   placeholder="请输入评审人"
-                  rules={[{ required: true, message: '这是必填项' }]}
+                  rules={[{required: true, message: '这是必填项'}]}
                 />
 
                 <ProFormDatePicker
                   name='time'
                   label="评审完成时间"
-                  rules={[{ required: true, message: '这是必填项' }]}
+                  rules={[{required: true, message: '这是必填项'}]}
                 />
               </ProForm.Group>
             </ProForm.Group>
@@ -663,17 +664,18 @@ const StepDocReview = () => {
                   }}
                   editable={{
                     type: 'multiple',
-                    editableKeys:documentEditableKeys,
+                    editableKeys: documentEditableKeys,
                     onChange: setDocumentEditableRowKeys,
                     actionRender: (row, _, dom) => {
                       return [dom.delete];
                     },
                   }}
-                  onReset = {()=>{}}
+                  onReset={() => {
+                  }}
                 />
               </ProForm.Item>
               <ProForm.Group
-                style={{textAlign:"right"}}
+                style={{textAlign: "right"}}
               >
                 <ProFormText
                   width="md"
@@ -681,7 +683,7 @@ const StepDocReview = () => {
                   label="检查人"
                   tooltip=""
                   placeholder="请输入检查人"
-                  rules={[{ required: true, message: '这是必填项' }]}
+                  rules={[{required: true, message: '这是必填项'}]}
                 />
               </ProForm.Group>
             </ProForm.Group>
@@ -718,7 +720,7 @@ const StepDocReview = () => {
                 placeholder="请输入审核意见"
                 initialValue={''}
               />
-              </ProForm.Group>
+            </ProForm.Group>
           </StepsForm.StepForm>
         </StepsForm>
       </ProCard>

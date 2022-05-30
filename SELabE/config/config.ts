@@ -5,8 +5,9 @@ import {join} from 'path';
 import defaultSettings from './defaultSettings';
 //import proxy from './proxy';
 import routes from './routes';
+import proxy from "./proxy";
 
-//const { REACT_APP_ENV } = process.env;
+const {REACT_APP_ENV} = process.env;
 
 export default defineConfig({
   hash: true,
@@ -48,14 +49,15 @@ export default defineConfig({
   esbuild: {},
   title: false,
   ignoreMomentLocale: true,
-  //proxy: proxy[REACT_APP_ENV || 'dev'],
-  proxy: {
+  proxy: proxy[REACT_APP_ENV || 'dev'],
+  /*proxy: {
     '/admin-api/': {
       target: "http://210.28.133.13:21247/admin-api/",
+      //target: "http://127.0.0.1:48080/admin-api/",
       changeOrigin: true,
       pathRewrite: {'^/admin-api': ''},
     },
-  },
+  },*/
   manifest: {
     basePath: '/',
   },

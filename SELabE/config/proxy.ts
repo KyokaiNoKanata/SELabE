@@ -12,22 +12,22 @@ export default {
     '/admin-api/': {
       target: "http://210.28.133.13:21247/admin-api/",
       changeOrigin: true,
-      pathRewrite: { '^/server': '' },
+      pathRewrite: {'^/admin-api/': ''},
     },
   },
   test: {
-    '/api/': {
-      //target: 'http://127.0.0.1:4523/mock/923899',
-      target: 'http://127.0.0.1:48080',
+    '/admin-api/': {
+      //target: "http://210.28.133.13:21247/admin-api/",
+      target: "http://127.0.0.1:48080/admin-api/",
       changeOrigin: true,
-      pathRewrite: { '^/api': '' },
+      pathRewrite: {'^/admin-api': ''},
     },
   },
   pre: {
     '/api/': {
       target: 'your pre url',
       changeOrigin: true,
-      pathRewrite: { '^': '' },
+      pathRewrite: {'^': ''},
     },
   },
 };

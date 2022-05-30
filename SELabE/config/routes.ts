@@ -379,12 +379,12 @@ export default [
             icon: 'table',
             component: './docs/Solution/AuditSolution',
           },
-          {
+          /*{
             path: '/docs/solution/scheme-review',
             name: '测试方案评审表',
             icon: 'table',
             component: './docs/Solution/SchemeReview',
-          },
+          },*/
 
         ]
       },
