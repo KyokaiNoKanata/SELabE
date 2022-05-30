@@ -150,7 +150,6 @@ const TestCaseForm: React.FC<{ editable: boolean }> = (props) => {
               return [
                 props.editable && (doms[0], doms[1]),
                 //props.editable && <Button htmlType="button" onClick={handleSubmit} key='submit'>提交</Button>,
-
               ]
             }
           }}
