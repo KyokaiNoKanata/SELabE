@@ -39,38 +39,38 @@ const TestCaseForm: React.FC<{ editable: boolean }> = (props) => {
       title: 'ID',
       dataIndex: 'tid',
       width: "10%",
-      editable: props.editable,
+      editable: () => props.editable,
     },
     {
       title: '测试用例设计说明',
       dataIndex: 'design',
-      editable: props.editable,
+      editable: () => props.editable,
     },
     {
       title: '与本测试用例有关的规约说明',
       dataIndex: 'statute',
-      editable: props.editable,
+      editable: () => props.editable,
     },
     {
       title: '预期的结果',
       dataIndex: 'result',
-      editable: props.editable,
+      editable: () => props.editable,
     },
     {
       title: '测试用例设计者',
       dataIndex: 'author',
-      editable: props.editable,
+      editable: () => props.editable,
     },
     {
       title: '测试时间',
       dataIndex: 'time',
-      editable: props.editable,
+      editable: () => props.editable,
     },
 
     {
       title: '操作',
       valueType: 'option',
-      editable: props.editable,
+      editable: () => props.editable,
       width: '5%',
     },
   ];
@@ -78,14 +78,16 @@ const TestCaseForm: React.FC<{ editable: boolean }> = (props) => {
   const params = useLocation();
   const delegationId: number = (params.state as any).id;
   //const formRef = useRef<ProFormInstance>();
-  const Display = async () => {
+  function  Display(){
     if (props.editable) {
       return '';
     } else {
       return 'none';
     }
   }
-  const sub = {Display};
+
+
+  const sub = Display();
   const [editableKeys, setEditableRowKeys] = useState<React.Key[]>(() => []);
   const request = async () => {
     //如果已经有了对应的reportId,填一下

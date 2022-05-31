@@ -23,50 +23,7 @@ type DataSourceType = {
   children?: DataSourceType[];
 };
 
-const columns: ProColumns<DataSourceType>[] = [
-  {
-    title: '序号',
-    dataIndex: 'qid',
-    width: "8%",
-  },
-  {
-    title: '问题（缺陷）简要描述',
-    dataIndex: 'desc',
-  },
-  {
-    title: '对应需求条目',
-    dataIndex: 'requirementitem',
-  },
-  {
-    title: '发现缺陷的初始条件',
-    dataIndex: 'initialconditions',
-  },
-  {
-    title: '发现缺陷用例及具体操作路径（要具体）',
-    dataIndex: 'defectcases',
-  },
-  {
-    title: '关联用例',
-    dataIndex: 'associatedcases',
-  },
-  {
-    title: '发现时间',
-    dataIndex: 'time',
-  },
-  {
-    title: '责任人',
-    dataIndex: 'responsible',
-  },
-  {
-    title: '修改建议',
-    dataIndex: 'suggest',
-  },
-  {
-    title: '操作',
-    valueType: 'option',
-    width: '1%',
-  },
-];
+
 
 
 /**
@@ -76,19 +33,74 @@ const columns: ProColumns<DataSourceType>[] = [
  */
 //editable为true可编辑
 const QuestionListForm: React.FC<{ editable: boolean }> = (props) => {
+  const columns: ProColumns<DataSourceType>[] = [
+    {
+      title: '序号',
+      dataIndex: 'qid',
+      width: "8%",
+      editable: () => props.editable,
+    },
+    {
+      title: '问题（缺陷）简要描述',
+      editable: () => props.editable,
+      dataIndex: 'desc',
+    },
+    {
+      title: '对应需求条目',
+      editable: () => props.editable,
+      dataIndex: 'requirementitem',
+    },
+    {
+      title: '发现缺陷的初始条件',
+      dataIndex: 'initialconditions',
+      editable: () => props.editable,
+    },
+    {
+      title: '发现缺陷用例及具体操作路径（要具体）',
+      dataIndex: 'defectcases',
+      editable: () => props.editable,
+    },
+    {
+      title: '关联用例',
+      dataIndex: 'associatedcases',
+      editable: () => props.editable,
+    },
+    {
+      title: '发现时间',
+      editable: () => props.editable,
+      dataIndex: 'time',
+    },
+    {
+      title: '责任人',
+      editable: () => props.editable,
+      dataIndex: 'responsible',
+    },
+    {
+      title: '修改建议',
+      editable: () => props.editable,
+      dataIndex: 'suggest',
+    },
+    {
+      title: '操作',
+      valueType: 'option',
+      editable: () => props.editable,
+      width: '1%',
+    },
+  ];
   const [reportId, setReportId] = useState<number | undefined>(undefined);
   const params = useLocation();
   const delegationId: number = (params.state as any).id;
   //const formRef = useRef<ProFormInstance>();
-  const Display = async () => {
+  function  Display(){
     if (props.editable) {
       return '';
     } else {
       return 'none';
     }
-
   }
-  const sub = {Display};
+
+
+  const sub = Display();
   const [editableKeys, setEditableRowKeys] = useState<React.Key[]>(() => []);
   const request = async () => {
     //如果已经有了对应的reportId,填一下
