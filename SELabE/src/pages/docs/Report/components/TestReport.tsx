@@ -1,4 +1,3 @@
-//todo:table7 测试报告
 import {Button, Col, message, PageHeader, Row, Typography} from "antd";
 import {useLocation} from "react-router-dom";
 import ProForm, {ProFormDatePicker, ProFormDateRangePicker, ProFormText, ProFormTextArea} from "@ant-design/pro-form";
@@ -19,7 +18,6 @@ type DataSourceType = {
   basis?: string;
   children?: DataSourceType[];
 }
-
 type Reference = {
   rid: React.Key;
   refer?: string;
@@ -46,108 +44,159 @@ type softwareEnviron = {
   name?: string;
   version?: string;
 }
-
-const softwareEnvironColumns: ProColumns<softwareEnviron>[] = [
+const softwareEnvironData: softwareEnviron[] = [
   {
-    title: '软件类别',
-    dataIndex: 'type',
+    id: "1",
+    type: "操作系统",
+    name: '',
+    version: '',
   }
   ,
   {
-    title: '软件名称',
-    dataIndex: 'name',
+    id: "2",
+    type: "软件",
+    name: '',
+    version: '',
   }
   ,
   {
-    title: '版本',
-    dataIndex: 'version',
+    id: "3",
+    type: "辅助工具",
+    name: '',
+    version: '',
   }
   ,
+  {
+    id: "4",
+    type: "开发工具",
+    name: '',
+    version: '',
+  }
+  ,
+  {
+    id: "5",
+    type: "被测试样品",
+    name: '',
+    version: '',
+  }
 ];
 
-const testBasisColumns: ProColumns<DataSourceType>[] = [
-  {
-    title: '测试依据',
-    dataIndex: 'basis',
-  },
-  {
-    title: '操作',
-    valueType: 'option',
-    width: '5%',
-  }
-  ,
-];
+const TestReport: React.FC<{ editable: boolean }> = (prop) => {
+  const softwareEnvironColumns: ProColumns<softwareEnviron>[] = [
+    {
+      title: '软件类别',
+      dataIndex: 'type',
+      editable: false,
+    }
+    ,
+    {
+      title: '软件名称',
+      dataIndex: 'name',
+      editable: () => prop.editable,
+    }
+    ,
+    {
+      title: '版本',
+      dataIndex: 'version',
+      editable: () => prop.editable,
+    }
+    ,
+  ];
 
-const referenceColumns: ProColumns<Reference>[] = [
-  {
-    title: '参考资料',
-    dataIndex: 'refer',
-  }
-  ,
-  {
-    title: '操作',
-    valueType: 'option',
-    width: '5%',
-  }
-  ,
-];
+  const testBasisColumns: ProColumns<DataSourceType>[] = [
+    {
+      title: '测试依据',
+      dataIndex: 'basis',
+      editable: () => prop.editable,
+    },
+    {
+      title: '操作',
+      valueType: 'option',
+      width: '5%',
+      editable: () => prop.editable,
+    }
+    ,
+  ];
 
-const functionalTestColumns: ProColumns<FunctionalType>[] = [
-  {
-    title: '功能模块',
-    dataIndex: 'module',
-  }
-  ,
-  {
-    title: '功能要求',
-    dataIndex: 'require',
-  }
-  ,
-  {
-    title: '测试结果',
-    dataIndex: 'result',
-  }
-  ,
-  {
-    title: '操作',
-    valueType: 'option',
-    width: '5%',
-  }
-  ,
-];
+  const referenceColumns: ProColumns<Reference>[] = [
+    {
+      title: '参考资料',
+      dataIndex: 'refer',
+      editable: () => prop.editable,
+    }
+    ,
+    {
+      title: '操作',
+      valueType: 'option',
+      editable: () => prop.editable,
+      width: '5%',
+    }
+    ,
+  ];
 
-const otherTestColumns: ProColumns<OtherTestingType>[] = [
-  {
-    title: '测试特性',
-    dataIndex: 'module',
-  }
-  ,
-  {
-    title: '测试说明',
-    dataIndex: 'require',
-  }
-  ,
-  {
-    title: '测试结果',
-    dataIndex: 'result',
-  }
-  ,
-  {
-    title: '操作',
-    valueType: 'option',
-    width: '5%',
-  }
-  ,
-];
+  const functionalTestColumns: ProColumns<FunctionalType>[] = [
+    {
+      title: '功能模块',
+      dataIndex: 'module',
+      editable: () => prop.editable,
+    }
+    ,
+    {
+      title: '功能要求',
+      dataIndex: 'require',
+      editable: () => prop.editable,
+    }
+    ,
+    {
+      title: '测试结果',
+      editable: () => prop.editable,
+      dataIndex: 'result',
+    }
+    ,
+    {
+      title: '操作',
+      valueType: 'option',
+      editable: () => prop.editable,
+      width: '5%',
+    }
+    ,
+  ];
 
-//TODO
-const TestReport: React.FC<{ editable: boolean }> = () => {
+  const otherTestColumns: ProColumns<OtherTestingType>[] = [
+    {
+      title: '测试特性',
+      dataIndex: 'module',
+      editable: () => prop.editable,
+    }
+    ,
+    {
+      title: '测试说明',
+      dataIndex: 'require',
+      editable: () => prop.editable,
+    }
+    ,
+    {
+      title: '测试结果',
+      dataIndex: 'result',
+      editable: () => prop.editable,
+    }
+    ,
+    {
+      title: '操作',
+      valueType: 'option',
+      width: '5%',
+      editable: () => prop.editable,
+    }
+    ,
+  ];
   const [reportId, setReportId] = useState<number | undefined>(undefined);
   const [testBasisKeys, setTestBasisRowKeys] = useState<React.Key[]>(() => []);
   const [referKeys, setReferRowKeys] = useState<React.Key[]>(() => []);
   const [functionTestKeys, setFuntionTestRowKeys] = useState<React.Key[]>(()=> []);
   const [OtherTestKeys, setOtherTestRowKeys] = useState<React.Key[]>(() => []);
-  const [softwareEnvironKeys, setSoftwareEnvironRowKeys] = useState<React.Key[]>(()=> []);
+  const [softwareEnvironKeys, setSoftwareEnvironRowKeys] = useState<React.Key[]>(()=>
+    softwareEnvironData.map((item) => item.id)
+  );
   const params = useLocation();
   const delegationId: number = (params.state as any).id;
   const request = async () => {
@@ -190,11 +239,11 @@ const TestReport: React.FC<{ editable: boolean }> = () => {
   const frontPage = () => {
     return (
       <ProCard>
-        <ProFormText name="软件名称_1" label="软件名称" width="md" required={true}/>
-        <ProFormText name="版本号_1" label="版本号" width="md" required={true}/>
-        <ProFormText name="委托单位_1" label="委托单位" width="md" required={true}/>
-        <ProFormText name="测试类别_1" label="测试类别" width="md" required={true}/>
-        <ProFormDatePicker name="报告日期_1" label="报告日期" width="md" required={true}></ProFormDatePicker>
+        <ProFormText name="软件名称_1" label="软件名称" width="md" required={true} disabled={!prop.editable}/>
+        <ProFormText name="版本号_1" label="版本号" width="md" required={true} disabled={!prop.editable}/>
+        <ProFormText name="委托单位_1" label="委托单位" width="md" required={true} disabled={!prop.editable}/>
+        <ProFormText name="测试类别_1" label="测试类别" width="md" required={true} disabled={!prop.editable}/>
+        <ProFormDatePicker name="报告日期_1" label="报告日期" width="md" required={true} disabled={!prop.editable}></ProFormDatePicker>
       </ProCard>
     )
   }
@@ -241,45 +290,45 @@ const TestReport: React.FC<{ editable: boolean }> = () => {
   const reportForm = () => {
     return (
       <ProCard>
-        <ProFormText name="委托单位" label="委托单位" width="md" required={true}/>
-        <ProFormText name="项目编号" label="项目编号" width="md" required={true}/>
-        <ProFormText name="样品名称" label="样品名称" width="md" required={true}/>
-        <ProFormText name="版本/型号" label="版本/型号" width="md" required={true}/>
-        <ProFormDatePicker name="来样日期" label="来样日期" width="md" required={true}/>
-        <ProFormDateRangePicker name="测试时间" label="测试时间" required={true}></ProFormDateRangePicker>
-        <ProFormTextArea name="样品状态" label="样品状态" required={true}/>
-        <ProFormTextArea name="测试依据" label="测试依据" required={true}/>
-        <ProFormTextArea name="测试结论" label="测试结论" required={true}/>
+        <ProFormText name="委托单位" label="委托单位" width="md" required={true} disabled={!prop.editable}/>
+        <ProFormText name="项目编号" label="项目编号" width="md" required={true} disabled={!prop.editable}/>
+        <ProFormText name="样品名称" label="样品名称" width="md" required={true} disabled={!prop.editable}/>
+        <ProFormText name="版本/型号" label="版本/型号" width="md" required={true} disabled={!prop.editable}/>
+        <ProFormDatePicker name="来样日期" label="来样日期" width="md" required={true} disabled={!prop.editable}/>
+        <ProFormDateRangePicker name="测试时间" label="测试时间" required={true} disabled={!prop.editable}></ProFormDateRangePicker>
+        <ProFormTextArea name="样品状态" label="样品状态" required={true} disabled={!prop.editable}/>
+        <ProFormTextArea name="测试依据" label="测试依据" required={true} disabled={!prop.editable}/>
+        <ProFormTextArea name="测试结论" label="测试结论" required={true} disabled={!prop.editable}/>
         <Row>
           <Col span={12}>
-            <ProFormText name="主测人" label="主测人" width="md" required={true}/>
+            <ProFormText name="主测人" label="主测人" width="md" required={true} disabled={!prop.editable}/>
           </Col>
           <Col span={12}>
-            <ProFormDatePicker name="主测_日期" label="日期" required={true}/>
+            <ProFormDatePicker name="主测_日期" label="日期" required={true} disabled={!prop.editable}/>
           </Col>
         </Row>
         <Row>
           <Col span={12}>
-            <ProFormText name="审核人" label="审核人" width="md" required={true}/>
+            <ProFormText name="审核人" label="审核人" width="md" required={true} disabled={!prop.editable}/>
           </Col>
           <Col span={12}>
-            <ProFormDatePicker name="审核_日期" label="日期" required={true}/>
+            <ProFormDatePicker name="审核_日期" label="日期" required={true} disabled={!prop.editable}/>
           </Col>
         </Row>
         <Row>
           <Col span={12}>
-            <ProFormText name="批准人" label="批准人" width="md" required={true}/>
+            <ProFormText name="批准人" label="批准人" width="md" required={true} disabled={!prop.editable}/>
           </Col>
           <Col span={12}>
-            <ProFormDatePicker name="批准_日期" label="日期" required={true}/>
+            <ProFormDatePicker name="批准_日期" label="日期" required={true} disabled={!prop.editable}/>
           </Col>
         </Row>
-        <ProFormText label="电话" name="电话" width="md" required={true}/>
-        <ProFormText label="传真" name="传真" width="md" required={true}/>
-        <ProFormText label="地址" name="地址" width="md" required={true}/>
-        <ProFormText label="邮编" name="邮编" width="md" required={true}/>
-        <ProFormText label="联系人" name="联系人" width="md" required={true}/>
-        <ProFormText label="E-mail" name="E-mail" width="md" required={true}/>
+        <ProFormText label="电话" name="电话" width="md" required={true} disabled={!prop.editable}/>
+        <ProFormText label="传真" name="传真" width="md" required={true} disabled={!prop.editable}/>
+        <ProFormText label="地址" name="地址" width="md" required={true} disabled={!prop.editable}/>
+        <ProFormText label="邮编" name="邮编" width="md" required={true} disabled={!prop.editable}/>
+        <ProFormText label="联系人" name="联系人" width="md" required={true} disabled={!prop.editable}/>
+        <ProFormText label="E-mail" name="E-mail" width="md" required={true} disabled={!prop.editable}/>
         <div>测试单位联系方式</div>
         <div>单位地址: 南京市栖霞区仙林大道163号</div>
         <div>邮政编码: 210023</div>
@@ -298,17 +347,22 @@ const TestReport: React.FC<{ editable: boolean }> = () => {
           <ProCard title="硬件环境" bordered>
             <div>本次测试中使用到的硬件环境如下:</div>
             <br/>
-            <ProFormText label="硬件类别" name="硬件类别" width="md" required={true}/>
-            <ProFormText label="硬件名称" name="硬件名称" width="md" required={true}/>
-            <ProFormText label="配置" name="配置" width="md" required={true}/>
-            <ProFormText label="数量" name="数量" width="md" required={true}/>
+            <ProFormText label="硬件类别" name="硬件类别" width="md" required={true} disabled={!prop.editable}/>
+            <ProFormText label="硬件名称" name="硬件名称" width="md" required={true} disabled={!prop.editable}/>
+            <ProFormText label="配置" name="配置" width="md" required={true} disabled={!prop.editable}/>
+            <ProFormText label="数量" name="数量" width="md" required={true} disabled={!prop.editable}/>
           </ProCard>
         </Row>
         <Row>
           <ProCard title="软件环境" bordered>
             <div>本次测试中使用到的软件环境如下:</div>
             <br/>
-            <ProForm.Item>
+            <ProForm.Item
+              label = ""
+              name = "软件环境"
+              initialValue={softwareEnvironData}
+              trigger = "onValuesChange"
+            >
               <EditableProTable<softwareEnviron>
                 rowKey = "id"
                 toolBarRender={false}
@@ -325,7 +379,7 @@ const TestReport: React.FC<{ editable: boolean }> = () => {
         </Row>
         <Row>
           <ProCard title="网络环境" bordered>
-            <ProFormTextArea label="网络环境" name="网络环境" required={true}/>
+            <ProFormTextArea label="网络环境" name="网络环境" required={true} disabled={!prop.editable}/>
           </ProCard>
         </Row>
       </ProCard>
@@ -344,6 +398,7 @@ const TestReport: React.FC<{ editable: boolean }> = () => {
           record: () => ({
             rid: Date.now(),
           }),
+          hidden: !prop.editable,
         }}
         editable = {{
           type: 'multiple',
@@ -368,6 +423,7 @@ const TestReport: React.FC<{ editable: boolean }> = () => {
           record: () => ({
             id: Date.now(),
           }),
+          hidden: !prop.editable,
         }}
         editable = {{
           type: 'multiple',
@@ -393,6 +449,7 @@ const TestReport: React.FC<{ editable: boolean }> = () => {
           record: () => ({
             id: Date.now(),
           }),
+          hidden: !prop.editable,
         }}
         editable = {{
           type: 'multiple',
@@ -440,7 +497,7 @@ const TestReport: React.FC<{ editable: boolean }> = () => {
                 <Button key="gotoTwo" onClick={() => props.onPre?.()}>
                   {'<'} 上一步
                 </Button>,
-                <Button type="primary" key="goToTree" onClick={() => props.onSubmit?.()}>
+                <Button type="primary" key="goToTree" onClick={() => props.onSubmit?.()} disabled={!prop.editable}>
                   保存
                 </Button>,
               ];
@@ -540,6 +597,7 @@ const TestReport: React.FC<{ editable: boolean }> = () => {
                   record: () => ({
                     id: Date.now(),
                   }),
+                  hidden: !prop.editable,
                 }}
                 editable={{
                   type: 'multiple',
@@ -637,6 +695,7 @@ const TestReport: React.FC<{ editable: boolean }> = () => {
                 label = "测试执行记录"
                 name = "测试执行记录"
                 required={true}
+                disabled={!prop.editable}
               />
             </ProCard>
           </StepsForm.StepForm>

@@ -39,73 +39,73 @@ const TestRecordForm: React.FC<{ editable: boolean }> = (props) => {
   const columns: ProColumns<DataSourceType>[] = [
     {
       title: '测试分类',
-      editable: props.editable,
+      editable: () => props.editable,
       dataIndex: 'classification',
     },
     {
       title: 'ID',
-      editable: props.editable,
+      editable: () => props.editable,
       dataIndex: 'tid',
     },
     {
       title: '测试用例设计说明',
-      editable: props.editable,
+      editable: () => props.editable,
       dataIndex: 'design',
     },
     {
       title: '与本测试用例有关的规约说明',
-      editable: props.editable,
+      editable: () => props.editable,
       dataIndex: 'statute',
     },
     {
       title: '前提条件',
-      editable: props.editable,
+      editable: () => props.editable,
       dataIndex: 'preconditions',
     },
     {
       title: '预期的结果',
-      editable: props.editable,
+      editable: () => props.editable,
       dataIndex: 'result',
     },
     {
       title: '测试用例设计者',
-      editable: props.editable,
+      editable: () => props.editable,
       dataIndex: 'author',
     },
     {
       title: '实际结果',
-      editable: props.editable,
+      editable: () => props.editable,
       dataIndex: 'reality',
     },
     {
       title: '是否与预期结果一致',
-      editable: props.editable,
+      editable: () => props.editable,
       dataIndex: 'accord',
     },
     {
       title: '相关的BUG编号',
-      editable: props.editable,
+      editable: () => props.editable,
       dataIndex: 'bugid',
     },
     {
       title: '用例执行者',
-      editable: props.editable,
+      editable: () => props.editable,
       dataIndex: 'executor',
     },
     {
       title: '执行测试时间',
-      editable: props.editable,
+      editable: () => props.editable,
       dataIndex: 'time',
     },
     {
       title: '确认人',
       dataIndex: 'confirmor',
-      editable: props.editable,
+      editable: () => props.editable,
     },
     {
       title: '操作',
       valueType: 'option',
-      editable: props.editable,
+      editable: () => props.editable,
       width: '1%',
     },
   ];
@@ -113,14 +113,16 @@ const TestRecordForm: React.FC<{ editable: boolean }> = (props) => {
   const params = useLocation();
   const delegationId: number = (params.state as any).id;
   //const formRef = useRef<ProFormInstance>();
-  const Display = async () => {
+  function  Display(){
     if (props.editable) {
       return '';
     } else {
       return 'none';
     }
   }
-  const sub = {Display};
+
+
+  const sub = Display();
   const [editableKeys, setEditableRowKeys] = useState<React.Key[]>(() => []);
   const request = async () => {
     //如果已经有了对应的reportId,填一下
@@ -175,7 +177,7 @@ const TestRecordForm: React.FC<{ editable: boolean }> = (props) => {
             },
             submitButtonProps: {
               style: {
-                display: sub,
+                display:sub,
               }
             },
             render: (_, doms) => {
