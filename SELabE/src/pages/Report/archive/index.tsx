@@ -3,7 +3,7 @@
  */
 import type {ReactNode} from "react";
 import {useRef} from "react";
-import type {API} from "@/services/ant-design-pro/typings";
+import type API from "@/services/ant-design-pro/typings";
 import type {ProColumns} from "@ant-design/pro-table";
 import type {ActionType} from "@ant-design/pro-table";
 import {Button, message, Modal} from "antd";

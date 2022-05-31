@@ -1,5 +1,5 @@
 import AuditSampleList from "@/pages/Sample/components/AuditSampleList";
-import type {API} from "@/services/ant-design-pro/typings";
+import type API from "@/services/ant-design-pro/typings";
 
 export default () => {
   const queryParams = async (

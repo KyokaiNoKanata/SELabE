@@ -61,7 +61,7 @@ const columns: ProColumns<DataSourceType>[] = [
  */
 const QuotationForm: React.FC<{isClient: boolean}> = (props) => {
   const params = useLocation();
-  const delegationId = (params as any).query.id;
+  const delegationId = (params.state as any).id;
   const [editableKeys, setEditableRowKeys] = useState<React.Key[]>(() => []);
   const formRef: React.MutableRefObject<ProFormInstance | undefined> = useRef<ProFormInstance>();
   const request = async () => {

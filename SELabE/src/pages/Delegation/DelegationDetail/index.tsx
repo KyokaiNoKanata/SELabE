@@ -22,7 +22,7 @@ const DelegationDetail: React.FC = () => {
   const [testingDeptStaffName, setTestingDeptStaffName] = useState<string>();
   const [offerRemark, setOfferRemark] = useState<string>();
   const params = useLocation();
-  const delegationId = (params as any).query.id;//ok
+  const delegationId = (params.state as any).id;//ok
   let tran_pathName = "";
   //console.log(delegationId);
   const request = async () => {
@@ -588,12 +588,11 @@ const DelegationDetail: React.FC = () => {
   }
 
   const tran_path = () => {
-    if(tran_pathName === ""){
+    if (tran_pathName === "") {
       return delegationState;
-    }
-    else {
+    } else {
       return (
-        <Link to={{pathname: tran_pathName, query: {id: delegationId}}}>
+        <Link to={{pathname: tran_pathName, state: {id: delegationId}}}>
           {delegationState} (点击跳转)
         </Link>
       )

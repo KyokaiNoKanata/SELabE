@@ -1,4 +1,4 @@
-import type {API} from "@/services/ant-design-pro/typings";
+import type API from "@/services/ant-design-pro/typings";
 import type {ReactNode} from "react";
 import React, {useRef} from "react";
 import {message} from "antd";
@@ -8,7 +8,9 @@ import DelegationList from "@/pages/Delegation/components/DelegationList";
 import type {ActionType, ProColumns} from "@ant-design/pro-table";
 import DistributeForm from "@/pages/Delegation/components/DistributeForm";
 
-/**市场部主管分配委托 */
+/**
+ * 市场部主管分配委托
+ * */
 const handleDistributeDelegationMarketing = async (data: {
   acceptorId: number,//接收委托的工作人员id
   id: number,//委托编号
@@ -56,8 +58,7 @@ export default () => {
   ]
   const queryParams = async (
     param: API.DelegationQueryParams,
-    roles: string[],
-    userId: number) => {
+    roles: string[]) => {
     //市场部主管
     if (roles.includes('marketing_department_manger')) {
       param.state = '20';

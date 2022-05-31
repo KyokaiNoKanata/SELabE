@@ -3,7 +3,7 @@ import {Card, message} from "antd";
 import React, {useRef, useState} from "react";
 import CDA from "@/pages/docs/Contract/components/CDA";
 import type {ProFormInstance} from "@ant-design/pro-form";
-import ProForm, { ProFormSelect, ProFormText} from "@ant-design/pro-form";
+import ProForm, {ProFormSelect, ProFormText} from "@ant-design/pro-form";
 import {
   acceptContractClient,
   acceptContractStaff,
@@ -11,7 +11,7 @@ import {
   rejectContractStaff
 } from "@/services/ant-design-pro/contract/api";
 import {useLocation} from "react-router-dom";
-import type {API} from "@/services/ant-design-pro/typings"
+import type API from "@/services/ant-design-pro/typings"
 
 const ContractPageComponent: React.FC<{
   isClient: boolean,
@@ -35,8 +35,10 @@ const ContractPageComponent: React.FC<{
   const [activeTabKey, setActiveTabKey] = useState('CDA');
   const formRef: React.MutableRefObject<ProFormInstance | undefined> = useRef<ProFormInstance>();
   const params = useLocation();
-  const contractId: number | undefined = (params as any).query.contractId;
+  const contractId = (params.state as any).contractId;
+  //const id = (params.state as any).id;
   const onSubmit = async () => {
+    //审核的话，肯定有合同id了
     const pass = formRef.current?.getFieldFormatValue!(['pass']);
     const remark = formRef.current?.getFieldFormatValue!(['remark']);
     let resp: API.Response = {

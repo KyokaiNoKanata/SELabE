@@ -1,6 +1,6 @@
 import type {ReactNode} from "react";
 import React from "react";
-import type {API} from "@/services/ant-design-pro/typings";
+import type API from "@/services/ant-design-pro/typings";
 import type {ProColumns} from "@ant-design/pro-table";
 import {Button} from "antd";
 import DelegationList from "@/pages/Delegation/components/DelegationList";
@@ -27,7 +27,7 @@ const AuditSampleList: React.FC<{
         //求一下样品url
         const {sampleId} = record;
         return [record.state == '测试部/市场部验收样品中' &&
-        <Link to={{pathname: '/docs/sample/detail', query: {sampleId}}}>
+        <Link to={{pathname: '/docs/sample/detail', state: {sampleId: sampleId}}}>
           <Button type="primary">
             审核样品</Button>
         </Link>

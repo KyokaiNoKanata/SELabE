@@ -8,13 +8,13 @@ import ProForm, {ProFormText,} from '@ant-design/pro-form';
 
 const {Paragraph} = Typography;
 //editable为false则双方都不可以编辑
+//todo:好像写反了，但结果正确
 const CDA: React.FC<{
   isClient: boolean
   editable: boolean
 }> = (props) => {
   const params = useLocation();
-  const delegationId = (params as any).query.id;
-  //todo 获取数据，保存 table5
+  const delegationId = (params.state as any).id;
   const request = async () => {
     const contractId = (await getDelegationByIds({
       ids: String(delegationId),
@@ -36,7 +36,6 @@ const CDA: React.FC<{
     return data;
   }
   const onSave = async (value: any) => {
-    //todo: get value
     console.log(value);
     //console.log(value);
     let contractId = (await getDelegationByIds({
@@ -82,6 +81,13 @@ const CDA: React.FC<{
               resetText: '重置',
               submitText: '保存',
             },
+            render: (submitterProps, doms) => {
+              console.log(props)
+              if (!props.editable) {
+                return [...doms];
+              }
+              return []
+            }
           }}>
           <Typography>
             <Paragraph>

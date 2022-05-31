@@ -1,7 +1,7 @@
 import type {ReactNode} from "react";
 import React, {useRef} from "react";
 import type {ActionType, ProColumns} from "@ant-design/pro-table";
-import type {API} from "@/services/ant-design-pro/typings";
+import type API from "@/services/ant-design-pro/typings";
 import DelegationList from "@/pages/Delegation/components/DelegationList";
 import {Button} from "antd";
 import {Link} from "umi";
@@ -21,9 +21,9 @@ export default () => {
       hideInTable: false,
       sorter: false,
       render: (text: ReactNode, record: API.DelegationItem) => {
-        const {contractId} = record;//合同id
+        const {id, contractId} = record
         return [
-          <Link to={{pathname: '/docs/contract/audit/marketing', query: {contractId}}}>
+          <Link to={{pathname: '/docs/contract/audit/marketing', state: {id: id, contractId: contractId}}}>
             <Button type="primary">审核合同</Button>
           </Link>
         ]

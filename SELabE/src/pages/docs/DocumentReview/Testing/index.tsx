@@ -1,13 +1,12 @@
-import { useState } from 'react';
+import {useState} from 'react';
 import {Card} from 'antd';
 import StepDocReview from "@/pages/docs/DocumentReview/components/StepDocReview";
 import StepApplyPage from "@/pages/docs/NewDelegation/components/StepApplyPage";
 import FunctionList from "@/pages/docs/NewDelegation/components/FunctionList";
 
 
-
 const DocumentReview = () => {
-  const [activeTabKey, setActiveTabKey] = useState('评审表');
+  const [activeTabKey, setActiveTabKey] = useState('委托申请书');
   const list = [
     {
       key: '委托申请书',
@@ -28,11 +27,10 @@ const DocumentReview = () => {
   const contentList = {
     委托申请书:
       <Card>
-        {/*todo: make it non-editable (only remove submit button in this edition)*/}
         <StepApplyPage editable={false} isClient={true}/>
       </Card>,
     委托功能列表: <Card><FunctionList editable={false} isClient={true}/></Card>,
-    评审表:<Card><StepDocReview></StepDocReview></Card>,
+    评审表: <Card><StepDocReview/></Card>,
   };
   return (
     <>

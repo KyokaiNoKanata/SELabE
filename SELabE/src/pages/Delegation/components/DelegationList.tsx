@@ -14,7 +14,7 @@ import {
   deleteDelegation,
   updateDelegation,
 } from "@/services/ant-design-pro/delegation/api";
-import type {API} from "@/services/ant-design-pro/typings";
+import type API from "@/services/ant-design-pro/typings";
 import {FormattedMessage} from "@@/plugin-locale/localeExports";
 import {useIntl} from "umi";
 import {currentUser} from "@/services/ant-design-pro/api";
@@ -104,18 +104,32 @@ const handleUpdateDelegation = async (data: {
   return operateTime;
 }*/
 export type DelegationListType = {
-  //request?: any; //从后端获取数据（带条件，比如发起者是自己的）
-  roles?: string[];//权限集合
-  user?: any;//当前用户信息
-  //operation: string[];//操作集合，例如审核，填写，分配等
-  operationColumns: ProColumns<API.DelegationItem>[];//额外的操作列
+  /**
+   *  额外的操作列
+   */
+  operationColumns: ProColumns<API.DelegationItem>[];
+  /**
+   * actionRef
+   */
   actionRef?: React.MutableRefObject<ActionType | undefined>;
+  /**
+   * 查询参数
+   * @param param 初始查询参数，含pageSize,pageNo,name(可选)
+   * @param roles 当前用户权限列表
+   * @param userId 用户id
+   * @return 完整的参数的Promise，含权限限制
+   */
   queryParams: (
     param: API.DelegationQueryParams,
     roles: string[],
     userId: number,
   ) => Promise<API.DelegationQueryParams>,
 }
+/**
+ * 委托列表模板
+ * @param props：属性
+ * @constructor
+ */
 const DelegationList: React.FC<DelegationListType> = (props) => {
   let actionRef = useRef<ActionType>();
   if (props.actionRef) {
@@ -138,6 +152,9 @@ const DelegationList: React.FC<DelegationListType> = (props) => {
     } & {
       name?: string;
     },
+    /**
+     * 排序对象
+     */
     sort?: object,
     options?: Record<string, any>
   ) => {
@@ -148,8 +165,8 @@ const DelegationList: React.FC<DelegationListType> = (props) => {
     const userId = user.user.id;
     setRoles(user.roles);
     const p1: API.DelegationQueryParams = {
-      pageSize: params.pageSize,
-      pageNo: params.current,
+      pageSize: params.pageSize!,
+      pageNo: params.current!,
       name: params.name,
     }
     if (sort && sort != {}) {
@@ -408,7 +425,7 @@ const DelegationList: React.FC<DelegationListType> = (props) => {
 
   return (
     <PageContainer>
-      <ProTable<API.DelegationItem, API.PageParams>
+      <ProTable<API.DelegationItem, API.DelegationQueryParams>
         headerTitle={intl.formatMessage({
           id: 'pages.delegationTable.title',
           defaultMessage: '委托列表',
@@ -447,8 +464,9 @@ const DelegationList: React.FC<DelegationListType> = (props) => {
             },*/
           }
         }
+        //分页信息
         pagination={{
-          pageSize: 10,
+          pageSize: 10,//每页最大数量
         }}
         /*新建*/
         toolBarRender={() => [
@@ -468,6 +486,7 @@ const DelegationList: React.FC<DelegationListType> = (props) => {
             type="primary"
             key="danger"
             danger
+            //批量删除按钮
             onClick={
               () => {
                 confirm({
@@ -500,9 +519,8 @@ const DelegationList: React.FC<DelegationListType> = (props) => {
             <FormattedMessage id="todo" defaultMessage="删除"/>
           </Button>,
         ]}
-        /*请求数据*/
-        request={request}
-        columns={columns}
+        request={request}//查询请求
+        columns={columns}//列
         rowSelection={{
           onChange: (_, selectedRows) => {
             setSelectedRows(selectedRows);

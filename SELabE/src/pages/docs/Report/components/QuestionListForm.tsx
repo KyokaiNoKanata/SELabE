@@ -78,7 +78,7 @@ const columns: ProColumns<DataSourceType>[] = [
 const QuestionListForm: React.FC<{ editable: boolean }> = (props) => {
   const [reportId, setReportId] = useState<number | undefined>(undefined);
   const params = useLocation();
-  const delegationId: number = (params as any).query.id;
+  const delegationId: number = (params.state as any).id;
   //const formRef = useRef<ProFormInstance>();
   const Display = async () => {
     if (props.editable) {

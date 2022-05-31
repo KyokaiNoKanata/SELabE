@@ -7,7 +7,7 @@ const AuditPage: React.FC<{
   person: string,
 }> = (props) => {
   const params = useLocation();
-  const delegationId: number = (params as any).query.id;
+  const delegationId: number = (params.state as any).id;
   return (
     <a><Button onClick={async () => {
       const rId = (await getDelegationById(delegationId)).data.reportId;

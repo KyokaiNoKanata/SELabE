@@ -1,5 +1,5 @@
 import request from "umi-request";
-import type {API} from "@/services/ant-design-pro/typings";
+import type API from "@/services/ant-design-pro/typings";
 
 //通过委托id创建样品
 export async function createSample(

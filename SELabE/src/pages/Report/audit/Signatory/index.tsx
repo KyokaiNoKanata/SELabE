@@ -2,7 +2,7 @@
  * 填写测试文档
  */
 import type {ReactNode} from "react";
-import type {API} from "@/services/ant-design-pro/typings";
+import type API from "@/services/ant-design-pro/typings";
 import type {ProColumns} from "@ant-design/pro-table";
 import {Button} from "antd";
 import DelegationList from "@/pages/Delegation/components/DelegationList";
@@ -20,7 +20,7 @@ export default () => {
       render: (text: ReactNode, record: API.DelegationItem) => {
         const {id} = record;
         return [
-          <Link to={{pathname: '/docs/report/audit/signatory', query: {id}}}>
+          <Link to={{pathname: '/docs/report/audit/signatory', state: {id: id}}}>
             <Button type="primary">审核测试报告</Button>
           </Link>,
         ];
@@ -29,8 +29,7 @@ export default () => {
   ];
   const queryParams = async (
     param: API.DelegationQueryParams,
-    roles: string[],
-    userId: number) => {
+    roles: string[]) => {
     //签字人审核
     if (roles.includes('signatory')) {
       param.state = '400'//签字人审核

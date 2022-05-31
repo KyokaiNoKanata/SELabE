@@ -149,7 +149,7 @@ const TestReportCheckList: React.FC<{
   editable: boolean,
 }> = (props) => {
   const params = useLocation();
-  const delegationId: number = (params as any).query.id;
+  const delegationId: number = (params.state as any).id;
   const [editableKeys, setEditableRowKeys] = useState<React.Key[]>(() =>
     defaultData.map((item) => item.id)
   );
