@@ -1,11 +1,11 @@
 import React, {useRef, useState} from 'react';
 import {Card, message, PageHeader} from 'antd';
-import type { ProFormInstance} from '@ant-design/pro-form';
+import type {ProFormInstance} from '@ant-design/pro-form';
 import ProForm, {ProFormDatePicker, ProFormSelect, ProFormText} from '@ant-design/pro-form';
 import {useLocation} from 'umi';
 import {marketingAuditFail, marketingAuditSuccess} from '@/services/ant-design-pro/delegation/api';
-import StepApplyPage from "@/pages/docs/NewDelegation/components/StepApplyPage";
-import FunctionList from "@/pages/docs/NewDelegation/components/FunctionList";
+import StepApplyPage from "@/pages/docs/Delegation/components/StepApplyPage";
+import FunctionList from "@/pages/docs/Delegation/components/FunctionList";
 
 const Date: any = ProFormDatePicker;
 const DocumentReviewMarketing = () => {
@@ -157,8 +157,8 @@ const DocumentReviewMarketing = () => {
           <PageHeader
             //className="reviewMarketing"
             title="">c</PageHeader>
-          <ProFormText name="受理人（签字）" label="受理人（签字）" rules={[{required: true}]} />
-          <Date name="受理人_日期" label="日期" rules={[{required: true}]} />
+          <ProFormText name="受理人（签字）" label="受理人（签字）" rules={[{required: true}]}/>
+          <Date name="受理人_日期" label="日期" rules={[{required: true}]}/>
         </ProForm.Group>
       </ProForm>
     </Card>,

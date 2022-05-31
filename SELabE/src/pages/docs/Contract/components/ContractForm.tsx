@@ -43,6 +43,11 @@ const ContractForm: React.FC<{
     console.log(data);
     return data;
   }
+  /**
+   * 保存合同表
+   * 如果没有合同就创建一下
+   * @param value
+   */
   const onSave = async (value: any) => {
     //还没有创建合同，那就创建一下
     if (!contractId) {
@@ -72,7 +77,9 @@ const ContractForm: React.FC<{
       message.error(resp.msg);
     }
   }
-  //提交合同
+  /**
+   * 提交合同
+   */
   const onSubmit = async () => {
     if (!contractId) {
       message.warning('请先保存');
@@ -90,7 +97,7 @@ const ContractForm: React.FC<{
       if (resp.code == 0) {
         message.success('提交合同成功');
       } else {
-        message.error(resp.msg);//?
+        message.error(resp.msg);
       }
     }
   }

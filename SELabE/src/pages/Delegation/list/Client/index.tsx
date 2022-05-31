@@ -2,7 +2,7 @@ import type {ReactNode} from "react";
 import type API from "@/services/ant-design-pro/typings";
 import {Link} from "umi";
 import {Button} from "antd";
-import CheckDelegation from "@/pages/Delegation/check/components/CheckDelegation";
+import CheckDelegation from "@/pages/Delegation/list/components/CheckDelegation";
 import type {ProColumns} from "@ant-design/pro-table";
 
 export default () => {
@@ -18,7 +18,7 @@ export default () => {
         const {id} = record;
         return [
           (record.state == '委托填写中' || record.state?.includes('委托修改中')) &&
-          <Link to={{pathname: '/docs/new-delegation', state: {id: id}}}>
+          <Link to={{pathname: '/docs/delegation/apply', state: {id: id}}}>
             <Button type="primary">填写</Button>
           </Link>,
           !(record.state == '委托填写中' || record.state?.includes('委托修改中')) &&

@@ -1,7 +1,7 @@
 import {useState} from 'react';
 import {Card} from 'antd';
-import StepApplyPage from "@/pages/docs/NewDelegation/components/StepApplyPage";
-import FunctionList from "@/pages/docs/NewDelegation/components/FunctionList";
+import StepApplyPage from "@/pages/docs/Delegation/components/StepApplyPage";
+import FunctionList from "@/pages/docs/Delegation/components/FunctionList";
 //import { useLocation } from 'react-router-dom';
 const delegationList = [
   {

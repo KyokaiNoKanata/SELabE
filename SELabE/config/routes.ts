@@ -64,57 +64,57 @@ export default [
     path: '/delegation',
     name: '委托管理',
     icon: 'crown',
-    //access:,
-    //component: './tester/delegation',
     routes: [
-      //客户（可以新增删除填写委托）
+      //客户查看委托（可以新增删除填写委托）
       {
-        path: './check/client',
-        name: '（客户)查看委托',
-        icon: 'smile',
-        component: './Delegation/check/Client',
-      },
-      //其他人：只能看
-      {
-        path: './check/normal',
+        path: './list/client',
         name: '查看委托',
         icon: 'smile',
-        component: './Delegation/check',
+        component: './Delegation/list/Client',
       },
-      //市场部分配
+      //其他人查看委托
+      {
+        path: './list/common',
+        name: '查看委托',
+        icon: 'smile',
+        component: './Delegation/list/Common',
+      },
+      //市场部分配委托
       {
         path: './distribute/marketing',
-        name: '(市场部)分配委托',
+        name: '分配委托',
         icon: 'smile',
         component: './Delegation/distribute/Marketing',
       },
-      //测试部分配
+      //测试部分配委托
       {
         path: './distribute/testing',
-        name: '(测试部)分配委托',
+        name: '分配委托',
         icon: 'smile',
         component: './Delegation/distribute/Testing',
       },
-      //审核
+      //市场部审核委托
       {
         path: './audit/marketing',
         name: '(市场部)审核委托',
         icon: 'smile',
         component: './Delegation/audit/Marketing'
       },
+      //测试部审核委托
       {
         path: './audit/testing',
         name: '(测试部)审核委托',
         icon: 'smile',
         component: './Delegation/audit/Testing'
       },
-      //报价
+      //生成报价
       {
         path: './offer/market',
         name: '(市场部)生成报价',
         icon: 'smile',
         component: './Delegation/offer/Market',
       },
+      //处理报价
       {
         path: './offer/client',
         name: '(客户)处理报价',
@@ -137,24 +137,24 @@ export default [
     routes: [
       //查看合同详情
       {
-        path: './check/All',
+        path: './list',
         name: '查看合同',
         icon: 'smile',
-        component: './Contract/checkAll',
+        component: './Contract/list',
       },
       //市场部填写（创建）
       {
         path: './create/staff',
         name: '（市场部)填写合同',
         icon: 'smile',
-        component: './Contract/create/Marketing',
+        component: './Contract/write/Marketing',
       },
       //客户填写（创建）
       {
         path: './create/client',
         name: '（客户)填写合同',
         icon: 'smile',
-        component: './Contract/create/Client',
+        component: './Contract/write/Client',
       },
       //客户检查合同
       {
@@ -275,53 +275,72 @@ export default [
     icon: 'smile',
     routes: [
       {
-        path: '/docs/softDocReview',
-        name: '软件文档评审表',
+        path: '/docs/delegation',
         icon: 'smile',
+        name: '委托',
         routes: [
           {
-            path: '/docs/softDocReview/marketing',
-            name: '市场部评审',
-            icon: 'smile',
-            component: './docs/DocumentReview/Marketing',
+            path: '/docs/delegation/apply',
+            name: '填写委托',
+            icon: 'table',
+            component: './docs/Delegation/Apply',
           },
           {
-            path: '/docs/softDocReview/testing',
-            name: '测试部评审',
-            icon: 'smile',
-            component: './docs/DocumentReview/Testing',
-          }
+            path: '/docs/delegation/audit',
+            name: '审核委托',
+            icon: 'table',
+            routes: [
+              {
+                path: '/docs/delegation/audit/marketing',
+                name: '市场部',
+                icon: 'table',
+                component: './docs/Delegation/audit/Marketing',
+              },
+              {
+                path: '/docs/delegation/audit/testing',
+                name: '测试部',
+                icon: 'table',
+                component: './docs/Delegation/audit/testing',
+              },
+            ]
+          },
+          {
+            path: '/docs/delegation/offer',
+            name: '委托报价',
+            icon: 'table',
+            routes: [
+              {
+                name: '填写报价单',
+                path: '/docs/delegation/offer/marketing',
+                icon: 'smile',
+                component: './docs/delegation/offer/Marketing',
+              },
+              {
+                name: '查看报价单',
+                path: '/docs/delegation/offer/client',
+                icon: 'smile',
+                component: './docs/delegation/offer/Client',
+              },
+            ]
+          },
         ]
       },
       {
-        path: '/docs/new-delegation',
-        name: '填写委托',
-        icon: 'table',
-        component: './docs/NewDelegation',
-      },
-      /*{
-        name: '软件项目委托测试保密协议',
-        icon: 'table',
-        path: '/docs/confidentiality-agreement',
-        component: './docs/ConfidentialityAgreement',
-      },*/
-      {
-        name: '软件委托测试合同',
+        name: '合同',
         icon: 'table',
         path: '/docs/contract',
-        //component: './docs/Contract/components',
         routes: [
           {
-            path: '/docs/contract/client',
+            path: '/docs/contract/write/client',
             name: '(客户)填写合同',
             icon: 'smile',
-            component: './docs/Contract/fill/Client',
+            component: './docs/Contract/write/Client',
           },
           {
-            path: '/docs/contract/marketing',
+            path: '/docs/contract/write/marketing',
             name: '(市场部)填写合同',
             icon: 'smile',
-            component: './docs/Contract/fill/Marketing',
+            component: './docs/Contract/write/Marketing',
           },
           {
             path: '/docs/contract/audit/client',
@@ -338,18 +357,7 @@ export default [
         ]
       },
 
-      {
-        name: '报价单',
-        path: '/docs/quotation/marketing',
-        icon: 'smile',
-        component: './docs/Quotation/Marketing',
-      },
-      {
-        name: '查看报价单',
-        path: '/docs/quotation/client',
-        icon: 'smile',
-        component: './docs/Quotation/Client',
-      },
+
       {
         name: '样品',
         path: '/docs/sample',

@@ -17,7 +17,7 @@ export default () => {
       render: (text: ReactNode, record: API.DelegationItem) => {
         const {id} = record;
         return [
-          <Link to={{pathname: '/docs/softDocReview/testing', state: {id: id}}}>
+          <Link to={{pathname: '/docs/delegation/audit/testing', state: {id: id}}}>
             <Button type="primary">审核委托</Button>
           </Link>
         ]
@@ -26,6 +26,6 @@ export default () => {
   ];
   return (
     <AuditDelegation
-      operationColumns={operationColumns} />
+      operationColumns={operationColumns}/>
   )
 }

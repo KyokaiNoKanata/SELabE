@@ -60,50 +60,53 @@ export default () => {
       sorter: false,
       render: (text: ReactNode, record: API.DelegationItem) => {
         const {contractId} = record;//合同id
-
-        return [record.state == '合同签署中' &&
-        <ModalForm
-          title="上传"
-          trigger={
-            <Button type="primary">上传合同</Button>
-          }
-          autoFocusFirstInput
-          modalProps={{
-            //onCancel: () => console.log('cancel'),
-          }}
-          onFinish={async () => {
-            const url = await handleUploadFile(file, 'contract' + contractId + file?.name);
-            const resp2 = await uploadContractFile({
-              contractId: contractId,
-              url: url,
-            });
-            if (resp2.code == 0) {
-              message.success('上传合同成功');
-            } else {
-              message.error(resp2.msg);
-            }
-            if (actionRef.current) {
-              actionRef.current.reload();
-            }
-            return true;
-          }}
-        >
-          <ProForm.Group>
-            <Upload
-              beforeUpload={(rFile) => {
-                return new Promise(async (resolve, reject) => {
-                  setFile(rFile)
-                  return reject(false);
+        if (record.state == '合同签署中') {
+          return [
+            <ModalForm
+              title="上传"
+              trigger={
+                <Button type="primary">上传合同</Button>
+              }
+              autoFocusFirstInput
+              modalProps={{
+                //onCancel: () => console.log('cancel'),
+              }}
+              onFinish={async () => {
+                const url = await handleUploadFile(file, 'contract' + contractId + file?.name);
+                const resp2 = await uploadContractFile({
+                  contractId: contractId,
+                  url: url,
                 });
+                if (resp2.code == 0) {
+                  message.success('上传合同成功');
+                } else {
+                  message.error(resp2.msg);
+                }
+                if (actionRef.current) {
+                  actionRef.current.reload();
+                }
+                return true;
               }}
             >
-              <Button type="primary" icon={<DownloadOutlined/>}>
-                上传
-              </Button>
-            </Upload>
-          </ProForm.Group>
-        </ModalForm>
-        ]
+              <ProForm.Group>
+                <Upload
+                  beforeUpload={(rFile) => {
+                    return new Promise(async (resolve, reject) => {
+                      setFile(rFile)
+                      return reject(false);
+                    });
+                  }}
+                >
+                  <Button type="primary" icon={<DownloadOutlined/>}>
+                    上传
+                  </Button>
+                </Upload>
+              </ProForm.Group>
+            </ModalForm>
+          ]
+        } else {
+          return [<a>合同已上传</a>]//加个下载按钮!
+        }
       },
     }
   ]
@@ -112,7 +115,7 @@ export default () => {
    * 1、状态限定
    * 2、可能要重写成合同列表，不然有些奇怪
    * 3、上传合同和查看合同感觉应该分开
-   *
+   * 4、合同详情（是否必要？就是委托详情?)
    */
   const queryParams = async (
     param: API.DelegationQueryParams,

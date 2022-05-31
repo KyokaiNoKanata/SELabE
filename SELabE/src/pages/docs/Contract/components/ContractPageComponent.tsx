@@ -12,12 +12,13 @@ import {
 } from "@/services/ant-design-pro/contract/api";
 import {useLocation} from "react-router-dom";
 import type API from "@/services/ant-design-pro/typings"
+import type {CardTabListType} from "antd/lib/card";
 
 const ContractPageComponent: React.FC<{
   isClient: boolean,
   audit: boolean,//是否是审核（是否有第三页）
 }> = (props) => {
-  const list = [
+  const list: CardTabListType[] = [
     {
       key: 'CDA',
       tab: '保密协议',
@@ -26,10 +27,10 @@ const ContractPageComponent: React.FC<{
       key: 'ContractForm',
       tab: '合同',
     },
-    props.audit &&
     {
       key: 'Audit',
       tab: '审核',
+      disabled: !props.audit
     }
   ];
   const [activeTabKey, setActiveTabKey] = useState('CDA');

@@ -15,10 +15,8 @@ const CDA: React.FC<{
 }> = (props) => {
   const params = useLocation();
   const delegationId = (params.state as any).id;
+  let contractId = (params.state as any).contractId;
   const request = async () => {
-    const contractId = (await getDelegationByIds({
-      ids: String(delegationId),
-    })).data[0].contractId;
     if (!contractId) {
       return {};
     }
@@ -35,13 +33,12 @@ const CDA: React.FC<{
     //console.log(data);
     return data;
   }
+  /**
+   * 保存CDA表单
+   * @param value 表单内容
+   */
   const onSave = async (value: any) => {
     console.log(value);
-    //console.log(value);
-    let contractId = (await getDelegationByIds({
-      ids: String(delegationId),
-    })).data[0].contractId;
-    //还没有创建合同，那就创建一下
     if (!contractId) {
       const resp1 = await createContract({
         delegationId: delegationId,
@@ -82,7 +79,6 @@ const CDA: React.FC<{
               submitText: '保存',
             },
             render: (submitterProps, doms) => {
-              console.log(props)
               if (!props.editable) {
                 return [...doms];
               }
