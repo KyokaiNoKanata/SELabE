@@ -6,7 +6,6 @@ import {PageContainer} from "@ant-design/pro-layout";
 import ProCard from "@ant-design/pro-card";
 import moment from 'moment';
 import {Link} from "@umijs/preset-dumi/lib/theme";
-import { history } from 'umi';
 
 const {Step} = Steps;
 
@@ -569,16 +568,6 @@ const DelegationDetail: React.FC = () => {
         </Link>
       )
     }
-  }
-
-  const onDocJump = () => {
-    history.push(
-      {
-        pathname: tran_pathName,
-        state: {
-          id: delegationId,
-        },
-      });
   }
 
   return (
