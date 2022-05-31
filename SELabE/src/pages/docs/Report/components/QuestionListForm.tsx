@@ -1,5 +1,5 @@
 import {PageContainer} from "@ant-design/pro-layout";
-import {Button, message, PageHeader} from "antd";
+import {message, PageHeader} from "antd";
 import ProForm from "@ant-design/pro-form";
 import React, {useState} from 'react';
 import ProCard from "@ant-design/pro-card";
@@ -7,7 +7,7 @@ import type {ProColumns} from "@ant-design/pro-table";
 import {EditableProTable} from "@ant-design/pro-table";
 import {useLocation} from "react-router-dom";
 import {getDelegationById} from "@/services/ant-design-pro/delegation/api";
-import {createReport, getReport, getTable11, saveTable11, submitReport} from "@/services/ant-design-pro/report/api";
+import {createReport, getReport, getTable11, saveTable11} from "@/services/ant-design-pro/report/api";
 
 type DataSourceType = {
   id: React.Key;
@@ -22,8 +22,6 @@ type DataSourceType = {
   suggest?: string;
   children?: DataSourceType[];
 };
-
-
 
 
 /**
@@ -90,8 +88,9 @@ const QuestionListForm: React.FC<{ editable: boolean }> = (props) => {
   const [reportId, setReportId] = useState<number | undefined>(undefined);
   const params = useLocation();
   const delegationId: number = (params.state as any).id;
+
   //const formRef = useRef<ProFormInstance>();
-  function  Display(){
+  function Display() {
     if (props.editable) {
       return '';
     } else {
@@ -139,20 +138,6 @@ const QuestionListForm: React.FC<{ editable: boolean }> = (props) => {
     }
     return true;
   };
-  //提交
-  const handleSubmit = async () => {
-    console.log("提交")
-    const resp = await submitReport({
-      reportId: reportId!
-    })
-    if (resp.code != 0) {
-      message.error(resp.msg);
-      return false;
-    }
-    message.success('提交成功');
-    return true;
-  }
-
 
   return (
     <PageContainer>
@@ -177,9 +162,7 @@ const QuestionListForm: React.FC<{ editable: boolean }> = (props) => {
             },
             render: (_, doms) => {
               return [
-                props.editable && (doms[0], doms[1]),
-                props.editable && <Button htmlType="button" onClick={handleSubmit} key='submit'>提交</Button>,
-
+                props.editable && (doms[0], doms[1])
               ]
             }
           }}

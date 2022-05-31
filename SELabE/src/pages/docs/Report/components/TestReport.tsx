@@ -5,7 +5,7 @@ import {PageContainer} from "@ant-design/pro-layout";
 import ProCard from "@ant-design/pro-card";
 import React, {useState} from "react";
 import {getDelegationById} from "@/services/ant-design-pro/delegation/api";
-import {createReport, getReport, getTable7, saveTable7} from "@/services/ant-design-pro/report/api";
+import {createReport, getReport, getTable7, saveTable7, submitReport} from "@/services/ant-design-pro/report/api";
 import type {ProColumns} from "@ant-design/pro-table";
 import {EditableProTable} from "@ant-design/pro-table";
 import {StepsForm} from "@ant-design/pro-form/es/layouts/StepsForm";
@@ -192,9 +192,9 @@ const TestReport: React.FC<{ editable: boolean }> = (prop) => {
   const [reportId, setReportId] = useState<number | undefined>(undefined);
   const [testBasisKeys, setTestBasisRowKeys] = useState<React.Key[]>(() => []);
   const [referKeys, setReferRowKeys] = useState<React.Key[]>(() => []);
-  const [functionTestKeys, setFuntionTestRowKeys] = useState<React.Key[]>(()=> []);
+  const [functionTestKeys, setFuntionTestRowKeys] = useState<React.Key[]>(() => []);
   const [OtherTestKeys, setOtherTestRowKeys] = useState<React.Key[]>(() => []);
-  const [softwareEnvironKeys, setSoftwareEnvironRowKeys] = useState<React.Key[]>(()=>
+  const [softwareEnvironKeys, setSoftwareEnvironRowKeys] = useState<React.Key[]>(() =>
     softwareEnvironData.map((item) => item.id)
   );
   const params = useLocation();
@@ -235,7 +235,18 @@ const TestReport: React.FC<{ editable: boolean }> = (prop) => {
     }
     return true;
   };
-
+  const handleSubmit = async () => {
+    console.log("提交")
+    const resp = await submitReport({
+      reportId: reportId!
+    })
+    if (resp.code != 0) {
+      message.error(resp.msg);
+      return false;
+    }
+    message.success('提交成功');
+    return true;
+  }
   const frontPage = () => {
     return (
       <ProCard>
@@ -243,7 +254,8 @@ const TestReport: React.FC<{ editable: boolean }> = (prop) => {
         <ProFormText name="版本号_1" label="版本号" width="md" required={true} disabled={!prop.editable}/>
         <ProFormText name="委托单位_1" label="委托单位" width="md" required={true} disabled={!prop.editable}/>
         <ProFormText name="测试类别_1" label="测试类别" width="md" required={true} disabled={!prop.editable}/>
-        <ProFormDatePicker name="报告日期_1" label="报告日期" width="md" required={true} disabled={!prop.editable}></ProFormDatePicker>
+        <ProFormDatePicker name="报告日期_1" label="报告日期" width="md" required={true}
+                           disabled={!prop.editable}/>
       </ProCard>
     )
   }
@@ -295,7 +307,8 @@ const TestReport: React.FC<{ editable: boolean }> = (prop) => {
         <ProFormText name="样品名称" label="样品名称" width="md" required={true} disabled={!prop.editable}/>
         <ProFormText name="版本/型号" label="版本/型号" width="md" required={true} disabled={!prop.editable}/>
         <ProFormDatePicker name="来样日期" label="来样日期" width="md" required={true} disabled={!prop.editable}/>
-        <ProFormDateRangePicker name="测试时间" label="测试时间" required={true} disabled={!prop.editable}></ProFormDateRangePicker>
+        <ProFormDateRangePicker name="测试时间" label="测试时间" required={true}
+                                disabled={!prop.editable}/>
         <ProFormTextArea name="样品状态" label="样品状态" required={true} disabled={!prop.editable}/>
         <ProFormTextArea name="测试依据" label="测试依据" required={true} disabled={!prop.editable}/>
         <ProFormTextArea name="测试结论" label="测试结论" required={true} disabled={!prop.editable}/>
@@ -358,19 +371,19 @@ const TestReport: React.FC<{ editable: boolean }> = (prop) => {
             <div>本次测试中使用到的软件环境如下:</div>
             <br/>
             <ProForm.Item
-              label = ""
-              name = "软件环境"
+              label=""
+              name="软件环境"
               initialValue={softwareEnvironData}
-              trigger = "onValuesChange"
+              trigger="onValuesChange"
             >
               <EditableProTable<softwareEnviron>
-                rowKey = "id"
+                rowKey="id"
                 toolBarRender={false}
                 columns={softwareEnvironColumns}
                 recordCreatorProps={false}
                 editable={{
                   type: 'multiple',
-                  editableKeys:softwareEnvironKeys,
+                  editableKeys: softwareEnvironKeys,
                   onChange: setSoftwareEnvironRowKeys,
                 }}
               />
@@ -389,7 +402,7 @@ const TestReport: React.FC<{ editable: boolean }> = (prop) => {
   const referenceTable = () => {
     return (
       <EditableProTable<Reference>
-        rowKey = "rid"
+        rowKey="rid"
         toolBarRender={false}
         columns={referenceColumns}
         recordCreatorProps={{
@@ -400,7 +413,7 @@ const TestReport: React.FC<{ editable: boolean }> = (prop) => {
           }),
           hidden: !prop.editable,
         }}
-        editable = {{
+        editable={{
           type: 'multiple',
           editableKeys: referKeys,
           onChange: setReferRowKeys,
@@ -414,9 +427,9 @@ const TestReport: React.FC<{ editable: boolean }> = (prop) => {
   const functionalTesting = () => {
     return (
       <EditableProTable<FunctionalType>
-        rowKey = "id"
+        rowKey="id"
         toolBarRender={false}
-        columns = {functionalTestColumns}
+        columns={functionalTestColumns}
         recordCreatorProps={{
           newRecordType: 'dataSource',
           position: 'bottom',
@@ -425,7 +438,7 @@ const TestReport: React.FC<{ editable: boolean }> = (prop) => {
           }),
           hidden: !prop.editable,
         }}
-        editable = {{
+        editable={{
           type: 'multiple',
           editableKeys: functionTestKeys,
           onChange: setFuntionTestRowKeys,
@@ -440,9 +453,9 @@ const TestReport: React.FC<{ editable: boolean }> = (prop) => {
   const otherTesting = () => {
     return (
       <EditableProTable<OtherTestingType>
-        rowKey = "id"
-        toolBarRender = {false}
-        columns = {otherTestColumns}
+        rowKey="id"
+        toolBarRender={false}
+        columns={otherTestColumns}
         recordCreatorProps={{
           newRecordType: 'dataSource',
           position: 'bottom',
@@ -451,7 +464,7 @@ const TestReport: React.FC<{ editable: boolean }> = (prop) => {
           }),
           hidden: !prop.editable,
         }}
-        editable = {{
+        editable={{
           type: 'multiple',
           editableKeys: OtherTestKeys,
           onChange: setOtherTestRowKeys,
@@ -497,9 +510,11 @@ const TestReport: React.FC<{ editable: boolean }> = (prop) => {
                 <Button key="gotoTwo" onClick={() => props.onPre?.()}>
                   {'<'} 上一步
                 </Button>,
+                prop.editable &&
                 <Button type="primary" key="goToTree" onClick={() => props.onSubmit?.()} disabled={!prop.editable}>
                   保存
                 </Button>,
+                prop.editable && <Button htmlType="button" onClick={handleSubmit} key='submit'>提交</Button>,
               ];
             },
           }}
@@ -610,9 +625,9 @@ const TestReport: React.FC<{ editable: boolean }> = (prop) => {
               />
             </ProForm.Item>
             <ProForm.Item
-              label = "参考资料列表"
-              name = "参考资料"
-              trigger = "onValuesChange"
+              label="参考资料列表"
+              name="参考资料"
+              trigger="onValuesChange"
             >
               {referenceTable()}
             </ProForm.Item>
@@ -633,44 +648,44 @@ const TestReport: React.FC<{ editable: boolean }> = (prop) => {
             request={request}
           >
             <ProForm.Item
-              label = "功能性测试"
-              name = "功能性测试"
-              trigger = "onValuesChange"
+              label="功能性测试"
+              name="功能性测试"
+              trigger="onValuesChange"
             >
               {functionalTesting()}
             </ProForm.Item>
             <ProForm.Item
-              label = "效率测试"
-              name = "效率测试"
-              trigger = "onValuesChange"
+              label="效率测试"
+              name="效率测试"
+              trigger="onValuesChange"
             >
               {otherTesting()}
             </ProForm.Item>
             <ProForm.Item
-              label = "可移植性测试"
-              name = "可移植性测试"
-              trigger = "onValuesChange"
+              label="可移植性测试"
+              name="可移植性测试"
+              trigger="onValuesChange"
             >
               {otherTesting()}
             </ProForm.Item>
             <ProForm.Item
-              label = "易用性测试"
-              name = "易用性测试"
-              trigger = "onValuesChange"
+              label="易用性测试"
+              name="易用性测试"
+              trigger="onValuesChange"
             >
               {otherTesting()}
             </ProForm.Item>
             <ProForm.Item
-              label = "可靠性测试"
-              name = "可靠性测试"
-              trigger = "onValuesChange"
+              label="可靠性测试"
+              name="可靠性测试"
+              trigger="onValuesChange"
             >
               {otherTesting()}
             </ProForm.Item>
             <ProForm.Item
-              label = "可维护性测试"
-              name = "可维护性测试"
-              trigger = "onValuesChange"
+              label="可维护性测试"
+              name="可维护性测试"
+              trigger="onValuesChange"
             >
               {otherTesting()}
             </ProForm.Item>
@@ -692,8 +707,8 @@ const TestReport: React.FC<{ editable: boolean }> = (prop) => {
           >
             <ProCard>
               <ProFormTextArea
-                label = "测试执行记录"
-                name = "测试执行记录"
+                label="测试执行记录"
+                name="测试执行记录"
                 required={true}
                 disabled={!prop.editable}
               />

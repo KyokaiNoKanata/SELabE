@@ -36,7 +36,7 @@ export default () => {
     roles: string[],
     userId: number) => {
     //市场部审核
-    if (roles.includes(constant.roles.TEST_DEPARTMENT_STAFF.en)) {
+    if (roles.includes(constant.roles.MARKET_DEPARTMENT_STAFF.en)) {
       param.marketDeptStaffId = userId;
       param.state = '180';// 180, "市场部审核客户填写的草稿中"
     } else {

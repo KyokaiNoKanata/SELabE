@@ -17,14 +17,19 @@ export default () => {
       sorter: false,
       render: (text: ReactNode, record: API.DelegationItem) => {
         const {id} = record;
-        return [
-          (record.state == '委托填写中' || record.state?.includes('委托修改中')) &&
-          <Link to={{pathname: constant.docPath.delegation.APPLY, state: {id: id}}}>
-            <Button type="primary">填写</Button>
-          </Link>,
-          !(record.state == '委托填写中' || record.state?.includes('委托修改中')) &&
-          <text>委托已填写</text>
-        ]
+        if ((record.state == constant.delegationState.DELEGATE_WRITING.desc
+          || record.state == constant.delegationState.MARKETING_DEPARTMENT_AUDIT_DELEGATION_FAIL.desc
+          || record.state == constant.delegationState.TESTING_DEPARTMENT_AUDIT_DELEGATION_FAIL.desc)) {
+          return [
+            <Link to={{pathname: constant.docPath.delegation.APPLY, state: {id: id}}}>
+              <Button type="primary">填写</Button>
+            </Link>
+          ]
+        } else {
+          return [
+            <text>委托已填写</text>
+          ]
+        }
       }
     },
   ];
