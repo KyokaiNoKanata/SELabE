@@ -7,6 +7,7 @@ import type {ProColumns} from "@ant-design/pro-table";
 import {Button} from "antd";
 import DelegationList from "@/pages/Delegation/components/DelegationList";
 import {Link} from "umi";
+import constant from "../../../../config/constant";
 
 /**
  * 审核测试方案
@@ -25,7 +26,7 @@ export default () => {
         //统一
         const {id} = record;
         return [
-          <Link to={{pathname: '/docs/solution/audit-solution', state: {id: id}}}>
+          <Link to={{pathname: constant.docPath.solution.AUDIT, state: {id: id}}}>
             <Button type="primary">审核测试方案</Button>
           </Link>,
         ];
@@ -36,7 +37,7 @@ export default () => {
   const queryParams = async (
     param: API.DelegationQueryParams,
     roles: string[]) => {
-    if (roles.includes('quality_department_staff')) {
+    if (roles.includes(constant.roles.QUALITY_DEPARTMENT_STAFF.en)) {
       param.state = '310'//质量部审核方案
     } else {
       param.state = '-1';

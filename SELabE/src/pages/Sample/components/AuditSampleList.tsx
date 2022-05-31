@@ -5,6 +5,7 @@ import type {ProColumns} from "@ant-design/pro-table";
 import {Button} from "antd";
 import DelegationList from "@/pages/Delegation/components/DelegationList";
 import {Link} from "umi";
+import constant from "../../../../config/constant";
 //用户提交样品
 const AuditSampleList: React.FC<{
   queryParams: (
@@ -26,8 +27,8 @@ const AuditSampleList: React.FC<{
       render: (text: ReactNode, record: API.DelegationItem) => {
         //求一下样品url
         const {sampleId} = record;
-        return [record.state == '测试部/市场部验收样品中' &&
-        <Link to={{pathname: '/docs/sample/detail', state: {sampleId: sampleId}}}>
+        return [record.state == constant.delegationState.CHECKING_SAMPLE.desc &&
+        <Link to={{pathname: constant.docPath.sample.AUDIT, state: {sampleId: sampleId}}}>
           <Button type="primary">
             审核样品</Button>
         </Link>

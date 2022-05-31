@@ -6,7 +6,7 @@ import {PageContainer} from '@ant-design/pro-layout';
 import type {ActionType, ProColumns} from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
 import {solutionPage} from '@/services/ant-design-pro/solution/api';
-import type {API} from '@/services/ant-design-pro/typings';
+import type API from '@/services/ant-design-pro/typings';
 
 /** 获取测试方案(分页) */
 const handleGetSolution = async (params: {

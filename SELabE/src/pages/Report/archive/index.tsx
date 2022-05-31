@@ -4,12 +4,12 @@
 import type {ReactNode} from "react";
 import {useRef} from "react";
 import type API from "@/services/ant-design-pro/typings";
-import type {ProColumns} from "@ant-design/pro-table";
-import type {ActionType} from "@ant-design/pro-table";
+import type {ActionType, ProColumns} from "@ant-design/pro-table";
 import {Button, message, Modal} from "antd";
 import DelegationList from "@/pages/Delegation/components/DelegationList";
 import {FormattedMessage} from "@@/plugin-locale/localeExports";
 import {archiveReport} from "@/services/ant-design-pro/report/api";
+import constant from "../../../../config/constant";
 
 const {confirm} = Modal;
 export default () => {
@@ -65,7 +65,7 @@ export default () => {
     roles: string[],
     userId: number) => {
     //测试部员工归档
-    if (roles.includes('test_department_staff')) {
+    if (roles.includes(constant.roles.TEST_DEPARTMENT_STAFF.en)) {
       param.testingDeptStaffId = userId;
       param.state = '430'//测试部归档
     } else {

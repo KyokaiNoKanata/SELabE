@@ -5,6 +5,7 @@ import DelegationList from "@/pages/Delegation/components/DelegationList";
 import type {ActionType, ProColumns} from "@ant-design/pro-table";
 import {Link} from "umi";
 import {Button} from "antd";
+import constant from "../../../../../config/constant";
 //查看委托列表
 //只显示自己可以查看的委托
 //操作栏只有查看详情
@@ -28,7 +29,7 @@ const CheckDelegation: React.FC<{
       render: (text: ReactNode, record: API.DelegationItem) => {
         const {id} = record;
         return [
-          <Link to={{pathname: '/delegation/detail', state: {id: id}}}>
+          <Link to={{pathname: constant.docPath.delegation.DETAIL, state: {id: id}}}>
             <Button type="primary">查看详情</Button>
           </Link>
         ]
@@ -40,23 +41,23 @@ const CheckDelegation: React.FC<{
     roles: string[],
     userId: number) => {
     //这些人能看到全部
-    if (roles.includes('super_admin')
-      || roles.includes('marketing_department_manger')
-      || roles.includes('test_department_manager')
-      || roles.includes('signatory')
-      || roles.includes('quality_department_staff')
+    if (roles.includes(constant.roles.SUPER_ADMIN.en)
+      || roles.includes(constant.roles.MARKET_DEPARTMENT_MANAGER.en)
+      || roles.includes(constant.roles.TEST_DEPARTMENT_MANAGER.en)
+      || roles.includes(constant.roles.SIGNATORY.en)
+      || roles.includes(constant.roles.QUALITY_DEPARTMENT_STAFF.en)
     ) {
     }
     //市场部员工
-    else if (roles.includes('marketing_department_staff')) {
+    else if (roles.includes(constant.roles.MARKET_DEPARTMENT_STAFF.en)) {
       param.marketDeptStaffId = userId;
     }
     //测试部员工
-    else if (roles.includes('test_department_staff')) {
+    else if (roles.includes(constant.roles.TEST_DEPARTMENT_STAFF.en)) {
       param.testingDeptStaffId = userId;
     }
     //客户
-    else if (roles.includes('client')) {
+    else if (roles.includes(constant.roles.CUSTOMER.en)) {
       param.creatorId = userId;
     } else {
       param.state = '-1';

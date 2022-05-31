@@ -8,6 +8,7 @@ import {Link} from "umi";
 import {Button} from "antd";
 import DelegationList from "@/pages/Delegation/components/DelegationList";
 import type {ActionType, ProColumns} from "@ant-design/pro-table";
+import constant from "../../../../../config/constant";
 
 export default () => {
   const actionRef: React.MutableRefObject<ActionType | undefined> = useRef<ActionType>();
@@ -20,7 +21,7 @@ export default () => {
       sorter: false,
       render: (text: ReactNode, record: API.DelegationItem) => {
         const {id} = record;
-        return [<Link to={{pathname: '/docs/delegation/offer/client', state: {id: id}}}>
+        return [<Link to={{pathname: constant.docPath.delegation.offer.HANDLE, state: {id: id}}}>
           <Button type="primary">处理报价</Button>
         </Link>
         ]
@@ -32,7 +33,7 @@ export default () => {
     roles: string[],
     userId: number) => {
     //客户
-    if (roles.includes('client')) {
+    if (roles.includes(constant.roles.CUSTOMER.en)) {
       param.creatorId = userId;
       param.state = '120';
     } else {

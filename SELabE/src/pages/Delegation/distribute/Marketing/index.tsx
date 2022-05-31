@@ -7,6 +7,7 @@ import {handleGetUserByRole} from "@/pages/Delegation/distribute/api";
 import DelegationList from "@/pages/Delegation/components/DelegationList";
 import type {ActionType, ProColumns} from "@ant-design/pro-table";
 import DistributeForm from "@/pages/Delegation/components/DistributeForm";
+import constant from "../../../../../config/constant";
 
 /**
  * 市场部主管分配委托
@@ -40,7 +41,7 @@ export default () => {
             key={'distributeMarket'}
             request={async () => {
               return await handleGetUserByRole({
-                roleCode: 'marketing_department_staff',
+                roleCode: constant.roles.MARKET_DEPARTMENT_STAFF.en,
               })
             }}
             onSubmit={async (values) => {
@@ -60,7 +61,7 @@ export default () => {
     param: API.DelegationQueryParams,
     roles: string[]) => {
     //市场部主管
-    if (roles.includes('marketing_department_manger')) {
+    if (roles.includes(constant.roles.MARKET_DEPARTMENT_MANAGER.en)) {
       param.state = '20';
     } else {
       param.state = '-1';

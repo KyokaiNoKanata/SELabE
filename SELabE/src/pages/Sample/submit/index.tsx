@@ -9,6 +9,7 @@ import {uploadFile} from "@/services/ant-design-pro/file/api";
 import {DownloadOutlined} from "@ant-design/icons";
 import {createSample, getSampleById, submitSample, updateSample} from "@/services/ant-design-pro/sample/api";
 import type {RcFile} from "antd/es/upload";
+import constant from "../../../../config/constant";
 //用户提交样品
 const Samples: React.FC
   = () => {
@@ -88,7 +89,8 @@ const Samples: React.FC
       render: (text: ReactNode, record: API.DelegationItem) => {
         const {contractId} = record; //合同id
         let {sampleId} = record;   //样品id，可能没有
-        return [(record.state == '用户上传样品中' || record.state == '样品验收不通过，用户重新修改') &&
+        return [(record.state == constant.delegationState.CLIENT_UPLOAD_SAMPLE_INFO.desc
+          || record.state == constant.delegationState.SAMPLE_CHECK_FAIL_MODIFY_SAMPLE.desc) &&
         <ModalForm
           title="上传"
           trigger={
@@ -153,7 +155,7 @@ const Samples: React.FC
     param: API.DelegationQueryParams,
     roles: string[],
     userId: number) => {
-    if (roles.includes('client')) {
+    if (roles.includes(constant.roles.CUSTOMER.en)) {
       param.creatorId = userId;
       param.state = '250,280'//用户上传样品
     } else {

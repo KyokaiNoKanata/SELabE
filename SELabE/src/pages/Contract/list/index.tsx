@@ -10,6 +10,7 @@ import {DownloadOutlined} from "@ant-design/icons";
 import {uploadFile} from "@/services/ant-design-pro/file/api";
 import {uploadContractFile} from "@/services/ant-design-pro/contract/api";
 import type {RcFile} from "antd/es/upload";
+import constant from "../../../../config/constant";
 
 /**
  * 查看详情 最后一列查看合同
@@ -121,11 +122,11 @@ export default () => {
     param: API.DelegationQueryParams,
     roles: string[],
     userId: number) => {
-    if (roles.includes('super_admin')) {
+    if (roles.includes(constant.roles.SUPER_ADMIN.en)) {
 
-    } else if (roles.includes('client')) {
+    } else if (roles.includes(constant.roles.CUSTOMER.en)) {
       param.creatorId = userId;
-    } else if (roles.includes('marketing_department_staff')) {
+    } else if (roles.includes(constant.roles.MARKET_DEPARTMENT_STAFF.en)) {
       param.marketDeptStaffId = userId;
     } else {
       param.state = '-1';

@@ -9,6 +9,7 @@ import {Button, message, Modal} from "antd";
 import DelegationList from "@/pages/Delegation/components/DelegationList";
 import {FormattedMessage} from "@@/plugin-locale/localeExports";
 import {sendReport} from "@/services/ant-design-pro/report/api";
+import constant from "../../../../config/constant";
 
 const {confirm} = Modal;
 export default () => {
@@ -66,8 +67,7 @@ export default () => {
     roles: string[],
     userId: number) => {
     //市场部 发送报告
-    if (roles.includes('super_admin')
-      || roles.includes('marketing_department_staff')) {
+    if (roles.includes(constant.roles.MARKET_DEPARTMENT_STAFF.en)) {
       param.marketDeptStaffId = userId;
       param.state = '440'//市场部发送报告
     } else {

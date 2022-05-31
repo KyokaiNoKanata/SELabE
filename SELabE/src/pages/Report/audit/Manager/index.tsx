@@ -7,6 +7,7 @@ import {Button} from "antd";
 import DelegationList from "@/pages/Delegation/components/DelegationList";
 import {Link} from "umi";
 import type API from "@/services/ant-design-pro/typings";
+import constant from "../../../../../config/constant";
 
 export default () => {
   /**
@@ -23,7 +24,7 @@ export default () => {
       render: (text: ReactNode, record: API.DelegationItem) => {
         const {id} = record;
         return [
-          <Link to={{pathname: '/docs/report/audit/manager', state: {id: id}}}>
+          <Link to={{pathname: constant.docPath.report.audit.MANAGER, state: {id: id}}}>
             <Button type="primary">审核测试报告</Button>
           </Link>,
         ];
@@ -33,8 +34,8 @@ export default () => {
   const queryParams = async (
     param: API.DelegationQueryParams,
     roles: string[]) => {
-    //市场部 发送报告
-    if (roles.includes('test_department_manager')) {
+    //测试部主管审核
+    if (roles.includes(constant.roles.TEST_DEPARTMENT_MANAGER.en)) {
       param.state = '360'//测试部主管审核
     } else {
       param.state = '-1';
