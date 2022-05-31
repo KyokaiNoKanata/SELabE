@@ -51,6 +51,7 @@ const softwareEnvironColumns: ProColumns<softwareEnviron>[] = [
   {
     title: '软件类别',
     dataIndex: 'type',
+    editable: false,
   }
   ,
   {
@@ -63,6 +64,43 @@ const softwareEnvironColumns: ProColumns<softwareEnviron>[] = [
     dataIndex: 'version',
   }
   ,
+]
+
+const softwareEnvironData: softwareEnviron[] = [
+  {
+    id: "1",
+    type: "操作系统",
+    name: '',
+    version: '',
+  }
+  ,
+  {
+    id: "2",
+    type: "软件",
+    name: '',
+    version: '',
+  }
+  ,
+  {
+    id: "3",
+    type: "辅助工具",
+    name: '',
+    version: '',
+  }
+  ,
+  {
+    id: "4",
+    type: "开发工具",
+    name: '',
+    version: '',
+  }
+  ,
+  {
+    id: "5",
+    type: "被测试样品",
+    name: '',
+    version: '',
+  }
 ];
 
 const testBasisColumns: ProColumns<DataSourceType>[] = [
@@ -147,7 +185,9 @@ const TestReport: React.FC<{ editable: boolean }> = () => {
   const [referKeys, setReferRowKeys] = useState<React.Key[]>(() => []);
   const [functionTestKeys, setFuntionTestRowKeys] = useState<React.Key[]>(()=> []);
   const [OtherTestKeys, setOtherTestRowKeys] = useState<React.Key[]>(() => []);
-  const [softwareEnvironKeys, setSoftwareEnvironRowKeys] = useState<React.Key[]>(()=> []);
+  const [softwareEnvironKeys, setSoftwareEnvironRowKeys] = useState<React.Key[]>(()=>
+    softwareEnvironData.map((item) => item.id)
+  );
   const params = useLocation();
   const delegationId: number = (params.state as any).id;
   const request = async () => {
@@ -308,7 +348,12 @@ const TestReport: React.FC<{ editable: boolean }> = () => {
           <ProCard title="软件环境" bordered>
             <div>本次测试中使用到的软件环境如下:</div>
             <br/>
-            <ProForm.Item>
+            <ProForm.Item
+              label = ""
+              name = "软件环境"
+              initialValue={softwareEnvironData}
+              trigger = "onValuesChange"
+            >
               <EditableProTable<softwareEnviron>
                 rowKey = "id"
                 toolBarRender={false}
