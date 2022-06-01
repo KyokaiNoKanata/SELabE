@@ -8,7 +8,7 @@ import type {ActionType, ProColumns} from "@ant-design/pro-table";
 import {Button, message, Modal} from "antd";
 import DelegationList from "@/pages/Delegation/components/DelegationList";
 import {FormattedMessage} from "@@/plugin-locale/localeExports";
-import {receiveReport, sendReport} from "@/services/ant-design-pro/report/api";
+import {receiveReport} from "@/services/ant-design-pro/report/api";
 import constant from "../../../../config/constant";
 
 const {confirm} = Modal;

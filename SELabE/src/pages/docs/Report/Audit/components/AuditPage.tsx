@@ -1,4 +1,4 @@
-import {Button, message} from "antd";
+import {message} from "antd";
 import {acceptReport, rejectReport} from "@/services/ant-design-pro/report/api";
 import {useLocation} from "react-router-dom";
 import {getDelegationById} from "@/services/ant-design-pro/delegation/api";

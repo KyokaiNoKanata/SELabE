@@ -205,12 +205,14 @@ export default [
     name: '测试方案',
     icon: 'crown',
     routes: [
+      /*
       {
         path: '/solution/checkAll',
         name: '查看测试方案',
         icon: 'smile',
         component: './Solution',
       },
+      */
       {
         path: '/solution/write',
         name: '编写测试方案',
