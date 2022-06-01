@@ -97,7 +97,7 @@ const ContractPageComponent: React.FC<{
             render: (_, dom) =>
               <div style={
                 {
-                  textAlign: "center",
+                  //textAlign: "center",
                   margin: 20,
                 }
               }>
