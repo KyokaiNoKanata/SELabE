@@ -123,13 +123,6 @@ export default [
         icon: 'smile',
         component: './Delegation/offer/Client',
       },
-      //详情页
-      {
-        path: './detail',
-        name: '委托详情',
-        icon: 'smile',
-        component: './Delegation/DelegationDetail'
-      }
     ],
   },
   {
@@ -297,6 +290,13 @@ export default [
             name: '填写委托',
             icon: 'table',
             component: './docs/Delegation/Apply',
+          },
+          //委托详情页
+          {
+            path: './detail',
+            name: '委托详情',
+            icon: 'smile',
+            component: './docs/Delegation/DelegationDetail'
           },
           {
             path: constant.docPath.delegation.AUDIT,

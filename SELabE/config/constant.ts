@@ -82,7 +82,7 @@ const constant = {
     delegation: {
       ROOT: "/docs/delegation",
       APPLY: "/docs/delegation/apply",
-      DETAIL: "/delegation/detail",//todo->DOCS
+      DETAIL: "/docs/delegation/detail",
       AUDIT: "/docs/delegation/audit",
       audit: {
         MARKETING: "/docs/delegation/audit/marketing",
@@ -149,20 +149,20 @@ const constant = {
      */
     customer: {
       delegation: {
-        list: "delegation/list/client",
-        offer: "delegation/offer/client",
+        list: "/delegation/list/client",   //查看委托
+        offer: "/delegation/offer/client", //审核报价
       },
       contract: {
-        list: "contract/list",
-        create: "contract/create/client",
-        audit: "contract/audit/client",
+        list: "/contract/list",            //查看合同
+        create: "/contract/create/client", //填写合同
+        audit: "/contract/audit/client",   //审核合同
       },
       sample: {
-        submit: "sample/submit",
+        submit: "/sample/submit",          //提交样品
       },
       report: {
-        audit: "report/audit/client",
-        receive: "report/receive",
+        audit: "/report/audit/client",     //审核报告
+        receive: "/report/receive",        //接收报告
       },
     },
     /**
@@ -170,8 +170,8 @@ const constant = {
      */
     marketing_department_manger: {
       delegation: {
-        list: "delegation/list/common",
-        distribute: "delegation/distribute/marketing",
+        list: "/delegation/list/common",  //查看委托
+        distribute: "/delegation/distribute/marketing", //市场部分配委托
       },
     },
     /**
@@ -179,20 +179,20 @@ const constant = {
      */
     marketingStaff: {
       delegation: {
-        list: "delegation/list/common",
-        audit: "delegation/audit/marketing",
-        offer: "delegation/offer/market",
+        list: "/delegation/list/common",      //查看委托
+        audit: "/delegation/audit/marketing", //市场部审核委托
+        offer: "/delegation/offer/market",    //生成报价
       },
       contract: {
-        list: "contract/list",
-        create: "contract/create/staff",
-        audit: "contract/audit/staff",
+        list: "/contract/list",               //查看合同
+        create: "/contract/create/staff",     //填写合同草稿
+        audit: "/contract/audit/staff",       //审核合同
       },
       sample: {
-        audit: "sample/audit/marketing",
+        audit: "/sample/audit/marketing",     //审核样品
       },
       report: {
-        send: "report/send",
+        send: "/report/send",                 //发送报告
       },
     },
     /**
@@ -200,11 +200,11 @@ const constant = {
      */
     test_department_manager: {
       delegation: {
-        list: "delegation/list/common",
-        distribute: "delegation/distribute/testing",
+        list: "/delegation/list/common",              //查看委托
+        distribute: "/delegation/distribute/testing", //测试部分配委托
       },
       report: {
-        audit: "/report/audit/manager",
+        audit: "/report/audit/manager",               //测试部主管检查报告
       }
     },
     /**
@@ -212,18 +212,18 @@ const constant = {
      */
     testingStaff: {
       delegation: {
-        list: "delegation/list/common",
-        audit: "delegation/audit/testing",
+        list: "/delegation/list/common",            //查看委托
+        audit: "/delegation/audit/testing",         //测试部审核委托
       },
       sample: {
-        audit: "sample/audit/testing",
+        audit: "/sample/audit/testing",             //审核样品
       },
       solution: {
-        write: "sample/write",
+        write: "/sample/write",                     //填写测试方案
       },
       report: {
-        write: "report/write",
-        archive: "report/archive",
+        write: "/report/write",                     //填写测试文档
+        archive: "/report/archive",                 //归档测试报告
       },
     },
     /**
@@ -231,10 +231,10 @@ const constant = {
      */
     quality_department_staff: {
       delegation: {
-        list: "delegation/list/common",
+        list: "/delegation/list/common",          //查看委托
       },
       solution: {
-        audit: "/solution/audit",
+        audit: "/solution/audit",                 //审核测试方案
       }
     },
     /**
@@ -242,10 +242,10 @@ const constant = {
      */
     signatory: {
       delegation: {
-        list: "delegation/list/common",
+        list: "/delegation/list/common",          //查看委托
       },
       report: {
-        audit: "/report/audit/signatory",
+        audit: "/report/audit/signatory",         //审核测试报告
       }
     },
   }
