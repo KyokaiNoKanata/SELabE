@@ -205,3 +205,18 @@ export function sendReport(body: {
     }
   )
 }
+
+/**
+ * 客户 确认接收测试报告
+ */
+export function receiveReport(body: {
+  reportId: number,
+}) {
+  return request<API.Response>('/admin-api/system/report/receive', {
+      method: 'PUT',
+      data: {
+        id: body.reportId,
+      },
+    }
+  )
+}

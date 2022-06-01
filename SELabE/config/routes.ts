@@ -231,10 +231,10 @@ export default [
     icon: 'crown',
     routes: [
       {
-        path: '/report/fill-in-docs',
+        path: '/report/write',
         name: '填写测试文档',
         icon: 'smile',
-        component: './Report/fill',
+        component: './Report/Write',
       },
       {
         path: '/report/audit/manager',
@@ -259,14 +259,21 @@ export default [
         path: '/report/archive',
         name: '(测试部员工)归档测试报告',
         icon: 'smile',
-        component: './Report/archive',
+        component: './Report/Archive',
       },
       //市场部员工 发送报告
       {
         path: '/report/send',
         name: '(市场部员工)发送测试报告',
         icon: 'smile',
-        component: './Report/send',
+        component: './Report/Send',
+      },
+      //客户 接收报告
+      {
+        path: '/report/receive',
+        name: '接收测试报告',
+        icon: 'smile',
+        component: './Report/Receive',
       },
     ]
   },
@@ -398,7 +405,7 @@ export default [
             path: constant.docPath.report.WRITE,
             name: '填写测试文档',
             icon: 'table',
-            component: './docs/Report/FillInReport',
+            component: './docs/Report/Write',
           },
           {
             path: constant.docPath.report.ROOT,
