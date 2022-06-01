@@ -76,7 +76,7 @@ const TestCaseForm8: React.FC<{ editable: boolean }> = (props) => {
   ];
   const [reportId, setReportId] = useState<number | undefined>(undefined);
   const params = useLocation();
-  const delegationId: number = (params.state as any).id;
+  const delegationId: number = !params.state ? -1 : (params.state as any).id;
 
   //const formRef = useRef<ProFormInstance>();
   function Display() {

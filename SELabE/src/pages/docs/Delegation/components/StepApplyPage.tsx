@@ -18,7 +18,7 @@ import React from "react";
 const Date: any = ProFormDatePicker;
 const StepApplyPage: React.FC<{ editable: boolean, isClient: boolean }> = (prop) => {
   const params = useLocation();
-  const delegationId = (params.state as any).id
+  const delegationId = !params.state ? -1 : (params.state as any).id
   const request = async () => {
     const table2Id = (await getDelegationByIds({
       ids: String(delegationId),

@@ -36,8 +36,8 @@ const ContractPageComponent: React.FC<{
   const [activeTabKey, setActiveTabKey] = useState('CDA');
   const formRef: React.MutableRefObject<ProFormInstance | undefined> = useRef<ProFormInstance>();
   const params = useLocation();
-  const contractId = (params.state as any).contractId;
-  //const id = (params.state as any).id;
+  const contractId = !params.state ? -1 : (params.state as any).contractId;
+  //const id = !params.state ? -1 : (params.state as any).id;
   const onSubmit = async () => {
     //审核的话，肯定有合同id了
     const pass = formRef.current?.getFieldFormatValue!(['pass']);

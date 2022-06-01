@@ -60,7 +60,7 @@ const DocumentReviewMarketing = () => {
     }
   }
   const params = useLocation();
-  const delegationId = (params.state as any).id
+  const delegationId = !params.state ? -1 : (params.state as any).id
   const formRef: React.MutableRefObject<ProFormInstance | undefined> = useRef<ProFormInstance>();
   const onSubmit = async () => {
     const pass = formRef.current?.getFieldFormatValue!(['pass']);

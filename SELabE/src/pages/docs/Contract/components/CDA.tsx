@@ -14,8 +14,8 @@ const CDA: React.FC<{
   editable: boolean
 }> = (props) => {
   const params = useLocation();
-  const delegationId = (params.state as any).id;
-  let contractId = (params.state as any).contractId;
+  const delegationId = !params.state ? -1 : (params.state as any).id;
+  let contractId = !params.state ? -1 : (params.state as any).contractId;
   const request = async () => {
     if (!contractId) {
       return {};

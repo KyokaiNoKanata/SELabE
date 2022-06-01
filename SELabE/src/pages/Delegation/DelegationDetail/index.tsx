@@ -23,7 +23,7 @@ const DelegationDetail: React.FC = () => {
   const [testingDeptStaffName, setTestingDeptStaffName] = useState<string>();
   const [offerRemark, setOfferRemark] = useState<string>();
   const params = useLocation();
-  const delegationId = (params.state as any).id;//ok
+  const delegationId = !params.state ? -1 : (params.state as any).id;//ok
   let tran_pathName = "";
   let currentStatus = "";
   //console.log(delegationId);

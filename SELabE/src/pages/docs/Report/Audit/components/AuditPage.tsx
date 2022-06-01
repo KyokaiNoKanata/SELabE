@@ -10,7 +10,7 @@ const AuditPage: React.FC<{
   person: string,
 }> = (props) => {
   const params = useLocation();
-  const delegationId: number = (params.state as any).id;
+  const delegationId: number = !params.state ? -1 : (params.state as any).id;
   const formRef: React.MutableRefObject<ProFormInstance | undefined> = useRef<ProFormInstance>();
   const onSubmit = async () => {
     const pass = formRef.current?.getFieldFormatValue!(['pass']);

@@ -342,7 +342,7 @@ const StepDocReview = () => {
     documentReviewData.map((item) => item.id)
   );
   const params = useLocation();
-  const delegationId = (params.state as any).id;
+  const delegationId = !params.state ? -1 : (params.state as any).id;
   const formRef: React.MutableRefObject<ProFormInstance | undefined> = useRef<ProFormInstance>();
   //get data from table14
   const request = async () => {

@@ -198,7 +198,7 @@ const TestReportForm7: React.FC<{ editable: boolean }> = (prop) => {
     softwareEnvironData.map((item) => item.id)
   );
   const params = useLocation();
-  const delegationId: number = (params.state as any).id;
+  const delegationId: number = !params.state ? -1 : (params.state as any).id;
   const request = async () => {
     //如果已经有了对应的reportId,填一下
     const rId = (await getDelegationById(delegationId)).data.reportId;
