@@ -17,7 +17,6 @@ import {getDelegationById} from "@/services/ant-design-pro/delegation/api";
 //测试方案表单 table6
 const SolutionForm6: React.FC<{
   editable: boolean,//是否可编辑
-  audit?: boolean,
 }> = (props) => {
   //const [solutionId, setSolutionId] = useState<number | undefined>(undefined);
   const params = useLocation();
@@ -120,8 +119,8 @@ const SolutionForm6: React.FC<{
                 </div>
               ]);
             }
-            //评审
-            else if (props.audit) {
+            //只读
+            else {
               return ([
                 <div style={
                   {
@@ -136,8 +135,6 @@ const SolutionForm6: React.FC<{
                   </ProForm.Group>
                 </div>
               ]);
-            } else {
-              return [];
             }
           },
         }}
@@ -150,6 +147,7 @@ const SolutionForm6: React.FC<{
           request={request}
         >
           <ProFormTextArea
+            disabled={!props.editable}
             name="label"
             label="1.1 标识"
             width="lg"
@@ -157,6 +155,7 @@ const SolutionForm6: React.FC<{
             rules={[{required: true}]}
           />
           <ProFormTextArea
+            disabled={!props.editable}
             name="systemOverview"
             label="1.2 系统概述"
             width="lg"
@@ -164,6 +163,7 @@ const SolutionForm6: React.FC<{
             rules={[{required: true}]}
           />
           <ProFormTextArea
+            disabled={!props.editable}
             name="documentOverview"
             label="1.3 文档概述"
             width="lg"
@@ -171,6 +171,7 @@ const SolutionForm6: React.FC<{
             rules={[{required: true}]}
           />
           <ProFormTextArea
+            disabled={!props.editable}
             name="baseLine"
             label="基线"
             width="lg"
@@ -178,14 +179,13 @@ const SolutionForm6: React.FC<{
             rules={[{required: true}]}
           />
         </StepsForm.StepForm>
-        <StepsForm.StepForm<{
-          name: string;
-        }>
+        <StepsForm.StepForm
           name="quotedFile"
           title="引用文件"
           request={request}
         >
           <ProFormTextArea
+            disabled={!props.editable}
             name="quotedFile"
             label="引用文件"
             width="lg"
@@ -193,9 +193,7 @@ const SolutionForm6: React.FC<{
             rules={[{required: true}]}
           />
         </StepsForm.StepForm>
-        <StepsForm.StepForm<{
-          checkbox: string;
-        }>
+        <StepsForm.StepForm
           name="testEnvironment"
           title="软件测试环境"
           request={request}
@@ -204,36 +202,39 @@ const SolutionForm6: React.FC<{
             name="hardwareEnvironment"
             label="3.1 硬件"
             width="lg"
+            disabled={!props.editable}
             rules={[{required: true}]}
           />
           <ProFormTextArea
             name="softwareEnvironment"
             label="3.2 软件"
             width="lg"
+            disabled={!props.editable}
             rules={[{required: true}]}
           />
           <ProFormTextArea
             name="otherEnvironment"
             label="3.3 其他"
             width="lg"
+            disabled={!props.editable}
             rules={[{required: true}]}
           />
           <ProFormTextArea
             name="participantOrganization"
             label="3.4 参与组织"
             width="lg"
+            disabled={!props.editable}
             rules={[{required: true}]}
           />
           <ProFormTextArea
             name="participant"
             label="3.5 人员"
             width="lg"
+            disabled={!props.editable}
             rules={[{required: true}]}
           />
         </StepsForm.StepForm>
-        <StepsForm.StepForm<{
-          name: string;
-        }>
+        <StepsForm.StepForm
           name="plan"
           title="计划"
           request={request}
@@ -245,42 +246,46 @@ const SolutionForm6: React.FC<{
             name="overallDesign"
             label="4.1 总体设计"
             width="lg"
+            disabled={!props.editable}
             rules={[{required: true}]}
           />
           <ProFormTextArea
             name="testLayer"
             label="4.1.1 测试级别"
             width="lg"
+            disabled={!props.editable}
             rules={[{required: true}]}
           />
           <ProFormTextArea
             name="testType"
             label="4.1.2 测试类别"
             width="lg"
+            disabled={!props.editable}
             rules={[{required: true}]}
           />
           <ProFormTextArea
             name="generalTestCondition"
             label="4.1.3 一般测试条件"
             width="lg"
+            disabled={!props.editable}
             rules={[{required: true}]}
           />
           <ProFormTextArea
             name="plannedTests"
             label="4.2 计划执行的测试"
             width="lg"
+            disabled={!props.editable}
             rules={[{required: true}]}
           />
           <ProFormTextArea
             name="testCases"
             label="4.3 测试用例"
             width="lg"
+            disabled={!props.editable}
             rules={[{required: true}]}
           />
         </StepsForm.StepForm>
-        <StepsForm.StepForm<{
-          name: string;
-        }>
+        <StepsForm.StepForm
           name="testSchedule"
           title="测试进度表"
           request={request}
@@ -294,6 +299,7 @@ const SolutionForm6: React.FC<{
               name="workQuantity1"
               width="md"
               label="工作量"
+              disabled={!props.editable}
               rules={[{required: true}]}
             />
             <ProFormDateRangePicker name="time1" label="起止时间" rules={[{required: true}]}/>
@@ -303,6 +309,7 @@ const SolutionForm6: React.FC<{
               name="workQuantity2"
               width="md"
               label="工作量"
+              disabled={!props.editable}
               rules={[{required: true}]}
             />
             <ProFormDateRangePicker name="time2" label="起止时间" rules={[{required: true}]}/>
@@ -312,6 +319,7 @@ const SolutionForm6: React.FC<{
               name="workQuantity3"
               width="md"
               label="工作量"
+              disabled={!props.editable}
               rules={[{required: true}]}
             />
             <ProFormDateRangePicker name="time3" label="起止时间" rules={[{required: true}]}/>
@@ -321,6 +329,7 @@ const SolutionForm6: React.FC<{
               name="workQuantity4"
               width="md"
               label="工作量"
+              disabled={!props.editable}
               rules={[{required: true}]}
             />
             <ProFormDateRangePicker name="time4" label="起止时间" rules={[{required: true}]}/>

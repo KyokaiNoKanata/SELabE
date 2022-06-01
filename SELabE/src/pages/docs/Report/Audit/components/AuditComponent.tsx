@@ -6,6 +6,7 @@ import QuestionListForm11 from "@/pages/docs/Report/components/QuestionListForm1
 import TestReport7 from "@/pages/docs/Report/components/TestReportForm7";
 import AuditPage from "@/pages/docs/Report/Audit/components/AuditPage";
 import TestReportCheckListForm10 from "@/pages/docs/Report/components/TestReportCheckListForm10";
+import type {CardTabListType} from "antd/es/card";
 //import { useLocation } from 'react-router-dom';
 const AuditComponent: React.FC<{
   person: string;
@@ -14,7 +15,7 @@ const AuditComponent: React.FC<{
   const onTabChange = (key: any) => {
     setActiveTabKey(key);
   };
-  const list = [
+  const list: CardTabListType[] = [
     {
       key: '测试用例',
       tab: '测试用例',
@@ -30,17 +31,20 @@ const AuditComponent: React.FC<{
     {
       key: '测试报告',
       tab: '测试报告',
-    },
-    props.person == 'manager' &&
-    {
-      key: '测试报告检查表',
-      tab: '测试报告检查表',
-    },
-    {
-      key: '审核',
-      tab: '审核',
     }
   ];
+  if (props.person == 'manager') {
+    list.concat([
+      {
+        key: '测试报告检查表',
+        tab: '测试报告检查表',
+      },
+      {
+        key: '审核',
+        tab: '审核',
+      }
+    ])
+  }
   const contentList = {
     测试用例:
       <Card>
