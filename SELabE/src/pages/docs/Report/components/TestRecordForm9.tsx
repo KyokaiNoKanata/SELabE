@@ -17,7 +17,7 @@ import {createReport, getReport, getTable9, saveTable9} from "@/services/ant-des
  * @constructor
  */
 //editable为true可编辑
-const TestRecordForm: React.FC<{ editable: boolean }> = (props) => {
+const TestRecordForm9: React.FC<{ editable: boolean }> = (props) => {
   type DataSourceType = {
     id: React.Key;
     classification?: string;
@@ -112,8 +112,9 @@ const TestRecordForm: React.FC<{ editable: boolean }> = (props) => {
   const [reportId, setReportId] = useState<number | undefined>(undefined);
   const params = useLocation();
   const delegationId: number = (params.state as any).id;
+
   //const formRef = useRef<ProFormInstance>();
-  function  Display(){
+  function Display() {
     if (props.editable) {
       return '';
     } else {
@@ -177,7 +178,7 @@ const TestRecordForm: React.FC<{ editable: boolean }> = (props) => {
             },
             submitButtonProps: {
               style: {
-                display:sub,
+                display: sub,
               }
             },
             render: (_, doms) => {
@@ -222,4 +223,4 @@ const TestRecordForm: React.FC<{ editable: boolean }> = (props) => {
     </PageContainer>
   );
 }
-export default TestRecordForm;
+export default TestRecordForm9;

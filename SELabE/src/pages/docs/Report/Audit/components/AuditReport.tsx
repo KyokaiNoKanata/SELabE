@@ -1,10 +1,11 @@
 import {useState} from 'react';
 import {Card} from 'antd';
-import TestCaseForm from "@/pages/docs/Report/components/TestCaseForm";
-import TestRecordForm from "@/pages/docs/Report/components/TestRecordForm";
-import QuestionListForm from "@/pages/docs/Report/components/QuestionListForm";
-import TestReport from "@/pages/docs/Report/components/TestReport";
+import TestCaseForm8 from "@/pages/docs/Report/components/TestCaseForm8";
+import TestRecordForm9 from "@/pages/docs/Report/components/TestRecordForm9";
+import QuestionListForm11 from "@/pages/docs/Report/components/QuestionListForm11";
+import TestReport7 from "@/pages/docs/Report/components/TestReportForm7";
 //import { useLocation } from 'react-router-dom';
+//这玩意有用到吗？
 const list = [
   {
     key: '测试用例',
@@ -29,7 +30,7 @@ const list = [
 ];
 
 
-const AuditSolutionForm = () => {
+const AuditReport = () => {
   const [activeTabKey, setActiveTabKey] = useState('测试用例');
   const onTabChange = (key: any) => {
     setActiveTabKey(key);
@@ -37,16 +38,16 @@ const AuditSolutionForm = () => {
   const contentList = {
     测试用例:
       <Card>
-        <TestCaseForm editable={false}/>
+        <TestCaseForm8 editable={false}/>
       </Card>,
     测试记录: <Card>
-      <TestRecordForm editable={false}/>
+      <TestRecordForm9 editable={false}/>
     </Card>,
     问题清单: <Card>
-      <QuestionListForm editable={false}/>
+      <QuestionListForm11 editable={false}/>
     </Card>,
     测试报告: <Card>
-      <TestReport editable={false}/>
+      <TestReport7 editable={false}/>
     </Card>,
   };
 
@@ -66,4 +67,4 @@ const AuditSolutionForm = () => {
   );
 };
 
-export default AuditSolutionForm;
+export default AuditReport;

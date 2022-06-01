@@ -81,7 +81,7 @@ const softwareEnvironData: softwareEnviron[] = [
   }
 ];
 
-const TestReport: React.FC<{ editable: boolean }> = (prop) => {
+const TestReportForm7: React.FC<{ editable: boolean }> = (prop) => {
   const softwareEnvironColumns: ProColumns<softwareEnviron>[] = [
     {
       title: '软件类别',
@@ -719,4 +719,4 @@ const TestReport: React.FC<{ editable: boolean }> = (prop) => {
     </PageContainer>
   )
 }
-export default TestReport;
+export default TestReportForm7;

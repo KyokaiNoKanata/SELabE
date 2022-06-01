@@ -119,7 +119,7 @@ const adviceData: AdviceType[] = [
   },
 ]
 
-const SchemeReviewFrom: React.FC<{
+const SolutionReviewForm13: React.FC<{
   editable: boolean,
 }> = (props) => {
   const columns: ProColumns<DataSourceType>[] = [
@@ -131,7 +131,7 @@ const SchemeReviewFrom: React.FC<{
     },
     {
       title: '是否通过',
-      editable: props.editable,
+      editable: () => props.editable,
       width: 120,
       key: 'state',
       dataIndex: 'state',
@@ -149,7 +149,7 @@ const SchemeReviewFrom: React.FC<{
     },
     {
       title: '不通过原因',
-      editable: props.editable,
+      editable: () => props.editable,
       dataIndex: 'reason',
       renderFormItem: (_, {record}) => {
         console.log('----===>', record);
@@ -166,12 +166,12 @@ const SchemeReviewFrom: React.FC<{
     },
     {
       title: '评审意见',
-      editable: props.editable,
+      editable: () => props.editable,
       dataIndex: 'advice',
     },
     {
       title: '签字',
-      editable: props.editable,
+      editable: () => props.editable,
       dataIndex: 'signature',
       renderFormItem: (_, {record}) => {
         console.log('----===>', record);
@@ -180,7 +180,7 @@ const SchemeReviewFrom: React.FC<{
     },
     {
       title: '日期',
-      editable: props.editable,
+      editable: () => props.editable,
       dataIndex: 'date',
       valueType: "date",
       initialValue: new Date(),
@@ -262,7 +262,7 @@ const SchemeReviewFrom: React.FC<{
           request={request}
           formRef={formRef}
           submitter={{
-            render: (submitterProps) => {
+            render: () => {
               if (props.editable) {
                 return ([
                   <div style={
@@ -383,4 +383,4 @@ const SchemeReviewFrom: React.FC<{
     </PageContainer>
   );
 };
-export default SchemeReviewFrom;
+export default SolutionReviewForm13;

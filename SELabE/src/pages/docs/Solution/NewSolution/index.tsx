@@ -1,7 +1,7 @@
-import SolutionForm from "@/pages/docs/Solution/component/SolutionForm";
+import SolutionForm6 from "@/pages/docs/Solution/component/SolutionForm6";
 
 export default () => {
   return (
-    <SolutionForm editable={true}/>
+    <SolutionForm6 editable={true}/>
   )
 }

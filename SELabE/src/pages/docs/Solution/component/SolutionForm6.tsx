@@ -15,7 +15,7 @@ import {useLocation} from 'react-router-dom';
 import {getDelegationById} from "@/services/ant-design-pro/delegation/api";
 
 //测试方案表单 table6
-const SolutionForm: React.FC<{
+const SolutionForm6: React.FC<{
   editable: boolean,//是否可编辑
   audit?: boolean,
 }> = (props) => {
@@ -330,4 +330,4 @@ const SolutionForm: React.FC<{
     </ProCard>
   );
 };
-export default SolutionForm;
+export default SolutionForm6;

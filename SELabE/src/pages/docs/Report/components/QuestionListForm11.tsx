@@ -7,78 +7,90 @@ import type {ProColumns} from "@ant-design/pro-table";
 import {EditableProTable} from "@ant-design/pro-table";
 import {useLocation} from "react-router-dom";
 import {getDelegationById} from "@/services/ant-design-pro/delegation/api";
+import {createReport, getReport, getTable11, saveTable11} from "@/services/ant-design-pro/report/api";
 
-import {createReport, getReport, getTable8, saveTable8} from "@/services/ant-design-pro/report/api";
+type DataSourceType = {
+  id: React.Key;
+  qid?: string;
+  desc?: string;
+  requirementitem?: string;
+  initialconditions?: string;
+  defectcases?: string;
+  associatedcases?: string;
+  time?: string;
+  responsible?: string;
+  suggest?: string;
+  children?: DataSourceType[];
+};
 
 
 /**
+ * 问题清单 table11
  * @param props isClient 判断身份是不是客户，如果是，则前面只能看不能写，最后签字，不然，是市场部，
  * @constructor
  */
 //editable为true可编辑
-const TestCaseForm: React.FC<{ editable: boolean }> = (props) => {
-  type DataSourceType = {
-    id: React.Key;
-    classification?: string;
-    tid?: string;
-    design?: string;
-    statute?: string;
-    result?: string;
-    author?: string;
-    time?: string;
-    children?: DataSourceType[];
-  };
-
+const QuestionListForm11: React.FC<{ editable: boolean }> = (props) => {
   const columns: ProColumns<DataSourceType>[] = [
     {
-      title: '测试分类',
-      dataIndex: 'classification',
+      title: '序号',
+      dataIndex: 'qid',
+      width: "8%",
       editable: () => props.editable,
     },
     {
-      title: 'ID',
-      dataIndex: 'tid',
-      width: "10%",
+      title: '问题（缺陷）简要描述',
+      editable: () => props.editable,
+      dataIndex: 'desc',
+    },
+    {
+      title: '对应需求条目',
+      editable: () => props.editable,
+      dataIndex: 'requirementitem',
+    },
+    {
+      title: '发现缺陷的初始条件',
+      dataIndex: 'initialconditions',
       editable: () => props.editable,
     },
     {
-      title: '测试用例设计说明',
-      dataIndex: 'design',
+      title: '发现缺陷用例及具体操作路径（要具体）',
+      dataIndex: 'defectcases',
       editable: () => props.editable,
     },
     {
-      title: '与本测试用例有关的规约说明',
-      dataIndex: 'statute',
+      title: '关联用例',
+      dataIndex: 'associatedcases',
       editable: () => props.editable,
     },
     {
-      title: '预期的结果',
-      dataIndex: 'result',
+      title: '发现时间',
       editable: () => props.editable,
-    },
-    {
-      title: '测试用例设计者',
-      dataIndex: 'author',
-      editable: () => props.editable,
-    },
-    {
-      title: '测试时间',
       dataIndex: 'time',
-      editable: () => props.editable,
     },
-
+    {
+      title: '责任人',
+      editable: () => props.editable,
+      dataIndex: 'responsible',
+    },
+    {
+      title: '修改建议',
+      editable: () => props.editable,
+      dataIndex: 'suggest',
+    },
     {
       title: '操作',
       valueType: 'option',
       editable: () => props.editable,
-      width: '5%',
+      width: '1%',
     },
   ];
   const [reportId, setReportId] = useState<number | undefined>(undefined);
   const params = useLocation();
   const delegationId: number = (params.state as any).id;
+
   //const formRef = useRef<ProFormInstance>();
-  function  Display(){
+  function Display() {
     if (props.editable) {
       return '';
     } else {
@@ -94,19 +106,18 @@ const TestCaseForm: React.FC<{ editable: boolean }> = (props) => {
     const rId = (await getDelegationById(delegationId)).data.reportId;
     setReportId(rId);
     //console.log('solutionId = ' + sId);
+    //如果没有report
     if (!rId) {
       //创建一下report
-      const resp = await createReport({
+      await createReport({
         delegationId: delegationId,
       })
-      setReportId(resp.data);
       return {};
     }
-    //测试用例 table8
-    const report = await getReport({reportId: rId!});
-    console.log(report);
-    const table8Id = report.data.table8Id;
-    const resp = await getTable8({id: table8Id})
+    //问题清单 table11
+    const solution = await getReport({reportId: rId!});
+    const table11Id = solution.data.table11Id;
+    const resp = await getTable11({id: table11Id})
     if (resp.data == null) {
       return {};
     }
@@ -116,7 +127,7 @@ const TestCaseForm: React.FC<{ editable: boolean }> = (props) => {
   //保存
   const onFinish = async (values: any) => {
     console.log(values);
-    const resp = await saveTable8({
+    const resp = await saveTable11({
       reportId: reportId!,
       data: values,
     })
@@ -127,6 +138,7 @@ const TestCaseForm: React.FC<{ editable: boolean }> = (props) => {
     }
     return true;
   };
+
   return (
     <PageContainer>
       <PageHeader
@@ -150,8 +162,7 @@ const TestCaseForm: React.FC<{ editable: boolean }> = (props) => {
             },
             render: (_, doms) => {
               return [
-                props.editable && (doms[0], doms[1]),
-                //props.editable && <Button htmlType="button" onClick={handleSubmit} key='submit'>提交</Button>,
+                props.editable && (doms[0], doms[1])
               ]
             }
           }}
@@ -189,4 +200,4 @@ const TestCaseForm: React.FC<{ editable: boolean }> = (props) => {
     </PageContainer>
   );
 }
-export default TestCaseForm;
+export default QuestionListForm11;

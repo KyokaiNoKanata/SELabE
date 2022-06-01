@@ -1,11 +1,11 @@
 import React, {useState} from 'react';
 import {Card} from 'antd';
-import TestCaseForm from "@/pages/docs/Report/components/TestCaseForm";
-import TestRecordForm from "@/pages/docs/Report/components/TestRecordForm";
-import QuestionListForm from "@/pages/docs/Report/components/QuestionListForm";
-import TestReport from "@/pages/docs/Report/components/TestReport";
-import AuditPage from "@/pages/docs/Report/components/AuditPage";
-import TestReportCheckList from "@/pages/docs/Report/components/TestReportCheckList";
+import TestCaseForm8 from "@/pages/docs/Report/components/TestCaseForm8";
+import TestRecordForm9 from "@/pages/docs/Report/components/TestRecordForm9";
+import QuestionListForm11 from "@/pages/docs/Report/components/QuestionListForm11";
+import TestReport7 from "@/pages/docs/Report/components/TestReportForm7";
+import AuditPage from "@/pages/docs/Report/Audit/components/AuditPage";
+import TestReportCheckListForm10 from "@/pages/docs/Report/components/TestReportCheckListForm10";
 //import { useLocation } from 'react-router-dom';
 const AuditComponent: React.FC<{
   person: string;
@@ -44,19 +44,19 @@ const AuditComponent: React.FC<{
   const contentList = {
     测试用例:
       <Card>
-        <TestCaseForm editable={false}/>
+        <TestCaseForm8 editable={false}/>
       </Card>,
     测试记录: <Card>
-      <TestRecordForm editable={false}/>
+      <TestRecordForm9 editable={false}/>
     </Card>,
     问题清单: <Card>
-      <QuestionListForm editable={false}/>
+      <QuestionListForm11 editable={false}/>
     </Card>,
     测试报告: <Card>
-      <TestReport editable={false}/>
+      <TestReport7 editable={false}/>
     </Card>,
     测试报告检查表: <Card>
-      <TestReportCheckList editable={false}/>
+      <TestReportCheckListForm10 editable={false}/>
     </Card>,
     审核: <Card>
       <AuditPage person={props.person}/>

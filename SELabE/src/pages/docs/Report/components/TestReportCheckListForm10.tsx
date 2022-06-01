@@ -144,8 +144,7 @@ const columns: ProColumns<DataSourceType>[] = [
     },
   },
 ];
-//todo
-const TestReportCheckList: React.FC<{
+const TestReportCheckListForm10: React.FC<{
   editable: boolean,
 }> = (props) => {
   const params = useLocation();
@@ -153,7 +152,6 @@ const TestReportCheckList: React.FC<{
   const [editableKeys, setEditableRowKeys] = useState<React.Key[]>(() =>
     defaultData.map((item) => item.id)
   );
-  //todo
   const onFinish = async (value: any) => {
     console.log(value);
     const rId = (await getDelegationById(delegationId)).data.reportId;
@@ -180,7 +178,7 @@ const TestReportCheckList: React.FC<{
         //从后端请求数据显示
                request={request}
       >
-        <ProCard border>
+        <ProCard bordered>
           <ProFormText name='软件名称' label='软件名称' width='xl'/>
           <ProFormText name='委托单位' label='委托单位' width='xl'/>
         </ProCard>
@@ -211,7 +209,7 @@ const TestReportCheckList: React.FC<{
             }}
           />
         </ProForm.Item>
-        <ProCard border>
+        <ProCard bordered>
           <ProFormText name="检查人" label='检查人' width='md'/>
           <ProFormDatePicker name='日期' label='日期'/>
         </ProCard>
@@ -220,4 +218,4 @@ const TestReportCheckList: React.FC<{
   );
 };
 
-export default TestReportCheckList;
+export default TestReportCheckListForm10;

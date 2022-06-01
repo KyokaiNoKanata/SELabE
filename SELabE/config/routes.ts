@@ -186,16 +186,15 @@ export default [
         icon: 'smile',
         component: './Sample/submit',
       },
-      //(市场部)审核样品
       {
         path: './audit/marketing',
-        name: '(市场部)审核样品',
+        name: '(市场部)验收样品',
         icon: 'smile',
         component: './Sample/audit/Marketing'
       },
       {
         path: './audit/testing',
-        name: '(测试部)审核样品',
+        name: '(测试部)验收样品',
         icon: 'smile',
         component: './Sample/audit/Testing'
       },
@@ -214,7 +213,7 @@ export default [
       },
       {
         path: '/solution/fill',
-        name: '填写测试方案',
+        name: '编写测试方案',
         icon: 'smile',
         component: './Solution/fill',
       },

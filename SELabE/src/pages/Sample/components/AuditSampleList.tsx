@@ -18,19 +18,18 @@ const AuditSampleList: React.FC<{
   const auditColumns: ProColumns<API.DelegationItem>[] = [
     /** 审核样品 */
     {
-      title: '审核样品',
+      title: '验收样品',
       dataIndex: 'auditSample',
       valueType: 'option',
       //hideInTable: !(props.roles.includes('marketing_department_staff')
       //  || props.roles.includes('test_department_staff')),
       sorter: false,
       render: (text: ReactNode, record: API.DelegationItem) => {
-        //求一下样品url
         const {sampleId} = record;
         return [record.state == constant.delegationState.CHECKING_SAMPLE.desc &&
         <Link to={{pathname: constant.docPath.sample.AUDIT, state: {sampleId: sampleId}}}>
           <Button type="primary">
-            审核样品</Button>
+            验收样品</Button>
         </Link>
         ]
       }
