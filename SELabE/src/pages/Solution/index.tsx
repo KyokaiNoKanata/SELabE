@@ -7,6 +7,7 @@ import type {ActionType, ProColumns} from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
 import {solutionPage} from '@/services/ant-design-pro/solution/api';
 import type API from '@/services/ant-design-pro/typings';
+import constant from "../../../config/constant";
 
 /** 获取测试方案(分页) */
 const handleGetSolution = async (params: {
@@ -67,7 +68,7 @@ const DelegationList: React.FC = () => {
       render: (text, record) => {
         const {id} = record;
         return [
-          <Link to={{pathname: '/docs/new-solution', state: {id: id}}}>
+          <Link to={{pathname: constant.docPath.solution.WRITE, state: {id: id}}}>
             <Button type="primary">填写</Button>
           </Link>,
         ];

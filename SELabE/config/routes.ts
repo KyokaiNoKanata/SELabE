@@ -188,13 +188,13 @@ export default [
       },
       {
         path: './audit/marketing',
-        name: '(市场部)验收样品',
+        name: '验收样品',
         icon: 'smile',
         component: './Sample/audit/Marketing'
       },
       {
         path: './audit/testing',
-        name: '(测试部)验收样品',
+        name: '验收样品',
         icon: 'smile',
         component: './Sample/audit/Testing'
       },
@@ -212,16 +212,16 @@ export default [
         component: './Solution',
       },
       {
-        path: '/solution/fill',
+        path: '/solution/write',
         name: '编写测试方案',
         icon: 'smile',
-        component: './Solution/fill',
+        component: './Solution/Write',
       },
       {
         path: '/solution/audit',
         name: '审核测试方案',
         icon: 'smile',
-        component: './Solution/audit'
+        component: './Solution/Audit'
       }
     ]
   },
@@ -236,18 +236,21 @@ export default [
         icon: 'smile',
         component: './Report/Write',
       },
+      //(测试部主管)审核测试报告
       {
         path: '/report/audit/manager',
         name: '(测试部主管)审核测试报告',
         icon: 'smile',
         component: './Report/audit/Manager',
       },
+      //(用户)审核测试报告
       {
         path: '/report/audit/client',
         name: '(用户)审核测试报告',
         icon: 'smile',
         component: './Report/audit/Client',
       },
+      //(签字人)审核测试报告
       {
         path: '/report/audit/signatory',
         name: '(签字人)审核测试报告',
@@ -257,14 +260,14 @@ export default [
       //测试部员工 归档测试报告
       {
         path: '/report/archive',
-        name: '(测试部员工)归档测试报告',
+        name: '归档测试报告',
         icon: 'smile',
         component: './Report/Archive',
       },
       //市场部员工 发送报告
       {
         path: '/report/send',
-        name: '(市场部员工)发送测试报告',
+        name: '发送测试报告',
         icon: 'smile',
         component: './Report/Send',
       },

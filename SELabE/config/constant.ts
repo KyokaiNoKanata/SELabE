@@ -128,7 +128,7 @@ const constant = {
      */
     report: {
       ROOT: "/docs/report",
-      WRITE: "/docs/report/fill-in-report",//TODO
+      WRITE: "/docs/report/write",
       audit: {
         ROOT: "/docs/report/audit",
         CLIENT: "/docs/report/audit/client",
@@ -137,7 +137,7 @@ const constant = {
       }
     }
   },
-  //菜单(真正需要分配的菜单结构) todo
+  //菜单(真正需要分配的菜单结构)
   menu: {
     common: {},
     /**
@@ -147,31 +147,107 @@ const constant = {
     /**
      * 客户
      */
-    customer: {},
+    customer: {
+      delegation: {
+        list: "delegation/list/client",
+        offer: "delegation/offer/client",
+      },
+      contract: {
+        list: "contract/list",
+        create: "contract/create/client",
+        audit: "contract/audit/client",
+      },
+      sample: {
+        submit: "sample/submit",
+      },
+      report: {
+        audit: "report/audit/client",
+        receive: "report/receive",
+      },
+    },
     /**
      * 市场部主管
      */
-    marketing_department_manger: {},
+    marketing_department_manger: {
+      delegation: {
+        list: "delegation/list/common",
+        distribute: "delegation/distribute/marketing",
+      },
+    },
     /**
      * 市场部员工
      */
-    marketingStaff: {},
+    marketingStaff: {
+      delegation: {
+        list: "delegation/list/common",
+        audit: "delegation/audit/marketing",
+        offer: "delegation/offer/market",
+      },
+      contract: {
+        list: "contract/list",
+        create: "contract/create/staff",
+        audit: "contract/audit/staff",
+      },
+      sample: {
+        audit: "sample/audit/marketing",
+      },
+      report: {
+        send: "report/send",
+      },
+    },
     /**
      * 测试部主管
      */
-    test_department_manager: {},
+    test_department_manager: {
+      delegation: {
+        list: "delegation/list/common",
+        distribute: "delegation/distribute/testing",
+      },
+      report: {
+        audit: "/report/audit/manager",
+      }
+    },
     /**
      * 测试部员工
      */
-    testingStaff: {},
+    testingStaff: {
+      delegation: {
+        list: "delegation/list/common",
+        audit: "delegation/audit/testing",
+      },
+      sample: {
+        audit: "sample/audit/testing",
+      },
+      solution: {
+        write: "sample/write",
+      },
+      report: {
+        write: "report/write",
+        archive: "report/archive",
+      },
+    },
     /**
      * 质量部员工
      */
-    quality_department_staff: {},
+    quality_department_staff: {
+      delegation: {
+        list: "delegation/list/common",
+      },
+      solution: {
+        audit: "/solution/audit",
+      }
+    },
     /**
      * 签字人
      */
-    signatory: {},
+    signatory: {
+      delegation: {
+        list: "delegation/list/common",
+      },
+      report: {
+        audit: "/report/audit/signatory",
+      }
+    },
   }
 }
 export default constant;
