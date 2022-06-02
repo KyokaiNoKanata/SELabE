@@ -11,7 +11,7 @@ import {Button, message, PageHeader,} from 'antd';
 import {PageContainer} from '@ant-design/pro-layout';
 import {useLocation} from "umi";
 import {
-  getDelegationByIds,
+  getDelegationById,
   getTable14,
   saveTable14,
   testingAuditFail,
@@ -346,11 +346,14 @@ const StepDocReview14 = () => {
   const formRef: React.MutableRefObject<ProFormInstance | undefined> = useRef<ProFormInstance>();
   //get data from table14
   const request = async () => {
-    const table14Id = (await getDelegationByIds({
-      ids: String(delegationId),
-    })).data[0].table14Id;
+    const delegation = (await getDelegationById(delegationId)).data;
+    const table14Id = delegation.table14Id;
     if (table14Id == undefined) {
-      return {};
+      return {
+        softwareName: delegation.softwareName,
+        version: delegation.version,
+        clientUnit: delegation.clientUnit,
+      }
     }
     const resp = await getTable14({
       id: String(table14Id),
@@ -537,26 +540,29 @@ const StepDocReview14 = () => {
               <ProForm.Group>
                 <ProFormText
                   width="md"
-                  name="softName"
+                  name="softwareName"
                   label="软件名称"
                   tooltip=""
                   placeholder="请输入名称"
+                  disabled={true}
                   rules={[{required: true, message: '这是必填项'}]}
                 />
                 <ProFormText width="md"
                              name="version"
                              label="版本号"
                              placeholder="请输入版本号"
+                             disabled={true}
                              rules={[{required: true, message: '这是必填项'}]}
                 />
               </ProForm.Group>
               <ProForm.Group>
                 <ProFormText
                   width="xl"
-                  name="organization"
+                  name="clientUnit"
                   label="委托单位"
                   tooltip=""
                   placeholder="请输入委托单位"
+                  disabled={true}
                   rules={[{required: true, message: '这是必填项'}]}
                 />
               </ProForm.Group>

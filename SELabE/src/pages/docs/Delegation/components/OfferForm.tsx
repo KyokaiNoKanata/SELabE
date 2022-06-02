@@ -9,8 +9,8 @@ import React, {useRef, useState} from 'react';
 import ProCard from "@ant-design/pro-card";
 import {EditableProTable, ProColumns} from "@ant-design/pro-table";
 import {
-  acceptOffer,
-  getDelegationByIds, getOffer, rejectOffer,
+  acceptOffer, getDelegationById,
+  getOffer, rejectOffer,
   saveOffer, submitOffer,
 } from "@/services/ant-design-pro/delegation/api";
 import {useLocation} from "react-router-dom";
@@ -65,27 +65,23 @@ const OfferForm: React.FC<{isClient: boolean}> = (props) => {
   const [editableKeys, setEditableRowKeys] = useState<React.Key[]>(() => []);
   const formRef: React.MutableRefObject<ProFormInstance | undefined> = useRef<ProFormInstance>();
   const request = async () => {
-    const offerId = (await getDelegationByIds({
-      ids: String(delegationId),
-    })).data[0].offerId;
-    console.log('offerId='+ offerId);
-    if(offerId == undefined) {
-      return {};
+    const delegation = (await getDelegationById(delegationId)).data;
+    const offerId = delegation.offerId;
+    if(!offerId) {
+      return {
+        softwareName: delegation.softwareName,
+      };
     }
     const resp = await getOffer({
       id: offerId,
     });
-    console.log(resp.data)
     return resp.data;
   };
   //保存
   const onFinish = async (value: any) => {
-    const id: number = parseInt(delegationId);
-    const data = value;
-    console.log(data);
     saveOffer({
-      delegationId: id,
-      data: data,
+      delegationId: delegationId,
+      data: value,
     }).then(res => {
       if(res.code == 0) {
         message.success('保存成功');
@@ -170,7 +166,7 @@ const OfferForm: React.FC<{isClient: boolean}> = (props) => {
         >
           <ProFormDatePicker disabled={props.isClient} name="报价日期" label="报价日期"/>
           <ProFormDateRangePicker disabled={props.isClient} name="报价有效期" label="报价有效期"/>
-          <ProFormText disabled={props.isClient} name="软件名称" label="软件名称" width="md"/>
+          <ProFormText disabled={true} name="softwareName" label="软件名称" width="md"/>
           <ProForm.Item
             name="项目表格"
             trigger="onValuesChange"
