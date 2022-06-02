@@ -10,7 +10,7 @@ import {getDelegationById} from "@/services/ant-design-pro/delegation/api";
 import {saveTable10} from "@/services/ant-design-pro/report/api";
 
 type DataSourceType = {
-  id: React.Key;
+  id: number;
   serial?: string;
   check?: string;
   desc?: string;

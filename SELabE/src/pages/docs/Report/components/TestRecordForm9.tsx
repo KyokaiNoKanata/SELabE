@@ -19,7 +19,7 @@ import {createReport, getReport, getTable9, saveTable9} from "@/services/ant-des
 //editable为true可编辑
 const TestRecordForm9: React.FC<{ editable: boolean }> = (props) => {
   type DataSourceType = {
-    id: React.Key;
+    id: number;
     classification?: string;
     tid?: string;
     design?: string;

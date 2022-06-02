@@ -14,67 +14,67 @@ const {Title, Paragraph} = Typography;
 
 
 type DataSourceType = {
-  id: React.Key; //id在json中是乱码，这个ID其实不能提交？
+  id: number; //id在json中是乱码，这个ID其实不能提交？
   basis?: string;
   children?: DataSourceType[];
 }
 type Reference = {
-  rid: React.Key;
+  rid: number;
   refer?: string;
   children?: Reference[];
 }
 
 type FunctionalType = {
-  id: React.Key;
+  id: number;
   module?: string;
   require?: string;
   result?: string;
 }
 
 type OtherTestingType = {
-  id: React.Key;
+  id: number;
   features?: string;
   instruction?: string;
   result?: string;
 }
 
 type softwareEnviron = {
-  id: React.Key;
+  id: number;
   type?: string;
   name?: string;
   version?: string;
 }
 const softwareEnvironData: softwareEnviron[] = [
   {
-    id: "1",
+    id: 1,
     type: "操作系统",
     name: '',
     version: '',
   }
   ,
   {
-    id: "2",
+    id: 2,
     type: "软件",
     name: '',
     version: '',
   }
   ,
   {
-    id: "3",
+    id: 3,
     type: "辅助工具",
     name: '',
     version: '',
   }
   ,
   {
-    id: "4",
+    id: 4,
     type: "开发工具",
     name: '',
     version: '',
   }
   ,
   {
-    id: "5",
+    id: 5,
     type: "被测试样品",
     name: '',
     version: '',

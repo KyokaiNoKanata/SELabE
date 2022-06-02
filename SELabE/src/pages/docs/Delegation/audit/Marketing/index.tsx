@@ -156,7 +156,7 @@ const DocumentReviewMarketing = () => {
         <ProForm.Group>
           <PageHeader
             //className="reviewMarketing"
-            title="">c</PageHeader>
+            title=""></PageHeader>
           <ProFormText name="受理人（签字）" label="受理人（签字）" rules={[{required: true}]}/>
           <Date name="受理人_日期" label="日期" rules={[{required: true}]}/>
         </ProForm.Group>

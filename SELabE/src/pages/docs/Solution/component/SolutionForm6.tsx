@@ -79,7 +79,7 @@ const SolutionForm6: React.FC<{
         }}
         submitter={{
           render: (submitterProps) => {
-            if (submitterProps.step != 4) {
+            if (submitterProps.step != 5) {
               return [
                 <div style={
                   {
@@ -148,7 +148,7 @@ const SolutionForm6: React.FC<{
         >
           <ProFormTextArea
             disabled={!props.editable}
-            name="label"
+            name="1.1 标识"
             label="1.1 标识"
             width="lg"
             placeholder="请输入标识"
@@ -156,7 +156,7 @@ const SolutionForm6: React.FC<{
           />
           <ProFormTextArea
             disabled={!props.editable}
-            name="systemOverview"
+            name="1.2 系统概述"
             label="1.2 系统概述"
             width="lg"
             placeholder="请输入系统概述"
@@ -164,7 +164,7 @@ const SolutionForm6: React.FC<{
           />
           <ProFormTextArea
             disabled={!props.editable}
-            name="documentOverview"
+            name="1.3 文档概述"
             label="1.3 文档概述"
             width="lg"
             placeholder="请输入文档概述"
@@ -172,7 +172,7 @@ const SolutionForm6: React.FC<{
           />
           <ProFormTextArea
             disabled={!props.editable}
-            name="baseLine"
+            name="基线"
             label="基线"
             width="lg"
             placeholder="请输入基线"
@@ -180,13 +180,13 @@ const SolutionForm6: React.FC<{
           />
         </StepsForm.StepForm>
         <StepsForm.StepForm
-          name="quotedFile"
+          name="引用文件t"
           title="引用文件"
           request={request}
         >
           <ProFormTextArea
             disabled={!props.editable}
-            name="quotedFile"
+            name="引用文件"
             label="引用文件"
             width="lg"
             placeholder="请输入引用文件"
@@ -194,40 +194,40 @@ const SolutionForm6: React.FC<{
           />
         </StepsForm.StepForm>
         <StepsForm.StepForm
-          name="testEnvironment"
+          name="软件测试环境"
           title="软件测试环境"
           request={request}
         >
           <ProFormTextArea
-            name="hardwareEnvironment"
+            name="3.1 硬件"
             label="3.1 硬件"
             width="lg"
             disabled={!props.editable}
             rules={[{required: true}]}
           />
           <ProFormTextArea
-            name="softwareEnvironment"
+            name="3.2 软件"
             label="3.2 软件"
             width="lg"
             disabled={!props.editable}
             rules={[{required: true}]}
           />
           <ProFormTextArea
-            name="otherEnvironment"
+            name="3.3 其他"
             label="3.3 其他"
             width="lg"
             disabled={!props.editable}
             rules={[{required: true}]}
           />
           <ProFormTextArea
-            name="participantOrganization"
+            name="3.4 参与组织"
             label="3.4 参与组织"
             width="lg"
             disabled={!props.editable}
             rules={[{required: true}]}
           />
           <ProFormTextArea
-            name="participant"
+            name="3.5 人员"
             label="3.5 人员"
             width="lg"
             disabled={!props.editable}
@@ -235,7 +235,7 @@ const SolutionForm6: React.FC<{
           />
         </StepsForm.StepForm>
         <StepsForm.StepForm
-          name="plan"
+          name="计划"
           title="计划"
           request={request}
         >
@@ -243,42 +243,42 @@ const SolutionForm6: React.FC<{
             本章描述了计划测试的总范围并且描述了本测试计划适用的每个测试，包括对相关文档的审查。
           </Text>
           <ProFormTextArea
-            name="overallDesign"
+            name="4.1 总体设计"
             label="4.1 总体设计"
             width="lg"
             disabled={!props.editable}
             rules={[{required: true}]}
           />
           <ProFormTextArea
-            name="testLayer"
+            name="4.1.1 测试级别"
             label="4.1.1 测试级别"
             width="lg"
             disabled={!props.editable}
             rules={[{required: true}]}
           />
           <ProFormTextArea
-            name="testType"
+            name="4.1.2 测试类别"
             label="4.1.2 测试类别"
             width="lg"
             disabled={!props.editable}
             rules={[{required: true}]}
           />
           <ProFormTextArea
-            name="generalTestCondition"
+            name="4.1.3 一般测试条件"
             label="4.1.3 一般测试条件"
             width="lg"
             disabled={!props.editable}
             rules={[{required: true}]}
           />
           <ProFormTextArea
-            name="plannedTests"
+            name="4.2 计划执行的测试"
             label="4.2 计划执行的测试"
             width="lg"
             disabled={!props.editable}
             rules={[{required: true}]}
           />
           <ProFormTextArea
-            name="testCases"
+            name="4.3 测试用例"
             label="4.3 测试用例"
             width="lg"
             disabled={!props.editable}
@@ -286,7 +286,7 @@ const SolutionForm6: React.FC<{
           />
         </StepsForm.StepForm>
         <StepsForm.StepForm
-          name="testSchedule"
+          name="测试进度表"
           title="测试进度表"
           request={request}
         >
@@ -334,6 +334,19 @@ const SolutionForm6: React.FC<{
             />
             <ProFormDateRangePicker name="time4" label="起止时间" rules={[{required: true}]}/>
           </ProForm.Group>
+        </StepsForm.StepForm>
+        <StepsForm.StepForm
+          name="需求的可追踪性t"
+          title="需求的可追踪性"
+          request={request}
+        >
+          <ProFormTextArea
+            name="需求的可追踪性"
+            label="需求的可追踪性"
+            width="lg"
+            disabled={!props.editable}
+            rules={[{required: true}]}
+          />
         </StepsForm.StepForm>
       </StepsForm>
     </ProCard>

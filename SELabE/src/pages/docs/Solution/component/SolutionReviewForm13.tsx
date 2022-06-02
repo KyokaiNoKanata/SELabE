@@ -17,13 +17,13 @@ import ProCard from "@ant-design/pro-card";
 import {PageContainer} from "@ant-design/pro-layout";
 
 type DataSourceType = {
-  id: React.Key;
+  id: number;
   title?: string;
   reason?: string;
   state?: string;
 };
 type AdviceType = {
-  id: React.Key;
+  id: number;
   duty?: string;
   advice?: string;
   signature?: string;

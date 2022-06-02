@@ -17,7 +17,7 @@ import {useLocation} from "react-router-dom";
 import {ProFormInstance} from "@ant-design/pro-form/lib/BaseForm/BaseForm";
 
 type DataSourceType = {
-  id: React.Key;
+  id: number;
   xiangmu?: string;
   fenxiang?: string;
   danjia?: string;

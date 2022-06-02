@@ -22,7 +22,7 @@ import type { ProColumns} from "@ant-design/pro-table";
 import {EditableProTable} from "@ant-design/pro-table";
 
 type ReviewItemType = {
-  id: React.Key;
+  id: number;
   type?: string;
   name?: string;
   desc?: string;
@@ -59,7 +59,7 @@ const reviewColumns: ProColumns<ReviewItemType>[] = [
 ]
 const reviewData: ReviewItemType[] = [
   {
-    id: "11",
+    id: 11,
     type: '1',
     name: '可用性',
     desc: '产品说明对于用户和潜在需方是可用的',
