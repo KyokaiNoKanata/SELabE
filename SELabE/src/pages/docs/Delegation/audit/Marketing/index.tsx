@@ -4,8 +4,8 @@ import type {ProFormInstance} from '@ant-design/pro-form';
 import ProForm, {ProFormDatePicker, ProFormSelect, ProFormText} from '@ant-design/pro-form';
 import {useLocation} from 'umi';
 import {marketingAuditFail, marketingAuditSuccess} from '@/services/ant-design-pro/delegation/api';
-import StepApplyPage from "@/pages/docs/Delegation/components/StepApplyPage";
-import FunctionList from "@/pages/docs/Delegation/components/FunctionList";
+import StepApplyForm2 from "@/pages/docs/Delegation/components/StepApplyForm2";
+import FunctionList3 from "@/pages/docs/Delegation/components/FunctionList3";
 
 const Date: any = ProFormDatePicker;
 const DocumentReviewMarketing = () => {
@@ -86,9 +86,9 @@ const DocumentReviewMarketing = () => {
     委托申请书:
       <Card>
         {/*todo: make it non-editable (only remove submit button in this edition)*/}
-        <StepApplyPage editable={false} isClient={true}/>
+        <StepApplyForm2 editable={false} isClient={true}/>
       </Card>,
-    委托功能列表: <Card><FunctionList editable={false} isClient={true}/></Card>,
+    委托功能列表: <Card><FunctionList3 editable={false} isClient={true}/></Card>,
     评审表: <Card>
       <ProForm
         submitter={{

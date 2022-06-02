@@ -1,8 +1,8 @@
 import {useState} from 'react';
 import {Card} from 'antd';
-import StepDocReview from "@/pages/docs/Delegation/components/StepDocReview";
-import StepApplyPage from "@/pages/docs/Delegation/components/StepApplyPage";
-import FunctionList from "@/pages/docs/Delegation/components/FunctionList";
+import StepDocReview14 from "@/pages/docs/Delegation/components/StepDocReview14";
+import StepApplyForm2 from "@/pages/docs/Delegation/components/StepApplyForm2";
+import FunctionList3 from "@/pages/docs/Delegation/components/FunctionList3";
 
 
 const DocumentReview = () => {
@@ -27,10 +27,10 @@ const DocumentReview = () => {
   const contentList = {
     委托申请书:
       <Card>
-        <StepApplyPage editable={false} isClient={true}/>
+        <StepApplyForm2 editable={false} isClient={true}/>
       </Card>,
-    委托功能列表: <Card><FunctionList editable={false} isClient={true}/></Card>,
-    评审表: <Card><StepDocReview/></Card>,
+    委托功能列表: <Card><FunctionList3 editable={false} isClient={true}/></Card>,
+    评审表: <Card><StepDocReview14/></Card>,
   };
   return (
     <>

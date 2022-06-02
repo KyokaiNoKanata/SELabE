@@ -20,7 +20,7 @@ import {
 import React, {useRef, useState} from "react";
 import type { ProColumns} from "@ant-design/pro-table";
 import {EditableProTable} from "@ant-design/pro-table";
-//todo:editable
+
 type ReviewItemType = {
   id: React.Key;
   type?: string;
@@ -334,7 +334,7 @@ const documentReviewData: ReviewItemType[] = [
   },
 
 ]
-const StepDocReview = () => {
+const StepDocReview14 = () => {
   const [editableKeys, setEditableRowKeys] = useState<React.Key[]>(() =>
     reviewData.map((item) => item.id)
   );
@@ -728,4 +728,4 @@ const StepDocReview = () => {
   );
 };
 
-export default StepDocReview;
+export default StepDocReview14;

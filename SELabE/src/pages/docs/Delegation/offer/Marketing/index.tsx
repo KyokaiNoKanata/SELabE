@@ -1,8 +1,8 @@
-import QuotationForm from "@/pages/docs/Delegation/components/QuotationForm";
+import OfferForm from "@/pages/docs/Delegation/components/OfferForm";
 
 const Quotation = () => {
   return (
-    <QuotationForm isClient={false}/>
+    <OfferForm isClient={false}/>
   );
 }
 export default Quotation;

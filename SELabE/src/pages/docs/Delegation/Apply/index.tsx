@@ -1,7 +1,7 @@
 import {useState} from 'react';
 import {Card} from 'antd';
-import StepApplyPage from "@/pages/docs/Delegation/components/StepApplyPage";
-import FunctionList from "@/pages/docs/Delegation/components/FunctionList";
+import StepApplyForm2 from "@/pages/docs/Delegation/components/StepApplyForm2";
+import FunctionList3 from "@/pages/docs/Delegation/components/FunctionList3";
 //import { useLocation } from 'react-router-dom';
 const delegationList = [
   {
@@ -26,9 +26,9 @@ const TabsCard = () => {
   const contentList = {
     委托申请书:
       <Card>
-        <StepApplyPage editable={true} isClient={false}/>
+        <StepApplyForm2 editable={true} isClient={false}/>
       </Card>,
-    委托功能列表: <Card><FunctionList editable={true} isClient={false}/></Card>,
+    委托功能列表: <Card><FunctionList3 editable={true} isClient={false}/></Card>,
   };
 
   return (

@@ -6,7 +6,7 @@ import {useLocation} from 'react-router-dom';
 import {getDelegationByIds, getTable3, saveTable3, submitDelegation} from '@/services/ant-design-pro/delegation/api';
 import React from "react";
 
-const FunctionList: React.FC<{ editable: boolean, isClient: boolean }> = (prop) => {
+const FunctionList3: React.FC<{ editable: boolean, isClient: boolean }> = (prop) => {
   const params = useLocation();
   const delegationId = !params.state ? -1 : (params.state as any).id
   const request = async () => {
@@ -143,4 +143,4 @@ const FunctionList: React.FC<{ editable: boolean, isClient: boolean }> = (prop) 
   );
 };
 
-export default FunctionList;
+export default FunctionList3;

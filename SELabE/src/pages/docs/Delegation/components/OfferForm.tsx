@@ -59,7 +59,7 @@ const columns: ProColumns<DataSourceType>[] = [
  * @param props isClient 判断身份是不是客户，如果是，则前面只能看不能写，最后签字，不然，是市场部，
  * @constructor
  */
-const QuotationForm: React.FC<{isClient: boolean}> = (props) => {
+const OfferForm: React.FC<{isClient: boolean}> = (props) => {
   const params = useLocation();
   const delegationId = !params.state ? -1 : (params.state as any).id;
   const [editableKeys, setEditableRowKeys] = useState<React.Key[]>(() => []);
@@ -213,4 +213,4 @@ const QuotationForm: React.FC<{isClient: boolean}> = (props) => {
     </PageContainer>
   );
 }
-export default QuotationForm;
+export default OfferForm;
