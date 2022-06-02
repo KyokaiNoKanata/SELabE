@@ -3,31 +3,43 @@ import ProCard from '@ant-design/pro-card';
 import {PageContainer} from '@ant-design/pro-layout';
 import {Button, message, PageHeader} from 'antd';
 import {useLocation} from 'react-router-dom';
-import {getDelegationByIds, getTable3, saveTable3, submitDelegation} from '@/services/ant-design-pro/delegation/api';
+import {
+  getDelegationById,
+  getTable3,
+  saveTable3,
+  submitDelegation
+} from '@/services/ant-design-pro/delegation/api';
 import React from "react";
-
+import API from "@/services/ant-design-pro/typings"
 const FunctionList3: React.FC<{ editable: boolean, isClient: boolean }> = (prop) => {
   const params = useLocation();
   const delegationId = !params.state ? -1 : (params.state as any).id
   const request = async () => {
-    const table3Id = (await getDelegationByIds({
-      ids: String(delegationId),
-    })).data[0].table3Id;
-    console.log('table3Id=' + table3Id);
-    if (table3Id == undefined) {
-      return {};
+    const delegation:API.DelegationItem = (await getDelegationById(delegationId)).data;
+    const table3Id = delegation.table3Id;
+    let data = {};
+    if(delegation.table2Id) {
+      data = {
+        name: delegation.softwareName,
+        version: delegation.version,
+      };
+    } else {
+      message.warning('请先保存委托申请书')
+      data =  {
+        name : "请先保存委托申请书",
+        version : "请先保存委托申请书",
+      }
     }
-    const resp = await getTable3({
-      id: String(table3Id),
-    });
-    //json string -> obj
-    //const obj = JSON.parse(resp.data);
-    //console.log(obj)
-    console.log(resp.data)
-    return resp.data;
+    if (table3Id) {
+      const resp = await getTable3({
+        id: String(table3Id),
+      });
+      return resp.data;
+    }
+    return data;
   }
   const onFinish = async (value: any) => {
-    const id: number = parseInt(delegationId);
+    const id: number = delegationId;
     const data = value;
     saveTable3({
       delegationId: id,
@@ -78,8 +90,8 @@ const FunctionList3: React.FC<{ editable: boolean, isClient: boolean }> = (prop)
         //从后端请求数据显示
                request={request}
       >
-        <ProFormText key={'name'} name="name" label="软件名称" disabled={prop.isClient}/>
-        <ProFormText key={'version'} name="version" label="版本号" disabled={prop.isClient}/>
+        <ProFormText key={'name'} name="name" label="软件名称" disabled={true}/>
+        <ProFormText key={'version'} name="version" label="版本号" disabled={true}/>
         <ProFormList
           name="function"
           label="功能列表"
