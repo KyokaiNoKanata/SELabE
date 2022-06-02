@@ -3,9 +3,9 @@ import {Card, message, Typography} from "antd";
 import React from "react";
 import {createContract, getContractById, getTable5, saveTable5} from "@/services/ant-design-pro/contract/api";
 import {useLocation} from "umi";
-import {getDelegationByIds} from "@/services/ant-design-pro/delegation/api";
+import {getDelegationById} from "@/services/ant-design-pro/delegation/api";
 import ProForm, {ProFormText,} from '@ant-design/pro-form';
-
+import API from "@/services/ant-design-pro/typings"
 const {Paragraph} = Typography;
 //editable为false则双方都不可以编辑
 //todo:好像写反了，但结果正确
@@ -17,12 +17,17 @@ const CDA: React.FC<{
   const delegationId = !params.state ? -1 : (params.state as any).id;
   let contractId = !params.state ? -1 : (params.state as any).contractId;
   const request = async () => {
-    if (!contractId) {
-      return {};
+    const delegation: API.DelegationItem = (await getDelegationById(delegationId)).data;
+    let table5Id = undefined;
+    if(contractId) {
+       table5Id = (await getContractById({id: contractId})).data.table5Id;
     }
-    const table5Id = (await getContractById({id: contractId})).data.table5Id;
-    if (!table5Id) {
-      return {}
+    if ((!contractId) || (!table5Id)) {
+      console.log(delegation.softwareName);
+      return {
+        softwareName: delegation.softwareName,
+        clientUnit: delegation.clientUnit,
+      }
     }
     const resp = await getTable5({
       id: table5Id,
@@ -48,9 +53,7 @@ const CDA: React.FC<{
         return;
       } else {
         console.log('创建合同成功');
-        contractId = (await getDelegationByIds({
-          ids: String(delegationId),
-        })).data[0].contractId;
+        contractId = (await getDelegationById(delegationId)).data.contractId;
         if (!contractId) {
           message.error('获取合同id失败，请稍后再试');
         }
@@ -87,9 +90,9 @@ const CDA: React.FC<{
           }}>
           <Typography>
             <Paragraph>
-              <ProFormText disabled={props.editable || !props.isClient} name='保密协议委托方名称'
+              <ProFormText disabled={props.editable || !props.isClient} name='clientUnit'
                            addonBefore='委托方' addonAfter='（以下简称“甲方”）与南京大学计算机软件新技术国家重点实验室（简称“乙方”）'/>
-              <ProFormText disabled={props.editable || props.isClient} name='保密协议项目名称'
+              <ProFormText disabled={props.editable || props.isClient} name='softwareName'
                            addonBefore='在签订《' addonAfter='软件项目委托测试》委托合同的前提下，为保证双方的合法权利，经协双方达成如下保密协议：'/>
             </Paragraph>
             <Card>

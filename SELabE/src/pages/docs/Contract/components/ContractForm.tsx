@@ -4,7 +4,7 @@ import ProForm, {ProFormDatePicker, ProFormText, StepsForm,} from '@ant-design/p
 import {Button, Form, Input, message, Typography} from "antd";
 import ProCard from "@ant-design/pro-card";
 import {useLocation} from "umi";
-import {getDelegationByIds} from "@/services/ant-design-pro/delegation/api";
+import {getDelegationById, getDelegationByIds} from "@/services/ant-design-pro/delegation/api";
 import {
   createContract,
   getContractById,
@@ -27,12 +27,16 @@ const ContractForm: React.FC<{
   const delegationId = !params.state ? -1 : (params.state as any).id;
   let contractId = !params.state ? -1 : (params.state as any).contractId;
   const request = async () => {
-    if (!contractId) {
-      return {};
+    let table4Id = undefined;
+    if(contractId  && contractId != -1) {
+      table4Id = (await getContractById({id: contractId})).data.table4Id;
     }
-    const table4Id = (await getContractById({id: contractId})).data.table4Id;
+    const delegation: API.DelegationItem = (await getDelegationById(delegationId)).data;
     if (!table4Id) {
-      return {}
+      return {
+        softwareName: delegation.softwareName,
+        clientUtil: delegation.clientUnit,
+      };
     }
     const resp = await getTable4({
       id: table4Id,
@@ -165,10 +169,10 @@ const ContractForm: React.FC<{
             }}
             request={request}
           >
-            <Form.Item label="项目名称:" name="项目名称" style={{width: '50%'}}>
+            <Form.Item label="项目名称:" name='softwareName' style={{width: '50%'}}>
               <Input disabled={prop.editable || prop.isClient}/>
             </Form.Item>
-            <Form.Item label="委托方(甲方):" name="委托方(甲方)" style={{width: '50%'}}>
+            <Form.Item label="委托方(甲方):" name="clientUtil" style={{width: '50%'}}>
               <Input disabled={!prop.isClient || prop.editable}/>
             </Form.Item>
             <Form.Item label="委托方(乙方):" name="委托方(乙方)" style={{width: '50%'}}>
@@ -233,14 +237,14 @@ const ContractForm: React.FC<{
     return (
       <Typography>
         <Paragraph>
-          <ProFormText name='委托方名称' addonBefore=' 本合同由作为委托方的' addonAfter='（以下简称“甲方”) 与作为受托方的'
-                       disabled={prop.isClient || prop.editable}/>
+          <ProFormText name="clientUtil" addonBefore=' 本合同由作为委托方的' addonAfter='（以下简称“甲方”) 与作为受托方的'
+                       disabled={!prop.isClient || prop.editable}/>
           <Text strong>南京大学计算机软件新技术国家重点实验室</Text> （以下简称“乙方”）在平等自愿的基础上，
           依据《中华人民共和国合同法》有关规定就项目的执行，经友好协商后订立。
         </Paragraph>
         <Title level={3}>一、任务表述</Title>
         <Paragraph>
-          <ProFormText name='软件名称' addonBefore=' 乙方按照国家软件质量测试标准和测试规范，完成对甲方委托的软件（下称受测软件）'
+          <ProFormText name='softwareName' addonBefore=' 乙方按照国家软件质量测试标准和测试规范，完成对甲方委托的软件（下称受测软件）'
                        disabled={prop.editable || prop.isClient}/>
           <ProFormText name='质量特性' addonBefore='的质量特性' addonAfter='进行测试，并出具相应的测试报告'
                        disabled={prop.editable || prop.isClient}/>

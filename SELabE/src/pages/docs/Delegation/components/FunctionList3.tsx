@@ -90,8 +90,8 @@ const FunctionList3: React.FC<{ editable: boolean, isClient: boolean }> = (prop)
         //从后端请求数据显示
                request={request}
       >
-        <ProFormText key={'name'} name="name" label="软件名称" disabled={true}/>
-        <ProFormText key={'version'} name="version" label="版本号" disabled={true}/>
+        <ProFormText key={'name'} name="name" label="软件名称" disabled={prop.isClient}/>
+        <ProFormText key={'version'} name="version" label="版本号" disabled={prop.isClient}/>
         <ProFormList
           name="function"
           label="功能列表"
