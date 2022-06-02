@@ -20,14 +20,14 @@ const FunctionList3: React.FC<{ editable: boolean, isClient: boolean }> = (prop)
     let data = {};
     if(delegation.table2Id) {
       data = {
-        name: delegation.softwareName,
-        version: delegation.version,
+        '软件名称': delegation.softwareName,
+        '版本号': delegation.version,
       };
     } else {
       message.warning('请先保存委托申请书')
       data =  {
-        name : "请先保存委托申请书",
-        version : "请先保存委托申请书",
+        "软件名称" : "请先保存委托申请书",
+        "版本号" : "请先保存委托申请书",
       }
     }
     if (table3Id) {
@@ -90,8 +90,8 @@ const FunctionList3: React.FC<{ editable: boolean, isClient: boolean }> = (prop)
         //从后端请求数据显示
                request={request}
       >
-        <ProFormText key={'name'} name="name" label="软件名称" disabled={prop.isClient}/>
-        <ProFormText key={'version'} name="version" label="版本号" disabled={prop.isClient}/>
+        <ProFormText key={'软件名称'} name="软件名称" label="软件名称" disabled={prop.isClient}/>
+        <ProFormText key={'版本号'} name="版本号" label="版本号" disabled={prop.isClient}/>
         <ProFormList
           name="function"
           label="功能列表"
@@ -118,10 +118,10 @@ const FunctionList3: React.FC<{ editable: boolean, isClient: boolean }> = (prop)
           }}
         >
           <ProFormGroup>
-            <ProFormText name="ffunction" label="功能名称" disabled={prop.isClient}/>
+            <ProFormText name="功能名称" label="功能名称" disabled={prop.isClient}/>
           </ProFormGroup>
           <ProFormList
-            name="mfunction"
+            name="子功能列表"
             label="子功能列表"
             creatorButtonProps={prop.isClient ? false : {}}
             itemRender={({listDom, action}, {record}) => {
@@ -144,8 +144,8 @@ const FunctionList3: React.FC<{ editable: boolean, isClient: boolean }> = (prop)
           >
 
             <ProFormGroup key="group">
-              <ProFormText name="value" label="子功能名称" disabled={prop.isClient}/>
-              <ProFormText name="label" label="子功能说明" disabled={prop.isClient}/>
+              <ProFormText name="子功能名称" label="子功能名称" disabled={prop.isClient}/>
+              <ProFormText name="子功能说明" label="子功能说明" disabled={prop.isClient}/>
             </ProFormGroup>
 
           </ProFormList>

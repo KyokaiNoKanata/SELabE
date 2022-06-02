@@ -25,8 +25,8 @@ const CDA: React.FC<{
     if ((!contractId) || (!table5Id)) {
       console.log(delegation.softwareName);
       return {
-        softwareName: delegation.softwareName,
-        clientUnit: delegation.clientUnit,
+        '软件名称': delegation.softwareName,
+        '委托单位': delegation.clientUnit,
       }
     }
     const resp = await getTable5({
@@ -90,9 +90,9 @@ const CDA: React.FC<{
           }}>
           <Typography>
             <Paragraph>
-              <ProFormText disabled={props.editable || !props.isClient} name='clientUnit'
+              <ProFormText disabled={props.editable || !props.isClient} name='委托单位'
                            addonBefore='委托方' addonAfter='（以下简称“甲方”）与南京大学计算机软件新技术国家重点实验室（简称“乙方”）'/>
-              <ProFormText disabled={props.editable || props.isClient} name='softwareName'
+              <ProFormText disabled={props.editable || props.isClient} name='软件名称'
                            addonBefore='在签订《' addonAfter='软件项目委托测试》委托合同的前提下，为保证双方的合法权利，经协双方达成如下保密协议：'/>
             </Paragraph>
             <Card>
