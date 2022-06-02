@@ -1,10 +1,10 @@
 import {PageContainer} from "@ant-design/pro-layout";
-import {Card, message, Typography} from "antd";
+import {Card, Col, message, Row, Typography} from "antd";
 import React from "react";
 import {createContract, getContractById, getTable5, saveTable5} from "@/services/ant-design-pro/contract/api";
 import {useLocation} from "umi";
 import {getDelegationById} from "@/services/ant-design-pro/delegation/api";
-import ProForm, {ProFormText,} from '@ant-design/pro-form';
+import ProForm, {ProFormDatePicker, ProFormText,} from '@ant-design/pro-form';
 import API from "@/services/ant-design-pro/typings"
 const {Paragraph} = Typography;
 //editable为false则双方都不可以编辑
@@ -144,6 +144,21 @@ const CDA: React.FC<{
               本协议自双方授权代表签字盖章之日起生效，但有效期不限于合同有效期。
             </Paragraph>
           </Typography>
+          <Row>
+            <Col span={12}>
+              <div>甲方:(公章)</div>
+              <br/>
+              <ProFormText name = "甲方法人代表" label = "法人代表" width = "md"/>
+              <ProFormDatePicker name = "甲方_日期" label = "日期"/>
+            </Col>
+            <Col span={12}>
+              <br/>
+              <div>乙方:(公章)</div>
+              <br/>
+              <ProFormText name = "乙方法人代表" label = "法人代表" width = "md"/>
+              <ProFormDatePicker name = "乙方_日期" label = "日期"/>
+            </Col>
+          </Row>
         </ProForm>
       ]
     );

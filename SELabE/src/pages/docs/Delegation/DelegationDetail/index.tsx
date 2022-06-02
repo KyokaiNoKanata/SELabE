@@ -6,8 +6,8 @@ import {PageContainer} from "@ant-design/pro-layout";
 import ProCard from "@ant-design/pro-card";
 import moment from 'moment';
 import {Link} from "@umijs/preset-dumi/lib/theme";
-import Modal from '../../../Delegation/DelegationDetail/components/Modal'
 import constant from "../../../../../config/constant";
+import Modal from "@/pages/Delegation/DelegationDetail/components/Modal";
 
 
 const {Step} = Steps;

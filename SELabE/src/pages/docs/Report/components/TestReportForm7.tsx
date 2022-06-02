@@ -250,11 +250,11 @@ const TestReportForm7: React.FC<{ editable: boolean }> = (prop) => {
   const frontPage = () => {
     return (
       <ProCard>
-        <ProFormText name="软件名称_1" label="软件名称" width="md" required={true} disabled={!prop.editable}/>
-        <ProFormText name="版本号_1" label="版本号" width="md" required={true} disabled={!prop.editable}/>
-        <ProFormText name="委托单位_1" label="委托单位" width="md" required={true} disabled={!prop.editable}/>
-        <ProFormText name="测试类别_1" label="测试类别" width="md" required={true} disabled={!prop.editable}/>
-        <ProFormDatePicker name="报告日期_1" label="报告日期" width="md" required={true}
+        <ProFormText name="软件名称_1" label="软件名称" width="md"  rules={[{required: true}]} disabled={!prop.editable}/>
+        <ProFormText name="版本号_1" label="版本号" width="md"  rules={[{required: true}]} disabled={!prop.editable}/>
+        <ProFormText name="委托单位_1" label="委托单位" width="md"  rules={[{required: true}]} disabled={!prop.editable}/>
+        <ProFormText name="测试类别_1" label="测试类别" width="md"  rules={[{required: true}]} disabled={!prop.editable}/>
+        <ProFormDatePicker name="报告日期_1" label="报告日期" width="md"  rules={[{required: true}]}
                            disabled={!prop.editable}/>
       </ProCard>
     )
@@ -302,46 +302,48 @@ const TestReportForm7: React.FC<{ editable: boolean }> = (prop) => {
   const reportForm = () => {
     return (
       <ProCard>
-        <ProFormText name="委托单位" label="委托单位" width="md" required={true} disabled={!prop.editable}/>
-        <ProFormText name="项目编号" label="项目编号" width="md" required={true} disabled={!prop.editable}/>
-        <ProFormText name="样品名称" label="样品名称" width="md" required={true} disabled={!prop.editable}/>
-        <ProFormText name="版本/型号" label="版本/型号" width="md" required={true} disabled={!prop.editable}/>
-        <ProFormDatePicker name="来样日期" label="来样日期" width="md" required={true} disabled={!prop.editable}/>
-        <ProFormDateRangePicker name="测试时间" label="测试时间" required={true}
+        <ProFormText name="委托单位" label="委托单位" width="md" rules={[{required: true}]} disabled={!prop.editable}/>
+        <ProFormText name="项目编号" label="项目编号" width="md" rules={[{required: true}]} disabled={!prop.editable}/>
+        <ProFormText name="样品名称" label="样品名称" width="md" rules={[{required: true}]} disabled={!prop.editable}/>
+        <ProFormText name="版本/型号" label="版本/型号" width="md" rules={[{required: true}]} disabled={!prop.editable}/>
+        <ProFormDatePicker name="来样日期" label="来样日期" width="md" rules={[{required: true}]} disabled={!prop.editable}/>
+        <ProFormText name = "测试类型" label = "测试类型" width = "md" rules={[{required: true}]} disabled={!prop.editable}/>
+        <ProFormDateRangePicker name="测试时间" label="测试时间" rules={[{required: true}]}
                                 disabled={!prop.editable}/>
-        <ProFormTextArea name="样品状态" label="样品状态" required={true} disabled={!prop.editable}/>
-        <ProFormTextArea name="测试依据" label="测试依据" required={true} disabled={!prop.editable}/>
-        <ProFormTextArea name="测试结论" label="测试结论" required={true} disabled={!prop.editable}/>
+        <ProFormTextArea name="样品状态" label="样品状态" rules={[{required: true}]} disabled={!prop.editable}/>
+        <ProFormTextArea name="测试依据" label="测试依据" rules={[{required: true}]} disabled={!prop.editable}/>
+        <ProFormTextArea name="样品清单" label="样品清单" rules={[{required: true}]} disabled={!prop.editable}/>
+        <ProFormTextArea name="测试结论" label="测试结论" rules={[{required: true}]} disabled={!prop.editable}/>
         <Row>
           <Col span={12}>
-            <ProFormText name="主测人" label="主测人" width="md" required={true} disabled={!prop.editable}/>
+            <ProFormText name="主测人" label="主测人" width="md" rules={[{required: true}]} disabled={!prop.editable}/>
           </Col>
           <Col span={12}>
-            <ProFormDatePicker name="主测_日期" label="日期" required={true} disabled={!prop.editable}/>
+            <ProFormDatePicker name="主测_日期" label="日期" rules={[{required: true}]} disabled={!prop.editable}/>
           </Col>
         </Row>
         <Row>
           <Col span={12}>
-            <ProFormText name="审核人" label="审核人" width="md" required={true} disabled={!prop.editable}/>
+            <ProFormText name="审核人" label="审核人" width="md" rules={[{required: true}]} disabled={!prop.editable}/>
           </Col>
           <Col span={12}>
-            <ProFormDatePicker name="审核_日期" label="日期" required={true} disabled={!prop.editable}/>
+            <ProFormDatePicker name="审核_日期" label="日期" rules={[{required: true}]} disabled={!prop.editable}/>
           </Col>
         </Row>
         <Row>
           <Col span={12}>
-            <ProFormText name="批准人" label="批准人" width="md" required={true} disabled={!prop.editable}/>
+            <ProFormText name="批准人" label="批准人" width="md" rules={[{required: true}]} disabled={!prop.editable}/>
           </Col>
           <Col span={12}>
-            <ProFormDatePicker name="批准_日期" label="日期" required={true} disabled={!prop.editable}/>
+            <ProFormDatePicker name="批准_日期" label="日期" rules={[{required: true}]} disabled={!prop.editable}/>
           </Col>
         </Row>
-        <ProFormText label="电话" name="电话" width="md" required={true} disabled={!prop.editable}/>
-        <ProFormText label="传真" name="传真" width="md" required={true} disabled={!prop.editable}/>
-        <ProFormText label="地址" name="地址" width="md" required={true} disabled={!prop.editable}/>
-        <ProFormText label="邮编" name="邮编" width="md" required={true} disabled={!prop.editable}/>
-        <ProFormText label="联系人" name="联系人" width="md" required={true} disabled={!prop.editable}/>
-        <ProFormText label="E-mail" name="E-mail" width="md" required={true} disabled={!prop.editable}/>
+        <ProFormText label="电话" name="电话" width="md" rules={[{required: true}]} disabled={!prop.editable}/>
+        <ProFormText label="传真" name="传真" width="md" rules={[{required: true}]} disabled={!prop.editable}/>
+        <ProFormText label="地址" name="地址" width="md" rules={[{required: true}]} disabled={!prop.editable}/>
+        <ProFormText label="邮编" name="邮编" width="md" rules={[{required: true}]} disabled={!prop.editable}/>
+        <ProFormText label="联系人" name="联系人" width="md" rules={[{required: true}]} disabled={!prop.editable}/>
+        <ProFormText label="E-mail" name="E-mail" width="md" rules={[{required: true}]} disabled={!prop.editable}/>
         <div>测试单位联系方式</div>
         <div>单位地址: 南京市栖霞区仙林大道163号</div>
         <div>邮政编码: 210023</div>
@@ -360,10 +362,10 @@ const TestReportForm7: React.FC<{ editable: boolean }> = (prop) => {
           <ProCard title="硬件环境" bordered>
             <div>本次测试中使用到的硬件环境如下:</div>
             <br/>
-            <ProFormText label="硬件类别" name="硬件类别" width="md" required={true} disabled={!prop.editable}/>
-            <ProFormText label="硬件名称" name="硬件名称" width="md" required={true} disabled={!prop.editable}/>
-            <ProFormText label="配置" name="配置" width="md" required={true} disabled={!prop.editable}/>
-            <ProFormText label="数量" name="数量" width="md" required={true} disabled={!prop.editable}/>
+            <ProFormText label="硬件类别" name="硬件类别" width="md" rules={[{required: true}]} disabled={!prop.editable}/>
+            <ProFormText label="硬件名称" name="硬件名称" width="md" rules={[{required: true}]} disabled={!prop.editable}/>
+            <ProFormText label="配置" name="配置" width="md" rules={[{required: true}]} disabled={!prop.editable}/>
+            <ProFormText label="数量" name="数量" width="md" rules={[{required: true}]} disabled={!prop.editable}/>
           </ProCard>
         </Row>
         <Row>
@@ -392,7 +394,7 @@ const TestReportForm7: React.FC<{ editable: boolean }> = (prop) => {
         </Row>
         <Row>
           <ProCard title="网络环境" bordered>
-            <ProFormTextArea label="网络环境" name="网络环境" required={true} disabled={!prop.editable}/>
+            <ProFormTextArea label="网络环境" name="网络环境" rules={[{required: true}]} disabled={!prop.editable}/>
           </ProCard>
         </Row>
       </ProCard>
