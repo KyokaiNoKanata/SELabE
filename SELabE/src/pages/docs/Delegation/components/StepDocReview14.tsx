@@ -350,9 +350,9 @@ const StepDocReview14 = () => {
     const table14Id = delegation.table14Id;
     if (table14Id == undefined) {
       return {
-        softwareName: delegation.softwareName,
-        version: delegation.version,
-        clientUnit: delegation.clientUnit,
+        '软件名称': delegation.softwareName,
+        '版本号': delegation.version,
+        '委托单位': delegation.clientUnit,
       }
     }
     const resp = await getTable14({
@@ -415,17 +415,17 @@ const StepDocReview14 = () => {
   const onSubmit = async () => {
     //onSave(values)
     const id: number = parseInt(delegationId);
-    const pass = formRef.current?.getFieldFormatValue!(['pass']);
-    const remark = formRef.current?.getFieldFormatValue!(['marketRemark']);
+    const pass = formRef.current?.getFieldFormatValue!(['是否通过']);
+    const remark = formRef.current?.getFieldFormatValue!(['审核意见']);
     //通过
-    if (pass == 0) {
+    if (pass == '通过') {
       await handleAuditSuccessTesting({
         id: id,
         remark: remark
       });
     }
     //不通过
-    else if (pass == 1) {
+    else if (pass == '不通过') {
       await handleAuditFailTesting({
         id: id,
         remark: remark
@@ -440,7 +440,7 @@ const StepDocReview14 = () => {
   return (
     <PageContainer content="">
       <PageHeader
-        className="site-page-header"
+        className="软件文档评审表"
         title="软件文档评审表"
       />
       <ProCard>
@@ -540,7 +540,7 @@ const StepDocReview14 = () => {
               <ProForm.Group>
                 <ProFormText
                   width="md"
-                  name="softwareName"
+                  name="软件名称"
                   label="软件名称"
                   tooltip=""
                   placeholder="请输入名称"
@@ -548,7 +548,7 @@ const StepDocReview14 = () => {
                   rules={[{required: true, message: '这是必填项'}]}
                 />
                 <ProFormText width="md"
-                             name="version"
+                             name="版本号"
                              label="版本号"
                              placeholder="请输入版本号"
                              disabled={true}
@@ -558,7 +558,7 @@ const StepDocReview14 = () => {
               <ProForm.Group>
                 <ProFormText
                   width="xl"
-                  name="clientUnit"
+                  name="委托单位"
                   label="委托单位"
                   tooltip=""
                   placeholder="请输入委托单位"
@@ -569,7 +569,7 @@ const StepDocReview14 = () => {
               <ProForm.Group>
                 <ProFormText
                   width="md"
-                  name="reviewer"
+                  name="评审人"
                   label="评审人"
                   tooltip=""
                   placeholder="请输入评审人"
@@ -588,7 +588,7 @@ const StepDocReview14 = () => {
             name="step2"
             title="第二页"
             stepProps={{
-              description: '软件说明部分评审',
+              description: '一、软件说明部分评审',
             }}
             onFinish={async () => {
               //console.log(formRef.current?.getFieldsValue());
@@ -599,7 +599,7 @@ const StepDocReview14 = () => {
           >
             <ProForm.Group>
               <PageHeader
-                className="site-page-header"
+                className="一、软件说明部分评审"
                 title="一、软件说明部分评审"
               />
               <ProForm.Item
@@ -648,12 +648,12 @@ const StepDocReview14 = () => {
           >
             <ProForm.Group>
               <PageHeader
-                className="site-page-header"
+                className="二、软件文档集评审"
                 title="二、软件文档集评审"
               />
               <ProForm.Item
                 label=""
-                name="documentReviewData"
+                name="软件文档集评审"
                 initialValue={documentReviewData}
                 trigger="onValuesChange"
               >
@@ -685,7 +685,7 @@ const StepDocReview14 = () => {
               >
                 <ProFormText
                   width="md"
-                  name="checker"
+                  name="检查人"
                   label="检查人"
                   tooltip=""
                   placeholder="请输入检查人"
@@ -711,17 +711,17 @@ const StepDocReview14 = () => {
                 showSearch
                 width="md"
                 label="是否通过"
-                name="pass"
+                name="是否通过"
                 placeholder={'选择是否通过'}
                 valueEnum={{
-                  0: '通过',
-                  1: '不通过',
+                  '通过': '通过',
+                  '不通过': '不通过',
                 }}
                 required
               />
               <ProFormText
                 width="md"
-                name="marketRemark"
+                name="审核意见"
                 label="审核意见"
                 placeholder="请输入审核意见"
                 initialValue={''}

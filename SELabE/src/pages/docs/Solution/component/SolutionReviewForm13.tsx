@@ -253,7 +253,7 @@ const SolutionReviewForm13: React.FC<{
   return (
     <PageContainer>
       <PageHeader
-        className="test-form"
+        className="测试方案评审表"
         title="测试方案评审表"
       />
       <ProCard>
@@ -292,7 +292,7 @@ const SolutionReviewForm13: React.FC<{
           <ProForm.Group>
             <ProFormText
               width="md"
-              name="softName"
+              name="软件名称"
               label="软件名称"
               tooltip="最长为 24 位"
               placeholder="请输入名称"
@@ -300,7 +300,7 @@ const SolutionReviewForm13: React.FC<{
               disabled={!props.editable}
             />
             <ProFormText width="md"
-                         name="version"
+                         name="版本号"
                          label="版本号"
                          placeholder="请输入版本号"
                          rules={[{required: true, message: '这是必填项'}]}
@@ -309,15 +309,15 @@ const SolutionReviewForm13: React.FC<{
             <ProForm.Group>
               <ProFormText
                 width="md"
-                name="contractId"
-                label="主合同编号"
+                name="项目编号"
+                label="项目编号"
                 tooltip="最长为 24 位"
                 placeholder="请输入编号"
                 rules={[{required: true, message: '这是必填项'}]}
                 disabled={!props.editable}
               />
               <ProFormText width="md"
-                           name="type"
+                           name="测试类别"
                            label="测试类别"
                            placeholder="请输入类别"
                            rules={[{required: true, message: '这是必填项'}]}

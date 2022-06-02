@@ -69,7 +69,7 @@ const OfferForm: React.FC<{isClient: boolean}> = (props) => {
     const offerId = delegation.offerId;
     if(!offerId) {
       return {
-        softwareName: delegation.softwareName,
+        '软件名称': delegation.softwareName,
       };
     }
     const resp = await getOffer({
@@ -166,7 +166,7 @@ const OfferForm: React.FC<{isClient: boolean}> = (props) => {
         >
           <ProFormDatePicker disabled={props.isClient} name="报价日期" label="报价日期"/>
           <ProFormDateRangePicker disabled={props.isClient} name="报价有效期" label="报价有效期"/>
-          <ProFormText disabled={props.isClient} name="softwareName" label="软件名称" width="md"/>
+          <ProFormText disabled={props.isClient} name="软件名称" label="软件名称" width="md"/>
           <ProForm.Item
             name="项目表格"
             trigger="onValuesChange"
