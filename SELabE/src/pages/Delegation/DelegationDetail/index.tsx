@@ -1,15 +1,17 @@
 import React, {useState} from 'react';
-import {Row, Steps} from 'antd';
+import {Button, Row, Steps} from 'antd';
 import {getDelegationByIds, getProcessList, getUserByID} from "@/services/ant-design-pro/delegation/api";
 import {useLocation} from "umi";
 import {PageContainer} from "@ant-design/pro-layout";
 import ProCard from "@ant-design/pro-card";
 import moment from 'moment';
 import {Link} from "@umijs/preset-dumi/lib/theme";
+import Modal from './components/Modal'
 
 const {Step} = Steps;
 
 const DelegationDetail: React.FC = () => {
+  const [modalVisible, setModalVisible] = useState(false);
   const [delegationState, setDelegationState] = useState<string>();
   const [delegationName, setDelegationName] = useState<string>();
   const [launchTime, setLaunchTime] = useState<string>();
@@ -560,11 +562,11 @@ const DelegationDetail: React.FC = () => {
 
   const tran_path = () => {
     if (tran_pathName === "") {
-      return delegationState;
+      return "状态: " + String(delegationState);
     } else {
       return (
         <Link to={{pathname: tran_pathName, state: {id: delegationId}}}>
-          {delegationState} (点击跳转)
+          状态: {delegationState} (点击跳转)
         </Link>
       )
     }
@@ -625,6 +627,17 @@ const DelegationDetail: React.FC = () => {
         </ProCard>
         <ProCard>
           状态变更时间: {moment(parseInt(String(operateTime))).format("YYYY-MM-DD HH:mm:ss")}
+        </ProCard>
+        <ProCard>
+          <Button key = "查看文档" onClick={()=>{
+            setModalVisible(true)
+          }}>查看我的文档</Button>
+          <Modal
+            modalVisible = {modalVisible}
+            hideModal={()=>{
+              setModalVisible(false);
+            }}
+          />
         </ProCard>
       </Row>
     </PageContainer>
