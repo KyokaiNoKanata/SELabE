@@ -8,12 +8,13 @@ import ProForm, {
   StepsForm,
 } from '@ant-design/pro-form';
 import ProCard from '@ant-design/pro-card';
-import {Button, Col, Form, message, PageHeader, Row} from 'antd';
+import {Button, Col, Form, message, PageHeader, Row, TreeSelect} from 'antd';
 import {PageContainer} from '@ant-design/pro-layout';
 import TextArea from "antd/es/input/TextArea";
 import {useLocation} from "umi";
 import {getDelegationByIds, getTable2, saveTable2} from '@/services/ant-design-pro/delegation/api';
-import React from "react";
+import React, {useState} from "react";
+import {TreeNode} from 'antd/lib/tree-select';
 
 const Date: any = ProFormDatePicker;
 const StepApplyForm2: React.FC<{ editable: boolean, isClient: boolean }> = (prop) => {
@@ -43,6 +44,10 @@ const StepApplyForm2: React.FC<{ editable: boolean, isClient: boolean }> = (prop
       }
     });
   }
+  const [TreeValue, setTreeValue] = useState<string | undefined>(undefined);
+  const onChange = (newValue: string) => {
+    setTreeValue(newValue);
+  };
   return (
     <PageContainer content="用户向本中心发起测试委托">
       <PageHeader
@@ -203,62 +208,52 @@ const StepApplyForm2: React.FC<{ editable: boolean, isClient: boolean }> = (prop
             </Row>
             <Row>
               <ProCard title='软件类型' bordered>
-                <ProForm.Group>
-                  <ProFormSelect
-                    name="系统软件"
-                    label="系统软件"
-                    width='md'
-                    valueEnum={{
-                      操作系统: '操作系统',
-                      中文处理系统: '中文处理系统',
-                      网络系统: '网络系统',
-                      嵌入式操作系统: '嵌入式操作系统',
-                      其他: '其他'
-                    }}
-                    disabled={prop.isClient}
-                    placeholder="Please select"
-                    rules={[{required: true}]}
-                  />
-                  <ProFormSelect
-                    name="支持软件"
-                    label="支持软件"
-                    width='md'
-                    valueEnum={{
-                      程序设计语言: '程序设计语言',
-                      数据库系统设计: '数据库系统设计',
-                      工具软件: '工具软件',
-                      网络通信软件: '网络通信软件',
-                      中间件: '中间件',
-                      其他: '其他'
-                    }}
-                    disabled={prop.isClient}
-                    placeholder="Please select"
-                    rules={[{required: true}]}
-                  />
-                  <ProFormSelect
-                    name="应用软件"
-                    label="应用软件"
-                    width='md'
-                    valueEnum={{
-                      行业管理软件: '行业管理软件',
-                      办公软件: '办公软件',
-                      模式识别软件: '模式识别软件',
-                      图形图像软件: '图形图像软件',
-                      控制软件: '控制软件',
-                      网络应用软件: '网络应用软件',
-                      信息管理软件: '信息管理软件',
-                      数据库管理应用软件: '数据库管理应用软件',
-                      安全与保密软件: '安全与保密软件',
-                      嵌入式应用软件: '嵌入式应用软件',
-                      教育软件: '教育软件',
-                      游戏软件: '游戏软件 ',
-                      其他: '其他'
-                    }}
-                    disabled={prop.isClient}
-                    placeholder="Please select"
-                    rules={[{required: true}]}
-                  />
-                </ProForm.Group>
+                <Row>
+                  <Col span={12}>
+                    <Form.Item name='软件类型' rules={[{required: true}]} >
+                      <TreeSelect
+                        disabled={prop.isClient}
+                        placeholder="Please select"
+                        allowClear
+                        treeDefaultExpandAll
+                        onChange={onChange}
+                        size='middle'
+                        value={TreeValue}
+                      >
+                        <TreeNode disabled={true} value="操作系统" title="操作系统">
+                          <TreeNode value="中文处理系统" title="中文处理系统"/>
+                          <TreeNode value="网络系统" title="网络系统"/>
+                          <TreeNode value="嵌入式操作系统 " title="嵌入式操作系统 "/>
+                          <TreeNode value="系统软件其他" title="其他"/>
+                        </TreeNode>
+                        <TreeNode disabled={true} value="支持软件" title="支持软件">
+                          <TreeNode value="程序设计语言" title="程序设计语言"/>
+                          <TreeNode value="数据库系统设计" title="数据库系统设计"/>
+                          <TreeNode value="工具软件" title="工具软件"/>
+                          <TreeNode value="网络通信软件" title="网络通信软件"/>
+                          <TreeNode value="中间件" title="中间件"/>
+                          <TreeNode value="支持软件其他" title="其他"/>
+                        </TreeNode>
+                        <TreeNode disabled={true} value="应用软件" title="应用软件">
+                          <TreeNode value="行业管理软件" title="行业管理软件"/>
+                          <TreeNode value="办公软件" title="办公软件"/>
+                          <TreeNode value="模式识别软件" title="模式识别软件"/>
+                          <TreeNode value="图形图像软件" title="图形图像软件"/>
+                          <TreeNode value="控制软件" title="控制软件"/>
+                          <TreeNode value="网络应用软件" title="网络应用软件"/>
+                          <TreeNode value="信息管理软件" title="信息管理软件"/>
+                          <TreeNode value="数据库管理应用软件" title="数据库管理应用软件"/>
+                          <TreeNode value="安全与保密软件" title="安全与保密软件"/>
+                          <TreeNode value="嵌入式应用软件" title="嵌入式应用软件"/>
+                          <TreeNode value="教育软件" title="教育软件"/>
+                          <TreeNode value="游戏软件" title="游戏软件"/>
+                          <TreeNode value="应用软件其他" title="其他"/>
+                        </TreeNode>
+                        <TreeNode value="软件类型其他" title="其他"/>
+                      </TreeSelect>
+                    </Form.Item>
+                  </Col>
+                </Row>
               </ProCard>
             </Row>
             <Row>
