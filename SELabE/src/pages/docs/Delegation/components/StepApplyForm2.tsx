@@ -258,6 +258,18 @@ const StepApplyForm2: React.FC<{ editable: boolean, isClient: boolean }> = (prop
                     placeholder="Please select"
                     rules={[{required: true}]}
                   />
+                  <ProFormSelect
+                    name = "软件类型_其他"
+                    label = "其他"
+                    width = "md"
+                    valueEnum = {{
+                      其他: '其他'
+                    }}
+                    disabled = {prop.isClient}
+                    placeholder="Please select"
+                    initialValue=""
+                    rules={[{required: false}]}
+                  />
                 </ProForm.Group>
               </ProCard>
             </Row>

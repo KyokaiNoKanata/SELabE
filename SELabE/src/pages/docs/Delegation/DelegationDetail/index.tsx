@@ -6,7 +6,9 @@ import {PageContainer} from "@ant-design/pro-layout";
 import ProCard from "@ant-design/pro-card";
 import moment from 'moment';
 import {Link} from "@umijs/preset-dumi/lib/theme";
-import Modal from './components/Modal'
+import Modal from '../../../Delegation/DelegationDetail/components/Modal'
+import constant from "../../../../../config/constant";
+
 
 const {Step} = Steps;
 
@@ -124,246 +126,246 @@ const DelegationDetail: React.FC = () => {
 
   const currentStep = () => {
     switch (delegationState) {
-      case "委托填写中": {
+      case constant.delegationState.DELEGATE_WRITING.desc: {
         tran_pathName = '/docs/new-delegation';
         currentStatus = "process";
         return 0;
       }
-      case "等待市场部主管分配市场部人员": {
+      case constant.delegationState.WAIT_MARKETING_DEPARTMENT_ASSIGN_STAFF.desc: {
         currentStatus = "process";
         return 1;
       }
 
-      case "等待测试部主管分配测试部人员": {
+      case constant.delegationState.WAIT_TESTING_DEPARTMENT_ASSIGN_STAFF.desc: {
         currentStatus = "process";
         return 2
       }
 
-      case "市场部审核委托中": {
+      case constant.delegationState.MARKETING_DEPARTMENT_AUDIT_DELEGATION.desc: {
         currentStatus = "process";
         tran_pathName = '/docs/softDocReview/marketing';
         return 3
       }
 
-      case "市场部审核委托不通过，委托修改中": {
+      case constant.delegationState.MARKETING_DEPARTMENT_AUDIT_DELEGATION_FAIL.desc: {
         currentStatus = "error";
         tran_pathName = '/docs/new-delegation';
         return 4
       }
 
-      case "市场部审核委托通过": {
+      case constant.delegationState.MARKETING_DEPARTMENT_AUDIT_DELEGATION_SUCCESS.desc: {
         currentStatus = "process";
         return 4
       }
 
-      case "测试部审核委托中": {
+      case constant.delegationState.TESTING_DEPARTMENT_AUDIT_DELEGATION.desc: {
         currentStatus = "process";
         tran_pathName = '/docs/softDocReview/testing';
         return 5
       }
 
-      case "测试部审核委托不通过，委托修改中": {
+      case constant.delegationState.TESTING_DEPARTMENT_AUDIT_DELEGATION_FAIL.desc: {
         currentStatus = "error";
         tran_pathName = '/docs/new-delegation';
         return 6
       }
 
-      case "测试部审核委托通过": {
+      case constant.delegationState.TESTING_DEPARTMENT_AUDIT_DELEGATION_SUCCESS.desc: {
         currentStatus = "process";
         return 6
       }
 
-      case "委托审核通过": {
+      case constant.delegationState.AUDIT_DELEGATION_SUCCESS.desc: {
         currentStatus = "process";
         return 7
       }
 
-      case "市场部生成报价中": {
+      case constant.delegationState.MARKETING_DEPARTMENT_GENERATE_OFFER.desc: {
         currentStatus = "process";
         tran_pathName = '/docs/quotation/marketing';
         return 8
       }
 
-      case "客户处理报价中": {
+      case constant.delegationState.CLIENT_DEALING_OFFER.desc: {
         currentStatus = "process";
         tran_pathName = '/docs/quotation/client';
         return 9
       }
 
-      case "客户不接受报价，市场部修改报价": {
+      case constant.delegationState.CLIENT_REJECT_OFFER.desc: {
         currentStatus = "error";
         tran_pathName = '/docs/quotation/marketing';
         return 10
       }
 
-      case "客户接受报价": {
+      case constant.delegationState.CLIENT_ACCEPT_OFFER.desc: {
         currentStatus = "process";
         return 10
       }
 
-      case "市场部生成合同草稿中": {
+      case constant.delegationState.MARKETING_DEPARTMENT_GENERATE_CONTRACT.desc: {
         currentStatus = "process";
         tran_pathName = '/docs/contract/marketing';
         return 11
       }
 
-      case "客户检查合同草稿中": {
+      case constant.delegationState.CLIENT_AUDIT_CONTRACT.desc: {
         currentStatus = "process";
         tran_pathName = '/docs/contract/audit/client';
         return 12
       }
 
-      case "客户接受市场部合同草稿，填写合同中": {
+      case constant.delegationState.CLIENT_WRITING_CONTRACT.desc: {
         currentStatus = "process";
         tran_pathName = '/docs/contract/client';
         return 13
       }
 
-      case "客户不接受市场部合同草稿，市场部修改合同草稿": {
+      case constant.delegationState.CLIENT_AUDIT_CONTRACT_FAIL.desc: {
         currentStatus = "error";
         tran_pathName = '/docs/contract/marketing';
         return 13
       }
 
-      case "市场部审核客户填写的草稿中": {
+      case constant.delegationState.MARKETING_DEPARTMENT_AUDIT_CONTRACT.desc: {
         currentStatus = "process";
         tran_pathName = '/docs/contract/audit/marketing';
         return 14
       }
 
-      case "市场部审核合同不通过，客户修改中": {
+      case constant.delegationState.MARKETING_DEPARTMENT_AUDIT_CONTRACT_FAIL.desc: {
         currentStatus = "error";
         tran_pathName = '/docs/contract/client';
         return 15
       }
 
-      case "市场部审核合同通过": {
+      case constant.delegationState.MARKETING_DEPARTMENT_AUDIT_CONTRACT_SUCCESS.desc: {
         currentStatus = "process";
         return 15
       }
 
-      case "合同签署中": {
+      case constant.delegationState.CONTRACT_SIGNING.desc: {
         currentStatus = "process";
         return 16
       }
 
-      case "合同签署成功": {
+      case constant.delegationState.CONTRACT_SIGN_SUCCESS.desc: {
         currentStatus = "process";
         return 17
       }
 
-      case "客户上传样品中": {
+      case constant.delegationState.CLIENT_UPLOAD_SAMPLE_INFO.desc: {
         currentStatus = "process";
         return 18
       }
 
-      case "测试部/市场部验收样品中": {
+      case constant.delegationState.CHECKING_SAMPLE.desc: {
         currentStatus = "process";
         return 19
       }
 
-      case "样品验收不通过，用户重新修改": {
+      case constant.delegationState.SAMPLE_CHECK_FAIL_MODIFY_SAMPLE.desc: {
         currentStatus = "error";
         return 20
       }
 
-      case "样品验收通过": {
+      case constant.delegationState.SAMPLE_CHECK_SUCCESS.desc: {
         currentStatus = "process";
         return 20
       }
 
-      case "测试部编写测试方案中": {
+      case constant.delegationState.TESTING_DEPT_WRITING_TEST_SOLUTION.desc: {
         currentStatus = "process";
         tran_pathName = '/docs/new-solution';
         return 21
       }
 
-      case "质量部审核测试方案中": {
+      case constant.delegationState.QUALITY_DEPT_AUDIT_TEST_SOLUTION.desc: {
         currentStatus = "process";
         tran_pathName = '/docs/solution/audit-solution';
         return 22
       }
 
-      case "测试方案审核未通过，测试部修改测试方案中": {
+      case constant.delegationState.QUALITY_DEPT_AUDIT_TEST_SOLUTION_FAIL.desc: {
         currentStatus = "process";
         tran_pathName = '/docs/new-solution';
         return 23
       }
 
-      case "测试方案审核通过": {
+      case constant.delegationState.QUALITY_DEPT_AUDIT_TEST_SOLUTION_SUCCESS.desc: {
         currentStatus = "process";
         return 23
       }
 
-      case "测试部测试进行中，填写测试文档": {
+      case constant.delegationState.TESTING_DEPT_WRITING_TEST_REPORT.desc: {
         currentStatus = "process";
         tran_pathName = '/docs/report/fill-in-report';
         return 24
       }
 
-      case "测试部测试完成，生成测试报告": {
+      case constant.delegationState.TESTING_DEPT_GENERATE_TEST_REPORT.desc: {
         currentStatus = "process";
         tran_pathName = '/docs/report/fill-in-report';
         return 25
       }
 
-      case "测试部主管审核测试报告中": {
+      case constant.delegationState.TESTING_DEPT_MANAGER_AUDIT_TEST_REPORT.desc: {
         currentStatus = "process";
         tran_pathName = '/docs/report/audit/manager';
         return 26
       }
 
-      case "测试部主管测试报告审核未通过，测试部修改测试文档中": {
+      case constant.delegationState.TESTING_DEPT_MANAGER_AUDIT_TEST_REPORT_FAIL.desc: {
         tran_pathName = '/docs/report/fill-in-report';
         currentStatus = "error";
         return 27
       }
 
-      case "测试部主管测试报告审核通过，用户审核中": {
+      case constant.delegationState.TESTING_DEPT_MANAGER_AUDIT_TEST_REPORT_SUCCESS.desc: {
         currentStatus = "process";
         tran_pathName = '/docs/report/audit/client';
         return 27
       }
 
-      case "用户审核测试报告未通过，测试部修改测试文档中": {
+      case constant.delegationState.CLIENT_AUDIT_TEST_REPORT_FAIL.desc: {
         tran_pathName = '/docs/report/fill-in-report';
         currentStatus = "process";
         return 28
       }
 
-      case "用户审核测试报告通过，授权签字人审核测试报告中": {
+      case constant.delegationState.CLIENT_AUDIT_TEST_REPORT_SUCCESS.desc: {
         tran_pathName = '/docs/report/audit/signatory';
         currentStatus = "process";
         return 28
       }
 
-      case "授权签字人测试报告审核未通过， 测试部修改测试文档中": {
+      case constant.delegationState.SIGNATORY_AUDIT_TEST_REPORT_FAIL.desc: {
         currentStatus = "error";
         tran_pathName = '/docs/report/fill-in-report';
         return 29
       }
 
-      case "授权签字人测试报告审核通过": {
+      case constant.delegationState.SIGNATORY_AUDIT_TEST_REPORT_SUCCESS.desc: {
         currentStatus = "process";
         return 29
       }
 
-      case "测试部测试文档归档，处理样品中": {
+      case constant.delegationState.TESTING_DEPT_ARCHIVE_TEST_REPORT_AND_PROCESS_SAMPLE.desc: {
         currentStatus = "process";
         return 30
       }
 
-      case "市场部发送测试报告中": {
+      case constant.delegationState.MARKETING_DEPT_SEND_TEST_REPORT.desc: {
         currentStatus = "process";
         return 31
       }
 
-      case "等待客户接收测试报告中": {
+      case constant.delegationState.WAIT_FOR_CLIENT_RECEIVE_TEST_REPORT.desc: {
         currentStatus = "process";
         return 32
       }
 
-      case "客户确认接收测试报告": {
+      case constant.delegationState.CLIENT_CONFIRM_RECEIVE_TEST_REPORT.desc: {
         currentStatus = "finish";
         return 33
       }
