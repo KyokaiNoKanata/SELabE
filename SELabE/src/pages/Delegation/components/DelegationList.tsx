@@ -18,6 +18,7 @@ import type API from "@/services/ant-design-pro/typings";
 import {FormattedMessage} from "@@/plugin-locale/localeExports";
 import {useIntl} from "umi";
 import {currentUser} from "@/services/ant-design-pro/api";
+import constant from "../../../../config/constant";
 
 const {confirm} = Modal;
 
@@ -470,7 +471,7 @@ const DelegationList: React.FC<DelegationListType> = (props) => {
         }}
         /*新建*/
         toolBarRender={() => [
-          (roles.includes('client') || roles.includes('super_admin')) &&
+          (roles.includes(constant.roles.CUSTOMER.en) || roles.includes(constant.roles.SUPER_ADMIN.en)) &&
           <Button
             type="primary"
             key="primary"
@@ -481,7 +482,7 @@ const DelegationList: React.FC<DelegationListType> = (props) => {
             <PlusOutlined/> <FormattedMessage id="todo" defaultMessage="新建"/>
           </Button>,
           /*删除*/
-          (roles.includes('client') || roles.includes('super_admin')) &&
+          (roles.includes(constant.roles.CUSTOMER.en) || roles.includes(constant.roles.SUPER_ADMIN.en)) &&
           <Button
             type="primary"
             key="danger"
@@ -499,11 +500,6 @@ const DelegationList: React.FC<DelegationListType> = (props) => {
                     const ids = selectedRowsState.map(record => record.id);
                     //console.log(ids);
                     setSelectedRows([]);
-                    if (!roles.includes('client')) {
-                      message.error('您没有权限删除委托');
-                      return;
-                    }
-                    // ?
                     ids.forEach((id: any) => {
                       handleDelete(id).then(() => actionRef.current?.reloadAndRest?.());
                     })
@@ -565,11 +561,6 @@ const DelegationList: React.FC<DelegationListType> = (props) => {
         onFinish={async (value: {
           name: string
         }) => {
-          if (!roles.includes('client')) {
-            message.error('您没有权限创建委托');
-            return;
-          }
-          //console.log(value);
           const success = await handleCreateDelegation(value);
           if (success) {
             handleModalVisible(false);

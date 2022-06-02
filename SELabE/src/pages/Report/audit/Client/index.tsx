@@ -7,6 +7,7 @@ import type {ProColumns} from "@ant-design/pro-table";
 import {Button} from "antd";
 import DelegationList from "@/pages/Delegation/components/DelegationList";
 import {Link} from "umi";
+import constant from "../../../../../config/constant";
 
 export default () => {
   const auditColumns: ProColumns<API.DelegationItem>[] = [
@@ -20,7 +21,7 @@ export default () => {
       render: (text: ReactNode, record: API.DelegationItem) => {
         const {id} = record;
         return [
-          <Link to={{pathname: '/docs/report/audit/client', state: {id: id}}}>
+          <Link to={{pathname: constant.docPath.report.audit.CLIENT, state: {id: id}}}>
             <Button type="primary">审核测试报告</Button>
           </Link>,
         ];
@@ -32,7 +33,7 @@ export default () => {
     roles: string[],
     userId: number) => {
     //用户审核
-    if (roles.includes('client')) {
+    if (roles.includes(constant.roles.CUSTOMER.en)) {
       param.creatorId = userId;
       param.state = '380'//用户审核
     } else {

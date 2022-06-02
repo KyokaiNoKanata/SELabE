@@ -5,6 +5,7 @@ import type API from "@/services/ant-design-pro/typings";
 import DelegationList from "@/pages/Delegation/components/DelegationList";
 import {Button} from "antd";
 import {Link} from "umi";
+import constant from "../../../../../config/constant";
 
 /**
  * 客户审核合同草稿
@@ -23,7 +24,7 @@ export default () => {
       render: (text: ReactNode, record: API.DelegationItem) => {
         const {id, contractId} = record
         return [
-          <Link to={{pathname: '/docs/contract/audit/marketing', state: {id: id, contractId: contractId}}}>
+          <Link to={{pathname: constant.docPath.contract.audit.MARKETING, state: {id: id, contractId: contractId}}}>
             <Button type="primary">审核合同</Button>
           </Link>
         ]
@@ -34,8 +35,8 @@ export default () => {
     param: API.DelegationQueryParams,
     roles: string[],
     userId: number) => {
-    if (roles.includes('super_admin')
-      || roles.includes('marketing_department_staff')) {
+    //市场部审核
+    if (roles.includes(constant.roles.MARKET_DEPARTMENT_STAFF.en)) {
       param.marketDeptStaffId = userId;
       param.state = '180';// 180, "市场部审核客户填写的草稿中"
     } else {

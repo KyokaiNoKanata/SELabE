@@ -2,6 +2,7 @@ import React from "react";
 import type API from "@/services/ant-design-pro/typings";
 import DelegationList from "@/pages/Delegation/components/DelegationList";
 import type {ProColumns} from "@ant-design/pro-table";
+import constant from "../../../../../config/constant";
 //待审核的委托：分市场部、测试部的审核
 //只显示分配给当前员工的，且处于待审核状态的委托
 //操作栏只有审核操作
@@ -14,12 +15,13 @@ const AuditDelegation: React.FC<{
     param: API.DelegationQueryParams,
     roles: string[],
     userId: number) => {
-    if (roles.includes('marketing_department_staff')) {
+    //市场部员工
+    if (roles.includes(constant.roles.MARKET_DEPARTMENT_STAFF.en)) {
       param.marketDeptStaffId = userId;
       param.state = '40';
     }
     //测试部员工
-    else if (roles.includes('test_department_staff')) {
+    else if (roles.includes(constant.roles.TEST_DEPARTMENT_STAFF.en)) {
       param.testingDeptStaffId = userId;
       param.state = '50';
     } else {

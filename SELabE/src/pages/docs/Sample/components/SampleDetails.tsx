@@ -13,7 +13,7 @@ const SampleDetails: React.FC = () => {
   const actionRef: React.MutableRefObject<ActionType | undefined> = useRef<ActionType>();
   const formRef: any = useRef<ActionType>();
   const params = useLocation();
-  const sampleId = (params.state as any).sampleId;
+  const sampleId = !params.state ? -1 : (params.state as any).sampleId;
   const [creatTime, setCreateTime] = useState<string>();
   const [Sid, setSid] = useState<number>();
   const [inforamtion, setInforamtion] = useState<string>();

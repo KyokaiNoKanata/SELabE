@@ -4,6 +4,7 @@ import {Link} from "umi";
 import {Button} from "antd";
 import type API from "@/services/ant-design-pro/typings";
 import type {ReactNode} from "react";
+import constant from "../../../../../config/constant";
 
 export default () => {
   const operationColumns: ProColumns<API.DelegationItem>[] = [
@@ -17,7 +18,7 @@ export default () => {
       render: (text: ReactNode, record: API.DelegationItem) => {
         const {id} = record;
         return [
-          <Link to={{pathname: '/docs/softDocReview/testing', state: {id: id}}}>
+          <Link to={{pathname: constant.docPath.delegation.audit.TESTING, state: {id: id}}}>
             <Button type="primary">审核委托</Button>
           </Link>
         ]
@@ -26,6 +27,6 @@ export default () => {
   ];
   return (
     <AuditDelegation
-      operationColumns={operationColumns} />
+      operationColumns={operationColumns}/>
   )
 }

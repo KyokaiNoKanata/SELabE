@@ -1,3 +1,4 @@
+/** 获取测试方案(分页)
 import {PlusOutlined} from '@ant-design/icons';
 import {Button} from 'antd';
 import React, {useRef} from 'react';
@@ -6,9 +7,10 @@ import {PageContainer} from '@ant-design/pro-layout';
 import type {ActionType, ProColumns} from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
 import {solutionPage} from '@/services/ant-design-pro/solution/api';
-import type {API} from '@/services/ant-design-pro/typings';
+import type API from '@/services/ant-design-pro/typings';
+import constant from "../../../config/constant";
 
-/** 获取测试方案(分页) */
+
 const handleGetSolution = async (params: {
   //传入的参数名固定叫 current 和 pageSize
   pageSize?: number;
@@ -28,11 +30,6 @@ const handleGetSolution = async (params: {
 
 const DelegationList: React.FC = () => {
   const actionRef = useRef<ActionType>();
-
-  /**
-   * @en-US International configuration
-   * @zh-CN 国际化配置
-   * */
   const intl = useIntl();
 
   const columns: ProColumns<API.SolutionItem>[] = [
@@ -67,7 +64,7 @@ const DelegationList: React.FC = () => {
       render: (text, record) => {
         const {id} = record;
         return [
-          <Link to={{pathname: '/docs/new-solution', state: {id: id}}}>
+          <Link to={{pathname: constant.docPath.solution.WRITE, state: {id: id}}}>
             <Button type="primary">填写</Button>
           </Link>,
         ];
@@ -90,14 +87,13 @@ const DelegationList: React.FC = () => {
         pagination={{
           pageSize: 10,
         }}
-        /*新建*/
+
         toolBarRender={() => [
           <Button type="primary" key="primary" onClick={() => {
           }}>
             <PlusOutlined/> <FormattedMessage id="pages.searchTable.new" defaultMessage="New"/>
           </Button>,
         ]}
-        /*请求数据*/
         request={handleGetSolution}
         columns={columns}
       />
@@ -105,3 +101,4 @@ const DelegationList: React.FC = () => {
   );
 };
 export default DelegationList;
+*/

@@ -7,6 +7,7 @@ import DelegationList from "@/pages/Delegation/components/DelegationList";
 import type {ActionType, ProColumns} from "@ant-design/pro-table";
 import DistributeForm from "@/pages/Delegation/components/DistributeForm";
 import {handleGetUserByRole} from "@/pages/Delegation/distribute/api";
+import constant from "../../../../../config/constant";
 
 /**测试主管分配委托 */
 const handleDistributeDelegationTesting = async (data: {
@@ -35,7 +36,7 @@ export default () => {
             key={'distributeMarket'}
             request={async () => {
               return await handleGetUserByRole({
-                roleCode: 'test_department_staff',
+                roleCode: constant.roles.TEST_DEPARTMENT_STAFF.en,
               })
             }}
             onSubmit={async (values) => {
@@ -53,10 +54,9 @@ export default () => {
   ]
   const queryParams = async (
     param: API.DelegationQueryParams,
-    roles: string[],
-    userId: number) => {
+    roles: string[]) => {
     //测试部主管
-    if (roles.includes('test_department_manager')) {
+    if (roles.includes(constant.roles.TEST_DEPARTMENT_MANAGER.en)) {
       param.state = '30';
     } else {
       param.state = '-1';

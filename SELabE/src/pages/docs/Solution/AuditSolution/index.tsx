@@ -1,7 +1,7 @@
 import {useState} from 'react';
 import {Card} from 'antd';
-import SchemeReviewForm from "@/pages/docs/Solution/component/SchemeReviewForm";
-import SolutionForm from "@/pages/docs/Solution/component/SolutionForm";
+import SolutionForm6 from "@/pages/docs/Solution/component/SolutionForm6";
+import SolutionReviewForm13 from "@/pages/docs/Solution/component/SolutionReviewForm13";
 //import { useLocation } from 'react-router-dom';
 const list = [
   {
@@ -23,9 +23,9 @@ const AuditSolutionForm = () => {
   const contentList = {
     测试方案:
       <Card>
-        <SolutionForm editable={false}/>
+        <SolutionForm6 editable={false}/>
       </Card>,
-    测试方案评审表: <Card><SchemeReviewForm editable={true}/></Card>,
+    测试方案评审表: <Card><SolutionReviewForm13 editable={true}/></Card>,
   };
 
   return (

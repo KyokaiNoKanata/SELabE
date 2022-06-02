@@ -1,4 +1,4 @@
-import AuditComponent from "@/pages/docs/Report/components/AuditComponent";
+import AuditComponent from "@/pages/docs/Report/Audit/components/AuditComponent";
 
 export default () => {
   return (

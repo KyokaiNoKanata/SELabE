@@ -1,3 +1,5 @@
+import constant from "./constant";
+
 export default [
   {
     path: '/user',
@@ -64,70 +66,63 @@ export default [
     path: '/delegation',
     name: '委托管理',
     icon: 'crown',
-    //access:,
-    //component: './tester/delegation',
     routes: [
-      //客户（可以新增删除填写委托）
+      //客户查看委托（可以新增删除填写委托）
       {
-        path: './check/client',
-        name: '（客户)查看委托',
-        icon: 'smile',
-        component: './Delegation/check/Client',
-      },
-      //其他人：只能看
-      {
-        path: './check/normal',
+        path: './list/client',
         name: '查看委托',
         icon: 'smile',
-        component: './Delegation/check',
+        component: './Delegation/list/Client',
       },
-      //市场部分配
+      //其他人查看委托
+      {
+        path: './list/common',
+        name: '查看委托',
+        icon: 'smile',
+        component: './Delegation/list/Common',
+      },
+      //市场部分配委托
       {
         path: './distribute/marketing',
-        name: '(市场部)分配委托',
+        name: '分配委托',
         icon: 'smile',
         component: './Delegation/distribute/Marketing',
       },
-      //测试部分配
+      //测试部分配委托
       {
         path: './distribute/testing',
-        name: '(测试部)分配委托',
+        name: '分配委托',
         icon: 'smile',
         component: './Delegation/distribute/Testing',
       },
-      //审核
+      //市场部审核委托
       {
         path: './audit/marketing',
         name: '(市场部)审核委托',
         icon: 'smile',
         component: './Delegation/audit/Marketing'
       },
+      //测试部审核委托
       {
         path: './audit/testing',
         name: '(测试部)审核委托',
         icon: 'smile',
         component: './Delegation/audit/Testing'
       },
-      //报价
+      //生成报价
       {
         path: './offer/market',
         name: '(市场部)生成报价',
         icon: 'smile',
         component: './Delegation/offer/Market',
       },
+      //处理报价
       {
         path: './offer/client',
         name: '(客户)处理报价',
         icon: 'smile',
         component: './Delegation/offer/Client',
       },
-      //详情页
-      {
-        path: './detail',
-        name: '委托详情',
-        icon: 'smile',
-        component: './Delegation/DelegationDetail'
-      }
     ],
   },
   {
@@ -137,24 +132,24 @@ export default [
     routes: [
       //查看合同详情
       {
-        path: './check/All',
+        path: './list',
         name: '查看合同',
         icon: 'smile',
-        component: './Contract/checkAll',
+        component: './Contract/list',
       },
       //市场部填写（创建）
       {
         path: './create/staff',
         name: '（市场部)填写合同',
         icon: 'smile',
-        component: './Contract/create/Marketing',
+        component: './Contract/write/Marketing',
       },
       //客户填写（创建）
       {
         path: './create/client',
         name: '（客户)填写合同',
         icon: 'smile',
-        component: './Contract/create/Client',
+        component: './Contract/write/Client',
       },
       //客户检查合同
       {
@@ -184,16 +179,15 @@ export default [
         icon: 'smile',
         component: './Sample/submit',
       },
-      //(市场部)审核样品
       {
         path: './audit/marketing',
-        name: '(市场部)审核样品',
+        name: '验收样品',
         icon: 'smile',
         component: './Sample/audit/Marketing'
       },
       {
         path: './audit/testing',
-        name: '(测试部)审核样品',
+        name: '验收样品',
         icon: 'smile',
         component: './Sample/audit/Testing'
       },
@@ -204,23 +198,25 @@ export default [
     name: '测试方案',
     icon: 'crown',
     routes: [
+      /*
       {
         path: '/solution/checkAll',
         name: '查看测试方案',
         icon: 'smile',
         component: './Solution',
       },
+      */
       {
-        path: '/solution/fill',
-        name: '填写测试方案',
+        path: '/solution/write',
+        name: '编写测试方案',
         icon: 'smile',
-        component: './Solution/fill',
+        component: './Solution/Write',
       },
       {
         path: '/solution/audit',
         name: '审核测试方案',
         icon: 'smile',
-        component: './Solution/audit'
+        component: './Solution/Audit'
       }
     ]
   },
@@ -230,23 +226,26 @@ export default [
     icon: 'crown',
     routes: [
       {
-        path: '/report/fill-in-docs',
+        path: '/report/write',
         name: '填写测试文档',
         icon: 'smile',
-        component: './Report/fill',
+        component: './Report/Write',
       },
+      //(测试部主管)审核测试报告
       {
         path: '/report/audit/manager',
         name: '(测试部主管)审核测试报告',
         icon: 'smile',
         component: './Report/audit/Manager',
       },
+      //(用户)审核测试报告
       {
         path: '/report/audit/client',
         name: '(用户)审核测试报告',
         icon: 'smile',
         component: './Report/audit/Client',
       },
+      //(签字人)审核测试报告
       {
         path: '/report/audit/signatory',
         name: '(签字人)审核测试报告',
@@ -256,81 +255,114 @@ export default [
       //测试部员工 归档测试报告
       {
         path: '/report/archive',
-        name: '(测试部员工)归档测试报告',
+        name: '归档测试报告',
         icon: 'smile',
-        component: './Report/archive',
+        component: './Report/Archive',
       },
       //市场部员工 发送报告
       {
         path: '/report/send',
-        name: '(市场部员工)发送测试报告',
+        name: '发送测试报告',
         icon: 'smile',
-        component: './Report/send',
+        component: './Report/Send',
+      },
+      //客户 接收报告
+      {
+        path: '/report/receive',
+        name: '接收测试报告',
+        icon: 'smile',
+        component: './Report/Receive',
       },
     ]
   },
   {
-    path: '/docs',
+    path: constant.docPath.ROOT,
     name: '文档',
     icon: 'smile',
     routes: [
       {
-        path: '/docs/softDocReview',
-        name: '软件文档评审表',
+        path: constant.docPath.delegation.ROOT,
         icon: 'smile',
+        name: '委托',
         routes: [
           {
-            path: '/docs/softDocReview/marketing',
-            name: '市场部评审',
+            path: constant.docPath.delegation.APPLY,
+            name: '填写委托',
+            icon: 'table',
+            component: './docs/Delegation/Apply',
+          },
+          //委托详情页
+          {
+            path: './detail',
+            name: '委托详情',
             icon: 'smile',
-            component: './docs/DocumentReview/Marketing',
+            component: './docs/Delegation/DelegationDetail'
           },
           {
-            path: '/docs/softDocReview/testing',
-            name: '测试部评审',
-            icon: 'smile',
-            component: './docs/DocumentReview/Testing',
-          }
+            path: constant.docPath.delegation.AUDIT,
+            name: '审核委托',
+            icon: 'table',
+            routes: [
+              {
+                path: constant.docPath.delegation.audit.MARKETING,
+                name: '市场部',
+                icon: 'table',
+                component: './docs/Delegation/audit/Marketing',
+              },
+              {
+                path: constant.docPath.delegation.audit.TESTING,
+                name: '测试部',
+                icon: 'table',
+                component: './docs/Delegation/audit/testing',
+              },
+            ]
+          },
+          {
+            path: constant.docPath.delegation.offer.ROOT,
+            name: '委托报价',
+            icon: 'table',
+            routes: [
+              {
+                name: '填写报价单',
+                path: constant.docPath.delegation.offer.WRITE,
+                icon: 'smile',
+                component: './docs/delegation/offer/Marketing',
+              },
+              {
+                name: '处理报价单',
+                path: constant.docPath.delegation.offer.HANDLE,
+                icon: 'smile',
+                component: './docs/delegation/offer/Client',
+              },
+            ]
+          },
         ]
       },
       {
-        path: '/docs/new-delegation',
-        name: '填写委托',
+        name: '合同',
         icon: 'table',
-        component: './docs/NewDelegation',
-      },
-      /*{
-        name: '软件项目委托测试保密协议',
-        icon: 'table',
-        path: '/docs/confidentiality-agreement',
-        component: './docs/ConfidentialityAgreement',
-      },*/
-      {
-        name: '软件委托测试合同',
-        icon: 'table',
-        path: '/docs/contract',
-        //component: './docs/Contract/components',
+        path: constant.docPath.contract.ROOT,
         routes: [
           {
-            path: '/docs/contract/client',
+            path: constant.docPath.contract.write.CLIENT,
             name: '(客户)填写合同',
             icon: 'smile',
-            component: './docs/Contract/fill/Client',
+            component: './docs/Contract/write/Client',
           },
           {
-            path: '/docs/contract/marketing',
+            path: constant.docPath.contract.write.MARKETING,
             name: '(市场部)填写合同',
             icon: 'smile',
-            component: './docs/Contract/fill/Marketing',
+            component: './docs/Contract/write/Marketing',
           },
           {
-            path: '/docs/contract/audit/client',
+            path: constant.docPath.contract.audit.CLIENT,
             name: '(客户)检查合同',
             icon: 'smile',
             component: './docs/Contract/audit/Client',
           },
           {
-            path: '/docs/contract/audit/marketing',
+            path: constant.docPath.contract.audit.MARKETING,
             name: '(市场部)检查合同',
             icon: 'smile',
             component: './docs/Contract/audit/Marketing',
@@ -338,85 +370,67 @@ export default [
         ]
       },
 
-      {
-        name: '报价单',
-        path: '/docs/quotation/marketing',
-        icon: 'smile',
-        component: './docs/Quotation/Marketing',
-      },
-      {
-        name: '查看报价单',
-        path: '/docs/quotation/client',
-        icon: 'smile',
-        component: './docs/Quotation/Client',
-      },
+
       {
         name: '样品',
-        path: '/docs/sample',
+        path: constant.docPath.sample.ROOT,
         icon: 'smile',
         routes: [
           {
             name: '样品详情',
-            path: './detail',
+            path: constant.docPath.sample.AUDIT,
             icon: 'smile',
             component: './docs/Sample/detail',
           },
         ]
       },
       {
-        path: '/docs/solution',
+        path: constant.docPath.solution.ROOT,
         name: '测试方案',
         routes: [
           {
-            path: '/docs/solution/new-solution',
+            path: constant.docPath.solution.WRITE,
             name: '填写测试方案',
             icon: 'table',
             component: './docs/Solution/NewSolution',
           },
           {
-            path: '/docs/solution/audit-solution',
+            path: constant.docPath.solution.AUDIT,
             name: '审核测试方案',
             icon: 'table',
             component: './docs/Solution/AuditSolution',
           },
-          /*{
-            path: '/docs/solution/scheme-review',
-            name: '测试方案评审表',
-            icon: 'table',
-            component: './docs/Solution/SchemeReview',
-          },*/
-
         ]
       },
       {
         name: '测试报告',
-        path: '/docs/report',
+        path: constant.docPath.report.ROOT,
         routes: [
           {
-            path: '/docs/report/fill-in-report',
+            path: constant.docPath.report.WRITE,
             name: '填写测试文档',
             icon: 'table',
-            component: './docs/Report/FillInReport',
+            component: './docs/Report/Write',
           },
           {
-            path: '/docs/report/audit',
+            path: constant.docPath.report.ROOT,
             name: '审核测试报告',
             icon: 'table',
             routes: [
               {
-                path: '/docs/report/audit/manager',
+                path: constant.docPath.report.audit.MANAGER,
                 name: '(测试部主管)审核测试报告',
                 icon: 'table',
                 component: './docs/Report/Audit/Manager',
               },
               {
-                path: '/docs/report/audit/client',
+                path: constant.docPath.report.audit.CLIENT,
                 name: '(客户)审核测试报告',
                 icon: 'table',
                 component: './docs/Report/Audit/Client',
               },
               {
-                path: '/docs/report/audit/signatory',
+                path: constant.docPath.report.audit.SIGNATORY,
                 name: '(授权签字人)审核测试报告',
                 icon: 'table',
                 component: './docs/Report/Audit/Signatory',

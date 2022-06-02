@@ -109,6 +109,14 @@ declare namespace API {
    */
   type DelegationItem = {
     /**
+     * 取消原因
+     */
+    cancelRemark?: string;
+    /**
+     * 委托单位
+     */
+    clientUnit?: string
+    /**
      * 编号
      */
     id: number;
@@ -153,6 +161,10 @@ declare namespace API {
      */
     sampleId?: number;
     /**
+     * 软件名
+     */
+    softwareName?: number;
+    /**
      * 测试方案Id
      */
     solutionId?: number;
@@ -184,6 +196,10 @@ declare namespace API {
      * 文档材料url
      */
     url?: string;
+    /**
+     * 版本号
+     */
+    version?: string;
   }
   /**
    * 委托请求参数
