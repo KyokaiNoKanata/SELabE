@@ -10,6 +10,7 @@ import {uploadFile} from "@/services/ant-design-pro/file/api";
 import {uploadContractFile} from "@/services/ant-design-pro/contract/api";
 import type {RcFile} from "antd/es/upload";
 import constant from "../../../../config/constant";
+import {Link} from "umi";
 
 /**
  * 上传合同
@@ -43,6 +44,7 @@ export default () => {
       hideInTable: false,
       sorter: false,
       render: (text: ReactNode, record: API.DelegationItem) => {
+        const {id} = record;
         const {contractId} = record;//合同id
         if (record.state == '合同签署中') {
           return [
@@ -62,7 +64,7 @@ export default () => {
                   url: url,
                 });
                 if (resp2.code == 0) {
-                  message.success('上传合同成功');
+                  message.success('上传合同成功,请填写检查表相关内容');
                 } else {
                   message.error(resp2.msg);
                 }
@@ -88,9 +90,14 @@ export default () => {
               </ProForm.Group>
             </ModalForm>
           ]
-        } else {
-          return []//加个下载按钮?
         }
+        else if(record.state == constant.delegationState.CONTRACT_SIGN_SUCCESS.desc
+          || record.state == constant.delegationState.CLIENT_UPLOAD_SAMPLE_INFO.desc){
+          return <Link to={{pathname: constant.docPath.contract.upload.CHECKLIST, state: {id: id}}}>
+            <Button type="primary">填写检查表</Button>
+          </Link>
+        }
+        return [];//
       },
     }
   ]
@@ -98,7 +105,7 @@ export default () => {
     param: API.DelegationQueryParams,
     roles: string[],
     userId: number) => {
-    param.state = String(constant.delegationState.CONTRACT_SIGNING.code);
+    param.state = '220,230,250';
     if (roles.includes(constant.roles.SUPER_ADMIN.en)) {
 
     } else if (roles.includes(constant.roles.MARKET_DEPARTMENT_STAFF.en)) {

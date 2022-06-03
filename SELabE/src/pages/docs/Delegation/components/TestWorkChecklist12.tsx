@@ -1,8 +1,17 @@
-import ProForm, {ProFormGroup, ProFormDatePicker, ProFormText, ProFormSelect} from '@ant-design/pro-form';
+import ProForm, {
+  ProFormGroup,
+  ProFormDatePicker,
+  ProFormText,
+  ProFormSelect,
+  ProFormInstance
+} from '@ant-design/pro-form';
 import ProCard from '@ant-design/pro-card';
 import {PageContainer} from '@ant-design/pro-layout';
-import {PageHeader} from 'antd';
-import React from "react";
+import {message, PageHeader} from 'antd';
+import React, {useRef} from "react";
+import {useLocation} from "umi";
+import {getDelegationById, getTable12, saveTable12} from "@/services/ant-design-pro/delegation/api";
+import API from "@/services/ant-design-pro/typings";
 /*
 editable
   1  :  1.1 1.2：市场部审核委托
@@ -13,12 +22,40 @@ editable
   6  :  3.9 归档
  */
 const TestWorkChecklist12: React.FC<{ editable: number }> = (prop) => {
+  const params = useLocation();
+  const delegationId = !params.state ? -1 : (params.state as any).id;
+  const formRef: React.MutableRefObject<ProFormInstance | undefined> = useRef<ProFormInstance>();
   const request = async () => {
-
-    return {};
+    const delegation: API.DelegationItem = (await getDelegationById(delegationId)).data;
+    const table12Id = delegation.table12Id;
+    if (!table12Id) {
+      return {
+        '软件名称': delegation.softwareName,
+        '版本号': delegation.version,
+        '申报单位': delegation.clientUnit,
+      }
+    }
+    const resp = await getTable12({
+      id: table12Id,
+    });
+    const {_id, deleted, ...data} = resp.data;
+    return data;
   }
+  /**
+   * save table 14
+   * @param value
+   */
   const onFinish = async (value: any) => {
-    console.log(value)
+    //console.log(value);
+    const resp = await saveTable12({
+      delegationId: delegationId,
+      data: value,
+    });
+    if(resp.code == 0) {
+      message.success('保存成功');
+    } else {
+      message.error(resp.msg ? resp.msg: '返回错误');
+    }
   };
 
   return (

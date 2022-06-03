@@ -373,7 +373,13 @@ export default [
             name: '(市场部)检查合同',
             icon: 'smile',
             component: './docs/Contract/audit/Marketing',
-          }
+          },
+          {
+            path: constant.docPath.contract.upload.CHECKLIST,
+            name:'市场部填写软件项目委托测试工作检查表',
+            icon: 'smile',
+            component: "./docs/Contract/checkListAfterUploadContract",
+          },
         ]
       },
 
@@ -442,6 +448,12 @@ export default [
                 icon: 'table',
                 component: './docs/Report/Audit/Signatory',
               },
+              {
+                path: constant.docPath.report.ARCHIVE,
+                name: '归档',
+                icon: 'table',
+                component: './docs/Report/Archive',
+              }
             ]
           },
         ]
