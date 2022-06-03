@@ -1,5 +1,5 @@
 import request from "umi-request";
-import type {API} from "@/services/ant-design-pro/typings"
+import type API from "@/services/ant-design-pro/typings"
 
 /** 获取委托列表 GET /api/admin-api/system/delegation/page */
 export async function delegationPage(
@@ -346,5 +346,27 @@ export async function rejectOffer(body: { delegationId: number; reason: string }
   return request<API.Response>('/admin-api/system/delegation/offer/reject', {
     method: 'PUT',
     data: body,
+  });
+}
+
+/**
+ * 取消委托(管理员，客户)
+ */
+export async function cancelDelegationClient(body: { delegationId: number; remark: string }) {
+  return request<API.Response>('/admin-api/system/delegation/cancel/client', {
+    method: 'PUT',
+    data: {
+      id: body.delegationId,
+      remark: body.remark,
+    }
+  });
+}
+export async function cancelDelegationAdmin(body: { delegationId: number; remark: string }) {
+  return request<API.Response>('/admin-api/system/delegation/cancel/admin', {
+    method: 'PUT',
+    data: {
+      id: body.delegationId,
+      remark: body.remark,
+    }
   });
 }

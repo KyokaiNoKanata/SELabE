@@ -375,7 +375,15 @@ const DelegationList: React.FC<DelegationListType> = (props) => {
       hideInSearch: true,
       hideInTable: true,
     },
-
+    /**
+     * 取消原因
+     */
+    {
+      title: '取消原因',
+      dataIndex: 'cancelRemark',
+      hideInSearch: true,
+      hideInTable: true,
+    },
     /**用户 修改 */
     {
       title: '修改名称',
