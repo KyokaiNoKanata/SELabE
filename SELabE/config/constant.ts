@@ -187,6 +187,7 @@ const constant = {
         list: "/contract/list",               //查看合同
         create: "/contract/create/staff",     //填写合同草稿
         audit: "/contract/audit/staff",       //审核合同
+        upload: "/contract/upload",           //上传合同
       },
       sample: {
         audit: "/sample/audit/marketing",     //审核样品

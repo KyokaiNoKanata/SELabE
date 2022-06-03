@@ -47,6 +47,11 @@ export default () => {
               <Button type="primary">填写</Button>
             </Link>
           ]
+        } else if(record.state == constant.delegationState.CLIENT_CANCEL_DELEGATION.desc
+          || record.state == constant.delegationState.ADMIN_CANCEL_DELEGATION.desc){
+          return [
+            <text>委托已取消</text>
+          ]
         } else {
           return [
             <text>委托已填写</text>
@@ -62,6 +67,10 @@ export default () => {
       hideInTable: false,
       sorter: false,
       render: (text: ReactNode, record: API.DelegationItem) => {
+        if(record.state == constant.delegationState.CLIENT_CANCEL_DELEGATION.desc
+          || record.state == constant.delegationState.ADMIN_CANCEL_DELEGATION.desc) {
+          return [];
+        }
         return [
           <ModalForm
             formRef={formRef}

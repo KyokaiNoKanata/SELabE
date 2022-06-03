@@ -164,7 +164,14 @@ export default [
         name: '（市场部)审核合同',
         icon: 'smile',
         component: './Contract/audit/Marketing',
-      }
+      },
+      //市场部 上传合同
+      {
+        path: './upload',
+        name: '上传合同',
+        icon: 'smile',
+        component: './Contract/upload',
+      },
     ]
   },
   {
