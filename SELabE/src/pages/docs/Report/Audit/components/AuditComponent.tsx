@@ -7,6 +7,7 @@ import TestReport7 from "@/pages/docs/Report/components/TestReportForm7";
 import AuditPage from "@/pages/docs/Report/Audit/components/AuditPage";
 import TestReportCheckListForm10 from "@/pages/docs/Report/components/TestReportCheckListForm10";
 import type {CardTabListType} from "antd/es/card";
+import TestWorkChecklist12 from "@/pages/docs/Delegation/components/TestWorkChecklist12";
 //import { useLocation } from 'react-router-dom';
 const AuditComponent: React.FC<{
   person: string;
@@ -39,6 +40,10 @@ const AuditComponent: React.FC<{
         key: '测试报告检查表',
         tab: '测试报告检查表',
       },
+      {
+        key: '软件项目委托测试工作检查表',
+        tab: '软件项目委托测试工作检查表',
+      },
     ])
   }
   list = list.concat([
@@ -63,6 +68,9 @@ const AuditComponent: React.FC<{
     </Card>,
     测试报告检查表: <Card>
       <TestReportCheckListForm10 editable={false}/>
+    </Card>,
+    软件项目委托测试工作检查表: <Card>
+      <TestWorkChecklist12 editable={5}/>
     </Card>,
     审核: <Card>
       <AuditPage person={props.person}/>

@@ -6,6 +6,7 @@ import {useLocation} from 'umi';
 import {marketingAuditFail, marketingAuditSuccess} from '@/services/ant-design-pro/delegation/api';
 import StepApplyForm2 from "@/pages/docs/Delegation/components/StepApplyForm2";
 import FunctionList3 from "@/pages/docs/Delegation/components/FunctionList3";
+import TestWorkChecklist12 from "@/pages/docs/Delegation/components/TestWorkChecklist12";
 
 const Date: any = ProFormDatePicker;
 const DocumentReviewMarketing = () => {
@@ -18,6 +19,10 @@ const DocumentReviewMarketing = () => {
     {
       key: '委托功能列表',
       tab: '查看委托功能列表',
+    },
+    {
+      key: '软件项目委托测试工作检查表',
+      tab: '软件项目委托测试工作检查表',
     },
     {
       key: '评审表',
@@ -89,6 +94,9 @@ const DocumentReviewMarketing = () => {
         <StepApplyForm2 editable={false} isClient={true}/>
       </Card>,
     委托功能列表: <Card><FunctionList3 editable={false} isClient={true}/></Card>,
+    软件项目委托测试工作检查表: <Card>
+      <TestWorkChecklist12 editable={1}/>
+    </Card>,
     评审表: <Card>
       <ProForm
         submitter={{

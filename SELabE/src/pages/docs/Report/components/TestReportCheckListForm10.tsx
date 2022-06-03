@@ -7,7 +7,7 @@ import type {ProColumns} from '@ant-design/pro-table';
 import {EditableProTable} from '@ant-design/pro-table';
 import {useLocation} from "react-router-dom";
 import {getDelegationById} from "@/services/ant-design-pro/delegation/api";
-import {saveTable10} from "@/services/ant-design-pro/report/api";
+import {getReport, getTable10, saveTable10} from "@/services/ant-design-pro/report/api";
 
 type DataSourceType = {
   id: number;
@@ -154,17 +154,29 @@ const TestReportCheckListForm10: React.FC<{
   );
   const onFinish = async (value: any) => {
     console.log(value);
-    const rId = (await getDelegationById(delegationId)).data.reportId;
+    const reportId = (await getDelegationById(delegationId)).data.reportId;
     const resp = await saveTable10({
-      reportId: rId!,
+      reportId: reportId!,
       data: value,
     })
     if (resp.code == 0) {
-      message.success('保存成功');
+      message.success('保存成功,请填写检查表相关内容');
     }
   }
   const request = async () => {
-    return {};
+    const delegation = (await getDelegationById(delegationId)).data;
+    const reportId = delegation.reportId;
+    const table10Id = (await getReport({
+      reportId: reportId ? reportId: -1
+    })).data.table10Id;
+    if(!table10Id) {
+      return {
+        "软件名称": delegation.softwareName,
+        "委托单位": delegation.clientUnit,
+      }
+    }
+    const resp = (await getTable10(table10Id));
+    return resp.data;
   }
   return (
     <PageContainer>

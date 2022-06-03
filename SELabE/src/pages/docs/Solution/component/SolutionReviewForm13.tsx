@@ -186,7 +186,6 @@ const SolutionReviewForm13: React.FC<{
       initialValue: new Date(),
     },
   ];
-  const [solutionId, setSolutionId] = useState<number | undefined>(undefined);
   const params = useLocation();
   const delegationId: number = !params.state ? -1 : (params.state as any).id;
   const formRef = useRef<ProFormInstance>();
@@ -196,24 +195,26 @@ const SolutionReviewForm13: React.FC<{
   const [adviceEditable, setAdviceEditableRow] = useState<React.Key[]>(() =>
     adviceData.map((item) => item.id)
   );
-
+  let solutionId: number|undefined = undefined;
   const request = async () => {
     //如果已经有了对应的solutionId,填一下
     //console.log('delegationId = ' + delegationId);
-    const sId = (await getDelegationById(delegationId)).data.solutionId;
-    //console.log(sId);
-    //注意useState异步更新，不同步
-    setSolutionId(sId);
-    //console.log('solutionId = ' + sId);
-    if (!sId) {
-      return {};
+    const delegation = (await getDelegationById(delegationId)).data;
+    solutionId = delegation.solutionId;
+    if (!solutionId) {
+      return {
+        "软件名称": delegation.softwareName,
+        "版本号": delegation.version,
+      };
     }
-
-    const solution = await getSolution({id: sId!});
-    const id: number = solution.data.table13Id;
-    const resp = await getTable13({id: id!});
-    if (resp.data == null) {
-      return {};
+    const solution = await getSolution({id: solutionId!});
+    const table13Id: number = solution.data.table13Id;
+    const resp = await getTable13({id: table13Id!});
+    if (!resp.data) {
+      return {
+        "软件名称": delegation.softwareName,
+        "版本号": delegation.version,
+      };
     }
     return resp.data;
   }

@@ -35,7 +35,10 @@ const ContractForm: React.FC<{
     if (!table4Id) {
       return {
         '软件名称': delegation.softwareName,
+        '项目名称': delegation.softwareName,
         '委托单位': delegation.clientUnit,
+        '委托方(甲方)': delegation.clientUnit,
+        '委托方(乙方)': '南京大学计算机软件新技术国家重点实验室',
       };
     }
     const resp = await getTable4({

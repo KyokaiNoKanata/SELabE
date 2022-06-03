@@ -52,7 +52,7 @@ const SolutionForm6: React.FC<{
       message.error(resp.msg)
       return false;
     }
-    message.success('提交成功');
+    message.success('提交成功,请填写软件项目委托测试工作检查表相关内容');
     return true;
   }
   const onSave = async (values: any) => {

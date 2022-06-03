@@ -173,6 +173,10 @@ declare namespace API {
      */
     state: string;
     /**
+     * 软件项目委托测试工作检查表ID
+     */
+    table12Id?: number;
+    /**
      * 软件文档评审表ID
      */
     table14Id?: string;

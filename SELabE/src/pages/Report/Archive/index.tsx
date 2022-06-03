@@ -5,13 +5,11 @@ import type {ReactNode} from "react";
 import {useRef} from "react";
 import type API from "@/services/ant-design-pro/typings";
 import type {ActionType, ProColumns} from "@ant-design/pro-table";
-import {Button, message, Modal} from "antd";
+import {Button} from "antd";
 import DelegationList from "@/pages/Delegation/components/DelegationList";
-import {FormattedMessage} from "@@/plugin-locale/localeExports";
-import {archiveReport} from "@/services/ant-design-pro/report/api";
 import constant from "../../../../config/constant";
+import {Link} from "umi";
 
-const {confirm} = Modal;
 export default () => {
   const actionRef = useRef<ActionType>()
   const auditColumns: ProColumns<API.DelegationItem>[] = [
@@ -24,38 +22,12 @@ export default () => {
       //hideInTable: !roles.includes('test_department_staff'),
       sorter: false,
       render: (text: ReactNode, record: API.DelegationItem) => {
-        const {reportId} = record;
-        return (
-          <Button
-            type="primary"
-            key="primary"
-            onClick={
-              () => {
-                confirm({
-                  title: '确认归档吗?',
-                  //icon: <ExclamationCircleOutlined/>,
-                  content: '',
-                  onOk() {
-                    archiveReport({
-                      reportId: reportId!
-                    }).then(resp => {
-                      if (resp.code == 0) {
-                        message.success('归档成功');
-                        actionRef.current?.reload();
-                      } else {
-                        message.error(resp.msg);
-                      }
-                    })
-                  },
-                  onCancel() {
-
-                  },
-                });
-              }
-            }
-          >
-            <FormattedMessage id="page.report.archive" defaultMessage="归档"/>
-          </Button>
+        const {id} = record;
+        return ([
+          <Link to={{pathname: constant.docPath.report.ARCHIVE, state: {id: id}}}>
+            <Button type="primary">归档</Button>
+          </Link>,
+        ]
         )
       }
     }
