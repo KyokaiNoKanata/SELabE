@@ -222,6 +222,26 @@ declare namespace API {
     name?: string;
     path?: string;
     hideInMenu?: string;
+    id?: number;
+    status?: number;
+  }
+
+  type RoleDataItem = {
+    id?: number;
+    name?: string;
+  }
+
+  type RoleData = {
+    data?: RoleDataItem[];
+  }
+
+  type UserDataItem = {
+    id?: number;
+    nickname?: string;
+  }
+
+  type UserData = {
+    data?: UserDataItem[];
   }
 }
 

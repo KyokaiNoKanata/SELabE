@@ -37,6 +37,30 @@ export default [
     component: './Welcome',
   },
   {
+    path: '/system',
+    name: '系统管理',
+    icon: 'crown',
+    //access: 'canAdmin',
+    routes: [
+      {
+        path:'./menulist',
+        name: '菜单管理',
+        component: './System/MenuList',
+      },
+      {
+        path:'./rolelist',
+        name: '角色管理',
+        component: './System/RoleList',
+      },
+      {
+        path:'./userlist',
+        name: '用户管理',
+        component: './System/UserList',
+      }
+    ]
+  },
+
+  {
     path: '/admin',
     name: 'admin',
     icon: 'crown',
@@ -55,12 +79,6 @@ export default [
     ],
   },
   {
-    name: 'list.table-list',
-    icon: 'table',
-    path: '/list',
-    component: './TableList',
-  },
-  {
     path: '/delegation',
     name: '委托管理',
     icon: 'crown',
@@ -73,42 +91,37 @@ export default [
         name: '（客户)查看委托',
         icon: 'smile',
         component: './Delegation/check/Client',
-      },
-      //其他人：只能看
+      }, //其他人：只能看
       {
         path: './check/normal',
         name: '查看委托',
         icon: 'smile',
         component: './Delegation/check',
-      },
-      //市场部分配
+      }, //市场部分配
       {
         path: './distribute/marketing',
         name: '(市场部)分配委托',
         icon: 'smile',
         component: './Delegation/distribute/Marketing',
-      },
-      //测试部分配
+      }, //测试部分配
       {
         path: './distribute/testing',
         name: '(测试部)分配委托',
         icon: 'smile',
         component: './Delegation/distribute/Testing',
-      },
-      //审核
+      }, //审核
       {
         path: './audit/marketing',
         name: '(市场部)审核委托',
         icon: 'smile',
-        component: './Delegation/audit/Marketing'
+        component: './Delegation/audit/Marketing',
       },
       {
         path: './audit/testing',
         name: '(测试部)审核委托',
         icon: 'smile',
-        component: './Delegation/audit/Testing'
-      },
-      //报价
+        component: './Delegation/audit/Testing',
+      }, //报价
       {
         path: './offer/market',
         name: '(市场部)生成报价',
@@ -120,14 +133,13 @@ export default [
         name: '(客户)处理报价',
         icon: 'smile',
         component: './Delegation/offer/Client',
-      },
-      //详情页
+      }, //详情页
       {
         path: './detail',
         name: '委托详情',
         icon: 'smile',
-        component: './Delegation/DelegationDetail'
-      }
+        component: './Delegation/DelegationDetail',
+      },
     ],
   },
   {
@@ -141,36 +153,32 @@ export default [
         name: '查看合同',
         icon: 'smile',
         component: './Contract/checkAll',
-      },
-      //市场部填写（创建）
+      }, //市场部填写（创建）
       {
         path: './create/staff',
         name: '（市场部)填写合同',
         icon: 'smile',
         component: './Contract/create/Marketing',
-      },
-      //客户填写（创建）
+      }, //客户填写（创建）
       {
         path: './create/client',
         name: '（客户)填写合同',
         icon: 'smile',
         component: './Contract/create/Client',
-      },
-      //客户检查合同
+      }, //客户检查合同
       {
         path: './audit/client',
         name: '（客户)检查合同',
         icon: 'smile',
         component: './Contract/audit/Client',
-      },
-      //市场部审核合同
+      }, //市场部审核合同
       {
         path: './audit/staff',
         name: '（市场部)审核合同',
         icon: 'smile',
         component: './Contract/audit/Marketing',
-      }
-    ]
+      },
+    ],
   },
   {
     path: '/sample',
@@ -183,21 +191,20 @@ export default [
         name: '上传样品',
         icon: 'smile',
         component: './Sample/submit',
-      },
-      //(市场部)审核样品
+      }, //(市场部)审核样品
       {
         path: './audit/marketing',
         name: '(市场部)审核样品',
         icon: 'smile',
-        component: './Sample/audit/Marketing'
+        component: './Sample/audit/Marketing',
       },
       {
         path: './audit/testing',
         name: '(测试部)审核样品',
         icon: 'smile',
-        component: './Sample/audit/Testing'
+        component: './Sample/audit/Testing',
       },
-    ]
+    ],
   },
   {
     path: '/solution',
@@ -220,9 +227,9 @@ export default [
         path: '/solution/audit',
         name: '审核测试方案',
         icon: 'smile',
-        component: './Solution/audit'
-      }
-    ]
+        component: './Solution/audit',
+      },
+    ],
   },
   {
     path: '/report',
@@ -252,22 +259,20 @@ export default [
         name: '(签字人)审核测试报告',
         icon: 'smile',
         component: './Report/audit/Signatory',
-      },
-      //测试部员工 归档测试报告
+      }, //测试部员工 归档测试报告
       {
         path: '/report/archive',
         name: '(测试部员工)归档测试报告',
         icon: 'smile',
         component: './Report/archive',
-      },
-      //市场部员工 发送报告
+      }, //市场部员工 发送报告
       {
         path: '/report/send',
         name: '(市场部员工)发送测试报告',
         icon: 'smile',
         component: './Report/send',
       },
-    ]
+    ],
   },
   {
     path: '/docs',
@@ -290,8 +295,8 @@ export default [
             name: '测试部评审',
             icon: 'smile',
             component: './docs/DocumentReview/Testing',
-          }
-        ]
+          },
+        ],
       },
       {
         path: '/docs/new-delegation',
@@ -300,11 +305,11 @@ export default [
         component: './docs/NewDelegation',
       },
       /*{
-        name: '软件项目委托测试保密协议',
-        icon: 'table',
-        path: '/docs/confidentiality-agreement',
-        component: './docs/ConfidentialityAgreement',
-      },*/
+    name: '软件项目委托测试保密协议',
+    icon: 'table',
+    path: '/docs/confidentiality-agreement',
+    component: './docs/ConfidentialityAgreement',
+  },*/
       {
         name: '软件委托测试合同',
         icon: 'table',
@@ -334,10 +339,9 @@ export default [
             name: '(市场部)检查合同',
             icon: 'smile',
             component: './docs/Contract/audit/Marketing',
-          }
-        ]
+          },
+        ],
       },
-
       {
         name: '报价单',
         path: '/docs/quotation/marketing',
@@ -372,8 +376,7 @@ export default [
             icon: 'table',
             component: './docs/Solution/SchemeReview',
           },
-
-        ]
+        ],
       },
       {
         name: '测试报告',
@@ -408,14 +411,12 @@ export default [
                 icon: 'table',
                 component: './docs/Report/Audit/Signatory',
               },
-            ]
+            ],
           },
-        ]
-      }
-    ]
+        ],
+      },
+    ],
   },
-
-
   {
     path: '/',
     redirect: '/welcome',
