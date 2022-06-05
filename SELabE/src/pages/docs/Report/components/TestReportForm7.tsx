@@ -201,25 +201,32 @@ const TestReportForm7: React.FC<{ editable: boolean }> = (prop) => {
   const delegationId: number = !params.state ? -1 : (params.state as any).id;
   const request = async () => {
     //如果已经有了对应的reportId,填一下
-    const rId = (await getDelegationById(delegationId)).data.reportId;
+    const delegation = (await getDelegationById(delegationId)).data;
+    const rId = delegation.reportId;
     setReportId(rId);
     //console.log('solutionId = ' + sId);
     //如果没有report
+    const defaultData = {
+      "软件名称_1": delegation.softwareName,
+      "版本号_1": delegation.version,
+      "委托单位_1": delegation.clientUnit,
+      "委托单位": delegation.clientUnit,
+      "报告日期_1": new Date(),
+    };
     if (!rId) {
       //创建一下report
       await createReport({
         delegationId: delegationId,
       })
-      return {};
+      return defaultData;
     }
     //table7
     const solution = await getReport({reportId: rId!});
     const table7Id = solution.data.table7Id;
     const resp = await getTable7({id: table7Id})
     if (resp.data == null) {
-      return {};
+      return defaultData;
     }
-    console.log(resp.data);
     return resp.data;
   };
   const onFinish = async (values: any) => {

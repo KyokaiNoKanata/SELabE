@@ -67,7 +67,7 @@ const AuditComponent: React.FC<{
       <TestReport7 editable={false}/>
     </Card>,
     测试报告检查表: <Card>
-      <TestReportCheckListForm10 editable={false}/>
+      <TestReportCheckListForm10 editable={true}/>
     </Card>,
     软件项目委托测试工作检查表: <Card>
       <TestWorkChecklist12 editable={5}/>

@@ -150,7 +150,7 @@ const SolutionForm6: React.FC<{
         >
           <ProFormTextArea
             disabled={!props.editable}
-            name="1.1 标识"
+            name="1-1 标识"
             label="1.1 标识"
             width="lg"
             placeholder="请输入标识"
@@ -158,7 +158,7 @@ const SolutionForm6: React.FC<{
           />
           <ProFormTextArea
             disabled={!props.editable}
-            name="1.2 系统概述"
+            name="1-2 系统概述"
             label="1.2 系统概述"
             width="lg"
             placeholder="请输入系统概述"
@@ -166,7 +166,7 @@ const SolutionForm6: React.FC<{
           />
           <ProFormTextArea
             disabled={!props.editable}
-            name="1.3 文档概述"
+            name="1-3 文档概述"
             label="1.3 文档概述"
             width="lg"
             placeholder="请输入文档概述"
@@ -201,35 +201,35 @@ const SolutionForm6: React.FC<{
           request={request}
         >
           <ProFormTextArea
-            name="3.1 硬件"
+            name="3-1 硬件"
             label="3.1 硬件"
             width="lg"
             disabled={!props.editable}
             rules={[{required: true}]}
           />
           <ProFormTextArea
-            name="3.2 软件"
+            name="3-2 软件"
             label="3.2 软件"
             width="lg"
             disabled={!props.editable}
             rules={[{required: true}]}
           />
           <ProFormTextArea
-            name="3.3 其他"
+            name="3-3 其他"
             label="3.3 其他"
             width="lg"
             disabled={!props.editable}
             rules={[{required: true}]}
           />
           <ProFormTextArea
-            name="3.4 参与组织"
+            name="3-4 参与组织"
             label="3.4 参与组织"
             width="lg"
             disabled={!props.editable}
             rules={[{required: true}]}
           />
           <ProFormTextArea
-            name="3.5 人员"
+            name="3-5 人员"
             label="3.5 人员"
             width="lg"
             disabled={!props.editable}
@@ -245,42 +245,42 @@ const SolutionForm6: React.FC<{
             本章描述了计划测试的总范围并且描述了本测试计划适用的每个测试，包括对相关文档的审查。
           </Text>
           <ProFormTextArea
-            name="4.1 总体设计"
+            name="4-1 总体设计"
             label="4.1 总体设计"
             width="lg"
             disabled={!props.editable}
             rules={[{required: true}]}
           />
           <ProFormTextArea
-            name="4.1.1 测试级别"
+            name="4-1-1 测试级别"
             label="4.1.1 测试级别"
             width="lg"
             disabled={!props.editable}
             rules={[{required: true}]}
           />
           <ProFormTextArea
-            name="4.1.2 测试类别"
+            name="4-1-2 测试类别"
             label="4.1.2 测试类别"
             width="lg"
             disabled={!props.editable}
             rules={[{required: true}]}
           />
           <ProFormTextArea
-            name="4.1.3 一般测试条件"
+            name="4-1-3 一般测试条件"
             label="4.1.3 一般测试条件"
             width="lg"
             disabled={!props.editable}
             rules={[{required: true}]}
           />
           <ProFormTextArea
-            name="4.2 计划执行的测试"
+            name="4-2 计划执行的测试"
             label="4.2 计划执行的测试"
             width="lg"
             disabled={!props.editable}
             rules={[{required: true}]}
           />
           <ProFormTextArea
-            name="4.3 测试用例"
+            name="4-3 测试用例"
             label="4.3 测试用例"
             width="lg"
             disabled={!props.editable}
@@ -304,7 +304,7 @@ const SolutionForm6: React.FC<{
               disabled={!props.editable}
               rules={[{required: true}]}
             />
-            <ProFormDateRangePicker name="time1" label="起止时间" rules={[{required: true}]}/>
+            <ProFormDateRangePicker name="time1" label="起止时间" rules={[{required: true}]} disabled={!props.editable}/>
           </ProForm.Group>
           <ProForm.Group title="设计测试">
             <ProFormText
@@ -314,7 +314,7 @@ const SolutionForm6: React.FC<{
               disabled={!props.editable}
               rules={[{required: true}]}
             />
-            <ProFormDateRangePicker name="time2" label="起止时间" rules={[{required: true}]}/>
+            <ProFormDateRangePicker name="time2" label="起止时间" rules={[{required: true}]} disabled={!props.editable}/>
           </ProForm.Group>
           <ProForm.Group title="执行测试">
             <ProFormText
@@ -324,7 +324,7 @@ const SolutionForm6: React.FC<{
               disabled={!props.editable}
               rules={[{required: true}]}
             />
-            <ProFormDateRangePicker name="time3" label="起止时间" rules={[{required: true}]}/>
+            <ProFormDateRangePicker name="time3" label="起止时间" rules={[{required: true}]} disabled={!props.editable}/>
           </ProForm.Group>
           <ProForm.Group title="评估测试">
             <ProFormText
@@ -334,7 +334,7 @@ const SolutionForm6: React.FC<{
               disabled={!props.editable}
               rules={[{required: true}]}
             />
-            <ProFormDateRangePicker name="time4" label="起止时间" rules={[{required: true}]}/>
+            <ProFormDateRangePicker name="time4" label="起止时间" rules={[{required: true}]} disabled={!props.editable}/>
           </ProForm.Group>
         </StepsForm.StepForm>
         <StepsForm.StepForm
