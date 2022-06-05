@@ -43,23 +43,28 @@ export default [
     //access: 'canAdmin',
     routes: [
       {
-        path:'./menulist',
+        path: './menulist',
         name: '菜单管理',
         component: './System/MenuList',
       },
       {
-        path:'./rolelist',
+        path: './rolelist',
         name: '角色管理',
         component: './System/RoleList',
       },
       {
-        path:'./userlist',
+        path: './userlist',
         name: '用户管理',
         component: './System/UserList',
-      }
-    ]
+      },
+      {
+        name: '查询表格',
+        icon: 'smile',
+        path: '/system/testtable',
+        component: './System/TestTable',
+      },
+    ],
   },
-
   {
     path: '/admin',
     name: 'admin',
@@ -305,10 +310,10 @@ export default [
         component: './docs/NewDelegation',
       },
       /*{
-    name: '软件项目委托测试保密协议',
-    icon: 'table',
-    path: '/docs/confidentiality-agreement',
-    component: './docs/ConfidentialityAgreement',
+  name: '软件项目委托测试保密协议',
+  icon: 'table',
+  path: '/docs/confidentiality-agreement',
+  component: './docs/ConfidentialityAgreement',
   },*/
       {
         name: '软件委托测试合同',

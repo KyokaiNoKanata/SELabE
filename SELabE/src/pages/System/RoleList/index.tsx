@@ -7,8 +7,8 @@ import ProTable from '@ant-design/pro-table';
 import {ModalForm, ProFormRadio, ProFormText} from '@ant-design/pro-form';
 import type {ProDescriptionsItemProps} from '@ant-design/pro-descriptions';
 import ProDescriptions from '@ant-design/pro-descriptions';
-import type {FormValueType} from './components/UpdateForm';
 import UpdateForm from './components/UpdateForm';
+import CreateForm from "./components/CreateForm";
 import {addRule, removeRule, updateRule} from './service';
 import type {API} from "@/services/ant-design-pro/typings";
 import {menuList, addMenuItem, deleteMenuItem, roleList} from "@/services/ant-design-pro/system/api";
@@ -39,7 +39,7 @@ const handleAdd = async (fields: API.MenuDataItem) => {
  * @param fields
  */
 
-const handleUpdate = async (fields: FormValueType, currentRow?: API.MenuDataItem) => {
+const handleUpdate = async (fields: API.MenuDataItem, currentRow?: API.MenuDataItem) => {
   const hide = message.loading('正在配置');
 
   try {
@@ -77,7 +77,7 @@ const handleRemove = async (selectedRows: API.MenuDataItem[]) => {
   }
 };
 
-const MenuList: React.FC = () => {
+const RoleList: React.FC = () => {
   /** 新建窗口的弹窗 */
   const [createModalVisible, handleModalVisible] = useState<boolean>(false);
   /** 分布更新窗口的弹窗 */
@@ -85,15 +85,14 @@ const MenuList: React.FC = () => {
   const [updateModalVisible, handleUpdateModalVisible] = useState<boolean>(false);
   const [showDetail, setShowDetail] = useState<boolean>(false);
   const actionRef = useRef<ActionType>();
-  const [currentRow, setCurrentRow] = useState<API.MenuDataItem>();
-  const [selectedRowsState, setSelectedRows] = useState<API.MenuDataItem[]>([]);
+  const [currentRow, setCurrentRow] = useState<API.RoleDataItem>();
+  const [selectedRowsState, setSelectedRows] = useState<API.RoleDataItem[]>([]);
   /** 国际化配置 */
 
-  const columns: ProColumns<API.MenuDataItem>[] = [
+  const columns: ProColumns<API.RoleDataItem>[] = [
     {
       title: '角色ID',
       dataIndex: 'id',
-      //tip: '规则名称是唯一的 key',
       render: (dom, entity) => {
         return (
           <a
@@ -116,12 +115,13 @@ const MenuList: React.FC = () => {
       title: '操作',
       dataIndex: 'option',
       valueType: 'option',
-      render: (_, record) => [
+      render: (_, role) => [
         <a
           key="config"
           onClick={() => {
+            setCurrentRow(role);
+            console.log(role);
             handleUpdateModalVisible(true);
-            setCurrentRow(record);
           }}
         >
           编辑
@@ -130,7 +130,7 @@ const MenuList: React.FC = () => {
           key="view"
           onClick={() => {
             handleUpdateModalVisible(true);
-            setCurrentRow(record);
+            setCurrentRow(role);
           }}
         >
           查看
@@ -154,9 +154,9 @@ const MenuList: React.FC = () => {
 
   return (
     <PageContainer>
-      <ProTable<API.MenuDataItem>
+      <ProTable<API.RoleDataItem>
         onLoad={request}
-        headerTitle="所有菜单"
+        headerTitle="所有角色"
         actionRef={actionRef}
         rowKey="id"
         search={{
@@ -195,83 +195,17 @@ const MenuList: React.FC = () => {
           </Button>
         </FooterToolbar>
       )}
-      <ModalForm
-        title="新建菜单"
-        width="400px"
-        visible={createModalVisible}
-        onVisibleChange={handleModalVisible}
-        onFinish={async (value) => {
-          const success = await handleAdd(value as API.MenuDataItem);
-          if (success) {
-            handleModalVisible(false);
-            if (actionRef.current) {
-              actionRef.current.reload();
-            }
-          }
-        }}
-      >
-        <ProFormText
-          rules={[
-            {
-              required: true,
-              message: '菜单名称为必填项',
-            },
-          ]}
-          width="md"
-          name="name"
-          label="菜单名称"
-        />
-        <ProFormText
-          rules={[
-            {
-              required: true,
-              message: '路径为必填项',
-            },
-          ]}
-          width="md"
-          name="path"
-          label="路径"
-        />
-        <ProFormRadio.Group
-          rules={[
-            {
-              required: true,
-            },
-          ]}
-          width="md"
-          name="hideInMenu"
-          label="在菜单中显示"
-          options={[
-            {
-              value: '0',
-              label: '是',
-            },
-            {
-              value: '1',
-              label: '否',
-            },
-          ]}
-        />
-        <ProFormRadio.Group
-          width="md"
-          name="status"
-          label="状态"
-          options={[
-            {
-              value: '0',
-              label: '默认',
-            },
-            {
-              value: '1',
-              label: '开发中',
-            },
-            {
-              value: '2',
-              label: '已上线',
-            }
-          ]}
-        />
-      </ModalForm>
+      <CreateForm
+        modalVisible={createModalVisible}
+        // onSubmit={async (value) => {
+        //   console.log(value);
+        // }}
+        onCancel={()=>{
+          handleModalVisible(false);
+        }}>
+
+      </CreateForm>
+
       <UpdateForm
         onSubmit={async (value) => {
           const success = await handleUpdate(value, currentRow);
@@ -303,14 +237,14 @@ const MenuList: React.FC = () => {
         closable={false}
       >
         {currentRow?.name && (
-          <ProDescriptions<API.MenuDataItem>
+          <ProDescriptions<API.RoleDataItem>
             column={2}
             title={currentRow?.name}
             request={request}
             params={{
               id: currentRow?.name,
             }}
-            columns={columns as ProDescriptionsItemProps<API.MenuDataItem>[]}
+            columns={columns as ProDescriptionsItemProps<API.RoleDataItem>[]}
           />
         )}
       </Drawer>
@@ -318,4 +252,4 @@ const MenuList: React.FC = () => {
   );
 };
 
-export default MenuList;
+export default RoleList;

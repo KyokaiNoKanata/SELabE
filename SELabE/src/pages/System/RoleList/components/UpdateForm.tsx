@@ -1,102 +1,95 @@
 import React from 'react';
 import { Modal } from 'antd';
+import type {API} from "@/services/ant-design-pro/typings";
+import {getMenuByRole, menuList} from "@/services/ant-design-pro/system/api";
+import Form from "@ant-design/pro-form";
 import {
   ProForm,
-  ProFormSelect,
   ProFormText,
-  ProFormTextArea,
-  ProFormTreeSelect,
-  StepsForm,
-  ProFormRadio,
-  ProFormDateTimePicker,
+  ProFormSelect
 } from '@ant-design/pro-form';
-import type { TableListItem } from '../data';
+import {forEach} from "lodash";
+import { DefaultOptionType } from 'antd/lib/select';
 
-export type FormValueType = {
-  target?: string;
-  template?: string;
-  type?: string;
-  time?: string;
-  frequency?: string;
-} & Partial<TableListItem>;
 
 export type UpdateFormProps = {
-  onCancel: (flag?: boolean, formVals?: FormValueType) => void;
-  onSubmit: (values: FormValueType) => Promise<void>;
+  onCancel: (flag?: boolean, formVals?: API.RoleDataItem) => void;
+  onSubmit: (values: Partial<API.RoleDataItem>) => Promise<void>;
   updateModalVisible: boolean;
-  values: Partial<TableListItem>;
+  values: Partial<API.RoleDataItem>;
 };
-const treeData = [
-  {
-    title: '系统管理',
-    value: '0-0',
-    key: '0-0',
-    children: [
-      {
-        title: '角色管理',
-        value: '0-0-0',
-        key: '0-0-0',
-      },
-    ],
-  },
-  {
-    title: '委托管理',
-    value: '0-1',
-    key: '0-1',
-    children: [
-      {
-        title: '分配委托',
-        value: '0-1-0',
-        key: '0-1-0',
-      },
-      {
-        title: 'Child Node4',
-        value: '0-1-1',
-        key: '0-1-1',
-      },
-      {
-        title: 'Child Node5',
-        value: '0-1-2',
-        key: '0-1-2',
-      },
-    ],
-  },
-];
+
+const getMenuData = async () => {
+  const result = await menuList();
+  return result.data;
+}
+
 const UpdateForm: React.FC<UpdateFormProps> = (props) => {
+  const options: { label: string | undefined; value: number | undefined; }[] | undefined = [];
+  const [form] = Form.useForm(); //定义form
+  form.setFieldsValue({
+    name:props.values.name,
+  })
   return (
-    <ProForm
-      onFinish={props.onSubmit}
+    <Modal
+      visible={props.updateModalVisible}
+      onCancel={() => {
+        props.onCancel();
+      }}
     >
-        <ProFormTreeSelect
-          initialValue={['0-0-0']}
-          label="菜单分配"
-          width={600}
-          request={async () => treeData}
-          fieldProps={{
-            fieldNames: {
-              label: 'title',
-            },
-            treeCheckable: true,
-            //showCheckedStrategy: TreeSelect.SHOW_PARENT,
-            placeholder: '选择要分配的菜单',
-          }}
-        />
-
-        <ProFormTextArea
-          name="desc"
+      <ProForm
+          title="配置角色"
+          request={
+            async (params: any) => {
+              const result = await getMenuByRole(props.values.id);
+              //console.log(result)
+              return result.data;
+            }
+          }
+          onFinish={props.onSubmit}
+          initialValues={props.values}
+          >
+        <ProFormText
+          name="id"
+          label="角色ID"
           width="md"
-          label="角色描述"
-          placeholder="请输入至少五个字符"
-          rules={[
-            {
-              required: true,
-              message: '请输入至少五个字符的角色描述！',
-              min: 5,
-            },
-          ]}
+          disabled
         />
+          <ProFormText
+            name="name"
+            label="角色名称"
+            width="md"
+            rules={[
+              {
+                required: true,
+                message: '请输入角色名称！',
+              },
+            ]}
+          />
+        <ProFormSelect
+          name="menuIds"
+          label="菜单权限"
+          width="lg"
+          mode="multiple"
+          request={async () => {
+            getMenuData().then(res => {
+              forEach(res, (item: any) => {
+                options.push({
+                  label: item.name,
+                  value: item.id
+                })
+              });
+              console.log(options);
+            });
+            return options;
+            }
+          }
+          >
 
-    </ProForm>
+        </ProFormSelect>
+      </ProForm>
+    </Modal>
+
   );
 };
 
