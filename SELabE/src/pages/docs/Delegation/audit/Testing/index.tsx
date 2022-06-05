@@ -36,7 +36,7 @@ const DocumentReview = () => {
       </Card>,
     委托功能列表: <Card><FunctionList3 editable={false} isClient={true}/></Card>,
     软件项目委托测试工作检查表: <Card><TestWorkChecklist12 editable={3}/></Card>,
-    评审表: <Card><StepDocReview14/></Card>,
+    评审表: <Card><StepDocReview14 editable={true}/></Card>,
   };
   return (
     <>

@@ -1,7 +1,7 @@
-import ContractForm from "@/pages/docs/Contract/components/ContractForm";
+import ContractForm4 from "@/pages/docs/Contract/components/ContractForm4";
 import {Card, message} from "antd";
 import React, {useRef, useState} from "react";
-import CDA from "@/pages/docs/Contract/components/CDA";
+import CDA5 from "@/pages/docs/Contract/components/CDA5";
 import type {ProFormInstance} from "@ant-design/pro-form";
 import ProForm, {ProFormSelect, ProFormText} from "@ant-design/pro-form";
 import {
@@ -15,10 +15,10 @@ import type API from "@/services/ant-design-pro/typings"
 import type {CardTabListType} from "antd/lib/card";
 
 const ContractPageComponent: React.FC<{
-  isClient: boolean,
-  audit: boolean,//是否是审核（是否有第三页）
+  editable: number,
+  audit?: number,//审核
 }> = (props) => {
-  const list: CardTabListType[] = [
+  let list: CardTabListType[] = [
     {
       key: 'CDA',
       tab: '保密协议',
@@ -27,12 +27,15 @@ const ContractPageComponent: React.FC<{
       key: 'ContractForm',
       tab: '合同',
     },
-    {
-      key: 'Audit',
-      tab: '审核',
-      disabled: !props.audit
-    }
   ];
+  if(props.editable == 0) {
+    list = list.concat([
+      {
+        key: 'Audit',
+        tab: '审核',
+      }
+    ]);
+  }
   const [activeTabKey, setActiveTabKey] = useState('CDA');
   const formRef: React.MutableRefObject<ProFormInstance | undefined> = useRef<ProFormInstance>();
   const params = useLocation();
@@ -52,7 +55,7 @@ const ContractPageComponent: React.FC<{
       return false;
     }
     //console.log(params)
-    if (props.isClient) {
+    if (props.audit == 1) {
       if (pass == 0) {
         resp = await acceptContractClient({
           contractId: contractId
@@ -84,11 +87,11 @@ const ContractPageComponent: React.FC<{
   }
   const contentList = {
     CDA: <Card>
-      <CDA isClient={props.isClient} editable={props.audit}/>
+      <CDA5 editable={props.editable}/>
     </Card>,
     ContractForm:
       <Card>
-        <ContractForm isClient={props.isClient} editable={props.audit}/>
+        <ContractForm4 editable={props.editable}/>
       </Card>,
     Audit:
       <Card>

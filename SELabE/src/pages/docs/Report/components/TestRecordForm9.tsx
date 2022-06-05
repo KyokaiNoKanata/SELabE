@@ -164,7 +164,7 @@ const TestRecordForm9: React.FC<{ editable: boolean }> = (props) => {
     <PageContainer>
       <PageHeader
         className="testcase"
-        title="测试用例"
+        title="测试记录"
       />
       <ProCard>
         <ProForm

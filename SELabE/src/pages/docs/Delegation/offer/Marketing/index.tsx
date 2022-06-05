@@ -1,7 +1,7 @@
-import OfferForm from "@/pages/docs/Delegation/components/OfferForm";
+import OfferForm4 from "@/pages/docs/Delegation/components/OfferForm";
 
 export default () => {
   return (
-    <OfferForm isClient={false}/>
+    <OfferForm4 isClient={false}/>
   );
 }
