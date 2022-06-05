@@ -208,6 +208,7 @@ const RoleList: React.FC = () => {
 
       <UpdateForm
         onSubmit={async (value) => {
+          console.log(value);
           const success = await handleUpdate(value, currentRow);
 
           if (success) {

@@ -26,28 +26,29 @@ const getMenuData = async () => {
 
 const UpdateForm: React.FC<UpdateFormProps> = (props) => {
   const options: { label: string | undefined; value: number | undefined; }[] | undefined = [];
-  const [form] = Form.useForm(); //定义form
-  form.setFieldsValue({
-    name:props.values.name,
-  })
+  const [form] = Form.useForm();
   return (
     <Modal
       visible={props.updateModalVisible}
       onCancel={() => {
         props.onCancel();
       }}
+      footer={null}
     >
       <ProForm
           title="配置角色"
           request={
-            async (params: any) => {
-              const result = await getMenuByRole(props.values.id);
-              //console.log(result)
-              return result.data;
+            async () => {
+              form.resetFields();
+              const menus = await getMenuByRole(props.values.id);
+              return ({
+                name:props.values.name,
+                id:props.values.id,
+                menuIds: menus.data
+              })
             }
           }
           onFinish={props.onSubmit}
-          initialValues={props.values}
           >
         <ProFormText
           name="id"
