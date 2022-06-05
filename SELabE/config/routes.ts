@@ -39,6 +39,30 @@ export default [
     component: './Welcome',
   },
   {
+    path: '/system',
+    name: '系统管理',
+    icon: 'crown',
+    //access: 'canAdmin',
+    routes: [
+      {
+        path:'./menulist',
+        name: '菜单管理',
+        component: './System/MenuList',
+      },
+      {
+        path:'./rolelist',
+        name: '角色管理',
+        component: './System/RoleList',
+      },
+      {
+        path:'./userlist',
+        name: '用户管理',
+        component: './System/UserList',
+      }
+    ]
+  },
+
+  {
     path: '/admin',
     name: 'admin',
     icon: 'crown',
@@ -55,12 +79,6 @@ export default [
         component: './404',
       },
     ],
-  },
-  {
-    name: 'list.table-list',
-    icon: 'table',
-    path: '/list',
-    component: './TableList',
   },
   {
     path: '/delegation',
@@ -196,9 +214,9 @@ export default [
         path: './audit/testing',
         name: '验收样品',
         icon: 'smile',
-        component: './Sample/audit/Testing'
+        component: './Sample/audit/Testing',
       },
-    ]
+    ],
   },
   {
     path: '/solution',
@@ -258,8 +276,7 @@ export default [
         name: '(签字人)审核测试报告',
         icon: 'smile',
         component: './Report/audit/Signatory',
-      },
-      //测试部员工 归档测试报告
+      }, //测试部员工 归档测试报告
       {
         path: '/report/archive',
         name: '归档测试报告',
@@ -280,7 +297,7 @@ export default [
         icon: 'smile',
         component: './Report/Receive',
       },
-    ]
+    ],
   },
   {
     path: constant.docPath.ROOT,
@@ -382,8 +399,6 @@ export default [
           },
         ]
       },
-
-
       {
         name: '样品',
         path: constant.docPath.sample.ROOT,
@@ -456,12 +471,10 @@ export default [
               }
             ]
           },
-        ]
-      }
-    ]
+        ],
+      },
+    ],
   },
-
-
   {
     path: '/',
     redirect: '/welcome',
