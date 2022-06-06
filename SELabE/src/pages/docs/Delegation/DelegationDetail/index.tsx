@@ -93,14 +93,22 @@ const DelegationDetail: React.FC = () => {
 
   request().then(
     result => {
-      setDelegationState(result.state);
-      setDelegationName(result.name);
-      setLaunchTime(result.launchTime);
+      // @ts-ignore
+      setDelegationState(result?.state);
+      // @ts-ignore
+      setDelegationName(result?.name);
+      // @ts-ignore
+      setLaunchTime(result?.launchTime);
+      // @ts-ignore
       setMarketRemark(result.marketRemark);
-      setTestingRemark(result.testingRemark);
-      setMarketDeptStaffId(result.marketDeptStaffId);
-      setTestingDeptStaffId(result.testingDeptStaffId);
-      setOfferRemark(result.offerRemark);
+      // @ts-ignore
+      setTestingRemark(result?.testingRemark);
+      // @ts-ignore
+      setMarketDeptStaffId(result?.marketDeptStaffId);
+      // @ts-ignore
+      setTestingDeptStaffId(result?.testingDeptStaffId);
+      // @ts-ignore
+      setOfferRemark(result?.offerRemark);
       getMarketUserInfo();
       getTestingUserInfo();
     }
@@ -119,6 +127,7 @@ const DelegationDetail: React.FC = () => {
   }
   getStateTime().then(
     result => {
+      // @ts-ignore
       setOperateTime(result);
     }
   );
@@ -468,12 +477,12 @@ const DelegationDetail: React.FC = () => {
         }
       }
       case 14: {
-        if (state != "市场部审核客户填写的草稿中") {
+        if (state != constant.delegationState.MARKETING_DEPARTMENT_AUDIT_CONTRACT.desc) {
           return "审核客户填写的草稿中";
         } else break;
       }
       case 15: {
-        if (state === "市场部审核合同不通过，客户修改中"){
+        if (state === constant.delegationState.MARKETING_DEPARTMENT_AUDIT_DELEGATION_FAIL.desc){
           break;
         }
         else{
@@ -481,7 +490,7 @@ const DelegationDetail: React.FC = () => {
         }
       }
       case 20: {
-        if (state === "样品验收不通过，用户重新修改"){
+        if (state === constant.delegationState.SAMPLE_CHECK_FAIL_MODIFY_SAMPLE.desc){
           break;
         }
         else{
@@ -489,17 +498,17 @@ const DelegationDetail: React.FC = () => {
         }
       }
       case 21: {
-        if (state != "测试部编写测试方案中") {
+        if (state != constant.delegationState.TESTING_DEPT_WRITING_TEST_SOLUTION.desc) {
           return "编写测试方案中";
         } else break;
       }
       case 22: {
-        if (state != "质量部审核测试方案中") {
+        if (state != constant.delegationState.QUALITY_DEPT_AUDIT_TEST_SOLUTION.desc) {
           return "审核测试方案中";
         } else break;
       }
       case 23: {
-        if (state === "测试方案审核未通过，测试部修改测试方案中"){
+        if (state === constant.delegationState.QUALITY_DEPT_AUDIT_TEST_SOLUTION_FAIL.desc){
           break;
         }
         else {
@@ -507,7 +516,7 @@ const DelegationDetail: React.FC = () => {
         }
       }
       case 24: {
-        if (state != "测试部测试进行中，填写测试文档"){
+        if (state != constant.delegationState.TESTING_DEPT_WRITING_TEST_REPORT.desc){
           return "测试进行中，填写测试文档";
         }
         else {
@@ -515,20 +524,20 @@ const DelegationDetail: React.FC = () => {
         }
       }
       case 25: {
-        if (state != "测试部测试完成，生成测试报告") {
+        if (state != constant.delegationState.TESTING_DEPT_GENERATE_TEST_REPORT.desc) {
           return "测试完成，生成测试报告";
         } else break;
       }
       case 26: {
-        if (state != "测试部主管审核测试报告中") {
+        if (state != constant.delegationState.TESTING_DEPT_MANAGER_AUDIT_TEST_REPORT.desc) {
           return "测试部主管审核测试报告中";
         } else break;
       }
       case 27: {
-        if (state === "测试部主管测试报告审核未通过，测试部修改测试文档中"){
+        if (state === constant.delegationState.TESTING_DEPT_MANAGER_AUDIT_TEST_REPORT_FAIL.desc){
           break;
         }
-        else if(state === "测试部主管测试报告审核通过，用户审核中"){
+        else if(state === constant.delegationState.TESTING_DEPT_MANAGER_AUDIT_TEST_REPORT_SUCCESS.desc){
           break;
         }
         else {
@@ -536,10 +545,10 @@ const DelegationDetail: React.FC = () => {
         }
       }
       case 28: {
-        if (state === "用户审核测试报告未通过，测试部修改测试文档中"){
+        if (state === constant.delegationState.CLIENT_AUDIT_TEST_REPORT_FAIL.desc){
           break;
         }
-        else if(state === "用户审核测试报告通过，授权签字人审核测试报告中"){
+        else if(state === constant.delegationState.CLIENT_AUDIT_TEST_REPORT_SUCCESS.desc){
           break;
         }
         else {
@@ -547,7 +556,7 @@ const DelegationDetail: React.FC = () => {
         }
       }
       case 29: {
-        if (state === "授权签字人测试报告审核未通过， 测试部修改测试文档中"){
+        if (state === constant.delegationState.SIGNATORY_AUDIT_TEST_REPORT_FAIL.desc){
           break;
         }
         else {
@@ -640,6 +649,7 @@ const DelegationDetail: React.FC = () => {
             hideModal={()=>{
               setModalVisible(false);
             }}
+            id = {delegationId}
           />
         </ProCard>
       </Row>
