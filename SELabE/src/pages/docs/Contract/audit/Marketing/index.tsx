@@ -2,6 +2,6 @@ import ContractPageComponent from "@/pages/docs/Contract/components/ContractPage
 
 export default () => {
   return (
-    <ContractPageComponent isClient={false} audit={true}/>
+    <ContractPageComponent editable={0} audit={2}/>
   )
 }

@@ -39,6 +39,35 @@ export default [
     component: './Welcome',
   },
   {
+    path: '/system',
+    name: '系统管理',
+    icon: 'crown',
+    //access: 'canAdmin',
+    routes: [
+      {
+        path: './menulist',
+        name: '菜单管理',
+        component: './System/MenuList',
+      },
+      {
+        path: './rolelist',
+        name: '角色管理',
+        component: './System/RoleList',
+      },
+      {
+        path: './userlist',
+        name: '用户管理',
+        component: './System/UserList',
+      },
+      {
+        name: '查询表格',
+        icon: 'smile',
+        path: '/system/testtable',
+        component: './System/TestTable',
+      },
+    ],
+  },
+  {
     path: '/admin',
     name: 'admin',
     icon: 'crown',
@@ -55,12 +84,6 @@ export default [
         component: './404',
       },
     ],
-  },
-  {
-    name: 'list.table-list',
-    icon: 'table',
-    path: '/list',
-    component: './TableList',
   },
   {
     path: '/delegation',
@@ -84,14 +107,14 @@ export default [
       //市场部分配委托
       {
         path: './distribute/marketing',
-        name: '分配委托',
+        name: '市场部分配委托',
         icon: 'smile',
         component: './Delegation/distribute/Marketing',
       },
       //测试部分配委托
       {
         path: './distribute/testing',
-        name: '分配委托',
+        name: '测试部分配委托',
         icon: 'smile',
         component: './Delegation/distribute/Testing',
       },
@@ -164,7 +187,14 @@ export default [
         name: '（市场部)审核合同',
         icon: 'smile',
         component: './Contract/audit/Marketing',
-      }
+      },
+      //市场部 上传合同
+      {
+        path: './upload',
+        name: '上传合同',
+        icon: 'smile',
+        component: './Contract/upload',
+      },
     ]
   },
   {
@@ -181,17 +211,17 @@ export default [
       },
       {
         path: './audit/marketing',
-        name: '验收样品',
+        name: '市场部验收样品',
         icon: 'smile',
         component: './Sample/audit/Marketing'
       },
       {
         path: './audit/testing',
-        name: '验收样品',
+        name: '测试部验收样品',
         icon: 'smile',
-        component: './Sample/audit/Testing'
+        component: './Sample/audit/Testing',
       },
-    ]
+    ],
   },
   {
     path: '/solution',
@@ -251,8 +281,7 @@ export default [
         name: '(签字人)审核测试报告',
         icon: 'smile',
         component: './Report/audit/Signatory',
-      },
-      //测试部员工 归档测试报告
+      }, //测试部员工 归档测试报告
       {
         path: '/report/archive',
         name: '归档测试报告',
@@ -273,7 +302,7 @@ export default [
         icon: 'smile',
         component: './Report/Receive',
       },
-    ]
+    ],
   },
   {
     path: constant.docPath.ROOT,
@@ -366,11 +395,15 @@ export default [
             name: '(市场部)检查合同',
             icon: 'smile',
             component: './docs/Contract/audit/Marketing',
-          }
+          },
+          {
+            path: constant.docPath.contract.upload.CHECKLIST,
+            name:'市场部填写软件项目委托测试工作检查表',
+            icon: 'smile',
+            component: "./docs/Contract/checkListAfterUploadContract",
+          },
         ]
       },
-
-
       {
         name: '样品',
         path: constant.docPath.sample.ROOT,
@@ -435,14 +468,102 @@ export default [
                 icon: 'table',
                 component: './docs/Report/Audit/Signatory',
               },
+              {
+                path: constant.docPath.report.ARCHIVE,
+                name: '归档',
+                icon: 'table',
+                component: './docs/Report/Archive',
+              }
             ]
+          },
+        ],
+      },
+      {
+        path: "/docs/form/",
+        name: '表单',
+        routes: [
+          {
+            path: "/docs/form/table2",
+            name: '软件项目委托测试申请书',
+            icon: 'table',
+            component: './docs/tables/table2',
+          },
+          {
+            path: "/docs/form/table3",
+            name: '委托测试软件功能列表',
+            icon: 'table',
+            component: './docs/tables/table3',
+          },
+          {
+            path: "/docs/form/table4",
+            name: '软件委托测试合同',
+            icon: 'table',
+            component: './docs/tables/table4',
+          },
+          {
+            path: "/docs/form/table5",
+            name: '软件项目委托测试保密协议',
+            icon: 'table',
+            component: './docs/tables/table5',
+          },
+          {
+            path: "/docs/form/table6",
+            name: '测试方案',
+            icon: 'table',
+            component: './docs/tables/table6',
+          },
+          {
+            path: "/docs/form/table7",
+            name: '测试报告',
+            icon: 'table',
+            component: './docs/tables/table7',
+          },
+          {
+            path: "/docs/form/table8",
+            name: '测试用例',
+            icon: 'table',
+            component: './docs/tables/table8',
+          },
+          {
+            path: "/docs/form/table9",
+            name: '测试记录',
+            icon: 'table',
+            component: './docs/tables/table9',
+          },
+          {
+            path: "/docs/form/table10",
+            name: '测试报告检查表',
+            icon: 'table',
+            component: './docs/tables/table10',
+          },
+          {
+            path: "/docs/form/table11",
+            name: '问题清单',
+            icon: 'table',
+            component: './docs/tables/table11',
+          },
+          {
+            path: "/docs/form/table12",
+            name: '工作检查表',
+            icon: 'table',
+            component: './docs/tables/table12',
+          },
+          {
+            path: "/docs/form/table13",
+            name: '测试方案评审表',
+            icon: 'table',
+            component: './docs/tables/table13',
+          },
+          {
+            path: "/docs/form/table14",
+            name: '软件文档评审表',
+            icon: 'table',
+            component: './docs/tables/table14',
           },
         ]
       }
-    ]
+    ],
   },
-
-
   {
     path: '/',
     redirect: '/welcome',

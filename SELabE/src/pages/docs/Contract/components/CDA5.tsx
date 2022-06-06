@@ -8,10 +8,14 @@ import ProForm, {ProFormDatePicker, ProFormText,} from '@ant-design/pro-form';
 import API from "@/services/ant-design-pro/typings"
 const {Paragraph} = Typography;
 //editable为false则双方都不可以编辑
-//todo:好像写反了，但结果正确
-const CDA: React.FC<{
-  isClient: boolean
-  editable: boolean
+/**
+ *
+ * @param props
+ * editable: 1、甲方（客户） 2、乙方（市场部） 0、只读
+ * @constructor
+ */
+const CDA5: React.FC<{
+  editable: number;
 }> = (props) => {
   const params = useLocation();
   const delegationId = !params.state ? -1 : (params.state as any).id;
@@ -82,7 +86,7 @@ const CDA: React.FC<{
               submitText: '保存',
             },
             render: (submitterProps, doms) => {
-              if (!props.editable) {
+              if (props.editable == 1 || props.editable == 2) {
                 return [...doms];
               }
               return []
@@ -90,9 +94,9 @@ const CDA: React.FC<{
           }}>
           <Typography>
             <Paragraph>
-              <ProFormText disabled={props.editable || !props.isClient} name='委托单位'
+              <ProFormText disabled={props.editable != 2} name='委托单位'
                            addonBefore='委托方' addonAfter='（以下简称“甲方”）与南京大学计算机软件新技术国家重点实验室（简称“乙方”）'/>
-              <ProFormText disabled={props.editable || props.isClient} name='软件名称'
+              <ProFormText disabled={props.editable != 2} name='软件名称'
                            addonBefore='在签订《' addonAfter='软件项目委托测试》委托合同的前提下，为保证双方的合法权利，经协双方达成如下保密协议：'/>
             </Paragraph>
             <Card>
@@ -148,15 +152,15 @@ const CDA: React.FC<{
             <Col span={12}>
               <div>甲方:(公章)</div>
               <br/>
-              <ProFormText name = "甲方法人代表" label = "法人代表" width = "md"/>
-              <ProFormDatePicker name = "甲方_日期" label = "日期"/>
+              <ProFormText name = "甲方法人代表" label = "法人代表" width = "md" disabled={props.editable!=1}/>
+              <ProFormDatePicker name = "甲方_日期" label = "日期" disabled={props.editable!=1} />
             </Col>
             <Col span={12}>
               <br/>
               <div>乙方:(公章)</div>
               <br/>
-              <ProFormText name = "乙方法人代表" label = "法人代表" width = "md"/>
-              <ProFormDatePicker name = "乙方_日期" label = "日期"/>
+              <ProFormText name = "乙方法人代表" label = "法人代表" width = "md" disabled={props.editable != 2}/>
+              <ProFormDatePicker name = "乙方_日期" label = "日期" disabled={props.editable != 2}/>
             </Col>
           </Row>
         </ProForm>
@@ -172,4 +176,4 @@ const CDA: React.FC<{
 
 }
 
-export default CDA;
+export default CDA5;

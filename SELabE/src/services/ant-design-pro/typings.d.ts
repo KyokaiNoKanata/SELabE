@@ -173,6 +173,10 @@ declare namespace API {
      */
     state: string;
     /**
+     * 软件项目委托测试工作检查表ID
+     */
+    table12Id?: number;
+    /**
      * 软件文档评审表ID
      */
     table14Id?: string;
@@ -435,6 +439,26 @@ declare namespace API {
     name?: string;
     path?: string;
     hideInMenu?: string;
+    id?: number;
+    status?: number;
+  }
+
+  type RoleDataItem = {
+    id?: number;
+    name?: string;
+  }
+
+  type RoleData = {
+    data?: RoleDataItem[];
+  }
+
+  type UserDataItem = {
+    id?: number;
+    nickname?: string;
+  }
+
+  type UserData = {
+    data?: UserDataItem[];
   }
 }
 export default API;

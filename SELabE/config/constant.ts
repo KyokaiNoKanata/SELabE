@@ -107,6 +107,9 @@ const constant = {
         CLIENT: "/docs/contract/audit/client",
         MARKETING: "/docs/contract/audit/marketing",
       },
+      upload: {
+        CHECKLIST: "/docs/contract/upload/checkList",
+      }
     },
     /**
      * 样品相关页面
@@ -134,7 +137,8 @@ const constant = {
         CLIENT: "/docs/report/audit/client",
         MANAGER: "/docs/report/audit/manager",
         SIGNATORY: "/docs/report/audit/signatory",
-      }
+      },
+      ARCHIVE: "/docs/report/archive",
     }
   },
   //菜单(真正需要分配的菜单结构)
@@ -187,6 +191,7 @@ const constant = {
         list: "/contract/list",               //查看合同
         create: "/contract/create/staff",     //填写合同草稿
         audit: "/contract/audit/staff",       //审核合同
+        upload: "/contract/upload",           //上传合同
       },
       sample: {
         audit: "/sample/audit/marketing",     //审核样品

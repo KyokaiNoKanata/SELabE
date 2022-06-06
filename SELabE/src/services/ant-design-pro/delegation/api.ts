@@ -1,5 +1,6 @@
 import request from "umi-request";
-import type {API} from "@/services/ant-design-pro/typings"
+import type API from "@/services/ant-design-pro/typings"
+import {objectify} from "@umijs/openapi/dist/openAPIParserMock/utils";
 
 /** 获取委托列表 GET /api/admin-api/system/delegation/page */
 export async function delegationPage(
@@ -347,4 +348,68 @@ export async function rejectOffer(body: { delegationId: number; reason: string }
     method: 'PUT',
     data: body,
   });
+}
+
+/**
+ * 客户 取消委托
+ */
+export async function cancelDelegationClient(body: { delegationId: number; remark: string }) {
+  return request<API.Response>('/admin-api/system/delegation/cancel/client', {
+    method: 'PUT',
+    data: {
+      id: body.delegationId,
+      remark: body.remark,
+    }
+  });
+}
+
+/**
+ * 管理员 取消委托
+ * @param body
+ */
+export async function cancelDelegationAdmin(body: { delegationId: number; remark: string }) {
+  return request<API.Response>('/admin-api/system/delegation/cancel/admin', {
+    method: 'PUT',
+    data: {
+      id: body.delegationId,
+      remark: body.remark,
+    }
+  });
+}
+
+/**
+ * 获取 table12
+ * @param params
+ */
+export async function getTable12(params: {
+  id: number
+}) {
+  return request<API.Response>('/admin-api/system/delegation/get/table12', {
+    method: 'GET',
+    params: params,
+  });
+}
+
+/**
+ * 保存table 12
+ * @param body
+ */
+export async function saveTable12(body: {
+  delegationId: number,
+  data: object
+}) {
+  return request<API.Response>('/admin-api/system/delegation/save/table12', {
+    method: 'PUT',
+    data: body,
+  });
+}
+
+/**
+ * 增加 table 12
+ */
+export async function appendTable12(body: {
+  delegationId: number,
+    data: object
+}) {
+
 }
