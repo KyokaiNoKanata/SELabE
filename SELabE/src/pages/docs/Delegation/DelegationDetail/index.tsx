@@ -574,11 +574,12 @@ const DelegationDetail: React.FC = () => {
     }
   }
 
+  // @ts-ignore
   return (
     <PageContainer>
       <Row>
         <ProCard title="流程进度" bordered>
-          <Steps className="normalProcess" current={currentStep()} status={currentStatus} direction="vertical">
+          <Steps className="normalProcess" current={currentStep()} status={currentStatus as any} direction="vertical">
             <Step stepIndex={0} title="客户" description={table_jump(String(delegationState),0)} />
             <Step stepIndex={1} title="市场部" description="等待市场部主管分配市场部人员"/>
             <Step stepIndex={2} title="测试部" description="等待测试部主管分配测试部人员"/>
