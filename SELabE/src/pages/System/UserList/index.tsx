@@ -11,7 +11,14 @@ import type {FormValueType} from './components/UpdateForm';
 import UpdateForm from './components/UpdateForm';
 import {addRule, removeRule, updateRule} from './service';
 import type {API} from "@/services/ant-design-pro/typings";
-import {menuList, addMenuItem, deleteMenuItem, roleList, userList} from "@/services/ant-design-pro/system/api";
+import {
+  menuList,
+  addMenuItem,
+  deleteMenuItem,
+  roleList,
+  userList,
+  assignMenuToRole, assignRoleToUser
+} from "@/services/ant-design-pro/system/api";
 // import
 /**
  * 添加节点
@@ -19,7 +26,7 @@ import {menuList, addMenuItem, deleteMenuItem, roleList, userList} from "@/servi
  * @param fields
  */
 
-const handleAdd = async (fields: API.MenuDataItem) => {
+const handleAdd = async (fields: API.UserDataItem) => {
   const hide = message.loading('正在添加');
   try {
     const res = await addMenuItem({ ...fields });
@@ -39,14 +46,11 @@ const handleAdd = async (fields: API.MenuDataItem) => {
  * @param fields
  */
 
-const handleUpdate = async (fields: FormValueType, currentRow?: API.MenuDataItem) => {
+const handleUpdate = async (fields: API.UserDataItem, currentRow?: API.UserDataItem) => {
   const hide = message.loading('正在配置');
 
   try {
-    await updateRule({
-      ...currentRow,
-      ...fields,
-    });
+    await assignRoleToUser(currentRow.id, fields.roleIds);
     hide();
     message.success('配置成功');
     return true;
@@ -62,7 +66,7 @@ const handleUpdate = async (fields: FormValueType, currentRow?: API.MenuDataItem
  * @param selectedRows
  */
 
-const handleRemove = async (selectedRows: API.MenuDataItem[]) => {
+const handleRemove = async (selectedRows: API.UserDataItem[]) => {
   const hide = message.loading('正在配置');
   console.log(selectedRows);
   try {
@@ -85,11 +89,11 @@ const MenuList: React.FC = () => {
   const [updateModalVisible, handleUpdateModalVisible] = useState<boolean>(false);
   const [showDetail, setShowDetail] = useState<boolean>(false);
   const actionRef = useRef<ActionType>();
-  const [currentRow, setCurrentRow] = useState<API.MenuDataItem>();
-  const [selectedRowsState, setSelectedRows] = useState<API.MenuDataItem[]>([]);
+  const [currentRow, setCurrentRow] = useState<API.UserDataItem>();
+  const [selectedRowsState, setSelectedRows] = useState<API.UserDataItem[]>([]);
   /** 国际化配置 */
 
-  const columns: ProColumns<API.MenuDataItem>[] = [
+  const columns: ProColumns<API.UserDataItem>[] = [
     {
       title: '用户ID',
       dataIndex: 'id',
@@ -145,7 +149,7 @@ const MenuList: React.FC = () => {
 
   return (
     <PageContainer>
-      <ProTable<API.MenuDataItem>
+      <ProTable<API.UserDataItem>
         onLoad={request}
         headerTitle="所有菜单"
         actionRef={actionRef}
@@ -192,7 +196,7 @@ const MenuList: React.FC = () => {
         visible={createModalVisible}
         onVisibleChange={handleModalVisible}
         onFinish={async (value) => {
-          const success = await handleAdd(value as API.MenuDataItem);
+          const success = await handleAdd(value as API.UserDataItem);
           if (success) {
             handleModalVisible(false);
             if (actionRef.current) {
@@ -294,14 +298,14 @@ const MenuList: React.FC = () => {
         closable={false}
       >
         {currentRow?.name && (
-          <ProDescriptions<API.MenuDataItem>
+          <ProDescriptions<API.UserDataItem>
             column={2}
             title={currentRow?.name}
             request={request}
             params={{
               id: currentRow?.name,
             }}
-            columns={columns as ProDescriptionsItemProps<API.MenuDataItem>[]}
+            columns={columns as ProDescriptionsItemProps<API.UserDataItem>[]}
           />
         )}
       </Drawer>

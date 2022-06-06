@@ -229,6 +229,7 @@ declare namespace API {
   type RoleDataItem = {
     id?: number;
     name?: string;
+    menuIds?: number[];
   }
 
   type RoleData = {
@@ -238,6 +239,7 @@ declare namespace API {
   type UserDataItem = {
     id?: number;
     nickname?: string;
+    roleIds?: number[];
   }
 
   type UserData = {
