@@ -12,7 +12,6 @@ import {StepsForm} from "@ant-design/pro-form/es/layouts/StepsForm";
 
 const {Title, Paragraph} = Typography;
 
-
 type DataSourceType = {
   id: number; //id在json中是乱码，这个ID其实不能提交？
   basis?: string;

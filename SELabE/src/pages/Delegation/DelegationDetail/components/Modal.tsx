@@ -1,6 +1,12 @@
 import {Modal as AntdModal, Space} from 'antd';
 import {Link} from "@umijs/preset-dumi/lib/theme";
 
+/** 显示各个文档，点击相应文档进行文档查看
+ * @param modalVisible: true:弹窗可见 false:不可见
+ * @param hideModal 关闭弹窗
+ * @param id 委托id
+ * @constructor
+ */
 const Modal = (
   {modalVisible, hideModal, id}: { modalVisible: boolean; hideModal: () => void; id: number }) => {
   return (

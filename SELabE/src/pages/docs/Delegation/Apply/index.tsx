@@ -14,8 +14,12 @@ const delegationList = [
   }
 ];
 
-
+/**
+ *  委托申请页面，含委托申请书和委托功能列表两个页签
+ * @constructor
+ */
 const TabsCard = () => {
+  /* activeTabKey: 激活页签的key */
   const [activeTabKey, setActiveTabKey] = useState('委托申请书');
   const onTabChange = (key: any) => {
     setActiveTabKey(key);

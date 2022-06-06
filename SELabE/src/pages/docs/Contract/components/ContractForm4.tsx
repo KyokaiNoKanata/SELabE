@@ -19,8 +19,8 @@ import type API from "@/services/ant-design-pro/typings";
 const {Title, Paragraph, Text,} = Typography;
 
 /**
- *
- * @param prop
+ * 软件委托测试合同
+ * @param prop {editable: 可编辑状态; }
  * @constructor
  */
 const ContractForm4: React.FC<{
@@ -111,6 +111,9 @@ const ContractForm4: React.FC<{
       }
     }
   }
+  /**
+   * 合同表单详情
+   */
   const information = () => {
     return (
       <ProCard>
@@ -240,6 +243,9 @@ const ContractForm4: React.FC<{
       </ProCard>
     );
   }
+  /**
+   * 合同声明
+   */
   const explanation = () => {
     return (
       <Typography>

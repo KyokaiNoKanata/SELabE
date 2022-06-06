@@ -15,8 +15,13 @@ import {useLocation} from "umi";
 import {getDelegationByIds, getTable2, saveTable2} from '@/services/ant-design-pro/delegation/api';
 import React, {useState} from "react";
 import {TreeNode} from 'antd/lib/tree-select';
-
+//日期控件
 const Date: any = ProFormDatePicker;
+/**
+ * 委托申请书： 分步表单
+ * @param prop{editable: 是否可编辑; isClient: 是否为客户}
+ * @constructor
+ */
 const StepApplyForm2: React.FC<{ editable: boolean, isClient: boolean }> = (prop) => {
   const params = useLocation();
   const delegationId = !params.state ? -1 : (params.state as any).id
