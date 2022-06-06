@@ -127,7 +127,7 @@ const DelegationDetail: React.FC = () => {
   const currentStep = () => {
     switch (delegationState) {
       case constant.delegationState.DELEGATE_WRITING.desc: {
-        tran_pathName = '/docs/new-delegation';
+        tran_pathName = constant.docPath.delegation.APPLY;
         currentStatus = "process";
         return 0;
       }
@@ -143,13 +143,13 @@ const DelegationDetail: React.FC = () => {
 
       case constant.delegationState.MARKETING_DEPARTMENT_AUDIT_DELEGATION.desc: {
         currentStatus = "process";
-        tran_pathName = '/docs/softDocReview/marketing';
+        tran_pathName = constant.docPath.delegation.audit.MARKETING;
         return 3
       }
 
       case constant.delegationState.MARKETING_DEPARTMENT_AUDIT_DELEGATION_FAIL.desc: {
         currentStatus = "error";
-        tran_pathName = '/docs/new-delegation';
+        tran_pathName = constant.docPath.delegation.APPLY;
         return 4
       }
 
@@ -160,13 +160,13 @@ const DelegationDetail: React.FC = () => {
 
       case constant.delegationState.TESTING_DEPARTMENT_AUDIT_DELEGATION.desc: {
         currentStatus = "process";
-        tran_pathName = '/docs/softDocReview/testing';
+        tran_pathName = constant.docPath.delegation.audit.TESTING;
         return 5
       }
 
       case constant.delegationState.TESTING_DEPARTMENT_AUDIT_DELEGATION_FAIL.desc: {
         currentStatus = "error";
-        tran_pathName = '/docs/new-delegation';
+        tran_pathName = constant.docPath.delegation.APPLY;
         return 6
       }
 
@@ -182,19 +182,19 @@ const DelegationDetail: React.FC = () => {
 
       case constant.delegationState.MARKETING_DEPARTMENT_GENERATE_OFFER.desc: {
         currentStatus = "process";
-        tran_pathName = '/docs/quotation/marketing';
+        tran_pathName = constant.docPath.delegation.offer.WRITE;
         return 8
       }
 
       case constant.delegationState.CLIENT_DEALING_OFFER.desc: {
         currentStatus = "process";
-        tran_pathName = '/docs/quotation/client';
+        tran_pathName = constant.docPath.delegation.offer.HANDLE;
         return 9
       }
 
       case constant.delegationState.CLIENT_REJECT_OFFER.desc: {
         currentStatus = "error";
-        tran_pathName = '/docs/quotation/marketing';
+        tran_pathName = constant.docPath.delegation.offer.WRITE;
         return 10
       }
 
@@ -205,37 +205,37 @@ const DelegationDetail: React.FC = () => {
 
       case constant.delegationState.MARKETING_DEPARTMENT_GENERATE_CONTRACT.desc: {
         currentStatus = "process";
-        tran_pathName = '/docs/contract/marketing';
+        tran_pathName = constant.docPath.contract.write.MARKETING;
         return 11
       }
 
       case constant.delegationState.CLIENT_AUDIT_CONTRACT.desc: {
         currentStatus = "process";
-        tran_pathName = '/docs/contract/audit/client';
+        tran_pathName = constant.docPath.contract.audit.CLIENT;
         return 12
       }
 
       case constant.delegationState.CLIENT_WRITING_CONTRACT.desc: {
         currentStatus = "process";
-        tran_pathName = '/docs/contract/client';
+        tran_pathName = constant.docPath.contract.write.CLIENT;
         return 13
       }
 
       case constant.delegationState.CLIENT_AUDIT_CONTRACT_FAIL.desc: {
         currentStatus = "error";
-        tran_pathName = '/docs/contract/marketing';
+        tran_pathName = constant.docPath.contract.write.MARKETING;
         return 13
       }
 
       case constant.delegationState.MARKETING_DEPARTMENT_AUDIT_CONTRACT.desc: {
         currentStatus = "process";
-        tran_pathName = '/docs/contract/audit/marketing';
+        tran_pathName = constant.docPath.contract.audit.MARKETING;
         return 14
       }
 
       case constant.delegationState.MARKETING_DEPARTMENT_AUDIT_CONTRACT_FAIL.desc: {
         currentStatus = "error";
-        tran_pathName = '/docs/contract/client';
+        tran_pathName = constant.docPath.contract.write.CLIENT;
         return 15
       }
 
@@ -276,19 +276,19 @@ const DelegationDetail: React.FC = () => {
 
       case constant.delegationState.TESTING_DEPT_WRITING_TEST_SOLUTION.desc: {
         currentStatus = "process";
-        tran_pathName = '/docs/new-solution';
+        tran_pathName = constant.docPath.solution.WRITE;
         return 21
       }
 
       case constant.delegationState.QUALITY_DEPT_AUDIT_TEST_SOLUTION.desc: {
         currentStatus = "process";
-        tran_pathName = '/docs/solution/audit-solution';
+        tran_pathName = constant.docPath.solution.AUDIT;
         return 22
       }
 
       case constant.delegationState.QUALITY_DEPT_AUDIT_TEST_SOLUTION_FAIL.desc: {
         currentStatus = "process";
-        tran_pathName = '/docs/new-solution';
+        tran_pathName = constant.docPath.solution.WRITE;
         return 23
       }
 
@@ -299,49 +299,49 @@ const DelegationDetail: React.FC = () => {
 
       case constant.delegationState.TESTING_DEPT_WRITING_TEST_REPORT.desc: {
         currentStatus = "process";
-        tran_pathName = '/docs/report/fill-in-report';
+        tran_pathName = constant.docPath.report.WRITE;
         return 24
       }
 
       case constant.delegationState.TESTING_DEPT_GENERATE_TEST_REPORT.desc: {
         currentStatus = "process";
-        tran_pathName = '/docs/report/fill-in-report';
+        tran_pathName = constant.docPath.report.WRITE;
         return 25
       }
 
       case constant.delegationState.TESTING_DEPT_MANAGER_AUDIT_TEST_REPORT.desc: {
         currentStatus = "process";
-        tran_pathName = '/docs/report/audit/manager';
+        tran_pathName = constant.docPath.report.audit.MANAGER;
         return 26
       }
 
       case constant.delegationState.TESTING_DEPT_MANAGER_AUDIT_TEST_REPORT_FAIL.desc: {
-        tran_pathName = '/docs/report/fill-in-report';
+        tran_pathName = constant.docPath.report.WRITE;
         currentStatus = "error";
         return 27
       }
 
       case constant.delegationState.TESTING_DEPT_MANAGER_AUDIT_TEST_REPORT_SUCCESS.desc: {
         currentStatus = "process";
-        tran_pathName = '/docs/report/audit/client';
+        tran_pathName = constant.docPath.report.audit.CLIENT;
         return 27
       }
 
       case constant.delegationState.CLIENT_AUDIT_TEST_REPORT_FAIL.desc: {
-        tran_pathName = '/docs/report/fill-in-report';
+        tran_pathName = constant.docPath.report.WRITE;
         currentStatus = "process";
         return 28
       }
 
       case constant.delegationState.CLIENT_AUDIT_TEST_REPORT_SUCCESS.desc: {
-        tran_pathName = '/docs/report/audit/signatory';
+        tran_pathName = constant.docPath.report.audit.SIGNATORY;
         currentStatus = "process";
         return 28
       }
 
       case constant.delegationState.SIGNATORY_AUDIT_TEST_REPORT_FAIL.desc: {
         currentStatus = "error";
-        tran_pathName = '/docs/report/fill-in-report';
+        tran_pathName = constant.docPath.report.WRITE;
         return 29
       }
 
@@ -382,17 +382,17 @@ const DelegationDetail: React.FC = () => {
   const table_jump = (state: string, stepIndex: number) => {
     switch (stepIndex) {
       case 0: {
-        if (state != "委托填写中") {
+        if (state != constant.delegationState.DELEGATE_WRITING.desc) {
           return "委托填写中"
         } else break;
       }
       case 3: {
-        if (state != "市场部审核委托中") {
+        if (state != constant.delegationState.MARKETING_DEPARTMENT_AUDIT_DELEGATION.desc) {
           return "审核委托中"
         } else break;
       }
       case 4: {
-        if (state === "市场部审核委托不通过，委托修改中"){
+        if (state === constant.delegationState.MARKETING_DEPARTMENT_AUDIT_DELEGATION_FAIL.desc){
           return (
             <>
               <div>
@@ -409,12 +409,12 @@ const DelegationDetail: React.FC = () => {
         }
       }
       case 5: {
-        if (state != "测试部审核委托中") {
+        if (state != constant.delegationState.TESTING_DEPARTMENT_AUDIT_DELEGATION.desc) {
           return "审核委托中"
         } else break;
       }
       case 6: {
-        if (state === "测试部审核委托不通过，委托修改中"){
+        if (state === constant.delegationState.TESTING_DEPARTMENT_AUDIT_DELEGATION_FAIL.desc){
           return (
             <>
               <div>
@@ -431,17 +431,17 @@ const DelegationDetail: React.FC = () => {
         }
       }
       case 8: {
-        if (state != "市场部生成报价中") {
+        if (state != constant.delegationState.MARKETING_DEPARTMENT_GENERATE_OFFER.desc) {
           return "生成报价中"
         } else break;
       }
       case 9: {
-        if (state != "客户处理报价中") {
+        if (state != constant.delegationState.CLIENT_DEALING_OFFER.desc) {
           return "处理报价中"
         } else break;
       }
       case 10: {
-        if (state === "客户不接受报价，市场部修改报价"){
+        if (state === constant.delegationState.CLIENT_REJECT_OFFER.desc){
           break;
         }
         else{
@@ -449,19 +449,19 @@ const DelegationDetail: React.FC = () => {
         }
       }
       case 11: {
-        if (state != "市场部生成合同草稿中") {
+        if (state != constant.delegationState.MARKETING_DEPARTMENT_GENERATE_CONTRACT.desc) {
           return "生成合同草稿中"
         } else break;
       }
       case 12: {
-        if (state != "客户检查合同草稿中") {
+        if (state != constant.delegationState.CLIENT_AUDIT_CONTRACT.desc) {
           return "检查合同草稿中";
         } else break;
       }
       case 13: {
-        if (state === "客户不接受市场部合同草稿，市场部修改合同草稿") {
+        if (state === constant.delegationState.CLIENT_AUDIT_CONTRACT_FAIL.desc) {
           break;
-        } else if (state === "客户接受市场部合同草稿，填写合同中") {
+        } else if (state === constant.delegationState.CLIENT_WRITING_CONTRACT.desc) {
           break;
         } else {
           return "接受市场部合同草稿，填写合同中";
