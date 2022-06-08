@@ -153,6 +153,10 @@ declare namespace API {
      */
     offerRemark?: string;
     /**
+     * 项目编号
+     */
+    projectId?: number;
+    /**
      * 测试报告Id
      */
     reportId?: number;

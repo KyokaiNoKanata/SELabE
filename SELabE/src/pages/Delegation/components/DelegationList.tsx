@@ -110,6 +110,14 @@ export type DelegationListType = {
    */
   operationColumns: ProColumns<API.DelegationItem>[];
   /**
+   * 如果是项目列表，第一列换成项目id，委托id隐藏
+   */
+  projectsList?: boolean;
+  /**
+   * 前置列
+   */
+  columnsBefore?: ProColumns<API.DelegationItem>[];
+  /**
    * actionRef
    */
   actionRef?: React.MutableRefObject<ActionType | undefined>;
@@ -180,6 +188,7 @@ const DelegationList: React.FC<DelegationListType> = (props) => {
         ['id', 'id'],
         ['state', 'state'],
         ['launchTime', 'launch_time'],
+        ['projectId','project_Id'],
       ]).get(key);
     }
     //remove params.current
@@ -428,10 +437,16 @@ const DelegationList: React.FC<DelegationListType> = (props) => {
       ]
     },
   ];
-  if (props.operationColumns && props.operationColumns.length > 0) {
+  if(props.projectsList) {
+    columns.forEach(item => {
+      if(item.dataIndex == 'id') {
+        item.hideInTable = true;
+      }
+    })
+    columns = props.columnsBefore!.concat(columns).concat(props.operationColumns);
+  } else if (props.operationColumns && props.operationColumns.length > 0) {
     columns = columns.concat(props.operationColumns)
   }
-
   return (
     <PageContainer>
       <ProTable<API.DelegationItem, API.DelegationQueryParams>
