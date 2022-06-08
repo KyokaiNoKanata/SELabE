@@ -7,17 +7,6 @@ import {Link} from "umi";
 import {Button} from "antd";
 import constant from "../../../../config/constant";
 const ProjectList: React.FC = () => {
-  const columnsBefore: ProColumns<API.DelegationItem>[] = [
-    /** 项目id */
-    {
-      title: '项目编号',
-      dataIndex: 'projectId',
-      valueType: 'option',
-      hideInTable: false,
-      hideInSearch: false,
-      sorter: true,
-    }
-  ];
   const operationColumns: ProColumns<API.DelegationItem>[] = [
     /** 查看详情 */
     {
@@ -71,7 +60,6 @@ const ProjectList: React.FC = () => {
       operationColumns={operationColumns}
       queryParams={queryParams}
       projectsList={true}
-      columnsBefore={columnsBefore}
     />
   )
 }

@@ -90,19 +90,12 @@ export default [
     name: '委托管理',
     icon: 'crown',
     routes: [
-      //客户查看委托（可以新增删除填写委托）
+      //查看委托
       {
-        path: './list/client',
+        path: './list',
         name: '查看委托',
         icon: 'smile',
-        component: './Delegation/list/Client',
-      },
-      //其他人查看委托
-      {
-        path: './list/common',
-        name: '查看委托',
-        icon: 'smile',
-        component: './Delegation/list/Common',
+        component: './Delegation/list',
       },
       //分配委托
       {
@@ -118,7 +111,7 @@ export default [
         icon: 'smile',
         component: './Delegation/Audit'
       },
-      //市场部/测试部 生成报价
+      //市场部 生成报价
       {
         path: './offer/market',
         name: '(市场部)生成报价',
@@ -132,40 +125,26 @@ export default [
         icon: 'smile',
         component: './Delegation/offer/Client',
       },
-      //查看合同详情
+      /*//查看合同详情
       {
         path: './contract/list',
         name: '查看合同',
         icon: 'smile',
         component: './Contract/list',
-      },
-      //市场部填写（创建）
+      },*/
+      //客户/市场部 填写合同
       {
-        path: './contract/create/staff',
-        name: '（市场部)填写合同',
+        path: './contract/write',
+        name: '填写合同',
         icon: 'smile',
-        component: './Contract/write/Marketing',
+        component: './Contract/write',
       },
-      //客户填写（创建）
+      //客户/市场部 审核合同
       {
-        path: './contract/create/client',
-        name: '（客户)填写合同',
+        path: './contract/audit',
+        name: '审核合同',
         icon: 'smile',
-        component: './Contract/write/Client',
-      },
-      //客户检查合同
-      {
-        path: './contract/audit/client',
-        name: '（客户)检查合同',
-        icon: 'smile',
-        component: './Contract/audit/Client',
-      },
-      //市场部审核合同
-      {
-        path: './contract/audit/staff',
-        name: '（市场部)审核合同',
-        icon: 'smile',
-        component: './Contract/audit/Marketing',
+        component: './Contract/audit',
       },
       //市场部 上传合同
       {
@@ -173,6 +152,12 @@ export default [
         name: '上传合同',
         icon: 'smile',
         component: './Contract/upload',
+      },
+      {
+        path: './delegation/fillProjectId',
+        name: '填写项目编号',
+        icon: 'smile',
+        component: './Delegation/FillProjectId',
       },
     ],
   },
@@ -206,7 +191,7 @@ export default [
             icon: 'smile',
             component: './Sample/submit',
           },
-          {
+          /*{
             path: './audit/marketing',
             name: '市场部验收样品',
             icon: 'smile',
@@ -217,6 +202,12 @@ export default [
             name: '测试部验收样品',
             icon: 'smile',
             component: './Sample/audit/Testing',
+          },*/
+          {
+            path: './audit',
+            name: '验收样品',
+            icon: 'smile',
+            component: './Sample/audit',
           },
         ],
       },
@@ -364,6 +355,12 @@ export default [
               },
             ]
           },
+          {
+            path: constant.docPath.delegation.FILL_PROJECT_ID,
+            name: '填写项目编号',
+            icon: 'table',
+            component: './docs/delegation/FillProjectId',
+          }
         ]
       },
       {

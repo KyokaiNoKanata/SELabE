@@ -1,6 +1,6 @@
 import {ExclamationCircleOutlined, PlusOutlined} from '@ant-design/icons';
 import {Button, Drawer, message, Modal} from 'antd';
-import React, {useRef, useState} from 'react';
+import React, {ReactNode, useRef, useState} from 'react';
 
 import {PageContainer} from '@ant-design/pro-layout';
 import type {ActionType, ProColumns} from '@ant-design/pro-table';
@@ -9,6 +9,8 @@ import {ModalForm, ProFormText,} from '@ant-design/pro-form';
 import type {ProDescriptionsItemProps} from '@ant-design/pro-descriptions';
 import ProDescriptions from '@ant-design/pro-descriptions';
 import {
+  cancelDelegationAdmin,
+  cancelDelegationClient,
   createDelegation,
   delegationPage,
   deleteDelegation,
@@ -16,9 +18,10 @@ import {
 } from "@/services/ant-design-pro/delegation/api";
 import type API from "@/services/ant-design-pro/typings";
 import {FormattedMessage} from "@@/plugin-locale/localeExports";
-import {useIntl} from "umi";
+import {Link, useIntl} from "umi";
 import {currentUser} from "@/services/ant-design-pro/api";
 import constant from "../../../../config/constant";
+import {ProFormInstance} from "@ant-design/pro-form/lib/BaseForm/BaseForm";
 
 const {confirm} = Modal;
 
@@ -140,6 +143,7 @@ export type DelegationListType = {
  * @constructor
  */
 const DelegationList: React.FC<DelegationListType> = (props) => {
+  const cancelFormRef = useRef<ProFormInstance>();
   let actionRef = useRef<ActionType>();
   if (props.actionRef) {
     actionRef = props.actionRef;
@@ -149,17 +153,20 @@ const DelegationList: React.FC<DelegationListType> = (props) => {
   const [createModalVisible, handleModalVisible] = useState<boolean>(false);//新建
   const [showDetail, setShowDetail] = useState<boolean>(false);
   const [roles, setRoles] = useState<string[]>([]);
+  const [userId,setUserId] = useState<number>(-1);
   /**
    * @en-US International configuration
    * @zh-CN 国际化配置
    * */
   const intl = useIntl();
+
   const request = async (
     params: {//传入的参数名固定叫 current 和 pageSize
       pageSize?: number;
       current?: number;
     } & {
       name?: string;
+      //projectId?: number;
     },
     /**
      * 排序对象
@@ -171,12 +178,13 @@ const DelegationList: React.FC<DelegationListType> = (props) => {
       await props.request(params, options);
     }*/
     const user = (await currentUser()).data;
-    const userId = user.user.id;
     setRoles(user.roles);
+    setUserId(user.user.id)
     const p1: API.DelegationQueryParams = {
       pageSize: params.pageSize!,
       pageNo: params.current!,
       name: params.name,
+      //projectId: params.projectId,
     }
     if (sort && sort != {}) {
       //todo
@@ -192,7 +200,7 @@ const DelegationList: React.FC<DelegationListType> = (props) => {
       ]).get(key);
     }
     //remove params.current
-    const p = await props.queryParams!(p1, user.roles, userId);//获得参数
+    const p = await props.queryParams!(p1, user.roles, user.user.id);//获得参数
     const result = (await delegationPage(p, options)).data;
     return {
       data: result.list,
@@ -203,11 +211,19 @@ const DelegationList: React.FC<DelegationListType> = (props) => {
   let columns: ProColumns<API.DelegationItem>[] = [
     /** 委托编号 show */
     {
-      title: '编号',
+      title: '委托编号',
       dataIndex: 'id',
       //valueType: 'textarea',
       hideInSearch: true,
-      hideInTable: false,
+      hideInTable: props.projectsList != undefined,
+      sorter: true,
+    },
+    /** 项目编号 */
+    {
+      title: '项目编号',
+      dataIndex: 'projectId',
+      hideInTable: props.projectsList == undefined,
+      hideInSearch: props.projectsList == undefined,
       sorter: true,
     },
     /** 名称 name show */
@@ -393,6 +409,107 @@ const DelegationList: React.FC<DelegationListType> = (props) => {
       hideInSearch: true,
       hideInTable: true,
     },
+    //填写委托
+    /** 填写委托 */
+    {
+      title: '填写委托',
+      dataIndex: 'write',
+      valueType: 'option',
+      hideInTable: !roles.includes(constant.roles.CUSTOMER.en) || props.projectsList!=undefined,
+      sorter: false,
+      render: (text: ReactNode, record: API.DelegationItem) => {
+        const {id} = record;
+        if ((record.state == constant.delegationState.DELEGATE_WRITING.desc
+          || record.state == constant.delegationState.MARKETING_DEPARTMENT_AUDIT_DELEGATION_FAIL.desc
+          || record.state == constant.delegationState.TESTING_DEPARTMENT_AUDIT_DELEGATION_FAIL.desc)) {
+          return [
+            <Link to={{pathname: constant.docPath.delegation.APPLY, state: {id: id}}}>
+              <Button type="primary">填写</Button>
+            </Link>
+          ]
+        } else if(record.state == constant.delegationState.CLIENT_CANCEL_DELEGATION.desc
+          || record.state == constant.delegationState.ADMIN_CANCEL_DELEGATION.desc){
+          return [
+            <text>委托已取消</text>
+          ]
+        } else {
+          return [
+            <text>委托已填写</text>
+          ]
+        }
+      }
+    },
+    //取消委托
+    {
+      title: '取消委托',
+      dataIndex: 'cancel',
+      valueType: 'option',
+      hideInTable: props.projectsList != undefined,
+      sorter: false,
+      render: (text: ReactNode, record: API.DelegationItem) => {
+
+        if(record.state == constant.delegationState.CLIENT_CANCEL_DELEGATION.desc
+          || record.state == constant.delegationState.ADMIN_CANCEL_DELEGATION.desc) {
+          return [];
+        }
+
+        return [
+          <ModalForm
+            formRef={cancelFormRef}
+            key={'audit'}
+            title="取消委托"
+            trigger={<Button type="primary">
+              取消
+            </Button>}
+            onFinish={async () => {
+              const delegationId = cancelFormRef.current?.getFieldFormatValue!(['delegationId']);
+              const cancelRemark = cancelFormRef.current?.getFieldFormatValue!(['cancelRemark']);
+              let resp = undefined;
+              if(userId == record.creatorId) {
+                resp = await cancelDelegationClient({
+                  delegationId: delegationId,
+                  remark: cancelRemark,
+                });
+              } else {
+                resp = await cancelDelegationAdmin({
+                  delegationId: delegationId,
+                  remark: cancelRemark,
+                })
+              }
+              if(resp.code == 0) {
+                message.success('取消成功');
+                actionRef.current?.reload();
+                return true;
+              } else {
+                message.error(resp.msg);
+                return false;
+              }
+            }}
+            submitter={
+              {
+                searchConfig: {
+                  submitText: '确认取消',
+                  resetText: '让我想想',
+                }
+              }
+            }
+          >
+            <ProFormText
+              name={'delegationId'}
+              label={'委托编号'}
+              readonly
+              initialValue={record.id}
+            ></ProFormText>
+            <ProFormText
+              label={'取消理由'}
+              name={'cancelRemark'}
+              placeholder={'请输入取消理由'}
+            >
+            </ProFormText>
+          </ModalForm>
+        ]
+      }
+    },
     /**用户 修改 */
     {
       title: '修改名称',
@@ -437,16 +554,10 @@ const DelegationList: React.FC<DelegationListType> = (props) => {
       ]
     },
   ];
-  if(props.projectsList) {
-    columns.forEach(item => {
-      if(item.dataIndex == 'id') {
-        item.hideInTable = true;
-      }
-    })
-    columns = props.columnsBefore!.concat(columns).concat(props.operationColumns);
-  } else if (props.operationColumns && props.operationColumns.length > 0) {
+  if (props.operationColumns && props.operationColumns.length > 0) {
     columns = columns.concat(props.operationColumns)
   }
+
   return (
     <PageContainer>
       <ProTable<API.DelegationItem, API.DelegationQueryParams>
@@ -584,8 +695,8 @@ const DelegationList: React.FC<DelegationListType> = (props) => {
         onFinish={async (value: {
           name: string
         }) => {
-          const success = await handleCreateDelegation(value);
-          if (success) {
+          const resp = await handleCreateDelegation(value);
+          if (resp) {
             handleModalVisible(false);
             if (actionRef.current) {
               actionRef.current.reload();

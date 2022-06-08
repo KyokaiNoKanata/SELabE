@@ -270,6 +270,10 @@ declare namespace API {
      */
     pageSize: number;
     /**
+     * 项目编号
+     */
+    projectId?: string;
+    /**
      * 测试报告id
      */
     reportId?: number;

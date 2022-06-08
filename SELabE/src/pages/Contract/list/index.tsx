@@ -43,9 +43,10 @@ export default () => {
     param: API.DelegationQueryParams,
     roles: string[],
     userId: number) => {
-    param.state = '150,160,170,180,190,200,210,220,230';//todo
-    if (roles.includes(constant.roles.SUPER_ADMIN.en)) {
-
+    param.state = '150,160,170,180,190,200,210,220,230,235';//todo
+    if (roles.includes(constant.roles.SUPER_ADMIN.en)
+      || roles.includes(constant.roles.TEST_DEPARTMENT_MANAGER.en)
+      || roles.includes(constant.roles.MARKET_DEPARTMENT_MANAGER.en)){
     } else if (roles.includes(constant.roles.CUSTOMER.en)) {
       param.creatorId = userId;
     } else if (roles.includes(constant.roles.MARKET_DEPARTMENT_STAFF.en)) {

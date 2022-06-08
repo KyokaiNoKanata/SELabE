@@ -30,6 +30,7 @@ const constant = {
     MARKETING_DEPARTMENT_AUDIT_CONTRACT_SUCCESS: {code: 210, desc: "市场部审核合同通过"},
     CONTRACT_SIGNING: {code: 220, desc: "合同签署中"},
     CONTRACT_SIGN_SUCCESS: {code: 230, desc: "合同签署成功"},
+    WAITING_TESTING_DEPT_MANAGER_FILL_PROJECT_ID:{code: 235, desc: "等待测试部主管填写项目编号中"},
     //CLIENT_SENDING_SAMPLE(240, "客户发送样品中"),
     CLIENT_UPLOAD_SAMPLE_INFO: {code: 250, desc: "用户上传样品中"},
     CHECKING_SAMPLE: {code: 260, desc: "测试部/市场部验收样品中"},
@@ -94,7 +95,8 @@ const constant = {
         ROOT: "/docs/delegation/offer",
         HANDLE: "/docs/delegation/offer/client",
         WRITE: "/docs/delegation/offer/marketing",
-      }
+      },
+      FILL_PROJECT_ID: "/docs/delegation/fill-project-id",
     },
     project: {
       ROOT: "/docs/project",

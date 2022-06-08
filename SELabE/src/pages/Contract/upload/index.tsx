@@ -92,7 +92,8 @@ export default () => {
           ]
         }
         else if(record.state == constant.delegationState.CONTRACT_SIGN_SUCCESS.desc
-          || record.state == constant.delegationState.CLIENT_UPLOAD_SAMPLE_INFO.desc){
+          || record.state == constant.delegationState.CLIENT_UPLOAD_SAMPLE_INFO.desc
+          || record.state == constant.delegationState.WAITING_TESTING_DEPT_MANAGER_FILL_PROJECT_ID.desc){
           return <Link to={{pathname: constant.docPath.contract.upload.CHECKLIST, state: {id: id}}}>
             <Button type="primary">填写检查表</Button>
           </Link>
@@ -105,7 +106,7 @@ export default () => {
     param: API.DelegationQueryParams,
     roles: string[],
     userId: number) => {
-    param.state = '220,230,250';
+    param.state = '220,230,235,250';
     if (roles.includes(constant.roles.SUPER_ADMIN.en)) {
 
     } else if (roles.includes(constant.roles.MARKET_DEPARTMENT_STAFF.en)) {

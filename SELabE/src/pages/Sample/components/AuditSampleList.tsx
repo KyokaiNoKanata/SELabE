@@ -39,6 +39,7 @@ const AuditSampleList: React.FC<{
     <DelegationList
       queryParams={props.queryParams}
       operationColumns={auditColumns}
+      projectsList={true}
     />
   )
 }
