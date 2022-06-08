@@ -147,7 +147,7 @@ const constant = {
       ARCHIVE: "/docs/report/archive",
     }
   },
-  //菜单(真正需要分配的菜单结构)
+  //菜单(真正需要分配的菜单结构) 尚未完善 todo
   menu: {
     common: {},
     /**

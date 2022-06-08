@@ -104,35 +104,21 @@ export default [
         icon: 'smile',
         component: './Delegation/list/Common',
       },
-      //市场部分配委托
+      //分配委托
       {
-        path: './distribute/marketing',
-        name: '市场部分配委托',
+        path: './distribute',
+        name: '分配委托',
         icon: 'smile',
-        component: './Delegation/distribute/Marketing',
+        component: './Delegation/Distribute',
       },
-      //测试部分配委托
-      {
-        path: './distribute/testing',
-        name: '测试部分配委托',
-        icon: 'smile',
-        component: './Delegation/distribute/Testing',
-      },
-      //市场部审核委托
-      {
-        path: './audit/marketing',
-        name: '(市场部)审核委托',
-        icon: 'smile',
-        component: './Delegation/audit/Marketing'
-      },
-      //测试部审核委托
+      //市场部/测试部 审核委托
       {
         path: './audit/testing',
-        name: '(测试部)审核委托',
+        name: '审核委托',
         icon: 'smile',
-        component: './Delegation/audit/Testing'
+        component: './Delegation/Audit'
       },
-      //生成报价
+      //市场部/测试部 生成报价
       {
         path: './offer/market',
         name: '(市场部)生成报价',

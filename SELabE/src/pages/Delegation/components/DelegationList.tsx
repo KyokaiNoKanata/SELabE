@@ -450,10 +450,10 @@ const DelegationList: React.FC<DelegationListType> = (props) => {
   return (
     <PageContainer>
       <ProTable<API.DelegationItem, API.DelegationQueryParams>
-        headerTitle={intl.formatMessage({
+        /*headerTitle={intl.formatMessage({
           id: 'pages.delegationTable.title',
           defaultMessage: '委托列表',
-        })}
+        })}*/
         actionRef={actionRef}
         rowKey="id"
         search={
