@@ -4,7 +4,6 @@ import ProForm, {
   ProFormGroup,
   ProFormSelect,
   ProFormText,
-  ProFormTextArea,
   StepsForm,
 } from '@ant-design/pro-form';
 import ProCard from '@ant-design/pro-card';
@@ -508,17 +507,8 @@ const StepApplyForm2: React.FC<{ editable: boolean, isClient: boolean }> = (prop
               <ProFormText width='md' label='测试项目编号' name='测试项目编号' rules={[{required: true}]}
                            disabled={prop.isClient}/>
             </ProCard>
-            <ProCard bordered>
-              <ProFormTextArea
-                name="备注"
-                label="备注"
-                rules={[{required: true}]}
-                disabled={prop.isClient}
-              />
-            </ProCard>
 
             <ProCard bordered={true}>
-
               <ProForm.Group>
                 <ProFormText name="委托人（签字）" label="委托人（签字）" rules={[{required: true}]}
                              disabled={prop.isClient}/>
