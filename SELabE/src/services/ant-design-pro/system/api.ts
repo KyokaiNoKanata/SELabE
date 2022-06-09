@@ -60,6 +60,21 @@ export async function getMenuByRole(
   });
 }
 
+export async function assignMenuToRole(
+  roleId?: number,
+  menuIds?: number[],
+  options?: Record<string, any>,
+) {
+  return request<API.Response>('/admin-api/system/front/permission/assign-role-menu', {
+    method: 'POST',
+    data: {
+      roleId: roleId,
+      menuIds: menuIds,
+    },
+    ...(options || {}),
+  });
+}
+
 export async function userList(
   options?: Record<string, any>,
 ) {
@@ -68,6 +83,38 @@ export async function userList(
   }>('/admin-api/system/front/user/list-all-simple', {
     method: 'GET',
     params: {},
+    ...(options || {}),
+  });
+}
+
+export async function getRoleByUser(
+  userId?: number,
+  options?: Record<string, any>,
+) {
+  return request<{
+    code?: number;
+    data?: number[];
+    msg?: string;
+  }>('/admin-api/system/front/permission/list-user-roles', {
+    method: 'GET',
+    params: {
+      userId: userId,
+    },
+    ...(options || {}),
+  });
+}
+
+export async function assignRoleToUser(
+  userId?: number,
+  roleIds?: number[],
+  options?: Record<string, any>,
+) {
+  return request<API.Response>('/admin-api/system/front/permission/assign-role-menu', {
+    method: 'POST',
+    data: {
+      userId: userId,
+      roleIds: roleIds,
+    },
     ...(options || {}),
   });
 }

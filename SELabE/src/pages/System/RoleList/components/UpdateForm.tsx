@@ -32,6 +32,7 @@ const UpdateForm: React.FC<UpdateFormProps> = (props) => {
       visible={props.updateModalVisible}
       onCancel={() => {
         props.onCancel();
+        form.resetFields();
       }}
       footer={null}
     >
@@ -42,7 +43,7 @@ const UpdateForm: React.FC<UpdateFormProps> = (props) => {
               form.resetFields();
               const menus = await getMenuByRole(props.values.id);
               return ({
-                name:props.values.name,
+                nickname:props.values.name,
                 id:props.values.id,
                 menuIds: menus.data
               })
@@ -57,7 +58,7 @@ const UpdateForm: React.FC<UpdateFormProps> = (props) => {
           disabled
         />
           <ProFormText
-            name="name"
+            name="nickname"
             label="角色名称"
             width="md"
             rules={[

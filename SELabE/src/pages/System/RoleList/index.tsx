@@ -11,7 +11,7 @@ import UpdateForm from './components/UpdateForm';
 import CreateForm from "./components/CreateForm";
 import {addRule, removeRule, updateRule} from './service';
 import type {API} from "@/services/ant-design-pro/typings";
-import {menuList, addMenuItem, deleteMenuItem, roleList} from "@/services/ant-design-pro/system/api";
+import {assignMenuToRole, addMenuItem, deleteMenuItem, roleList} from "@/services/ant-design-pro/system/api";
 // import
 /**
  * 添加节点
@@ -39,14 +39,11 @@ const handleAdd = async (fields: API.MenuDataItem) => {
  * @param fields
  */
 
-const handleUpdate = async (fields: API.MenuDataItem, currentRow?: API.MenuDataItem) => {
+const handleUpdate = async (fields: API.RoleDataItem, currentRow?: API.RoleDataItem) => {
   const hide = message.loading('正在配置');
 
   try {
-    await updateRule({
-      ...currentRow,
-      ...fields,
-    });
+    await assignMenuToRole(currentRow.id, fields.menuIds);
     hide();
     message.success('配置成功');
     return true;
