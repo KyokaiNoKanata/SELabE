@@ -7,20 +7,27 @@ import {getDelegationById} from "@/services/ant-design-pro/delegation/api";
 import ProForm, {ProFormDatePicker, ProFormText,} from '@ant-design/pro-form';
 import API from "@/services/ant-design-pro/typings"
 const {Paragraph} = Typography;
-//editable为false则双方都不可以编辑
 /**
- *
  * @param props
  * editable: 1、甲方（客户） 2、乙方（市场部） 0、只读
- * @constructor
  */
 const CDA5: React.FC<{
   editable: number;
 }> = (props) => {
   const params = useLocation();
+  /**
+   * 委托ID
+   */
   const delegationId = !params.state ? -1 : (params.state as any).id;
-  //let contractId = !params.state ? -1 : (params.state as any).contractId;
+  /**
+   * 合同ID
+   */
   const [contractId,setContractId] = useState<number|undefined>(undefined);
+  /**
+   * 获取填写的表单内容
+   * 没有合同先创建合同
+   * @return 表单内容或默认内容
+   */
   const request = async () => {
     if(delegationId == -1) {
       return {}
@@ -28,7 +35,7 @@ const CDA5: React.FC<{
     const delegation: API.DelegationItem = (await getDelegationById(delegationId)).data;
     let _contractId = delegation.contractId;
 
-    if(delegation.contractId) {
+    if(!delegation.contractId) {
       //先创建合同
       const resp1 = await createContract({
         delegationId: delegationId,

@@ -4,7 +4,7 @@ import ProForm, {ProFormDatePicker, ProFormText, StepsForm,} from '@ant-design/p
 import {Button, Form, Input, message, Typography} from "antd";
 import ProCard from "@ant-design/pro-card";
 import {useLocation} from "umi";
-import {getDelegationById, getDelegationByIds} from "@/services/ant-design-pro/delegation/api";
+import {getDelegationById} from "@/services/ant-design-pro/delegation/api";
 import {
   createContract,
   getContractById,
@@ -13,27 +13,40 @@ import {
   submitContractClient,
   submitContractStaff
 } from "@/services/ant-design-pro/contract/api";
-import React from "react";
+import React, {useState} from "react";
 import type API from "@/services/ant-design-pro/typings";
 
 const {Title, Paragraph, Text,} = Typography;
 
 /**
  * 软件委托测试合同
- * @param prop {editable: 可编辑状态; }
+ * @param prop editable: 1、甲方（客户） 2、乙方（市场部） 0、只读
  * @constructor
  */
 const ContractForm4: React.FC<{
   editable: number,
 }> = (prop) => {
   const params = useLocation();
+  /**
+   * 委托ID
+   */
   const delegationId = !params.state ? -1 : (params.state as any).id;
-  let contractId = !params.state ? -1 : (params.state as any).contractId;
+  /**
+   * 合同ID
+   */
+  const [contractId,setContractId] = useState<number|undefined>(undefined);
+  /**
+   * 获取填写的表单内容
+   * 没有合同先创建合同
+   * @return 表单内容或默认内容
+   */
   const request = async () => {
     if(delegationId == -1) {
       return {}
     }
-    if(contractId == -1) {
+    const delegation: API.DelegationItem = (await getDelegationById(delegationId)).data;
+    let _contractId = delegation.contractId;
+    if(!_contractId) {
       //先创建合同
       const resp1 = await createContract({
         delegationId: delegationId,
@@ -41,11 +54,11 @@ const ContractForm4: React.FC<{
       if (resp1.code != 0) {
         message.error(resp1.msg);
       } else {
-        contractId = resp1.data;//合同编号
+        _contractId = resp1.data;//合同编号
       }
     }
-    const delegation: API.DelegationItem = (await getDelegationById(delegationId)).data;
-    const table4Id = (await getContractById({id:contractId})).data.table4Id;
+    setContractId(_contractId);
+    const table4Id = (await getContractById({id: _contractId!})).data.table4Id;
     if (!table4Id) {
       return {
         '软件名称': delegation.softwareName,
@@ -61,33 +74,14 @@ const ContractForm4: React.FC<{
 
     const data = resp.data;
     //const {_id, deleted, ...data} = resp.data;
-    console.log(data);
+    //console.log(data);
     return data;
   }
   /**
    * 保存合同表
-   * 如果没有合同就创建一下
-   * @param value
+   * @param value 表单内容
    */
   const onSave = async (value: any) => {
-    //还没有创建合同，那就创建一下
-    if (!contractId || contractId == -1) {
-      const resp1 = await createContract({
-        delegationId: delegationId,
-      })
-      if (resp1.code != 0) {
-        message.error(resp1.msg);
-        return;
-      } else {
-        message.success('创建合同成功');
-        contractId = (await getDelegationByIds({
-          ids: String(delegationId),
-        })).data[0].contractId;
-        if (!contractId) {
-          message.error('获取合同id失败，请稍后再试');
-        }
-      }
-    }
     const resp = await saveTable4({
       contractId: contractId,
       data: value,

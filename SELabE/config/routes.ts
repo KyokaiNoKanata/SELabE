@@ -376,25 +376,25 @@ export default [
         routes: [
           {
             path: constant.docPath.contract.write.CLIENT,
-            name: '(客户)填写合同',
+            name: '客户填写合同',
             icon: 'smile',
             component: './docs/Contract/write/Client',
           },
           {
             path: constant.docPath.contract.write.MARKETING,
-            name: '(市场部)填写合同',
+            name: '市场部填写合同草稿',
             icon: 'smile',
             component: './docs/Contract/write/Marketing',
           },
           {
             path: constant.docPath.contract.audit.CLIENT,
-            name: '(客户)检查合同',
+            name: '客户检查合同',
             icon: 'smile',
             component: './docs/Contract/audit/Client',
           },
           {
             path: constant.docPath.contract.audit.MARKETING,
-            name: '(市场部)检查合同',
+            name: '市场部检查合同',
             icon: 'smile',
             component: './docs/Contract/audit/Marketing',
           },
