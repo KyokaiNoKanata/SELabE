@@ -153,6 +153,10 @@ declare namespace API {
      */
     offerRemark?: string;
     /**
+     * 项目编号
+     */
+    projectId?: number;
+    /**
      * 测试报告Id
      */
     reportId?: number;
@@ -265,6 +269,10 @@ declare namespace API {
      * 每页条数，最大值为 100
      */
     pageSize: number;
+    /**
+     * 项目编号
+     */
+    projectId?: string;
     /**
      * 测试报告id
      */

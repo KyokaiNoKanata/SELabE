@@ -1,6 +1,5 @@
 import request from "umi-request";
 import type API from "@/services/ant-design-pro/typings"
-import {objectify} from "@umijs/openapi/dist/openAPIParserMock/utils";
 
 /** 获取委托列表 GET /api/admin-api/system/delegation/page */
 export async function delegationPage(
@@ -396,7 +395,7 @@ export async function getTable12(params: {
  */
 export async function saveTable12(body: {
   delegationId: number,
-  data: object
+  data: object,
 }) {
   return request<API.Response>('/admin-api/system/delegation/save/table12', {
     method: 'PUT',
@@ -405,11 +404,15 @@ export async function saveTable12(body: {
 }
 
 /**
- * 增加 table 12
+ * 测试部主管 填写项目编号
+ * @param body:id 委托编号: projectId: 填写的项目编号
  */
-export async function appendTable12(body: {
-  delegationId: number,
-    data: object
+export async function fillProjectId(body: {
+  id: number,
+  projectId: string,
 }) {
-
+  return request<API.Response>('/admin-api/system/delegation/fill-project-id', {
+    method: 'PUT',
+    data: body,
+  })
 }

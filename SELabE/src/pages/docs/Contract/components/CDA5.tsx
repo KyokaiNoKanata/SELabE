@@ -26,8 +26,7 @@ const CDA5: React.FC<{
     if(contractId) {
        table5Id = (await getContractById({id: contractId})).data.table5Id;
     }
-    if ((!contractId) || (!table5Id)) {
-      console.log(delegation.softwareName);
+    if (!table5Id) {
       return {
         '软件名称': delegation.softwareName,
         '委托单位': delegation.clientUnit,

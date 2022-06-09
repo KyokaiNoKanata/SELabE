@@ -11,7 +11,7 @@ import {Button, Col, Form, message, PageHeader, Row, TreeSelect} from 'antd';
 import {PageContainer} from '@ant-design/pro-layout';
 import TextArea from "antd/es/input/TextArea";
 import {useLocation} from "umi";
-import {getDelegationByIds, getTable2, saveTable2} from '@/services/ant-design-pro/delegation/api';
+import {getDelegationById, getTable2, saveTable2} from '@/services/ant-design-pro/delegation/api';
 import React, {useState} from "react";
 import {TreeNode} from 'antd/lib/tree-select';
 //日期控件
@@ -25,9 +25,7 @@ const StepApplyForm2: React.FC<{ editable: boolean, isClient: boolean }> = (prop
   const params = useLocation();
   const delegationId = !params.state ? -1 : (params.state as any).id
   const request = async () => {
-    const table2Id = (await getDelegationByIds({
-      ids: String(delegationId),
-    })).data[0].table2Id;
+    const table2Id = (await getDelegationById(delegationId)).data.table2Id;
     if (table2Id == undefined) {
       return {};
     }

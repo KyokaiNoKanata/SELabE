@@ -1,32 +1,39 @@
-import AuditDelegation from "@/pages/Delegation/audit/components/AuditDelegation";
+import AuditDelegation from "@/pages/Delegation/Audit/components/AuditDelegation";
 import type {ProColumns} from "@ant-design/pro-table";
 import {Link} from "umi";
 import {Button} from "antd";
 import type API from "@/services/ant-design-pro/typings";
 import type {ReactNode} from "react";
-import constant from "../../../../../config/constant";
+import constant from "../../../../config/constant";
 
 export default () => {
   const operationColumns: ProColumns<API.DelegationItem>[] = [
-    /** 测试部审核委托 */
+    /** 审核委托 */
     {
-      title: '测试部审核',
-      dataIndex: 'auditTest',
+      title: '审核委托',
+      dataIndex: 'auditMarket',
       valueType: 'option',
       hideInTable: false,
       sorter: false,
       render: (text: ReactNode, record: API.DelegationItem) => {
         const {id} = record;
+        let path: string = "/";
+        if(record.state == constant.delegationState.MARKETING_DEPARTMENT_AUDIT_DELEGATION.desc) {
+          path = constant.docPath.delegation.audit.MARKETING;
+        } else {
+          path = constant.docPath.delegation.audit.TESTING;
+        }
         return [
-          <Link to={{pathname: constant.docPath.delegation.audit.TESTING, state: {id: id}}}>
+          <Link to={{pathname: path, state: {id: id}}}>
             <Button type="primary">审核委托</Button>
           </Link>
         ]
       }
-    }
-  ];
+    },
+  ]
   return (
     <AuditDelegation
       operationColumns={operationColumns}/>
   )
 }
+
