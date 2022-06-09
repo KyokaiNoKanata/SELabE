@@ -1,5 +1,5 @@
 /**
- * 填写测试文档
+ * 审核测试报告
  */
 import type {ReactNode} from "react";
 import type API from "@/services/ant-design-pro/typings";
@@ -45,6 +45,7 @@ export default () => {
     <DelegationList
       queryParams={queryParams}
       operationColumns={auditColumns}
+      projectsList={true}
     />
   )
 }

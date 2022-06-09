@@ -46,6 +46,7 @@ export default () => {
     <DelegationList
       queryParams={queryParams}
       operationColumns={auditColumns}
+      projectsList={true}
     />
   )
 }

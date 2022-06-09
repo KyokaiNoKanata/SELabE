@@ -244,6 +244,12 @@ export default [
         icon: 'crown',
         routes: [
           {
+            path: './read',
+            name: '查看测试报告',
+            icon: 'smile',
+            component: './Report/list',
+          },
+          {
             path: './write',
             name: '填写测试文档',
             icon: 'smile',
@@ -448,6 +454,12 @@ export default [
         name: '测试报告',
         path: constant.docPath.report.ROOT,
         routes: [
+          {
+            path: constant.docPath.report.READ_ONLY,
+            name: "查看测试报告",
+            icon: 'table',
+            component: './docs/Report/Read',
+          },
           {
             path: constant.docPath.report.WRITE,
             name: '填写测试文档',

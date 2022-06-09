@@ -2,6 +2,6 @@ import AuditComponent from "@/pages/docs/Report/Audit/components/AuditComponent"
 
 export default () => {
   return (
-    <AuditComponent person={'client'} audit={true}/>
+    <AuditComponent person={''} audit={false}/>
   );
 };

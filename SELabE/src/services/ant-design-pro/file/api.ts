@@ -39,8 +39,8 @@ export async function exportPDF(tableId: string,tableName: string) {
  * @param delegationId 委托编号
  * @param tableName 表格名称，例如table2
  */
-export async function exportPDFByDelegation(delegationId: string, tableName: string) {
-  return request<API.Response>('/admin-api/system/delegation/export-pdf', {
+export async function exportPDFByDelegation(delegationId: number, tableName: string) {
+  return request<API.Response>('/admin-api/system/delegation/export-pdf-by-delegation', {
     method: 'GET',
     params: {
       delegationId: delegationId,
@@ -60,7 +60,7 @@ export async function downloadPDF(tableId: string,tableName: string) {
     message.error(resp.msg);
   }
 }
-export async function downloadPDFByDelegation(delegationId: string,tableName: string) {
+export async function downloadPDFByDelegation(delegationId: number,tableName: string) {
   const resp = await exportPDFByDelegation(delegationId,tableName);
   if (resp.code== 200) {
     const url = resp.data;

@@ -11,6 +11,7 @@ import TestWorkChecklist12 from "@/pages/docs/Delegation/components/TestWorkChec
 //import { useLocation } from 'react-router-dom';
 const AuditComponent: React.FC<{
   person: string;
+  audit: boolean; //带审核
 }> = (props) => {
   const [activeTabKey, setActiveTabKey] = useState('测试用例');
   const onTabChange = (key: any) => {
@@ -46,12 +47,14 @@ const AuditComponent: React.FC<{
       },
     ])
   }
-  list = list.concat([
-    {
-      key: '审核',
-      tab: '审核',
-    }
-  ])
+  if(props.audit) {
+    list = list.concat([
+      {
+        key: '审核',
+        tab: '审核',
+      }
+    ])
+  }
   const contentList = {
     测试用例:
       <Card>

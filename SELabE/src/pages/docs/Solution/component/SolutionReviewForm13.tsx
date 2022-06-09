@@ -205,6 +205,7 @@ const SolutionReviewForm13: React.FC<{
       return {
         "软件名称": delegation.softwareName,
         "版本号": delegation.version,
+        "项目编号": delegation.projectId,
       };
     }
     const solution = await getSolution({id: solutionId!});
@@ -214,6 +215,7 @@ const SolutionReviewForm13: React.FC<{
       return {
         "软件名称": delegation.softwareName,
         "版本号": delegation.version,
+        "项目编号": delegation.projectId,
       };
     }
     return resp.data;

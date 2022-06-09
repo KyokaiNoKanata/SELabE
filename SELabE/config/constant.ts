@@ -57,7 +57,10 @@ const constant = {
     CLIENT_CANCEL_DELEGATION: {code: 470, desc: "客户取消委托"},
     ADMIN_CANCEL_DELEGATION: {code: 480, desc: "管理员取消委托"},
 
+    //有项目编号
     HAS_PROJECT_QUERY: "235,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460",
+    //有测试报告
+    HAS_REPORT: "350,360,370,380,390,400,410,420,430,440,450,460",
   },
   /**
    * 权限
@@ -146,6 +149,7 @@ const constant = {
         MANAGER: "/docs/report/audit/manager",
         SIGNATORY: "/docs/report/audit/signatory",
       },
+      READ_ONLY: "/docs/report/read",
       ARCHIVE: "/docs/report/archive",
     }
   },

@@ -1,5 +1,5 @@
 /**
- * 测试部填写测试方案入口
+ * 查看测试报告
  */
 import type {ReactNode} from "react";
 import type API from "@/services/ant-design-pro/typings";
@@ -8,22 +8,22 @@ import {Button} from "antd";
 import DelegationList from "@/pages/Delegation/components/DelegationList";
 import {Link} from "umi";
 import constant from "../../../../config/constant";
-//用户提交样品
+
+
 export default () => {
   const auditColumns: ProColumns<API.DelegationItem>[] = [
-    /** 填写测试方案 */
+    /** 查看测试报告 */
     {
-      title: '填写测试方案',
-      dataIndex: 'fillSolution',
+      title: '查看测试报告',
       valueType: 'option',
-      //hideInTable: !roles.includes('test_department_staff'),
+      //hideInTable: !roles.includes('client'),
       hideInTable: false,
       sorter: false,
       render: (text: ReactNode, record: API.DelegationItem) => {
         const {id} = record;
         return [
-          <Link to={{pathname: constant.docPath.solution.WRITE, state: {id: id}}}>
-            <Button type="primary">填写测试方案</Button>
+          <Link to={{pathname: constant.docPath.report.READ_ONLY, state: {id: id}}}>
+            <Button type="primary">查看测试报告</Button>
           </Link>,
         ];
       }
@@ -33,9 +33,25 @@ export default () => {
     param: API.DelegationQueryParams,
     roles: string[],
     userId: number) => {
-    if (roles.includes(constant.roles.TEST_DEPARTMENT_STAFF.en)) {
+    param.state = constant.delegationState.HAS_REPORT;
+    if (roles.includes(constant.roles.SUPER_ADMIN.en)
+      || roles.includes(constant.roles.MARKET_DEPARTMENT_MANAGER.en)
+      || roles.includes(constant.roles.TEST_DEPARTMENT_MANAGER.en)
+      || roles.includes(constant.roles.SIGNATORY.en)
+      || roles.includes(constant.roles.QUALITY_DEPARTMENT_STAFF.en)
+    ) {
+    }
+    //市场部员工
+    else if (roles.includes(constant.roles.MARKET_DEPARTMENT_STAFF.en)) {
+      param.marketDeptStaffId = userId;
+    }
+    //测试部员工
+    else if (roles.includes(constant.roles.TEST_DEPARTMENT_STAFF.en)) {
       param.testingDeptStaffId = userId;
-      param.state = '300,320'//测试部填写方案
+    }
+    //客户
+    else if (roles.includes(constant.roles.CUSTOMER.en)) {
+      param.creatorId = userId;
     } else {
       param.state = '-1';
     }

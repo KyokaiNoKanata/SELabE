@@ -211,6 +211,7 @@ const TestReportForm7: React.FC<{ editable: boolean }> = (prop) => {
       "委托单位_1": delegation.clientUnit,
       "委托单位": delegation.clientUnit,
       "报告日期_1": new Date(),
+      "项目编号": delegation.projectId,
     };
     if (!rId) {
       //创建一下report
