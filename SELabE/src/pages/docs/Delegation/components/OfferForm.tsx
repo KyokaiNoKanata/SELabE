@@ -57,9 +57,12 @@ const columns: ProColumns<DataSourceType>[] = [
 
 /**
  * @param props isClient 判断身份是不是客户，如果是，则前面只能看不能写，最后签字，不然，是市场部，
+ * state = 1:是客户
+ * state = 2:是市场部
+ * state = 0:只读
  * @constructor
  */
-const OfferForm: React.FC<{isClient: boolean}> = (props) => {
+const OfferForm: React.FC<{state: number}> = (props) => {
   const params = useLocation();
   const delegationId = !params.state ? -1 : (params.state as any).id;
   const [editableKeys, setEditableRowKeys] = useState<React.Key[]>(() => []);
@@ -155,18 +158,18 @@ const OfferForm: React.FC<{isClient: boolean}> = (props) => {
             },
             render: (_, doms) => {
               return  [
-                !props.isClient && (doms[0], doms[1]),
-                !props.isClient && <Button htmlType="button" onClick={handleSubmit} key='submit'>提交</Button>,
+                props.state == 2 && (doms[0], doms[1]),
+                props.state == 2 && <Button htmlType="button" onClick={handleSubmit} key='submit'>提交</Button>,
                 //客户：接受或拒绝
-                props.isClient && <Button htmlType="button" onClick={handleAccept} key='accept'>接受</Button>,
-                props.isClient && <Button htmlType="button" onClick={handleReject} key='reject' danger>拒绝</Button>,
+                props.state == 1 && <Button htmlType="button" onClick={handleAccept} key='accept'>接受</Button>,
+                props.state == 1 && <Button htmlType="button" onClick={handleReject} key='reject' danger>拒绝</Button>,
               ]
             }
           }}
         >
-          <ProFormDatePicker disabled={props.isClient} name="报价日期" label="报价日期"/>
-          <ProFormDateRangePicker disabled={props.isClient} name="报价有效期" label="报价有效期"/>
-          <ProFormText disabled={props.isClient} name="软件名称" label="软件名称" width="md"/>
+          <ProFormDatePicker disabled={props.state != 2} name="报价日期" label="报价日期"/>
+          <ProFormDateRangePicker disabled={props.state != 2} name="报价有效期" label="报价有效期"/>
+          <ProFormText disabled={props.state != 2} name="软件名称" label="软件名称" width="md"/>
           <ProForm.Item
             name="项目表格"
             trigger="onValuesChange"
@@ -181,7 +184,7 @@ const OfferForm: React.FC<{isClient: boolean}> = (props) => {
                 record: () => ({
                   id: Date.now(),
                 }),
-                hidden: props.isClient,
+                hidden: props.state != 2,
               }}
               editable={{
                 type: 'multiple',
@@ -193,12 +196,12 @@ const OfferForm: React.FC<{isClient: boolean}> = (props) => {
               }}
             />
           </ProForm.Item>
-          <ProFormText disabled={props.isClient} name="小计" label="小计" width="xl"/>
-          <ProFormText disabled={props.isClient} name="税率（8%）" label="税率（8%）" width="xl"/>
-          <ProFormText disabled={props.isClient} name="总计" label="总计" width="xl"/>
-          <ProFormText disabled={props.isClient} name="报价提供人" label="报价提供人" width="xl"/>
-          <ProFormText disabled={!props.isClient} name="sign" label="如果接受报价，请在此签字" width="xl"/>
-          <ProFormText disabled={!props.isClient} name="reason" label="如果不接受报价，请输入理由" width="xl"/>
+          <ProFormText disabled={props.state != 2} name="小计" label="小计" width="xl"/>
+          <ProFormText disabled={props.state != 2} name="税率（8%）" label="税率（8%）" width="xl"/>
+          <ProFormText disabled={props.state != 2} name="总计" label="总计" width="xl"/>
+          <ProFormText disabled={props.state != 2} name="报价提供人" label="报价提供人" width="xl"/>
+          <ProFormText disabled={props.state != 1} name="sign" label="如果接受报价，请在此签字" width="xl"/>
+          <ProFormText disabled={props.state != 1} name="reason" label="如果不接受报价，请输入理由" width="xl"/>
           <div>户 名： 南京大学</div>
           <div>开户银行： 中国工商银行股份有限公司南京汉口路分理处</div>
           <div>账 号： 4301011309001041656</div>

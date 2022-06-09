@@ -57,6 +57,13 @@ const Modal = (
             {getDocument("table5")}
           </Space>
 
+          <Space direction="horizontal" size={212} style={{ display: 'flex' }}>
+            <Link to={{pathname: "/docs/form/offer", state: {id: id}}}>
+              报价单
+            </Link>
+            {getDocument("offer")}
+          </Space>
+
           <Space direction="horizontal" size={198} style={{ display: 'flex' }}>
             <Link to={{pathname: "/docs/form/table6", state: {id: id}}}>
               测试方案

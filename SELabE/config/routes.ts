@@ -581,6 +581,12 @@ export default [
             icon: 'table',
             component: './docs/tables/table14',
           },
+          {
+            path: "/docs/form/offer",
+            name: '报价单',
+            icon: 'table',
+            component: './docs/tables/offer',
+          },
         ]
       }
     ],
