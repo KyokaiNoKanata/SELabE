@@ -8,6 +8,7 @@ import AuditPage from "@/pages/docs/Report/Audit/components/AuditPage";
 import TestReportCheckListForm10 from "@/pages/docs/Report/components/TestReportCheckListForm10";
 import type {CardTabListType} from "antd/es/card";
 import TestWorkChecklist12 from "@/pages/docs/Delegation/components/TestWorkChecklist12";
+import DownloadReport from "@/pages/docs/Report/components/DownloadReport";
 //import { useLocation } from 'react-router-dom';
 const AuditComponent: React.FC<{
   person: string;
@@ -55,6 +56,12 @@ const AuditComponent: React.FC<{
       }
     ])
   }
+  list = list.concat([
+    {
+      key: '下载',
+      tab: '下载',
+    }
+  ])
   const contentList = {
     测试用例:
       <Card>
@@ -77,6 +84,9 @@ const AuditComponent: React.FC<{
     </Card>,
     审核: <Card>
       <AuditPage person={props.person}/>
+    </Card>,
+    下载: <Card>
+      <DownloadReport/>
     </Card>
   };
 

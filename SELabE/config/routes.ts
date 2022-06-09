@@ -114,14 +114,14 @@ export default [
       //市场部 生成报价
       {
         path: './offer/market',
-        name: '(市场部)生成报价',
+        name: '生成报价',
         icon: 'smile',
         component: './Delegation/offer/Market',
       },
       //处理报价
       {
         path: './offer/client',
-        name: '(客户)处理报价',
+        name: '处理报价',
         icon: 'smile',
         component: './Delegation/offer/Client',
       },
