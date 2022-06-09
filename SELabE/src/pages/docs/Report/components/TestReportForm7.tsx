@@ -1,11 +1,17 @@
-import {Button, Col, message, PageHeader, Row, Typography} from "antd";
+import {Button, Col, message, Modal, PageHeader, Row, Typography} from "antd";
 import {useLocation} from "react-router-dom";
 import ProForm, {ProFormDatePicker, ProFormDateRangePicker, ProFormText, ProFormTextArea} from "@ant-design/pro-form";
 import {PageContainer} from "@ant-design/pro-layout";
 import ProCard from "@ant-design/pro-card";
 import React, {useState} from "react";
 import {getDelegationById} from "@/services/ant-design-pro/delegation/api";
-import {createReport, getReport, getTable7, saveTable7, submitReport} from "@/services/ant-design-pro/report/api";
+import {
+  createReport,
+  getReport,
+  getTable7,
+  saveTable7,
+  submitReport
+} from "@/services/ant-design-pro/report/api";
 import type {ProColumns} from "@ant-design/pro-table";
 import {EditableProTable} from "@ant-design/pro-table";
 import {StepsForm} from "@ant-design/pro-form/es/layouts/StepsForm";
@@ -196,6 +202,7 @@ const TestReportForm7: React.FC<{ editable: boolean }> = (prop) => {
   const [softwareEnvironKeys, setSoftwareEnvironRowKeys] = useState<React.Key[]>(() =>
     softwareEnvironData.map((item) => item.id)
   );
+  const {confirm} = Modal;
   const params = useLocation();
   const delegationId: number = !params.state ? -1 : (params.state as any).id;
   const request = async () => {
@@ -230,7 +237,7 @@ const TestReportForm7: React.FC<{ editable: boolean }> = (prop) => {
     return resp.data;
   };
   const onFinish = async (values: any) => {
-    console.log(values);
+    //console.log(values);
     const resp = await saveTable7({
       reportId: reportId!,
       data: values,
@@ -243,15 +250,26 @@ const TestReportForm7: React.FC<{ editable: boolean }> = (prop) => {
     return false;
   };
   const handleSubmit = async () => {
-    console.log("提交")
-    const resp = await submitReport({
-      reportId: reportId!
-    })
-    if (resp.code != 0) {
-      message.error(resp.msg);
-      return false;
-    }
-    message.success('提交成功');
+    //console.log("提交")
+    confirm({
+      title: '确认提交吗?',
+      //icon: <ExclamationCircleOutlined/>,
+      content: '',
+      onOk() {
+        submitReport({
+          reportId: reportId!
+        }).then(resp => {
+          if (resp.code == 0) {
+            message.success('提交成功');
+          } else {
+            message.error(resp.msg);
+          }
+        })
+      },
+      onCancel() {
+
+      },
+    });
     return true;
   }
   const frontPage = () => {

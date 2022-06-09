@@ -1,13 +1,13 @@
 import React, {useRef, useState} from "react";
 import ProForm, {ProFormTextArea} from "@ant-design/pro-form";
-import {Button, message} from "antd";
+import {Button, message, Modal} from "antd";
 import {auditSampleFail, auditSampleSuccess, getSampleById} from "@/services/ant-design-pro/sample/api";
 import type {ActionType} from "@ant-design/pro-table";
 import ProCard from "@ant-design/pro-card";
 import {DownloadOutlined} from "@ant-design/icons";
 import {useLocation} from "umi";
 import moment from "moment";
-
+const {confirm} = Modal;
 
 const SampleDetails: React.FC = () => {
   const actionRef: React.MutableRefObject<ActionType | undefined> = useRef<ActionType>();
@@ -57,7 +57,7 @@ const SampleDetails: React.FC = () => {
       }
       const url: string | undefined = resp.data.url;
       if (url) {
-        // 下载文件 todo 这种写法不太好但是可行的
+        // 下载文件
         const a = document.createElement("a");
         a.href = url;
         a.click();
@@ -70,31 +70,52 @@ const SampleDetails: React.FC = () => {
 
     const remark = formRef.current?.getFieldFormatValue!(['remark']);
     //console.log(remark);
-    const resp = await auditSampleSuccess({
-      sampleId: sampleId,
-      remark: remark,// todo
-    })
-    if (resp.code != 0) {
-      message.error(resp.msg);
-      return false;
-    }
-    message.success('提交成功');
+    confirm({
+      title: '确认通过吗?',
+      //icon: <ExclamationCircleOutlined/>,
+      content: '',
+      onOk() {
+        auditSampleSuccess({
+          sampleId: sampleId,
+          remark: remark,
+        }).then(resp => {
+          if(resp.code == 0) {
+            message.success('样品已通过');
+          } else {
+            message.error(resp.msg);
+          }
+        })
+      },
+      onCancel() {
+
+      },
+    });
     actionRef.current?.reload();
     return true;
   }
 //不通过
   const onReject = async () => {
     const remark = formRef.current?.getFieldFormatValue!(['remark']);
-    //console.log(remark);
-    const resp = await auditSampleFail({
-      sampleId: sampleId,
-      remark: remark// todo
-    })
-    if (resp.code != 0) {
-      message.error(resp.msg);
-      return false;
-    }
-    message.success('提交成功');
+    confirm({
+      title: '确认拒绝吗?',
+      //icon: <ExclamationCircleOutlined/>,
+      content: '',
+      onOk() {
+        auditSampleFail({
+          sampleId: sampleId,
+          remark: remark,
+        }).then(resp => {
+          if(resp.code == 0) {
+            message.success('样品已拒绝');
+          } else {
+            message.error(resp.msg);
+          }
+        })
+      },
+      onCancel() {
+
+      },
+    });
     actionRef.current?.reload();
     return true
   }

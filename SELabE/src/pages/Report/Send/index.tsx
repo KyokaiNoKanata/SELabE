@@ -80,6 +80,7 @@ export default () => {
       actionRef={actionRef}
       queryParams={queryParams}
       operationColumns={auditColumns}
+      projectsList={true}
     />
   )
 }

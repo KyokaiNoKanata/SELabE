@@ -168,6 +168,7 @@ const Samples: React.FC
       queryParams={queryParams}
       operationColumns={submitSampleColumns}
       actionRef={actionRef}
+      projectsList={true}
     />
   )
 }
