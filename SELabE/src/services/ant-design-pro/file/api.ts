@@ -51,7 +51,7 @@ export async function exportPDFByDelegation(delegationId: number, tableName: str
 
 export async function downloadPDF(tableId: string,tableName: string) {
   const resp = await exportPDF(tableId,tableName);
-  if (resp.code== 200) {
+  if (resp.code== 0) {
     const url = resp.data;
     const a = document.createElement("a");
     a.href = url;
@@ -62,7 +62,7 @@ export async function downloadPDF(tableId: string,tableName: string) {
 }
 export async function downloadPDFByDelegation(delegationId: number,tableName: string) {
   const resp = await exportPDFByDelegation(delegationId,tableName);
-  if (resp.code== 200) {
+  if (resp.code== 0) {
     const url = resp.data;
     const a = document.createElement("a");
     a.href = url;
