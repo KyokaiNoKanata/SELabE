@@ -1,5 +1,5 @@
 import {PageContainer} from "@ant-design/pro-layout";
-import {Button, message, PageHeader} from "antd";
+import {Button, message, Modal, PageHeader} from "antd";
 import ProForm, {
   ProFormDatePicker,
   ProFormDateRangePicker,
@@ -15,7 +15,7 @@ import {
 } from "@/services/ant-design-pro/delegation/api";
 import {useLocation} from "react-router-dom";
 import {ProFormInstance} from "@ant-design/pro-form/lib/BaseForm/BaseForm";
-
+const {confirm} = Modal;
 type DataSourceType = {
   id: number;
   xiangmu?: string;
@@ -96,14 +96,25 @@ const OfferForm: React.FC<{state: number}> = (props) => {
   };
   //提交:提交委托号即可
   const handleSubmit = async () => {
-    const res = await submitOffer({
-      delegationId: delegationId,
-    })
-    if(res.code == 0) {
-      message.success('报价单已提交');
-    } else {
-      message.error(res.msg);
-    }
+    confirm({
+      title: '确认提交吗?',
+      //icon: <ExclamationCircleOutlined/>,
+      content: '',
+      onOk() {
+        submitOffer({
+          delegationId: delegationId,
+        }).then(resp => {
+          if(resp.code == 0) {
+            message.success('报价单已提交');
+          } else {
+            message.error(resp.msg);
+          }
+        })
+      },
+      onCancel() {
+
+      },
+    });
   }
   //接受，需要签字
   const handleAccept = async () => {
@@ -112,14 +123,25 @@ const OfferForm: React.FC<{state: number}> = (props) => {
       message.warning('请先签字')
       return;
     }
-    const resp = await acceptOffer({
-      delegationId: delegationId,
+    confirm({
+      title: '确认接受吗?',
+      //icon: <ExclamationCircleOutlined/>,
+      content: '',
+      onOk() {
+        acceptOffer({
+          delegationId: delegationId,
+        }).then(resp => {
+          if(resp.code == 0) {
+            message.success('报价单已接受');
+          } else {
+            message.error(resp.msg);
+          }
+        })
+      },
+      onCancel() {
+
+      },
     });
-    if(resp.code == 0) {
-      message.success('报价单已接受');
-    } else {
-      message.error(resp.msg);
-    }
   }
   //拒绝，需要原因
   const handleReject = async () => {
@@ -128,15 +150,26 @@ const OfferForm: React.FC<{state: number}> = (props) => {
       message.warning('请先输入原因')
       return;
     }
-    const resp = await rejectOffer({
-      delegationId: delegationId,
-      reason: reason,
+    confirm({
+      title: '确认拒绝吗?',
+      //icon: <ExclamationCircleOutlined/>,
+      content: '',
+      onOk() {
+        rejectOffer({
+          delegationId: delegationId,
+          reason: reason,
+        }).then(resp => {
+          if(resp.code == 0) {
+            message.success('报价单已拒绝');
+          } else {
+            message.error(resp.msg);
+          }
+        })
+      },
+      onCancel() {
+
+      },
     });
-    if(resp.code == 0) {
-      message.success('报价单已拒绝');
-    } else {
-      message.error(resp.msg);
-    }
   }
 
   return (

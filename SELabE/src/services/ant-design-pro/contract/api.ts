@@ -15,7 +15,11 @@ export function createContract(body: {
 export function getContractById(params: {
   id: number
 }) {
-  return request<API.Response>('/admin-api/system/contract/get', {
+  return request<{
+    code: number,
+    data: API.ContractItem,
+    msg: string,
+  }>('/admin-api/system/contract/get', {
       method: 'GET',
       params: params,
     }
@@ -24,7 +28,7 @@ export function getContractById(params: {
 
 //根据表格id获得合同表table4
 export function getTable4(params: {
-  id: number
+  id: string,
 }) {
   return request<API.Response>('/admin-api/system/contract/get/table4', {
       method: 'GET',
@@ -50,7 +54,7 @@ export function saveTable4(body: {
  */
 //根据表格id获得合同表table5
 export function getTable5(params: {
-  id: number
+  id: string
 }) {
   return request<API.Response>('/admin-api/system/contract/get/table5', {
       method: 'GET',

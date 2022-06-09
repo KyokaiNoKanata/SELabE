@@ -1,6 +1,6 @@
 import {PageContainer} from "@ant-design/pro-layout";
 import {Card, Col, message, Row, Typography} from "antd";
-import React from "react";
+import React, {useState} from "react";
 import {createContract, getContractById, getTable5, saveTable5} from "@/services/ant-design-pro/contract/api";
 import {useLocation} from "umi";
 import {getDelegationById} from "@/services/ant-design-pro/delegation/api";
@@ -19,13 +19,28 @@ const CDA5: React.FC<{
 }> = (props) => {
   const params = useLocation();
   const delegationId = !params.state ? -1 : (params.state as any).id;
-  let contractId = !params.state ? -1 : (params.state as any).contractId;
+  //let contractId = !params.state ? -1 : (params.state as any).contractId;
+  const [contractId,setContractId] = useState<number|undefined>(undefined);
   const request = async () => {
-    const delegation: API.DelegationItem = (await getDelegationById(delegationId)).data;
-    let table5Id = undefined;
-    if(contractId) {
-       table5Id = (await getContractById({id: contractId})).data.table5Id;
+    if(delegationId == -1) {
+      return {}
     }
+    const delegation: API.DelegationItem = (await getDelegationById(delegationId)).data;
+    let _contractId = delegation.contractId;
+
+    if(delegation.contractId) {
+      //先创建合同
+      const resp1 = await createContract({
+        delegationId: delegationId,
+      })
+      if (resp1.code != 0) {
+        message.error(resp1.msg);
+      } else {
+        _contractId = resp1.data;//合同编号
+      }
+    }
+    setContractId(_contractId);
+    const table5Id = (await getContractById({id: _contractId!})).data.table5Id;
     if (!table5Id) {
       return {
         '软件名称': delegation.softwareName,
@@ -46,22 +61,6 @@ const CDA5: React.FC<{
    * @param value 表单内容
    */
   const onSave = async (value: any) => {
-    console.log(value);
-    if (!contractId) {
-      const resp1 = await createContract({
-        delegationId: delegationId,
-      })
-      if (resp1.code != 0) {
-        message.error(resp1.msg);
-        return;
-      } else {
-        console.log('创建合同成功');
-        contractId = (await getDelegationById(delegationId)).data.contractId;
-        if (!contractId) {
-          message.error('获取合同id失败，请稍后再试');
-        }
-      }
-    }
     const resp = await saveTable5({
       contractId: contractId,
       data: value,

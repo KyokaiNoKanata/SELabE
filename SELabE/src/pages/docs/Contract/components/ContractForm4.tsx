@@ -30,11 +30,22 @@ const ContractForm4: React.FC<{
   const delegationId = !params.state ? -1 : (params.state as any).id;
   let contractId = !params.state ? -1 : (params.state as any).contractId;
   const request = async () => {
-    let table4Id = undefined;
-    if(contractId  && contractId != -1) {
-      table4Id = (await getContractById({id: contractId})).data.table4Id;
+    if(delegationId == -1) {
+      return {}
+    }
+    if(contractId == -1) {
+      //先创建合同
+      const resp1 = await createContract({
+        delegationId: delegationId,
+      })
+      if (resp1.code != 0) {
+        message.error(resp1.msg);
+      } else {
+        contractId = resp1.data;//合同编号
+      }
     }
     const delegation: API.DelegationItem = (await getDelegationById(delegationId)).data;
+    const table4Id = (await getContractById({id:contractId})).data.table4Id;
     if (!table4Id) {
       return {
         '软件名称': delegation.softwareName,
