@@ -337,7 +337,7 @@ const TestReportForm7: React.FC<{ editable: boolean }> = (prop) => {
         <ProFormDateRangePicker name="测试时间" label="测试时间" rules={[{required: true}]}
                                 disabled={!prop.editable}/>
         <ProFormTextArea name="样品状态" label="样品状态" rules={[{required: true}]} disabled={!prop.editable}/>
-        <ProFormTextArea name="测试依据" label="测试依据" rules={[{required: true}]} disabled={!prop.editable}/>
+        {/*<ProFormTextArea name="测试依据" label="测试依据" rules={[{required: true}]} disabled={!prop.editable}/>*/}
         <ProFormTextArea name="样品清单" label="样品清单" rules={[{required: true}]} disabled={!prop.editable}/>
         <ProFormTextArea name="测试结论" label="测试结论" rules={[{required: true}]} disabled={!prop.editable}/>
         <Row>
