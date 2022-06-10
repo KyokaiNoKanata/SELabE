@@ -146,6 +146,7 @@ const SolutionReviewForm13: React.FC<{
           status: 'Success',
         },
       },
+      initialValue: ''
     },
     {
       title: '不通过原因',
@@ -155,6 +156,7 @@ const SolutionReviewForm13: React.FC<{
         console.log('----===>', record);
         return <Input addonBefore={(record as any)?.addonBefore}/>;
       },
+      initialValue: ''
     },
   ];
   const adviceColumns: ProColumns<AdviceType>[] = [
@@ -163,16 +165,19 @@ const SolutionReviewForm13: React.FC<{
       dataIndex: 'duty',
       width: '30%',
       editable: false,
+      initialValue: '',
     },
     {
       title: '评审意见',
       editable: () => props.editable,
       dataIndex: 'advice',
+      initialValue: '',
     },
     {
       title: '签字',
       editable: () => props.editable,
       dataIndex: 'signature',
+      initialValue: '',
       renderFormItem: (_, {record}) => {
         console.log('----===>', record);
         return <Input addonBefore={(record as any)?.addonBefore}/>;
@@ -183,7 +188,7 @@ const SolutionReviewForm13: React.FC<{
       editable: () => props.editable,
       dataIndex: 'date',
       valueType: "date",
-      initialValue: new Date(),
+      initialValue: new Date().toDateString(),
     },
   ];
   const params = useLocation();

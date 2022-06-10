@@ -226,7 +226,7 @@ const StepApplyForm2: React.FC<{ editable: boolean, isClient: boolean }> = (prop
                           <TreeNode value="中文处理系统" title="中文处理系统"/>
                           <TreeNode value="网络系统" title="网络系统"/>
                           <TreeNode value="嵌入式操作系统 " title="嵌入式操作系统 "/>
-                          <TreeNode value="系统软件其他" title="其他"/>
+                          <TreeNode value="系统软件其他" title="系统软件其他"/>
                         </TreeNode>
                         <TreeNode disabled={true} value="支持软件" title="支持软件">
                           <TreeNode value="程序设计语言" title="程序设计语言"/>
@@ -234,7 +234,7 @@ const StepApplyForm2: React.FC<{ editable: boolean, isClient: boolean }> = (prop
                           <TreeNode value="工具软件" title="工具软件"/>
                           <TreeNode value="网络通信软件" title="网络通信软件"/>
                           <TreeNode value="中间件" title="中间件"/>
-                          <TreeNode value="支持软件其他" title="其他"/>
+                          <TreeNode value="支持软件其他" title="支持软件其他"/>
                         </TreeNode>
                         <TreeNode disabled={true} value="应用软件" title="应用软件">
                           <TreeNode value="行业管理软件" title="行业管理软件"/>
@@ -249,7 +249,7 @@ const StepApplyForm2: React.FC<{ editable: boolean, isClient: boolean }> = (prop
                           <TreeNode value="嵌入式应用软件" title="嵌入式应用软件"/>
                           <TreeNode value="教育软件" title="教育软件"/>
                           <TreeNode value="游戏软件" title="游戏软件"/>
-                          <TreeNode value="应用软件其他" title="其他"/>
+                          <TreeNode value="应用软件其他" title="应用软件其他"/>
                         </TreeNode>
                         <TreeNode value="软件类型其他" title="其他"/>
                       </TreeSelect>

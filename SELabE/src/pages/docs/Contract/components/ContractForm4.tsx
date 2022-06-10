@@ -183,19 +183,19 @@ const ContractForm4: React.FC<{
             }}
             request={request}
           >
-            <Form.Item label="项目名称:" name='项目名称' style={{width: '50%'}}>
+            <Form.Item label="项目名称:" name='项目名称' style={{width: '50%'}} initialValue={''}>
               <Input disabled={prop.editable != 2}/>
             </Form.Item>
-            <Form.Item label="委托方(甲方):" name="委托方(甲方)" style={{width: '50%'}}>
+            <Form.Item label="委托方(甲方):" name="委托方(甲方)" style={{width: '50%'}} initialValue={''}>
               <Input disabled={prop.editable != 1}/>
             </Form.Item>
-            <Form.Item label="委托方(乙方):" name="委托方(乙方)" style={{width: '50%'}}>
+            <Form.Item label="委托方(乙方):" name="委托方(乙方)" style={{width: '50%'}} initialValue={''}>
               <Input disabled={prop.editable != 2}/>
             </Form.Item>
-            <Form.Item label="签订地点:" name="签订地点" style={{width: '50%'}}>
+            <Form.Item label="签订地点:" name="签订地点" style={{width: '50%'}} initialValue={''}>
               <Input disabled={prop.editable != 2}/>
             </Form.Item>
-            <ProFormDatePicker disabled={prop.editable != 2} label="签订日期" name="签订日期"
+            <ProFormDatePicker disabled={prop.editable != 2} label="签订日期" name="签订日期" initialValue={new Date().toDateString()}
                                style={{width: '50%'}}/>
             {/* eslint-disable-next-line @typescript-eslint/no-use-before-define */}
             {explanation()}
@@ -217,28 +217,28 @@ const ContractForm4: React.FC<{
           >
             <Title level={3}>十二、签章</Title>
             <ProCard title="委托方" bordered>
-              <ProFormText name='委托方单位全称' label='单位全称' addonAfter='(签章)' disabled={prop.editable != 1}/>
-              <ProFormText name='委托方授权代表' label='授权代表' disabled={prop.editable != 1}/>
-              <ProFormDatePicker name='委托方签章日期' label='签章日期' disabled={prop.editable != 1}/>
-              <ProFormText name='委托方联系人' label='联系人' disabled={prop.editable != 1}/>
-              <ProFormText name='委托方通讯地址' label='通讯地址' disabled={prop.editable != 1}/>
-              <ProFormText name='委托方电话' label='电话' disabled={prop.editable != 1}/>
+              <ProFormText name='委托方单位全称' label='单位全称' addonAfter='(签章)' disabled={prop.editable != 1} initialValue={''}/>
+              <ProFormText name='委托方授权代表' label='授权代表' disabled={prop.editable != 1} initialValue={''}/>
+              <ProFormDatePicker name='委托方签章日期' label='签章日期' disabled={prop.editable != 1} initialValue={new Date().toDateString()}/>
+              <ProFormText name='委托方联系人' label='联系人' disabled={prop.editable != 1} initialValue={''}/>
+              <ProFormText name='委托方通讯地址' label='通讯地址' disabled={prop.editable != 1} initialValue={''}/>
+              <ProFormText name='委托方电话' label='电话' disabled={prop.editable != 1} initialValue={''}/>
 
-              <ProFormText name='委托方开户银行' label='开户银行' disabled={prop.editable != 1}/>
-              <ProFormText name='委托方账号' label='账号' disabled={prop.editable != 1}/>
-              <ProFormText name='委托方邮编' label='邮编' disabled={prop.editable != 1}/>
+              <ProFormText name='委托方开户银行' label='开户银行' disabled={prop.editable != 1} initialValue={''}/>
+              <ProFormText name='委托方账号' label='账号' disabled={prop.editable != 1} initialValue={''}/>
+              <ProFormText name='委托方邮编' label='邮编' disabled={prop.editable != 1} initialValue={''}/>
               <div>传真:62661627</div>
             </ProCard>
             <ProCard title="受托方" bordered>
               <div>单位全称:南京大学计算机软件新技术国家重点实验室(签章)</div>
               <br/>
-              <ProFormText name='受托方授权代表' label='授权代表' disabled={prop.editable != 2}/>
-              <ProFormDatePicker name='受托方签章日期' label='签章日期' disabled={prop.editable != 2}/>
-              <ProFormText name='受托方联系人' label='联系人' disabled={prop.editable != 2}/>
-              <ProFormText name='受托方通讯地址' label='通讯地址' disabled={prop.editable != 2}/>
-              <ProFormText name='受托方电话' label='电话' disabled={prop.editable != 2}/>
-              <ProFormText name='受托方传真' label='传真' disabled={prop.editable != 2}/>
-              <ProFormText name='受托方邮编' label='邮编' disabled={prop.editable != 2}/>
+              <ProFormText name='受托方授权代表' label='授权代表' disabled={prop.editable != 2} initialValue={''}/>
+              <ProFormDatePicker name='受托方签章日期' label='签章日期' disabled={prop.editable != 2} initialValue={new Date().toDateString()}/>
+              <ProFormText name='受托方联系人' label='联系人' disabled={prop.editable != 2} initialValue={''}/>
+              <ProFormText name='受托方通讯地址' label='通讯地址' disabled={prop.editable != 2} initialValue={''}/>
+              <ProFormText name='受托方电话' label='电话' disabled={prop.editable != 2} initialValue={''}/>
+              <ProFormText name='受托方传真' label='传真' disabled={prop.editable != 2} initialValue={''}/>
+              <ProFormText name='受托方邮编' label='邮编' disabled={prop.editable != 2} initialValue={''}/>
               <div>开户银行:中国工商银行股份有限公司南京汉口路分理处</div>
               <div>户名:南京大学</div>
               <div>账号:4301011309001041656</div>
