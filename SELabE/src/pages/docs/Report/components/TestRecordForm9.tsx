@@ -120,7 +120,6 @@ const TestRecordForm9: React.FC<{ editable: boolean }> = (props) => {
       valueType: 'option',
       editable: () => props.editable,
       width: '1%',
-      initialValue: '',
     },
   ];
   const [reportId, setReportId] = useState<number | undefined>(undefined);

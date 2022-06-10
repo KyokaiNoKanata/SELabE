@@ -223,7 +223,7 @@ const ContractForm4: React.FC<{
               <ProFormText name='委托方联系人' label='联系人' disabled={prop.editable != 1} initialValue={''}/>
               <ProFormText name='委托方通讯地址' label='通讯地址' disabled={prop.editable != 1} initialValue={''}/>
               <ProFormText name='委托方电话' label='电话' disabled={prop.editable != 1} initialValue={''}/>
-
+              <ProFormText name='委托方传真' label='传真' disabled={prop.editable != 1} initialValue={''}/>
               <ProFormText name='委托方开户银行' label='开户银行' disabled={prop.editable != 1} initialValue={''}/>
               <ProFormText name='委托方账号' label='账号' disabled={prop.editable != 1} initialValue={''}/>
               <ProFormText name='委托方邮编' label='邮编' disabled={prop.editable != 1} initialValue={''}/>

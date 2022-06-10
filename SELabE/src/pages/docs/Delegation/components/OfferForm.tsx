@@ -15,6 +15,7 @@ import {
 } from "@/services/ant-design-pro/delegation/api";
 import {useLocation} from "react-router-dom";
 import {ProFormInstance} from "@ant-design/pro-form/lib/BaseForm/BaseForm";
+import Form from "@ant-design/pro-form";
 const {confirm} = Modal;
 type DataSourceType = {
   id: number;
@@ -26,37 +27,11 @@ type DataSourceType = {
   children?: DataSourceType[];
 };
 
-const columns: ProColumns<DataSourceType>[] = [
-  {
-    title: '项目',
-    dataIndex: 'xiangmu',
-  },
-  {
-    title: '分项',
-    dataIndex: 'fenxiang',
-  },
-  {
-    title: '单价',
-    dataIndex: 'danjia',
-  },
-  {
-    title: '说明',
-    dataIndex: 'shuoming',
-  },
-  {
-    title: '行合计',
-    dataIndex: 'hangheji',
-  },
-  {
-    title: '操作',
-    valueType: 'option',
-  },
-];
+
 
 
 
 /**
- * @param props isClient 判断身份是不是客户，如果是，则前面只能看不能写，最后签字，不然，是市场部，
  * state = 1:是客户
  * state = 2:是市场部
  * state = 0:只读
@@ -67,6 +42,57 @@ const OfferForm: React.FC<{state: number}> = (props) => {
   const delegationId = !params.state ? -1 : (params.state as any).id;
   const [editableKeys, setEditableRowKeys] = useState<React.Key[]>(() => []);
   const formRef: React.MutableRefObject<ProFormInstance | undefined> = useRef<ProFormInstance>();
+  const [editForm] = Form.useForm();
+  const [dataSource,setDataSource] = useState<DataSourceType[]>([]);
+  const columns: ProColumns<DataSourceType>[] = [
+    {
+      title: '项目',
+      dataIndex: 'xiangmu',
+      initialValue: '',
+    },
+    {
+      title: '分项',
+      dataIndex: 'fenxiang',
+      initialValue: '',
+    },
+    {
+      title: '单价',
+      dataIndex: 'danjia',
+      initialValue: '',
+    },
+    {
+      title: '说明',
+      dataIndex: 'shuoming',
+      initialValue: '',
+    },
+    {
+      title: '行合计',
+      dataIndex: 'hangheji',
+      initialValue: '',
+    },
+    {
+      title: '操作',
+      valueType: 'option',
+      render: (text, record, _, action) => [
+        <a
+          key="editable"
+          onClick={() => {
+            action?.startEditable?.(record.id);
+          }}
+        >
+          编辑
+        </a>,
+        <a
+          key="delete"
+          onClick={() => {
+            setDataSource(dataSource.filter((item) => item.id !== record.id));
+          }}
+        >
+          删除
+        </a>,
+      ],
+    },
+  ];
   const request = async () => {
     const delegation = (await getDelegationById(delegationId)).data;
     const offerId = delegation.offerId;
@@ -78,6 +104,7 @@ const OfferForm: React.FC<{state: number}> = (props) => {
     const resp = await getOffer({
       id: offerId,
     });
+    setDataSource(resp.data.项目表格);
     return resp.data;
   };
   //保存
@@ -221,13 +248,16 @@ const OfferForm: React.FC<{state: number}> = (props) => {
                 }),
                 hidden: props.state != 2,
               }}
+              onChange={setDataSource}
+              value={dataSource}
               editable={{
                 type: 'multiple',
                 editableKeys,
+                form: editForm,
                 onChange: setEditableRowKeys,
-                actionRender: (row, _, dom) => {
+                /*actionRender: (row, _, dom) => {
                   return [dom.delete];
-                },
+                },*/
               }}
             />
           </ProForm.Item>
