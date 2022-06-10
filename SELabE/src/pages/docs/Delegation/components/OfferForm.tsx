@@ -82,6 +82,7 @@ const OfferForm: React.FC<{state: number}> = (props) => {
   };
   //保存
   const onFinish = async (value: any) => {
+    console.log(value);
     saveOffer({
       delegationId: delegationId,
       data: value,
@@ -200,9 +201,9 @@ const OfferForm: React.FC<{state: number}> = (props) => {
             }
           }}
         >
-          <ProFormDatePicker disabled={props.state != 2} name="报价日期" label="报价日期"/>
-          <ProFormDateRangePicker disabled={props.state != 2} name="报价有效期" label="报价有效期"/>
-          <ProFormText disabled={props.state != 2} name="软件名称" label="软件名称" width="md"/>
+          <ProFormDatePicker disabled={props.state != 2} name="报价日期" label="报价日期" initialValue={'2022-06-10'}/>
+          <ProFormDateRangePicker disabled={props.state != 2} name="报价有效期" label="报价有效期" initialValue={''}/>
+          <ProFormText disabled={props.state != 2} name="软件名称" label="软件名称" width="md" initialValue={''}/>
           <ProForm.Item
             name="项目表格"
             trigger="onValuesChange"
@@ -230,12 +231,12 @@ const OfferForm: React.FC<{state: number}> = (props) => {
               }}
             />
           </ProForm.Item>
-          <ProFormText disabled={props.state != 2} name="小计" label="小计" width="xl"/>
-          <ProFormText disabled={props.state != 2} name="税率（8%）" label="税率（8%）" width="xl"/>
-          <ProFormText disabled={props.state != 2} name="总计" label="总计" width="xl"/>
-          <ProFormText disabled={props.state != 2} name="报价提供人" label="报价提供人" width="xl"/>
-          <ProFormText disabled={props.state != 1} name="sign" label="如果接受报价，请在此签字" width="xl"/>
-          <ProFormText disabled={props.state != 1} name="reason" label="如果不接受报价，请输入理由" width="xl"/>
+          <ProFormText disabled={props.state != 2} name="小计" label="小计" width="xl" initialValue={''}/>
+          <ProFormText disabled={props.state != 2} name="税率（8%）" label="税率（8%）" width="xl" initialValue={''}/>
+          <ProFormText disabled={props.state != 2} name="总计" label="总计" width="xl" initialValue={''}/>
+          <ProFormText disabled={props.state != 2} name="报价提供人" label="报价提供人" width="xl" initialValue={''}/>
+          <ProFormText disabled={props.state != 1} name="sign" label="如果接受报价，请在此签字" width="xl" initialValue={''}/>
+          <ProFormText disabled={props.state != 1} name="reason" label="如果不接受报价，请输入理由" width="xl" initialValue={''}/>
           <div>户 名： 南京大学</div>
           <div>开户银行： 中国工商银行股份有限公司南京汉口路分理处</div>
           <div>账 号： 4301011309001041656</div>
