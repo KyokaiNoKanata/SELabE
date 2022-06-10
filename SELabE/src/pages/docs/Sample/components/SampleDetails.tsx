@@ -9,7 +9,7 @@ import {useLocation} from "umi";
 import moment from "moment";
 const {confirm} = Modal;
 
-const SampleDetails: React.FC = () => {
+const SampleDetails: React.FC<{audit: boolean}> = (props) => {
   const actionRef: React.MutableRefObject<ActionType | undefined> = useRef<ActionType>();
   const formRef: any = useRef<ActionType>();
   const params = useLocation();
@@ -183,12 +183,12 @@ const SampleDetails: React.FC = () => {
                   </Button>
                 </ProForm.Group>
                 <br/>
-                <ProFormTextArea name='remark' label='审核意见'/>
+                <ProFormTextArea name='remark' label='审核意见' hidden={!props.audit}/>
                 <ProForm.Group>
-                  <Button type="primary" danger key="submit" onClick={onReject}>
+                  <Button type="primary" danger key="submit" onClick={onReject} hidden={!props.audit}>
                     不通过
                   </Button>
-                  <Button type="primary" key="submit" onClick={onAccept}>
+                  <Button type="primary" key="submit" onClick={onAccept} hidden={!props.audit}>
                     通过
                   </Button>
                 </ProForm.Group>

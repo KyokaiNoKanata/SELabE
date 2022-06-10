@@ -184,6 +184,12 @@ export default [
         name: '样品管理',
         icon: 'crown',
         routes: [
+          {
+            path: './list',
+            name: '查看样品',
+            icon: 'smile',
+            component: './Sample/list',
+          },
           //(客户)上传样品
           {
             path: './submit',
@@ -425,11 +431,17 @@ export default [
         icon: 'smile',
         routes: [
           {
-            name: '样品详情',
+            name: '审核样品',
             path: constant.docPath.sample.AUDIT,
             icon: 'smile',
-            component: './docs/Sample/detail',
+            component: './docs/Sample/audit',
           },
+          {
+            name: '查看样品',
+            path: constant.docPath.sample.READ,
+            icon: 'smile',
+            component: './docs/Sample/read',
+          }
         ]
       },
       {
