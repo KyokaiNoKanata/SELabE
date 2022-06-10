@@ -15,6 +15,7 @@ import {
 import type {ProColumns} from "@ant-design/pro-table";
 import {EditableProTable} from "@ant-design/pro-table";
 import {StepsForm} from "@ant-design/pro-form/es/layouts/StepsForm";
+import Form from "@ant-design/pro-form";
 
 const {Title, Paragraph} = Typography;
 
@@ -87,6 +88,27 @@ const softwareEnvironData: softwareEnviron[] = [
 ];
 
 const TestReportForm7: React.FC<{ editable: boolean }> = (prop) => {
+  const [reportId, setReportId] = useState<number | undefined>(undefined);
+  //测试依据列表相关
+  const [testBasisKeys, setTestBasisRowKeys] = useState<React.Key[]>(() => []);
+  const [testBasisDataSource,setTestBasisDataSource] = useState<DataSourceType[]>([]);
+  const [testBasisForm] = Form.useForm();
+  //参考资料列表相关
+  const [referKeys, setReferRowKeys] = useState<React.Key[]>(() => []);
+  const [referDataSource,setReferDataSource] = useState<Reference[]>([]);
+  const [referForm] = Form.useForm();
+  /**
+   * 功能性测试
+   */
+  const [functionTestKeys, setFunctionTestRowKeys] = useState<React.Key[]>(() => []);
+  const [functionTestDataSource,setFunctionTestDataSource] = useState<FunctionalType[]>([]);
+  const [functionTestForm] = Form.useForm();
+
+
+  const [OtherTestKeys, setOtherTestRowKeys] = useState<React.Key[]>(() => []);
+  const [softwareEnvironKeys, setSoftwareEnvironRowKeys] = useState<React.Key[]>(() =>
+    softwareEnvironData.map((item) => item.id)
+  );
   const softwareEnvironColumns: ProColumns<softwareEnviron>[] = [
     {
       title: '软件类别',
@@ -113,12 +135,31 @@ const TestReportForm7: React.FC<{ editable: boolean }> = (prop) => {
       title: '测试依据',
       dataIndex: 'basis',
       editable: () => prop.editable,
+      initialValue: '',
     },
     {
       title: '操作',
       valueType: 'option',
       width: '5%',
       editable: () => prop.editable,
+      render: (text, record, _, action) => [
+        <a
+          key="editable"
+          onClick={() => {
+            action?.startEditable?.(record.id);
+          }}
+        >
+          编辑
+        </a>,
+        <a
+          key="delete"
+          onClick={() => {
+            setTestBasisDataSource(testBasisDataSource.filter((item) => item.id !== record.id));
+          }}
+        >
+          删除
+        </a>,
+      ],
     }
     ,
   ];
@@ -128,6 +169,7 @@ const TestReportForm7: React.FC<{ editable: boolean }> = (prop) => {
       title: '参考资料',
       dataIndex: 'refer',
       editable: () => prop.editable,
+      initialValue: '',
     }
     ,
     {
@@ -135,6 +177,24 @@ const TestReportForm7: React.FC<{ editable: boolean }> = (prop) => {
       valueType: 'option',
       editable: () => prop.editable,
       width: '5%',
+      render: (text, record, _, action) => [
+        <a
+          key="editable"
+          onClick={() => {
+            action?.startEditable?.(record.rid);
+          }}
+        >
+          编辑
+        </a>,
+        <a
+          key="delete"
+          onClick={() => {
+            setReferDataSource(referDataSource.filter((item) => item.rid !== record.rid));
+          }}
+        >
+          删除
+        </a>,
+      ],
     }
     ,
   ];
@@ -144,27 +204,44 @@ const TestReportForm7: React.FC<{ editable: boolean }> = (prop) => {
       title: '功能模块',
       dataIndex: 'module',
       editable: () => prop.editable,
-    }
-    ,
+      initialValue: '',
+    },
     {
       title: '功能要求',
       dataIndex: 'require',
       editable: () => prop.editable,
-    }
-    ,
+      initialValue: '',
+    },
     {
       title: '测试结果',
       editable: () => prop.editable,
       dataIndex: 'result',
-    }
-    ,
+      initialValue: '',
+    },
     {
       title: '操作',
       valueType: 'option',
       editable: () => prop.editable,
       width: '5%',
-    }
-    ,
+      render: (text, record, _, action) => [
+        <a
+          key="editable"
+          onClick={() => {
+            action?.startEditable?.(record.id);
+          }}
+        >
+          编辑
+        </a>,
+        <a
+          key="delete"
+          onClick={() => {
+            setFunctionTestDataSource(functionTestDataSource.filter((item) => item.id !== record.id));
+          }}
+        >
+          删除
+        </a>,
+      ],
+    },
   ];
 
   const otherTestColumns: ProColumns<OtherTestingType>[] = [
@@ -172,18 +249,21 @@ const TestReportForm7: React.FC<{ editable: boolean }> = (prop) => {
       title: '测试特性',
       dataIndex: 'module',
       editable: () => prop.editable,
+      initialValue: '',
     }
     ,
     {
       title: '测试说明',
       dataIndex: 'require',
       editable: () => prop.editable,
+      initialValue: '',
     }
     ,
     {
       title: '测试结果',
       dataIndex: 'result',
       editable: () => prop.editable,
+      initialValue: '',
     }
     ,
     {
@@ -194,14 +274,7 @@ const TestReportForm7: React.FC<{ editable: boolean }> = (prop) => {
     }
     ,
   ];
-  const [reportId, setReportId] = useState<number | undefined>(undefined);
-  const [testBasisKeys, setTestBasisRowKeys] = useState<React.Key[]>(() => []);
-  const [referKeys, setReferRowKeys] = useState<React.Key[]>(() => []);
-  const [functionTestKeys, setFuntionTestRowKeys] = useState<React.Key[]>(() => []);
-  const [OtherTestKeys, setOtherTestRowKeys] = useState<React.Key[]>(() => []);
-  const [softwareEnvironKeys, setSoftwareEnvironRowKeys] = useState<React.Key[]>(() =>
-    softwareEnvironData.map((item) => item.id)
-  );
+
   const {confirm} = Modal;
   const params = useLocation();
   const delegationId: number = !params.state ? -1 : (params.state as any).id;
@@ -235,6 +308,9 @@ const TestReportForm7: React.FC<{ editable: boolean }> = (prop) => {
       return defaultData;
     }
     console.log(resp.data);
+    setTestBasisDataSource(resp.data.测试依据);
+    setReferDataSource(resp.data.参考资料);
+    setFunctionTestDataSource(resp.data.功能性测试);
     return resp.data;
   };
   const onFinish = async (values: any) => {
@@ -433,6 +509,8 @@ const TestReportForm7: React.FC<{ editable: boolean }> = (prop) => {
         rowKey="rid"
         toolBarRender={false}
         columns={referenceColumns}
+        value={referDataSource}
+        onChange={setReferDataSource}
         recordCreatorProps={{
           newRecordType: 'dataSource',
           position: 'bottom',
@@ -444,10 +522,8 @@ const TestReportForm7: React.FC<{ editable: boolean }> = (prop) => {
         editable={{
           type: 'multiple',
           editableKeys: referKeys,
+          form: referForm,
           onChange: setReferRowKeys,
-          actionRender: (row, _, dom) => {
-            return [dom.delete];
-          },
         }}
       />)
   }
@@ -466,13 +542,13 @@ const TestReportForm7: React.FC<{ editable: boolean }> = (prop) => {
           }),
           hidden: !prop.editable,
         }}
+        value={functionTestDataSource}
+        onChange={setFunctionTestDataSource}
         editable={{
           type: 'multiple',
           editableKeys: functionTestKeys,
-          onChange: setFuntionTestRowKeys,
-          actionRender: (row, _, dom) => {
-            return [dom.delete];
-          },
+          onChange: setFunctionTestRowKeys,
+          form: functionTestForm,
         }}
       />
     )
@@ -642,13 +718,13 @@ const TestReportForm7: React.FC<{ editable: boolean }> = (prop) => {
                   }),
                   hidden: !prop.editable,
                 }}
+                onChange={setTestBasisDataSource}
+                value={testBasisDataSource}
                 editable={{
                   type: 'multiple',
                   editableKeys: testBasisKeys,
+                  form: testBasisForm,
                   onChange: setTestBasisRowKeys,
-                  actionRender: (row, _, dom) => {
-                    return [dom.delete];
-                  },
                 }}
               />
             </ProForm.Item>
