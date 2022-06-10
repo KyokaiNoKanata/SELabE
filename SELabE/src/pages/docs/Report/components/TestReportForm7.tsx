@@ -103,9 +103,37 @@ const TestReportForm7: React.FC<{ editable: boolean }> = (prop) => {
   const [functionTestKeys, setFunctionTestRowKeys] = useState<React.Key[]>(() => []);
   const [functionTestDataSource,setFunctionTestDataSource] = useState<FunctionalType[]>([]);
   const [functionTestForm] = Form.useForm();
+  /**
+   * 效率测试
+   */
+  const [effectKeys,setEffectKeys] = useState<React.Key[]>(() => []);
+  const [effectDataSource,setEffectDataSource] = useState<OtherTestingType[]>([]);
+  const [effectForm] = Form.useForm();
+  /**
+   * 可移植性测试
+   */
+  const [portableKeys,setPortableKeys] = useState<React.Key[]>(() => []);
+  const [portableDataSource,setPortableDataSource] = useState<OtherTestingType[]>([]);
+  const [portableForm] = Form.useForm();
+  /**
+   * 易用性测试
+   */
+  const [usableKeys,setUsableKeys] = useState<React.Key[]>(() => []);
+  const [usableDataSource,setUsableDataSource] = useState<OtherTestingType[]>([]);
+  const [usableForm] = Form.useForm();
+  /**
+   * 可靠性测试
+   */
+  const [reliableKeys,setReliableKeys] = useState<React.Key[]>(() => []);
+  const [reliableDataSource,setReliableDateSource] = useState<OtherTestingType[]>([]);
+  const [reliableForm] = Form.useForm();
+  /**
+   * 可维护性测试
+   */
+  const [maintainableKeys,setMaintainableKeys] = useState<React.Key[]>(() => []);
+  const [maintainableDataSource,setMaintainableDataSource] = useState<OtherTestingType[]>(() => []);
+  const [maintainableForm] = Form.useForm();
 
-
-  const [OtherTestKeys, setOtherTestRowKeys] = useState<React.Key[]>(() => []);
   const [softwareEnvironKeys, setSoftwareEnvironRowKeys] = useState<React.Key[]>(() =>
     softwareEnvironData.map((item) => item.id)
   );
@@ -250,30 +278,139 @@ const TestReportForm7: React.FC<{ editable: boolean }> = (prop) => {
       dataIndex: 'module',
       editable: () => prop.editable,
       initialValue: '',
-    }
-    ,
+    },
     {
       title: '测试说明',
       dataIndex: 'require',
       editable: () => prop.editable,
       initialValue: '',
-    }
-    ,
+    },
     {
       title: '测试结果',
       dataIndex: 'result',
       editable: () => prop.editable,
       initialValue: '',
-    }
-    ,
+    },
+  ];
+  const effectColumns: ProColumns<OtherTestingType>[]
+    = otherTestColumns.concat([{
+      title: '操作',
+      valueType: 'option',
+    render: (text, record, _, action) => [
+      <a
+        key="editable"
+        onClick={() => {
+          action?.startEditable?.(record.id);
+        }}
+      >
+        编辑
+      </a>,
+      <a
+        key="delete"
+        onClick={() => {
+          setEffectDataSource(effectDataSource.filter((item) => item.id !== record.id));
+        }}
+      >
+        删除
+      </a>,
+    ],
+  }]);
+  const portableColumns: ProColumns<OtherTestingType>[] = otherTestColumns.concat([
     {
       title: '操作',
       valueType: 'option',
-      width: '5%',
-      editable: () => prop.editable,
+      render: (text, record, _, action) => [
+        <a
+          key="editable"
+          onClick={() => {
+            action?.startEditable?.(record.id);
+          }}
+        >
+          编辑
+        </a>,
+        <a
+          key="delete"
+          onClick={() => {
+            setPortableDataSource(portableDataSource.filter((item) => item.id !== record.id));
+          }}
+        >
+          删除
+        </a>,
+      ],
     }
-    ,
-  ];
+  ])
+  const usableColumns: ProColumns<OtherTestingType>[] = otherTestColumns.concat([
+    {
+      title: '操作',
+      valueType: 'option',
+      render: (text, record, _, action) => [
+        <a
+          key="editable"
+          onClick={() => {
+            action?.startEditable?.(record.id);
+          }}
+        >
+          编辑
+        </a>,
+        <a
+          key="delete"
+          onClick={() => {
+            setUsableDataSource(usableDataSource.filter((item) => item.id !== record.id));
+          }}
+        >
+          删除
+        </a>,
+      ],
+    }
+  ])
+  const reliableColumns: ProColumns<OtherTestingType>[] = otherTestColumns.concat([
+    {
+      title: '操作',
+      valueType: 'option',
+      render: (text, record, _, action) => [
+        <a
+          key="editable"
+          onClick={() => {
+            action?.startEditable?.(record.id);
+          }}
+        >
+          编辑
+        </a>,
+        <a
+          key="delete"
+          onClick={() => {
+            setReliableDateSource(reliableDataSource.filter((item) => item.id !== record.id));
+          }}
+        >
+          删除
+        </a>,
+      ],
+    }
+  ])
+  const maintainableColumns: ProColumns<OtherTestingType>[] = otherTestColumns.concat([
+    {
+      title: '操作',
+      valueType: 'option',
+      render: (text, record, _, action) => [
+        <a
+          key="editable"
+          onClick={() => {
+            action?.startEditable?.(record.id);
+          }}
+        >
+          编辑
+        </a>,
+        <a
+          key="delete"
+          onClick={() => {
+            setMaintainableDataSource(maintainableDataSource.filter((item) => item.id !== record.id));
+          }}
+        >
+          删除
+        </a>,
+      ],
+    }
+  ])
 
   const {confirm} = Modal;
   const params = useLocation();
@@ -307,14 +444,17 @@ const TestReportForm7: React.FC<{ editable: boolean }> = (prop) => {
     if (resp.data == null) {
       return defaultData;
     }
-    console.log(resp.data);
     setTestBasisDataSource(resp.data.测试依据);
     setReferDataSource(resp.data.参考资料);
     setFunctionTestDataSource(resp.data.功能性测试);
+    setEffectDataSource(resp.data.效率测试);
+    setPortableDataSource(resp.data.可移植性测试);
+    setUsableDataSource(resp.data.易用性测试);
+    setReliableDateSource(resp.data.可靠性测试);
+    setMaintainableDataSource(resp.data.可维护性测试);
     return resp.data;
   };
   const onFinish = async (values: any) => {
-    console.log(values);
     const resp = await saveTable7({
       reportId: reportId!,
       data: values,
@@ -553,13 +693,12 @@ const TestReportForm7: React.FC<{ editable: boolean }> = (prop) => {
       />
     )
   }
-
-  const otherTesting = () => {
+  const effectTesting = () => {
     return (
       <EditableProTable<OtherTestingType>
         rowKey="id"
         toolBarRender={false}
-        columns={otherTestColumns}
+        columns={effectColumns}
         recordCreatorProps={{
           newRecordType: 'dataSource',
           position: 'bottom',
@@ -568,13 +707,113 @@ const TestReportForm7: React.FC<{ editable: boolean }> = (prop) => {
           }),
           hidden: !prop.editable,
         }}
+        value={effectDataSource}
+        onChange={setEffectDataSource}
         editable={{
           type: 'multiple',
-          editableKeys: OtherTestKeys,
-          onChange: setOtherTestRowKeys,
-          actionRender: (row, _, dom) => {
-            return [dom.delete];
-          },
+          form: effectForm,
+          editableKeys: effectKeys,
+          onChange: setEffectKeys,
+        }}
+      />
+    )
+  }
+  const portableTesting = () => {
+    return (
+      <EditableProTable<OtherTestingType>
+        rowKey="id"
+        toolBarRender={false}
+        columns={portableColumns}
+        recordCreatorProps={{
+          newRecordType: 'dataSource',
+          position: 'bottom',
+          record: () => ({
+            id: Date.now(),
+          }),
+          hidden: !prop.editable,
+        }}
+        value={portableDataSource}
+        onChange={setPortableDataSource}
+        editable={{
+          type: 'multiple',
+          form: portableForm,
+          editableKeys: portableKeys,
+          onChange: setPortableKeys,
+        }}
+      />
+    )
+  }
+  const usableTable = () => {
+    return (
+      <EditableProTable<OtherTestingType>
+        rowKey="id"
+        toolBarRender={false}
+        columns={usableColumns}
+        recordCreatorProps={{
+          newRecordType: 'dataSource',
+          position: 'bottom',
+          record: () => ({
+            id: Date.now(),
+          }),
+          hidden: !prop.editable,
+        }}
+        value={usableDataSource}
+        onChange={setUsableDataSource}
+        editable={{
+          type: 'multiple',
+          form: usableForm,
+          editableKeys: usableKeys,
+          onChange: setUsableKeys,
+        }}
+      />
+    )
+  }
+  const reliableTable = () => {
+    return (
+      <EditableProTable<OtherTestingType>
+        rowKey="id"
+        toolBarRender={false}
+        columns={reliableColumns}
+        recordCreatorProps={{
+          newRecordType: 'dataSource',
+          position: 'bottom',
+          record: () => ({
+            id: Date.now(),
+          }),
+          hidden: !prop.editable,
+        }}
+        value={reliableDataSource}
+        onChange={setReliableDateSource}
+        editable={{
+          type: 'multiple',
+          form: reliableForm,
+          editableKeys: reliableKeys,
+          onChange: setReliableKeys,
+        }}
+      />
+    )
+  }
+  const maintainableTable = () => {
+    return (
+      <EditableProTable<OtherTestingType>
+        rowKey="id"
+        toolBarRender={false}
+        columns={maintainableColumns}
+        recordCreatorProps={{
+          newRecordType: 'dataSource',
+          position: 'bottom',
+          record: () => ({
+            id: Date.now(),
+          }),
+          hidden: !prop.editable,
+        }}
+        value={maintainableDataSource}
+        onChange={setMaintainableDataSource}
+        editable={{
+          type: 'multiple',
+          form: maintainableForm,
+          editableKeys: maintainableKeys,
+          onChange: setMaintainableKeys,
         }}
       />
     )
@@ -766,7 +1005,7 @@ const TestReportForm7: React.FC<{ editable: boolean }> = (prop) => {
               trigger="onValuesChange"
               initialValue={[]}
             >
-              {otherTesting()}
+              {effectTesting()}
             </ProForm.Item>
             <ProForm.Item
               label="可移植性测试"
@@ -774,7 +1013,7 @@ const TestReportForm7: React.FC<{ editable: boolean }> = (prop) => {
               trigger="onValuesChange"
               initialValue={[]}
             >
-              {otherTesting()}
+              {portableTesting()}
             </ProForm.Item>
             <ProForm.Item
               label="易用性测试"
@@ -782,7 +1021,7 @@ const TestReportForm7: React.FC<{ editable: boolean }> = (prop) => {
               trigger="onValuesChange"
               initialValue={[]}
             >
-              {otherTesting()}
+              {usableTable()}
             </ProForm.Item>
             <ProForm.Item
               label="可靠性测试"
@@ -790,7 +1029,7 @@ const TestReportForm7: React.FC<{ editable: boolean }> = (prop) => {
               trigger="onValuesChange"
               initialValue={[]}
             >
-              {otherTesting()}
+              {reliableTable()}
             </ProForm.Item>
             <ProForm.Item
               label="可维护性测试"
@@ -798,7 +1037,7 @@ const TestReportForm7: React.FC<{ editable: boolean }> = (prop) => {
               trigger="onValuesChange"
               initialValue={[]}
             >
-              {otherTesting()}
+              {maintainableTable()}
             </ProForm.Item>
           </StepsForm.StepForm>
           <StepsForm.StepForm<{
