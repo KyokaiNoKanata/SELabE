@@ -9,6 +9,7 @@ import {useLocation} from "react-router-dom";
 import {getDelegationById} from "@/services/ant-design-pro/delegation/api";
 
 import {createReport, getReport, getTable8, saveTable8} from "@/services/ant-design-pro/report/api";
+import Form from "@ant-design/pro-form";
 
 
 /**
@@ -28,7 +29,8 @@ const TestCaseForm8: React.FC<{ editable: boolean }> = (props) => {
     time?: string;
     children?: DataSourceType[];
   };
-
+  const [dataSource,setDataSource] = useState<DataSourceType[]>([]);
+  const [editForm] = Form.useForm();
   const columns: ProColumns<DataSourceType>[] = [
     {
       title: '测试分类',
@@ -77,8 +79,25 @@ const TestCaseForm8: React.FC<{ editable: boolean }> = (props) => {
     {
       title: '操作',
       valueType: 'option',
-      editable: () => props.editable,
       width: '5%',
+      render: (text, record, _, action) => [
+        <a
+          key="editable"
+          onClick={() => {
+            action?.startEditable?.(record.id);
+          }}
+        >
+          编辑
+        </a>,
+        <a
+          key="delete"
+          onClick={() => {
+            setDataSource(dataSource.filter((item) => item.id !== record.id));
+          }}
+        >
+          删除
+        </a>,
+      ],
     },
   ];
   const [reportId, setReportId] = useState<number | undefined>(undefined);
@@ -112,18 +131,20 @@ const TestCaseForm8: React.FC<{ editable: boolean }> = (props) => {
     }
     //测试用例 table8
     const report = await getReport({reportId: rId!});
-    console.log(report);
     const table8Id = report.data.table8Id;
     const resp = await getTable8({id: table8Id})
     if (resp.data == null) {
       return {};
     }
-    console.log(resp.data);
+    setDataSource(resp.data.测试用例);
     return resp.data;
   };
   //保存
   const onFinish = async (values: any) => {
-    console.log(values);
+    if(values.测试用例.length == 0) {
+      message.warning('测试用例不可以为空');
+      return false;
+    }
     const resp = await saveTable8({
       reportId: reportId!,
       data: values,
@@ -173,6 +194,8 @@ const TestCaseForm8: React.FC<{ editable: boolean }> = (props) => {
               rowKey="id"
               toolBarRender={false}
               columns={columns}
+              onChange={setDataSource}
+              value={dataSource}
               recordCreatorProps={{
                 newRecordType: 'dataSource',
                 position: 'bottom',
@@ -184,10 +207,8 @@ const TestCaseForm8: React.FC<{ editable: boolean }> = (props) => {
               editable={{
                 type: 'multiple',
                 editableKeys,
+                form: editForm,
                 onChange: setEditableRowKeys,
-                actionRender: (row, _, dom) => {
-                  return [dom.delete];
-                },
               }}
             />
           </ProForm.Item>

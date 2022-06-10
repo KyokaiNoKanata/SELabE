@@ -8,6 +8,7 @@ import {EditableProTable} from "@ant-design/pro-table";
 import {useLocation} from "react-router-dom";
 import {getDelegationById} from "@/services/ant-design-pro/delegation/api";
 import {createReport, getReport, getTable11, saveTable11} from "@/services/ant-design-pro/report/api";
+import Form from "@ant-design/pro-form";
 
 type DataSourceType = {
   id: number;
@@ -31,6 +32,8 @@ type DataSourceType = {
  */
 //editable为true可编辑
 const QuestionListForm11: React.FC<{ editable: boolean }> = (props) => {
+  const [dataSource,setDataSource] = useState<DataSourceType[]>([]);
+  const [editForm] = Form.useForm();
   const columns: ProColumns<DataSourceType>[] = [
     {
       title: '序号',
@@ -92,6 +95,24 @@ const QuestionListForm11: React.FC<{ editable: boolean }> = (props) => {
       valueType: 'option',
       editable: () => props.editable,
       width: '1%',
+      render: (text, record, _, action) => [
+        <a
+          key="editable"
+          onClick={() => {
+            action?.startEditable?.(record.id);
+          }}
+        >
+          编辑
+        </a>,
+        <a
+          key="delete"
+          onClick={() => {
+            setDataSource(dataSource.filter((item) => item.id !== record.id));
+          }}
+        >
+          删除
+        </a>,
+      ],
     },
   ];
   const [reportId, setReportId] = useState<number | undefined>(undefined);
@@ -130,7 +151,7 @@ const QuestionListForm11: React.FC<{ editable: boolean }> = (props) => {
     if (resp.data == null) {
       return {};
     }
-    console.log(resp.data);
+    setDataSource(resp.data.测试用例);
     return resp.data;
   };
   //保存
@@ -193,13 +214,13 @@ const QuestionListForm11: React.FC<{ editable: boolean }> = (props) => {
                 }),
                 hidden: !props.editable,
               }}
+              value={dataSource}
+              onChange={setDataSource}
               editable={{
                 type: 'multiple',
+                form: editForm,
                 editableKeys,
                 onChange: setEditableRowKeys,
-                actionRender: (row, _, dom) => {
-                  return [dom.delete];
-                },
               }}
             />
           </ProForm.Item>
