@@ -19,7 +19,7 @@ import {StepsForm} from "@ant-design/pro-form/es/layouts/StepsForm";
 const {Title, Paragraph} = Typography;
 
 type DataSourceType = {
-  id: number; //id在json中是乱码，这个ID其实不能提交？
+  id: number;
   basis?: string;
   children?: DataSourceType[];
 }
@@ -628,6 +628,7 @@ const TestReportForm7: React.FC<{ editable: boolean }> = (prop) => {
               label="测试依据列表"
               name="测试依据"
               trigger="onValuesChange"
+              initialValue={[]}
             >
               <EditableProTable<DataSourceType>
                 rowKey="id"
@@ -655,6 +656,7 @@ const TestReportForm7: React.FC<{ editable: boolean }> = (prop) => {
               label="参考资料列表"
               name="参考资料"
               trigger="onValuesChange"
+              initialValue={[]}
             >
               {referenceTable()}
             </ProForm.Item>
@@ -678,6 +680,7 @@ const TestReportForm7: React.FC<{ editable: boolean }> = (prop) => {
               label="功能性测试"
               name="功能性测试"
               trigger="onValuesChange"
+              initialValue={[]}
             >
               {functionalTesting()}
             </ProForm.Item>
@@ -685,6 +688,7 @@ const TestReportForm7: React.FC<{ editable: boolean }> = (prop) => {
               label="效率测试"
               name="效率测试"
               trigger="onValuesChange"
+              initialValue={[]}
             >
               {otherTesting()}
             </ProForm.Item>
@@ -692,6 +696,7 @@ const TestReportForm7: React.FC<{ editable: boolean }> = (prop) => {
               label="可移植性测试"
               name="可移植性测试"
               trigger="onValuesChange"
+              initialValue={[]}
             >
               {otherTesting()}
             </ProForm.Item>
@@ -699,6 +704,7 @@ const TestReportForm7: React.FC<{ editable: boolean }> = (prop) => {
               label="易用性测试"
               name="易用性测试"
               trigger="onValuesChange"
+              initialValue={[]}
             >
               {otherTesting()}
             </ProForm.Item>
@@ -706,6 +712,7 @@ const TestReportForm7: React.FC<{ editable: boolean }> = (prop) => {
               label="可靠性测试"
               name="可靠性测试"
               trigger="onValuesChange"
+              initialValue={[]}
             >
               {otherTesting()}
             </ProForm.Item>
@@ -713,6 +720,7 @@ const TestReportForm7: React.FC<{ editable: boolean }> = (prop) => {
               label="可维护性测试"
               name="可维护性测试"
               trigger="onValuesChange"
+              initialValue={[]}
             >
               {otherTesting()}
             </ProForm.Item>
