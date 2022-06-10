@@ -10,13 +10,15 @@ export default () => {
   const formRef: React.MutableRefObject<ProFormInstance | undefined> = useRef<ProFormInstance>();
   const onSubmit = async () => {
     const projectId = formRef.current?.getFieldFormatValue!(['projectId']);
-
     const resp = await fillProjectId({
       id: delegationId,
       projectId: projectId,
     });
     if(resp.code == 0) {
       message.success('分配项目编号成功')
+      const a = document.createElement("a");
+      a.href = "../../project/list";//
+      a.click();
     } else {
       message.error(resp.msg);
     }
