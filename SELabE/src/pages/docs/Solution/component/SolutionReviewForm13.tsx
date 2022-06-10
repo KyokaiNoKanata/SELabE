@@ -137,11 +137,11 @@ const SolutionReviewForm13: React.FC<{
       dataIndex: 'state',
       valueType: 'select',
       valueEnum: {
-        open: {
+        不通过: {
           text: '不通过',
           status: 'Error',
         },
-        closed: {
+        通过: {
           text: '通过',
           status: 'Success',
         },
@@ -215,8 +215,6 @@ const SolutionReviewForm13: React.FC<{
       };
     }
     setSolutionId(_solutionId);
-    message.warning(delegationId);
-    message.success(_solutionId);
     const solution = await getSolution({id: _solutionId!});
     const table13Id: number = solution.data.table13Id;
     const resp = await getTable13({id: table13Id!});
