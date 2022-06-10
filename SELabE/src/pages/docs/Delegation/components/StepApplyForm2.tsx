@@ -503,7 +503,7 @@ const StepApplyForm2: React.FC<{ editable: boolean, isClient: boolean }> = (prop
             </ProCard>
             <ProCard bordered>
               <ProFormText width='md' label='测试项目编号' name='测试项目编号' rules={[{required: true}]}
-                           disabled={prop.isClient}/>
+                           disabled={true} initialValue={'未立项'}/>
             </ProCard>
 
             <ProCard bordered={true}>

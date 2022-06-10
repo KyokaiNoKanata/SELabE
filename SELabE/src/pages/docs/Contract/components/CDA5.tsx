@@ -157,15 +157,15 @@ const CDA5: React.FC<{
             <Col span={12}>
               <div>甲方:(公章)</div>
               <br/>
-              <ProFormText name = "甲方法人代表" label = "法人代表" width = "md" disabled={props.editable!=1}/>
-              <ProFormDatePicker name = "甲方_日期" label = "日期" disabled={props.editable!=1} />
+              <ProFormText name = "甲方法人代表" label = "法人代表" width = "md" disabled={props.editable!=1} initialValue={''}/>
+              <ProFormDatePicker name = "甲方_日期" label = "日期" disabled={props.editable!=1} initialValue={''}/>
             </Col>
             <Col span={12}>
               <br/>
               <div>乙方:(公章)</div>
               <br/>
-              <ProFormText name = "乙方法人代表" label = "法人代表" width = "md" disabled={props.editable != 2}/>
-              <ProFormDatePicker name = "乙方_日期" label = "日期" disabled={props.editable != 2}/>
+              <ProFormText name = "乙方法人代表" label = "法人代表" width = "md" disabled={props.editable != 2} initialValue={''}/>
+              <ProFormDatePicker name = "乙方_日期" label = "日期" disabled={props.editable != 2} initialValue={''}/>
             </Col>
           </Row>
         </ProForm>

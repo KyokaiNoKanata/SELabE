@@ -86,12 +86,12 @@ const DocumentReviewMarketing = () => {
       message.error(resp1.msg);
       return;
     }
-    if (pass == '受理') {
+    if (pass == '受理意见1') {
       await handleAuditSuccessMarketing({
         id: delegationId,
         remark: remark,
       })
-    } else if (pass == '不受理') {
+    } else if (pass == '受理意见2' || pass == '受理意见3') {
       await handleAuditFailMarketing({
         id: delegationId,
         remark: remark,
@@ -140,10 +140,10 @@ const DocumentReviewMarketing = () => {
             label='确认意见'
             valueEnum={
               {
-                "测试所需材料不全，未达到受理条件。": "测试所需材料不全，未达到受理条件。",
-                "属依据国家标准或自编非标规范进行的常规检测，有资质、能力和资源满足委托方要求。": "属依据国家标准或自编非标规范进行的常规检测，有资质、能力和资源满足委托方要求。",
-                "无国家标准和规范依据，或实验室缺乏检测设备和工具，无法完成检测。": "无国家标准和规范依据，或实验室缺乏检测设备和工具，无法完成检测。",
-                "超出实验室能力和资质范围，无法完成检测。": "超出实验室能力和资质范围，无法完成检测。"
+                "确认意见1": "测试所需材料不全，未达到受理条件。",
+                "确认意见2": "属依据国家标准或自编非标规范进行的常规检测，有资质、能力和资源满足委托方要求。",
+                "确认意见3": "无国家标准和规范依据，或实验室缺乏检测设备和工具，无法完成检测。",
+                "确认意见4": "超出实验室能力和资质范围，无法完成检测。"
               }
             }
             placeholder="请选择"
@@ -169,8 +169,9 @@ const DocumentReviewMarketing = () => {
             name="受理意见"
             placeholder={'选择是否通过'}
             valueEnum={{
-              '受理': '受理',
-              '不受理': '不受理',
+              '受理意见1': '受理-进入项目立项和合同审评流程',
+              '受理意见2': '不受理',
+              '受理意见3': '进一步联系',
             }}
             required
           />
