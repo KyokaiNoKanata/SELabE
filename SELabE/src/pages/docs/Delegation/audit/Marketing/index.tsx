@@ -3,7 +3,12 @@ import {Card, message, PageHeader} from 'antd';
 import type {ProFormInstance} from '@ant-design/pro-form';
 import ProForm, {ProFormDatePicker, ProFormSelect, ProFormText} from '@ant-design/pro-form';
 import {useLocation} from 'umi';
-import {marketingAuditFail, marketingAuditSuccess} from '@/services/ant-design-pro/delegation/api';
+import {
+  getDelegationById,
+  getTable2,
+  marketingAuditFail,
+  marketingAuditSuccess, saveTable2
+} from '@/services/ant-design-pro/delegation/api';
 import StepApplyForm2 from "@/pages/docs/Delegation/components/StepApplyForm2";
 import FunctionList3 from "@/pages/docs/Delegation/components/FunctionList3";
 import TestWorkChecklist12 from "@/pages/docs/Delegation/components/TestWorkChecklist12";
@@ -67,22 +72,34 @@ const DocumentReviewMarketing = () => {
   const params = useLocation();
   const delegationId = !params.state ? -1 : (params.state as any).id
   const formRef: React.MutableRefObject<ProFormInstance | undefined> = useRef<ProFormInstance>();
-  const onSubmit = async () => {
-    const pass = formRef.current?.getFieldFormatValue!(['pass']);
-    const remark = formRef.current?.getFieldFormatValue!(['confirmopinion']) + formRef.current?.getFieldFormatValue!(['testingRemark']);
-    console.log(remark);
-    if (pass == 0) {
+  const onSubmit = async (values: any) => {
+    //重新保存table2
+    //console.log(values);
+    const delegation = (await getDelegationById(delegationId)).data;
+    const table2Id = delegation.table2Id;
+    const oldValue = (await getTable2({id: table2Id!})).data;
+    const pass = formRef.current?.getFieldFormatValue!(['受理意见']);
+    const remark = formRef.current?.getFieldFormatValue!(['确认意见']) + formRef.current?.getFieldFormatValue!(['testingRemark']);
+    const data = {
+      ...oldValue,
+      ...values,
+    }
+    await saveTable2({
+      delegationId: delegationId,
+      data: data,
+    });
+    if (pass == '受理') {
       await handleAuditSuccessMarketing({
         id: delegationId,
         remark: remark,
       })
-    } else if (pass == 1) {
+    } else if (pass == '不受理') {
       await handleAuditFailMarketing({
         id: delegationId,
         remark: remark,
       })
     } else {
-      message.warning('请选择是否通过')
+      message.warning('请选择是否受理')
     }
     return false;
   }
@@ -90,7 +107,6 @@ const DocumentReviewMarketing = () => {
   const contentList = {
     委托申请书:
       <Card>
-        {/*todo: make it non-editable (only remove submit button in this edition)*/}
         <StepApplyForm2 editable={false} isClient={true}/>
       </Card>,
     委托功能列表: <Card><FunctionList3 editable={false} isClient={true}/></Card>,
@@ -122,7 +138,7 @@ const DocumentReviewMarketing = () => {
 
           <ProFormSelect
             width='md'
-            name='confirmopinion'
+            name='确认意见'
             label='确认意见'
             valueEnum={
               {
@@ -152,11 +168,11 @@ const DocumentReviewMarketing = () => {
             showSearch
             width="md"
             label="受理意见"
-            name="pass"
+            name="受理意见"
             placeholder={'选择是否通过'}
             valueEnum={{
-              0: '受理',
-              1: '不受理',
+              '受理': '受理',
+              '不受理': '不受理',
             }}
             required
           />

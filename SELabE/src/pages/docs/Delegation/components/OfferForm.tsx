@@ -206,6 +206,7 @@ const OfferForm: React.FC<{state: number}> = (props) => {
           <ProForm.Item
             name="项目表格"
             trigger="onValuesChange"
+            initialValue={[]}
           >
             <EditableProTable<DataSourceType>
               rowKey="id"
