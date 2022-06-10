@@ -194,26 +194,30 @@ const SolutionReviewForm13: React.FC<{
   const params = useLocation();
   const delegationId: number = !params.state ? -1 : (params.state as any).id;
   const formRef = useRef<ProFormInstance>();
+  const [solutionId,setSolutionId] = useState<number|undefined>(undefined);
   const [editableKeys, setEditableRowKeys] = useState<React.Key[]>(() =>
     defaultData.map((item) => item.id)
   );
   const [adviceEditable, setAdviceEditableRow] = useState<React.Key[]>(() =>
     adviceData.map((item) => item.id)
   );
-  let solutionId: number|undefined = undefined;
+
   const request = async () => {
     //如果已经有了对应的solutionId,填一下
     //console.log('delegationId = ' + delegationId);
     const delegation = (await getDelegationById(delegationId)).data;
-    solutionId = delegation.solutionId;
-    if (!solutionId) {
+    const _solutionId = delegation.solutionId;
+    if (!_solutionId) {
       return {
         "软件名称": delegation.softwareName,
         "版本号": delegation.version,
         "项目编号": delegation.projectId,
       };
     }
-    const solution = await getSolution({id: solutionId!});
+    setSolutionId(_solutionId);
+    message.warning(delegationId);
+    message.success(_solutionId);
+    const solution = await getSolution({id: _solutionId!});
     const table13Id: number = solution.data.table13Id;
     const resp = await getTable13({id: table13Id!});
     if (!resp.data) {
@@ -226,9 +230,9 @@ const SolutionReviewForm13: React.FC<{
     return resp.data;
   }
   const onSave = async () => {
-    console.log('save');
+    //console.log('save');
     const values = formRef.current?.getFieldFormatValue!();
-    console.log('values = ' + values);
+    console.log(values);
     const resp = await saveTable13({
       solutionId: solutionId!,
       data: values,
@@ -305,14 +309,14 @@ const SolutionReviewForm13: React.FC<{
               tooltip="最长为 24 位"
               placeholder="请输入名称"
               rules={[{required: true, message: '这是必填项'}]}
-              disabled={!props.editable}
+              readonly={true}
             />
             <ProFormText width="md"
                          name="版本号"
                          label="版本号"
                          placeholder="请输入版本号"
                          rules={[{required: true, message: '这是必填项'}]}
-                         disabled={!props.editable}
+                         readonly={true}
             />
             <ProForm.Group>
               <ProFormText
@@ -322,7 +326,7 @@ const SolutionReviewForm13: React.FC<{
                 tooltip="最长为 24 位"
                 placeholder="请输入编号"
                 rules={[{required: true, message: '这是必填项'}]}
-                disabled={!props.editable}
+                readonly={true}
               />
               <ProFormText width="md"
                            name="测试类别"

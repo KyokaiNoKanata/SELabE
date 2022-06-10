@@ -34,37 +34,44 @@ const TestCaseForm8: React.FC<{ editable: boolean }> = (props) => {
       title: '测试分类',
       dataIndex: 'classification',
       editable: () => props.editable,
+      initialValue: '',
     },
     {
       title: 'ID',
       dataIndex: 'tid',
       width: "10%",
       editable: () => props.editable,
+      initialValue: '',
     },
     {
       title: '测试用例设计说明',
       dataIndex: 'design',
       editable: () => props.editable,
+      initialValue: '',
     },
     {
       title: '与本测试用例有关的规约说明',
       dataIndex: 'statute',
       editable: () => props.editable,
+      initialValue: '',
     },
     {
       title: '预期的结果',
       dataIndex: 'result',
       editable: () => props.editable,
+      initialValue: '',
     },
     {
       title: '测试用例设计者',
       dataIndex: 'author',
       editable: () => props.editable,
+      initialValue: '',
     },
     {
       title: '测试时间',
       dataIndex: 'time',
       editable: () => props.editable,
+      initialValue: '',
     },
 
     {

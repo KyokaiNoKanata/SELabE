@@ -4,8 +4,6 @@ import type {ProFormInstance} from '@ant-design/pro-form';
 import ProForm, {ProFormDatePicker, ProFormSelect, ProFormText} from '@ant-design/pro-form';
 import {useLocation} from 'umi';
 import {
-  getDelegationById,
-  getTable2,
   marketingAuditFail,
   marketingAuditSuccess, saveTable2
 } from '@/services/ant-design-pro/delegation/api';
@@ -75,19 +73,19 @@ const DocumentReviewMarketing = () => {
   const onSubmit = async (values: any) => {
     //重新保存table2
     //console.log(values);
-    const delegation = (await getDelegationById(delegationId)).data;
-    const table2Id = delegation.table2Id;
-    const oldValue = (await getTable2({id: table2Id!})).data;
+    //const delegation = (await getDelegationById(delegationId)).data;
+    //const table2Id = delegation.table2Id;
+    //const oldValue = (await getTable2({id: table2Id!})).data;
     const pass = formRef.current?.getFieldFormatValue!(['受理意见']);
     const remark = formRef.current?.getFieldFormatValue!(['确认意见']) + formRef.current?.getFieldFormatValue!(['testingRemark']);
-    const data = {
-      ...oldValue,
-      ...values,
-    }
-    await saveTable2({
+    const resp1 = await saveTable2({
       delegationId: delegationId,
-      data: data,
+      data: values,
     });
+    if(resp1.code!=0) {
+      message.error(resp1.msg);
+      return;
+    }
     if (pass == '受理') {
       await handleAuditSuccessMarketing({
         id: delegationId,
@@ -153,7 +151,7 @@ const DocumentReviewMarketing = () => {
           />
           <ProFormText
             width="md"
-            name="testingRemark"
+            name="备注"
             label="备注"
             placeholder="请输入审核意见"
             initialValue={''}

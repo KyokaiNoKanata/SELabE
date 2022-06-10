@@ -264,7 +264,7 @@ const ContractForm4: React.FC<{
         <Paragraph>
           <ProFormText name='软件名称' addonBefore=' 乙方按照国家软件质量测试标准和测试规范，完成对甲方委托的软件（下称受测软件）'
                        disabled={prop.editable != 2}/>
-          <ProFormText name='质量特性' addonBefore='的质量特性' addonAfter='进行测试，并出具相应的测试报告'
+          <ProFormText name='质量特性' addonBefore='的质量特性' addonAfter='进行测试，并出具相应的测试报告' initialValue={''}
                        disabled={prop.editable != 2}/>
 
         </Paragraph>
@@ -305,7 +305,7 @@ const ContractForm4: React.FC<{
         <Title level={3}>四、合同价款</Title>
         <Paragraph>
           <ProFormText name='合同价款' addonBefore='本合同软件测试费用为人民币' addonAfter='元'
-                       disabled={prop.editable != 2}/>
+                       disabled={prop.editable != 2} initialValue={''}/>
         </Paragraph>
         <Title level={3}>五、测试费用支付方式</Title>
         <Paragraph>本合同签定后，十个工作日内甲方合同价款至乙方帐户。</Paragraph>
@@ -314,7 +314,7 @@ const ContractForm4: React.FC<{
           <ol>
             <li>
               <ProFormText name='完成天数' addonBefore='本次测试的履行期限为合同生效之日起' addonAfter='个自然日内完成。'
-                           disabled={prop.editable != 2}/>
+                           disabled={prop.editable != 2} initialValue={''}/>
             </li>
             <li>经甲乙双方同意，可对测试进度作适当修改，并以修改后的测试进度作为本合同执行的期限。如受测软件在测试过程中出现的问题，导致继续进行测试会影响整体测试进度，</li>
             <li><ProFormText
@@ -323,7 +323,7 @@ const ContractForm4: React.FC<{
               width='md' name="整改次数"
               disabled={prop.editable != 2}/>
               <ProFormText addonBefore='每次不超过' addonAfter='天' name="超过天数"
-                           disabled={prop.editable != 2}/>
+                           disabled={prop.editable != 2} initialValue={''}/>
 
             </li>
             <li>如因甲方原因，导致测试进度延迟、应由甲方负责,乙方不承担责任。</li>

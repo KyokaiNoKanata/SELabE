@@ -234,10 +234,11 @@ const TestReportForm7: React.FC<{ editable: boolean }> = (prop) => {
     if (resp.data == null) {
       return defaultData;
     }
+    console.log(resp.data);
     return resp.data;
   };
   const onFinish = async (values: any) => {
-    //console.log(values);
+    console.log(values);
     const resp = await saveTable7({
       reportId: reportId!,
       data: values,
@@ -327,8 +328,8 @@ const TestReportForm7: React.FC<{ editable: boolean }> = (prop) => {
   const reportForm = () => {
     return (
       <ProCard>
-        <ProFormText name="委托单位" label="委托单位" width="md" rules={[{required: true}]} disabled={!prop.editable}/>
-        <ProFormText name="项目编号" label="项目编号" width="md" rules={[{required: true}]} disabled={!prop.editable}/>
+        <ProFormText name="委托单位" label="委托单位" width="md" rules={[{required: true}]} readonly/>
+        <ProFormText name="项目编号" label="项目编号" width="md" rules={[{required: true}]} readonly/>
         <ProFormText name="样品名称" label="样品名称" width="md" rules={[{required: true}]} disabled={!prop.editable}/>
         <ProFormText name="版本/型号" label="版本/型号" width="md" rules={[{required: true}]} disabled={!prop.editable}/>
         <ProFormDatePicker name="来样日期" label="来样日期" width="md" rules={[{required: true}]} disabled={!prop.editable}/>
@@ -628,7 +629,6 @@ const TestReportForm7: React.FC<{ editable: boolean }> = (prop) => {
               label="测试依据列表"
               name="测试依据"
               trigger="onValuesChange"
-              initialValue={[]}
             >
               <EditableProTable<DataSourceType>
                 rowKey="id"
