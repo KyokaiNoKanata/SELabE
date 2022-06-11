@@ -1,46 +1,42 @@
+/**
+ * 查看测试方案入口
+ */
 import type {ReactNode} from "react";
-import React from "react";
 import type API from "@/services/ant-design-pro/typings";
-import DelegationList from "@/pages/Delegation/components/DelegationList";
-import type {ActionType, ProColumns} from "@ant-design/pro-table";
-import {Link} from "umi";
+import type {ProColumns} from "@ant-design/pro-table";
 import {Button} from "antd";
-import constant from "../../../../../config/constant";
-//查看委托列表
-//只显示自己可以查看的委托
-//操作栏只有查看详情
-//主管可以看到所有委托
-//员工可以看到分配给自己的委托
-//客户可以看到自己发起的委托
-//可以在这个页面新增委托
-const CheckDelegation: React.FC<{
-  operationColumns: ProColumns<API.DelegationItem>[],
-  actionRef?: React.MutableRefObject<ActionType | undefined>,
-}>
-  = (props) => {
-  const checkDetailColumns: ProColumns<API.DelegationItem>[] = [
-    /** 查看详情 */
+import DelegationList from "@/pages/Delegation/components/DelegationList";
+import {Link} from "umi";
+import constant from "../../../../config/constant";
+
+/**
+ * 查看测试方案
+ */
+export default () => {
+  const auditColumns: ProColumns<API.DelegationItem>[] = [
+    /** 查看测试方案 */
     {
-      title: '查看详情',
-      dataIndex: 'detail',
+      title: '查看测试方案',
+      dataIndex: 'showSolution',
       valueType: 'option',
-      hideInTable: false,
       sorter: false,
       render: (text: ReactNode, record: API.DelegationItem) => {
         const {id} = record;
         return [
-          <Link to={{pathname: constant.docPath.delegation.DETAIL, state: {id: id}}}>
-            <Button type="primary">查看详情</Button>
-          </Link>
-        ]
+          <Link to={{pathname: constant.docPath.forms.table6, state: {id: id}}}>
+            <Button type="primary">查看测试方案</Button>
+          </Link>,
+        ];
       }
     }
   ];
+
   const queryParams = async (
     param: API.DelegationQueryParams,
     roles: string[],
-    userId: number) => {
-    //这些人能看到全部
+    userId: number,
+  ) => {
+    param.state = constant.delegationState.HAS_SOLUTION;
     if (roles.includes(constant.roles.SUPER_ADMIN.en)
       || roles.includes(constant.roles.MARKET_DEPARTMENT_MANAGER.en)
       || roles.includes(constant.roles.TEST_DEPARTMENT_MANAGER.en)
@@ -60,20 +56,14 @@ const CheckDelegation: React.FC<{
     else if (roles.includes(constant.roles.CUSTOMER.en)) {
       param.creatorId = userId;
     }
-    /*else {
-      param.state = '-1';
-    }*/
     return param;
   }
-
   return (
     <DelegationList
-      operationColumns={props.operationColumns.concat(checkDetailColumns)}
-      actionRef={props.actionRef}
       queryParams={queryParams}
-      changeable={true}
+      operationColumns={auditColumns}
+      projectsList={true}
     />
   )
 }
 
-export default CheckDelegation;

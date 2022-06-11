@@ -222,14 +222,12 @@ export default [
         name: '测试方案',
         icon: 'crown',
         routes: [
-          /*
           {
-            path: '/solution/checkAll',
+            path: './list',
             name: '查看测试方案',
             icon: 'smile',
-            component: './Solution',
+            component: './Solution/list',
           },
-          */
           {
             path: './write',
             name: '编写测试方案',

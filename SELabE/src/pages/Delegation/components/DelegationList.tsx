@@ -117,6 +117,10 @@ export type DelegationListType = {
    */
   projectsList?: boolean;
   /**
+   * 可变的，指可以增删委托。
+   */
+  changeable?: boolean;
+  /**
    * 前置列
    */
   columnsBefore?: ProColumns<API.DelegationItem>[];
@@ -606,6 +610,7 @@ const DelegationList: React.FC<DelegationListType> = (props) => {
         /*新建*/
         toolBarRender={() => [
           (roles.includes(constant.roles.CUSTOMER.en) || roles.includes(constant.roles.SUPER_ADMIN.en)) &&
+          props.changeable &&
           <Button
             type="primary"
             key="primary"
@@ -617,6 +622,7 @@ const DelegationList: React.FC<DelegationListType> = (props) => {
           </Button>,
           /*删除*/
           (roles.includes(constant.roles.CUSTOMER.en) || roles.includes(constant.roles.SUPER_ADMIN.en)) &&
+          props.changeable &&
           <Button
             type="primary"
             key="danger"

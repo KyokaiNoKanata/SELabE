@@ -62,9 +62,11 @@ const constant = {
     //有测试报告
     HAS_REPORT: "350,360,370,380,390,400,410,420,430,440,450,460",
     //有样品
-    HAS_SAMPLE: "260,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,",
+    HAS_SAMPLE: "260,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460",
     //等待审核
     REPORT_WAITING_AUDIT: "360,380,400",
+    //有测试方案
+    HAS_SOLUTION: "310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460",
   },
   /**
    * 权限
@@ -156,6 +158,9 @@ const constant = {
       },
       READ_ONLY: "/docs/report/read",
       ARCHIVE: "/docs/report/archive",
+    },
+    forms: {
+      table6: "/docs/form/table6",
     }
   },
   /**
@@ -218,6 +223,7 @@ const constant = {
           audit: "/project/sample/audit",             //验收样品 市场部/测试部员工
         },
         solution: {
+          list:  "/project/solution/list",            //查看测试方案 所有人
           write: "/project/solution/write",           //编写测试方案 测试部员工
           audit: "/project/solution/audit",           //审核测试方案 质量部员工
         },
