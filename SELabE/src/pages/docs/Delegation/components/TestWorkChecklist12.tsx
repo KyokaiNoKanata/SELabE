@@ -13,6 +13,7 @@ import {getDelegationById, getTable12, saveTable12} from "@/services/ant-design-
 import API from "@/services/ant-design-pro/typings";
 import {archiveReport} from "@/services/ant-design-pro/report/api";
 import {FormattedMessage} from "@@/plugin-locale/localeExports";
+import constant from "../../../../../config/constant";
 /*
 editable
   1  :  1.1 1.2：市场部审核委托
@@ -48,14 +49,16 @@ const TestWorkChecklist12: React.FC<{
     return data;
   }
   /**
-   * save table 14
+   * save table 12
    * @param value
    */
   const onFinish = async (value: any) => {
-    console.log(value);
     const resp = await saveTable12({
       delegationId: delegationId,
-      data: value,
+      data: {
+        ...constant.tables.table12,
+        ...value,
+      }
     });
     if(resp.code == 0) {
       message.success('保存成功');
@@ -118,11 +121,11 @@ const TestWorkChecklist12: React.FC<{
           <ProFormText name="软件名称" label="软件名称" width={'md'} disabled={true}/>
           <ProFormText name="版本号" label="版本号" width={'md'} disabled={true}/>
           <ProFormText name="申报单位" label="申报单位" width={'md'} disabled={true}/>
-          <ProFormText name="主测人" label="主测人" width={'md'} disabled={prop.editable !== 4}/>
+          <ProFormText name="主测人" label="主测人" width={'md'} disabled={prop.editable !== 4} initialValue={''}/>
           <ProFormGroup>
-            <ProFormDatePicker name="起始时间" label='起始时间' disabled={prop.editable !== 4}/>
-            <ProFormDatePicker name="预计完成时间" label='预计完成时间' disabled={prop.editable !== 4}/>
-            <ProFormDatePicker name="实际完成时间" label='实际完成时间' disabled={prop.editable !== 6}/>
+            <ProFormDatePicker name="起始时间" label='起始时间' disabled={prop.editable !== 4} initialValue={''}/>
+            <ProFormDatePicker name="预计完成时间" label='预计完成时间' disabled={prop.editable !== 4} initialValue={''}/>
+            <ProFormDatePicker name="实际完成时间" label='实际完成时间' disabled={prop.editable !== 6} initialValue={''}/>
           </ProFormGroup>
         </ProCard>
         <ProCard title={'一、前期指导工作'} bordered direction="column">
