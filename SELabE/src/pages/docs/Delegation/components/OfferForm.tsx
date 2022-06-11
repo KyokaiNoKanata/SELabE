@@ -44,6 +44,24 @@ const OfferForm: React.FC<{state: number}> = (props) => {
   const formRef: React.MutableRefObject<ProFormInstance | undefined> = useRef<ProFormInstance>();
   const [editForm] = Form.useForm();
   const [dataSource,setDataSource] = useState<DataSourceType[]>([]);
+  /**
+   * 自动计算总价和税
+   */
+  const [taxRate] = useState<number>(0.08);
+  const handleOnPriceChange = (data: DataSourceType[]) => {
+    let sum = 0;
+    data.forEach(item => {
+      const num: number = Number(item.hangheji);
+      if(!isNaN(num)) {
+        sum += Number(item.hangheji);
+      }
+    })
+    formRef.current?.setFieldsValue({
+      "小计": sum,
+      "税率（8%）": sum * taxRate,
+      "总计": sum + sum * taxRate,
+    });
+  }
   const columns: ProColumns<DataSourceType>[] = [
     {
       title: '项目',
@@ -85,7 +103,9 @@ const OfferForm: React.FC<{state: number}> = (props) => {
         <a
           key="delete"
           onClick={() => {
-            setDataSource(dataSource.filter((item) => item.id !== record.id));
+            const data = dataSource.filter((item) => item.id !== record.id);
+            setDataSource(data);
+            handleOnPriceChange(data);
           }}
         >
           删除
@@ -248,7 +268,10 @@ const OfferForm: React.FC<{state: number}> = (props) => {
                 }),
                 hidden: props.state != 2,
               }}
-              onChange={setDataSource}
+              onChange={(data) => {
+                setDataSource(data);
+                handleOnPriceChange(data);
+              }}
               value={dataSource}
               editable={{
                 type: 'multiple',
@@ -261,9 +284,9 @@ const OfferForm: React.FC<{state: number}> = (props) => {
               }}
             />
           </ProForm.Item>
-          <ProFormText disabled={props.state != 2} name="小计" label="小计" width="xl" initialValue={''}/>
-          <ProFormText disabled={props.state != 2} name="税率（8%）" label="税率（8%）" width="xl" initialValue={''}/>
-          <ProFormText disabled={props.state != 2} name="总计" label="总计" width="xl" initialValue={''}/>
+          <ProFormText disabled={props.state != 2} name="小计" label="小计" width="xl" initialValue={0}/>
+          <ProFormText disabled={props.state != 2} name="税率（8%）" label="税率（8%）" width="xl" initialValue={0}/>
+          <ProFormText disabled={props.state != 2} name="总计" label="总计" width="xl" initialValue={0}/>
           <ProFormText disabled={props.state != 2} name="报价提供人" label="报价提供人" width="xl" initialValue={''}/>
           <ProFormText disabled={props.state != 1} name="sign" label="如果接受报价，请在此签字" width="xl" initialValue={''}/>
           <ProFormText disabled={props.state != 1} name="reason" label="如果不接受报价，请输入理由" width="xl" initialValue={''}/>
