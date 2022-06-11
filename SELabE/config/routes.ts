@@ -106,21 +106,21 @@ export default [
       },
       //市场部/测试部 审核委托
       {
-        path: './audit/testing',
+        path: './audit',
         name: '审核委托',
         icon: 'smile',
         component: './Delegation/Audit'
       },
       //市场部 生成报价
       {
-        path: './offer/market',
+        path: './offer/write',
         name: '生成报价',
         icon: 'smile',
         component: './Delegation/offer/Market',
       },
       //处理报价
       {
-        path: './offer/client',
+        path: './offer/audit',
         name: '处理报价',
         icon: 'smile',
         component: './Delegation/offer/Client',
@@ -154,7 +154,7 @@ export default [
         component: './Contract/upload',
       },
       {
-        path: './delegation/fillProjectId',
+        path: './fillProjectId',
         name: '填写项目编号',
         icon: 'smile',
         component: './Delegation/FillProjectId',

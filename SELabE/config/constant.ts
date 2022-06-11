@@ -199,114 +199,36 @@ const constant = {
   },
   //菜单(真正需要分配的菜单结构) 尚未完善 todo
   menu: {
-    common: {},
-    /**
-     * 普通用户
-     */
-    normal_user: {},
-    /**
-     * 客户
-     */
-    customer: {
+    all: {
       delegation: {
-        list: "/delegation/list/client",   //查看委托
-        offer: "/delegation/offer/client", //审核报价
+        list: "/delegation/list",                     //查看委托 所有人
+        distribute: "/delegation/distribute",         //分配委托 市场部/测试部主管
+        writeOffer: "/delegation/offer/write",        //生成报价 市场部员工
+        auditOffer: "/delegation/offer/audit",        //处理报价 客户
+        writeContract: "/delegation/contract/write",  //填写合同 市场部员工/客户
+        auditContract: "/delegation/contract/audit",  //审核合同 市场部员工/客户
+        uploadContract: "delegation/contract/upload", //上传合同 市场部员工
+        fillProjectId: "/delegation/fillProjectId",   //填写项目编号 测试部主管
       },
-      contract: {
-        list: "/contract/list",            //查看合同
-        create: "/contract/create/client", //填写合同
-        audit: "/contract/audit/client",   //审核合同
-      },
-      sample: {
-        submit: "/sample/submit",          //提交样品
-      },
-      report: {
-        audit: "/report/audit/client",     //审核报告
-        receive: "/report/receive",        //接收报告
-      },
-    },
-    /**
-     * 市场部主管
-     */
-    marketing_department_manger: {
-      delegation: {
-        list: "/delegation/list/common",  //查看委托
-        distribute: "/delegation/distribute/marketing", //市场部分配委托
-      },
-    },
-    /**
-     * 市场部员工
-     */
-    marketingStaff: {
-      delegation: {
-        list: "/delegation/list/common",      //查看委托
-        audit: "/delegation/audit/marketing", //市场部审核委托
-        offer: "/delegation/offer/market",    //生成报价
-      },
-      contract: {
-        list: "/contract/list",               //查看合同
-        create: "/contract/create/staff",     //填写合同草稿
-        audit: "/contract/audit/staff",       //审核合同
-        upload: "/contract/upload",           //上传合同
-      },
-      sample: {
-        audit: "/sample/audit/marketing",     //审核样品
-      },
-      report: {
-        send: "/report/send",                 //发送报告
-      },
-    },
-    /**
-     * 测试部主管
-     */
-    test_department_manager: {
-      delegation: {
-        list: "/delegation/list/common",              //查看委托
-        distribute: "/delegation/distribute/testing", //测试部分配委托
-      },
-      report: {
-        audit: "/report/audit/manager",               //测试部主管检查报告
-      }
-    },
-    /**
-     * 测试部员工
-     */
-    testingStaff: {
-      delegation: {
-        list: "/delegation/list/common",            //查看委托
-        audit: "/delegation/audit/testing",         //测试部审核委托
-      },
-      sample: {
-        audit: "/sample/audit/testing",             //审核样品
-      },
-      solution: {
-        write: "/sample/write",                     //填写测试方案
-      },
-      report: {
-        write: "/report/write",                     //填写测试文档
-        archive: "/report/archive",                 //归档测试报告
-      },
-    },
-    /**
-     * 质量部员工
-     */
-    quality_department_staff: {
-      delegation: {
-        list: "/delegation/list/common",          //查看委托
-      },
-      solution: {
-        audit: "/solution/audit",                 //审核测试方案
-      }
-    },
-    /**
-     * 签字人
-     */
-    signatory: {
-      delegation: {
-        list: "/delegation/list/common",          //查看委托
-      },
-      report: {
-        audit: "/report/audit/signatory",         //审核测试报告
+      project: {
+        list:   "/project/list",                      //查看项目 所有人
+        sample: {
+          list: "/project/sample/list",               //查看样品 所有人
+          submit: "/project/sample/submit",           //上传样品 客户
+          audit: "/project/sample/audit",             //验收样品 市场部/测试部员工
+        },
+        solution: {
+          write: "/project/solution/write",           //编写测试方案 测试部员工
+          audit: "/project/solution/audit",           //审核测试方案 质量部员工
+        },
+        report: {
+          read:  "/project/report/read",              //查看测试报告 所有人
+          write: "/project/report/write",             //填写测试报告 测试部员工
+          audit: "/project/report/audit",             //审核测试报告 测试部主管/客户/签字人
+          archive: "/project/report/archive",         //归档测试报告 测试部员工
+          send: "/project/report/send",               //发送测试报告 市场部员工
+          receive: "/project/report/receive",         //接收测试报告 客户
+        }
       }
     },
   }

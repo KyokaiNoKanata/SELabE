@@ -17,6 +17,11 @@ const DownloadReport: React.FC = () => {
       <ProCard>
         <div>
           <a onClick={async () => {
+            await downloadPDFByDelegation(delegationId,"table6");
+          }}>下载测试方案</a>
+        </div>
+        <div>
+          <a onClick={async () => {
             await downloadPDFByDelegation(delegationId,"table8");
           }}>下载测试用例</a>
         </div>
