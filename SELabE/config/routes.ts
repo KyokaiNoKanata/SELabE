@@ -261,7 +261,7 @@ export default [
             icon: 'smile',
             component: './Report/Write',
           },
-          //(测试部主管)审核测试报告
+          /*//(测试部主管)审核测试报告
           {
             path: './audit/manager',
             name: '(测试部主管)审核测试报告',
@@ -281,7 +281,15 @@ export default [
             name: '(签字人)审核测试报告',
             icon: 'smile',
             component: './Report/audit/Signatory',
-          }, //测试部员工 归档测试报告
+          },*/
+          //审核测试报告
+          {
+            path: './audit',
+            name: '审核测试报告',
+            icon: 'smile',
+            component: './Report/audit',
+          },
+          //测试部员工 归档测试报告
           {
             path: './archive',
             name: '归档测试报告',
