@@ -170,7 +170,7 @@ const DelegationList: React.FC<DelegationListType> = (props) => {
       current?: number;
     } & {
       name?: string;
-      //projectId?: number;
+      projectId?: string;
     },
     /**
      * 排序对象
@@ -188,7 +188,7 @@ const DelegationList: React.FC<DelegationListType> = (props) => {
       pageSize: params.pageSize!,
       pageNo: params.current!,
       name: params.name,
-      //projectId: params.projectId,
+      projectId: params.projectId,
     }
     if (sort && sort != {}) {
       //todo
