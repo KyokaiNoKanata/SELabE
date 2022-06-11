@@ -47,6 +47,7 @@ const OfferForm: React.FC<{state: number}> = (props) => {
   /**
    * 自动计算总价和税
    */
+  /*
   const [taxRate] = useState<number>(0.08);
   const handleOnPriceChange = (data: DataSourceType[]) => {
     let sum = 0;
@@ -62,6 +63,7 @@ const OfferForm: React.FC<{state: number}> = (props) => {
       "总计": sum + sum * taxRate,
     });
   }
+  */
   const columns: ProColumns<DataSourceType>[] = [
     {
       title: '项目',
@@ -105,7 +107,7 @@ const OfferForm: React.FC<{state: number}> = (props) => {
           onClick={() => {
             const data = dataSource.filter((item) => item.id !== record.id);
             setDataSource(data);
-            handleOnPriceChange(data);
+            //handleOnPriceChange(data);
           }}
         >
           删除
@@ -270,7 +272,7 @@ const OfferForm: React.FC<{state: number}> = (props) => {
               }}
               onChange={(data) => {
                 setDataSource(data);
-                handleOnPriceChange(data);
+                //handleOnPriceChange(data);
               }}
               value={dataSource}
               editable={{
