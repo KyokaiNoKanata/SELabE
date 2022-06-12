@@ -72,6 +72,7 @@ const CheckDelegation: React.FC<{
       actionRef={props.actionRef}
       queryParams={queryParams}
       changeable={true}
+      queryState={true}
     />
   )
 }

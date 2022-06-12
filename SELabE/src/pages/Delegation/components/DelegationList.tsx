@@ -121,6 +121,10 @@ export type DelegationListType = {
    */
   changeable?: boolean;
   /**
+   * 是否列出全部，如果是，才可以根据状态查询，不然已经有状态限制了
+   */
+  queryState?: boolean;
+  /**
    * 前置列
    */
   columnsBefore?: ProColumns<API.DelegationItem>[];
@@ -171,6 +175,7 @@ const DelegationList: React.FC<DelegationListType> = (props) => {
     } & {
       name?: string;
       projectId?: string;
+      state?: string;
     },
     /**
      * 排序对象
@@ -189,6 +194,7 @@ const DelegationList: React.FC<DelegationListType> = (props) => {
       pageNo: params.current!,
       name: params.name,
       projectId: params.projectId,
+      state: params.state,
     }
     if (sort && sort != {}) {
       //todo
@@ -284,9 +290,28 @@ const DelegationList: React.FC<DelegationListType> = (props) => {
       title: <FormattedMessage id="pages.searchTable.titleStatus" defaultMessage="Status"/>,
       dataIndex: 'state',
       hideInForm: false,
-      hideInSearch: true,//
+      hideInSearch: !props.queryState,//
       sorter: true,
-      //todo:render
+      valueType: 'select',
+      valueEnum: {
+        "": {
+          text: '全部委托',
+          status: 'Default',
+        },
+        "470,480": {
+          text: '已取消的委托',
+          status: 'Error',
+        },
+        "235,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460": {
+          text: '已立项的委托',
+          status: 'Success',
+        },
+        "10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230" : {
+          text: '进行中的委托',
+          status: 'Processing',
+        }
+      }
+      //render
     },
     /*//状态变更时间
     {
@@ -296,7 +321,7 @@ const DelegationList: React.FC<DelegationListType> = (props) => {
       hideInTable: true,
       valueType: 'dateTime',
       render: (text, record) => [
-        // todo format Date
+        //  format Date
         //String(new Date(record.operateTime))
         //new Date(record.operateTime).toLocaleTimeString()
         new Date(record.update_time!).toLocaleString()
