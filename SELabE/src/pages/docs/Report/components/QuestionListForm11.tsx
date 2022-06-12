@@ -27,7 +27,7 @@ type DataSourceType = {
 
 /**
  * 问题清单 table11
- * @param props isClient 判断身份是不是客户，如果是，则前面只能看不能写，最后签字，不然，是市场部，
+ * @param props editable: 是否可编辑
  * @constructor
  */
 //editable为true可编辑

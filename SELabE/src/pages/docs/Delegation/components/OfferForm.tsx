@@ -32,6 +32,7 @@ type DataSourceType = {
 
 
 /**
+ * 报价单
  * state = 1:是客户
  * state = 2:是市场部
  * state = 0:只读

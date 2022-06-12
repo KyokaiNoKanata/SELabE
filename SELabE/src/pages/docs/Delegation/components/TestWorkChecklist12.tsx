@@ -27,7 +27,13 @@ const TestWorkChecklist12: React.FC<{
   editable: number,
 }> = (prop) => {
   const params = useLocation();
+  /**
+   * 委托id
+   */
   const delegationId = !params.state ? -1 : (params.state as any).id;
+  /**
+   * 报告id
+   */
   const [reportId,setReportId] = useState<number|undefined>(undefined);
   const formRef: React.MutableRefObject<ProFormInstance | undefined> = useRef<ProFormInstance>();
   const request = async () => {
@@ -48,8 +54,8 @@ const TestWorkChecklist12: React.FC<{
     return data;
   }
   /**
-   * save table 12
-   * @param value
+   * 保存 table12
+   * @param value: json 对象
    */
   const onSave = async (value: any) => {
     const resp = await saveTable12({

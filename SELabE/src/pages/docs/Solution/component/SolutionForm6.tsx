@@ -14,7 +14,11 @@ import {Button, message} from 'antd';
 import {useLocation} from 'react-router-dom';
 import {getDelegationById} from "@/services/ant-design-pro/delegation/api";
 
-//测试方案表单 table6
+/**
+ * 测试方案表单 table6
+ * @param props.editable: 是否可以贱婢
+ * @constructor
+ */
 const SolutionForm6: React.FC<{
   editable: boolean,//是否可编辑
 }> = (props) => {

@@ -1,7 +1,10 @@
 import request from "umi-request";
 import type API from "@/services/ant-design-pro/typings";
 
-//通过委托id创建样品
+/**
+ * 根据委托id创建对应的样品
+ * @param body.delegationId:委托id
+ */
 export async function createSample(
   body: {
     delegationId: number,
@@ -13,8 +16,10 @@ export async function createSample(
   });
 }
 
-//客户 更新样品
-//admin-api/system/sample/update
+/**
+ * 客户更新样品
+ * @param body 样品内容
+ */
 export async function updateSample(
   body: {
     id: number,//样品编号
@@ -30,7 +35,10 @@ export async function updateSample(
   });
 }
 
-//客户 提交样品
+/**
+ * 客户提交样品
+ * @param body.id:样品编号
+ */
 export async function submitSample(
   body: {
     id: number,//样品编号
@@ -42,7 +50,10 @@ export async function submitSample(
   });
 }
 
-//通过样品 id 获得样品
+/**
+ * 通过id获得样品
+ * @param sampleId：样品id
+ */
 export async function getSampleById(
   sampleId: number
 ) {
@@ -54,7 +65,11 @@ export async function getSampleById(
   });
 }
 
-//市场部/测试部 审核样品通过/不通过
+/**
+ * 审核样品通过
+ * @param body.sampleId: 样品编号
+ * @param body.remark: 审核意见
+ */
 export async function auditSampleSuccess(body: {
                                            sampleId: number,
                                            remark: string,
@@ -69,6 +84,11 @@ export async function auditSampleSuccess(body: {
   });
 }
 
+/**
+ * 审核样品不通过
+ * @param body.sampleId: 样品编号
+ * @param body.remark: 审核意见
+ */
 export async function auditSampleFail(body: {
                                         sampleId: number;
                                         remark: string;

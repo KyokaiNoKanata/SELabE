@@ -1,5 +1,5 @@
 import request from 'umi-request';
-import type {API} from '@/services/ant-design-pro/typings';
+import type API from '@/services/ant-design-pro/typings';
 
 /**
  * 获取测试方案分页
@@ -32,7 +32,6 @@ export async function solutionPage(
  * @param delegationId: 委托编号
  * @return resp.data = solutionId
  */
-///admin-api/system/solution/create
 export async function createSolution(delegationId: number) {
   return request<API.Response>('/admin-api/system/solution/create', {
     method: 'POST',
@@ -42,7 +41,11 @@ export async function createSolution(delegationId: number) {
   });
 }
 
-
+/**
+ * 保存测试方案表格
+ * @param body.solutionId：测试方案表格编号
+ * @param body.data: json对象
+ */
 export async function saveSolution(body: { solutionId: number; data: object }) {
   return request<API.Response>('/admin-api/system/solution/save/table6', {
     method: 'PUT',
@@ -56,6 +59,7 @@ export async function saveSolution(body: { solutionId: number; data: object }) {
 /**
  * 获得测试方案
  * GET /admin-api/system/solution/get
+ * @param params.id: 测试方案编号
  */
 export async function getSolution(params: { id: number }) {
   return request<API.Response>('/admin-api/system/solution/get', {
@@ -67,7 +71,7 @@ export async function getSolution(params: { id: number }) {
 /**
  * 获得测试方案表格
  * GET /admin-api/system/solution/get/table6
- * id
+ * @param params.id:测试方案表格编号
  */
 export async function getSolutionTable(params: { id: string }) {
   return request<API.Response>('/admin-api/system/solution/get/table6', {
@@ -78,6 +82,7 @@ export async function getSolutionTable(params: { id: string }) {
 
 /**
  * 提交测试方案
+ * @param solutionId：测试方案表格编号
  */
 export async function submitSolution(solutionId: number) {
   return request<API.Response>('/admin-api/system/solution/submit/table6', {
@@ -89,7 +94,8 @@ export async function submitSolution(solutionId: number) {
 }
 
 /**
- * 质量部审核通过/不通过
+ * 质量部审核测试方案通过
+ * @param solutionId：测试方案编号
  */
 export async function auditSolutionSuccess(solutionId: number) {
   return request<API.Response>('/admin-api/system/solution/audit/success', {
@@ -99,7 +105,10 @@ export async function auditSolutionSuccess(solutionId: number) {
     }
   });
 }
-
+/**
+ * 质量部审核测试方案不通过
+ * @param solutionId 测试方案编号
+ */
 export async function auditSolutionFail(solutionId: number) {
   return request<API.Response>('/admin-api/system/solution/audit/fail', {
     method: 'PUT',
@@ -108,11 +117,10 @@ export async function auditSolutionFail(solutionId: number) {
     }
   });
 }
-
 /**
- * 测试方案评审表 table13
+ * 获得测试方案评审表table13
+ * @param params.id: 表格编号
  */
-//根据表格id获得合同表table13
 export function getTable13(params: {
   id: number
 }) {
@@ -123,7 +131,11 @@ export function getTable13(params: {
   )
 }
 
-//保存 测试方案评审表 table13
+/**
+ * 保存测试方案评审表 table13
+ * @param body.solutionId:表格编号
+ * @param body.data:json对象
+ */
 export function saveTable13(body: {
   solutionId: number,
   data: object,

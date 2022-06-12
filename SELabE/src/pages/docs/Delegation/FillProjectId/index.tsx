@@ -4,6 +4,9 @@ import {fillProjectId, saveTable2} from "@/services/ant-design-pro/delegation/ap
 import ProForm, {ProFormInstance,  ProFormText} from "@ant-design/pro-form";
 import React, {useRef} from "react";
 
+/**
+ * 分配项目编号
+ */
 export default () => {
   const params = useLocation();
   const delegationId: number = !params.state ? -1 : (params.state as any).id;

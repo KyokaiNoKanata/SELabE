@@ -16,7 +16,11 @@ type DataSourceType = {
   desc?: string;
   result?: string;
 };
-
+/**
+ * 测试报告检查表
+ * @param props.editable 能否编辑
+ * @constructor
+ */
 const TestReportCheckListForm10: React.FC<{
   editable: boolean,
 }> = (props) => {
@@ -154,6 +158,10 @@ const TestReportCheckListForm10: React.FC<{
   const [editableKeys, setEditableRowKeys] = useState<React.Key[]>(() =>
     defaultData.map((item) => item.id)
   );
+  /**
+   * 保存table10
+   * @param value json对象
+   */
   const onFinish = async (value: any) => {
     console.log(value);
     const reportId = (await getDelegationById(delegationId)).data.reportId;

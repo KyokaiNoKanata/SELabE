@@ -14,7 +14,10 @@ const list = [
   }
 ];
 
-
+/**
+ * 审核测试方案
+ * @constructor
+ */
 const AuditSolutionForm = () => {
   const [activeTabKey, setActiveTabKey] = useState('测试方案');
   const onTabChange = (key: any) => {

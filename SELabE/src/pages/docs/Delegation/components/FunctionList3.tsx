@@ -11,6 +11,12 @@ import {
 } from '@/services/ant-design-pro/delegation/api';
 import React from "react";
 import API from "@/services/ant-design-pro/typings"
+
+/**
+ * 功能列表
+ * @param prop
+ * @constructor
+ */
 const FunctionList3: React.FC<{ editable: boolean, isClient: boolean }> = (prop) => {
   const params = useLocation();
   const delegationId = !params.state ? -1 : (params.state as any).id

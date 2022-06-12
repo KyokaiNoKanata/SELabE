@@ -5,6 +5,10 @@ import {PageContainer} from "@ant-design/pro-layout";
 import {downloadPDFByDelegation} from "@/services/ant-design-pro/file/api";
 import {useLocation} from "react-router-dom";
 
+/**
+ * 下载测试报告 页面
+ * @constructor
+ */
 const DownloadReport: React.FC = () => {
   const params = useLocation();
   const delegationId: number = !params.state ? -1 : (params.state as any).id;

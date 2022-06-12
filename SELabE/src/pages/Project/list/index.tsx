@@ -6,6 +6,10 @@ import type {ProColumns} from "@ant-design/pro-table";
 import {Link} from "umi";
 import {Button} from "antd";
 import constant from "../../../../config/constant";
+/**
+ * 查看项目
+ * @constructor
+ */
 const ProjectList: React.FC = () => {
   const operationColumns: ProColumns<API.DelegationItem>[] = [
     /** 查看详情 */

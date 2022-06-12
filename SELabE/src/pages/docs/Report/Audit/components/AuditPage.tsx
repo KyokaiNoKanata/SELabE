@@ -6,6 +6,11 @@ import ProForm, {ProFormInstance, ProFormSelect, ProFormText} from "@ant-design/
 import React, {useRef} from "react";
 import API from "@/services/ant-design-pro/typings";
 
+/**
+ * 审核页面
+ * @param props person: 身份
+ * @constructor
+ */
 const AuditPage: React.FC<{
   person: string,
 }> = (props) => {

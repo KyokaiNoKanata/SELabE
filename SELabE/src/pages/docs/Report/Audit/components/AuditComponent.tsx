@@ -10,6 +10,11 @@ import type {CardTabListType} from "antd/es/card";
 import TestWorkChecklist12 from "@/pages/docs/Delegation/components/TestWorkChecklist12";
 import DownloadReport from "@/pages/docs/Report/components/DownloadReport";
 //import { useLocation } from 'react-router-dom';
+/**
+ * 审核
+ * @param props
+ * @constructor
+ */
 const AuditComponent: React.FC<{
   person: string;
   audit: boolean; //带审核
