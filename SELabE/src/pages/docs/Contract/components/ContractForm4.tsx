@@ -227,7 +227,6 @@ const ContractForm4: React.FC<{
               <ProFormText name='委托方开户银行' label='开户银行' disabled={prop.editable != 1} initialValue={''}/>
               <ProFormText name='委托方账号' label='账号' disabled={prop.editable != 1} initialValue={''}/>
               <ProFormText name='委托方邮编' label='邮编' disabled={prop.editable != 1} initialValue={''}/>
-              <div>传真:62661627</div>
             </ProCard>
             <ProCard title="受托方" bordered>
               <div>单位全称:南京大学计算机软件新技术国家重点实验室(签章)</div>
