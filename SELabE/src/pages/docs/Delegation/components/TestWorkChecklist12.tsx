@@ -2,12 +2,12 @@ import ProForm, {
   ProFormGroup,
   ProFormDatePicker,
   ProFormText,
-  ProFormSelect,
+  ProFormSelect, ProFormInstance,
 } from '@ant-design/pro-form';
 import ProCard from '@ant-design/pro-card';
 import {PageContainer} from '@ant-design/pro-layout';
 import {Button, message, Modal, PageHeader} from 'antd';
-import React, {useState} from "react";
+import React, {useRef, useState} from "react";
 import {useLocation} from "umi";
 import {getDelegationById, getTable12, saveTable12} from "@/services/ant-design-pro/delegation/api";
 import API from "@/services/ant-design-pro/typings";
@@ -29,7 +29,7 @@ const TestWorkChecklist12: React.FC<{
   const params = useLocation();
   const delegationId = !params.state ? -1 : (params.state as any).id;
   const [reportId,setReportId] = useState<number|undefined>(undefined);
-  //const formRef: React.MutableRefObject<ProFormInstance | undefined> = useRef<ProFormInstance>();
+  const formRef: React.MutableRefObject<ProFormInstance | undefined> = useRef<ProFormInstance>();
   const request = async () => {
     const delegation: API.DelegationItem = (await getDelegationById(delegationId)).data;
     const table12Id = delegation.table12Id;
@@ -53,6 +53,8 @@ const TestWorkChecklist12: React.FC<{
    * @param value
    */
   const onFinish = async (value: any) => {
+    const v = formRef.current?.getFieldFormatValue!();
+    console.log(v);
     const resp = await saveTable12({
       delegationId: delegationId,
       data: {
@@ -116,6 +118,7 @@ const TestWorkChecklist12: React.FC<{
                }}
         //从后端请求数据显示
                request={request}
+               formRef={formRef}
       >
         <ProCard bordered>
           <ProFormText name="软件名称" label="软件名称" width={'md'} disabled={true}/>

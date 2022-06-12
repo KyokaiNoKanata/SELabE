@@ -213,6 +213,7 @@ const constant = {
       delegation: {
         list: "/delegation/list",                     //查看委托 所有人
         distribute: "/delegation/distribute",         //分配委托 市场部/测试部主管
+        audit: "/delegation/audit",                   //审核委托 市场部/测试部员工
         writeOffer: "/delegation/offer/write",        //生成报价 市场部员工
         auditOffer: "/delegation/offer/audit",        //处理报价 客户
         writeContract: "/delegation/contract/write",  //填写合同 市场部员工/客户
