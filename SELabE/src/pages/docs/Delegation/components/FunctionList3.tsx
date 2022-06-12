@@ -60,6 +60,9 @@ const FunctionList3: React.FC<{ editable: boolean, isClient: boolean }> = (prop)
     })
     if (res.code == 0) {
       message.success('委托已提交');
+      const a = document.createElement("a");
+      a.href = "/delegation/list";//
+      a.click();
     } else {
       //message.error(res.msg)
       message.error('请先保存表单');

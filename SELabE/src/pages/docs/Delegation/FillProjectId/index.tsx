@@ -25,9 +25,10 @@ export default () => {
       });
       if(resp1.code!=0) {
         message.error(resp1.msg);
+        return;
       }
       const a = document.createElement("a");
-      a.href = "../../project/list";//
+      a.href = "/project/list";//
       a.click();
     } else {
       message.error(resp.msg);
