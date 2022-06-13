@@ -21,11 +21,11 @@ const ProjectList: React.FC = () => {
       sorter: false,
       render: (text: ReactNode, record: API.DelegationItem) => {
         const {id} = record;
-        return [
+        return (
           <Link to={{pathname: constant.docPath.project.DETAIL, state: {id: id}}}>
             <Button type="primary">查看项目</Button>
           </Link>
-        ]
+        )
       }
     }
     ];

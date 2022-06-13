@@ -482,7 +482,7 @@ const StepDocReview14: React.FC<{editable: boolean}> = (props) => {
                   </div>
                 );
               } else if (submitterProps.step === 1) {
-                return [
+                return (
                   <div style={
                     {
                       textAlign: "center",
@@ -494,10 +494,10 @@ const StepDocReview14: React.FC<{editable: boolean}> = (props) => {
                     </Button>,
                     <Button type="primary" onClick={() => submitterProps.onSubmit?.()}>
                       下一步 {'>'}
-                    </Button></div>,
-                ];
+                    </Button></div>
+                );
               } else if (submitterProps.step === 2) {
-                return [
+                return (
                   <div style={
                     {
                       textAlign: "center",
@@ -510,9 +510,9 @@ const StepDocReview14: React.FC<{editable: boolean}> = (props) => {
                     <Button type="primary" onClick={() => submitterProps.onSubmit?.()}>
                       下一步 {'>'}
                     </Button>,
-                  </div>,
-                ];
-              } else return [
+                  </div>
+                );
+              } else return (
                 <div style={
                   {
                     textAlign: "right",
@@ -531,7 +531,7 @@ const StepDocReview14: React.FC<{editable: boolean}> = (props) => {
                     </Button>
                   </ProForm.Group>
                 </div>
-              ];
+              );
             },
           }}
           stepsProps={{

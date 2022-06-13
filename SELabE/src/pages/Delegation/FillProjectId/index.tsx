@@ -20,11 +20,11 @@ export default () => {
         //填写项目编号
         const {id} = record;
         if(record.state == constant.delegationState. WAITING_TESTING_DEPT_MANAGER_FILL_PROJECT_ID.desc) {
-          return [
+          return (
             <Link to={{pathname: constant.docPath.delegation.FILL_PROJECT_ID, state: {id: id}}}>
               <Button type="primary">填写项目编号</Button>
             </Link>
-          ]
+          )
         } else {
           return [];
         }

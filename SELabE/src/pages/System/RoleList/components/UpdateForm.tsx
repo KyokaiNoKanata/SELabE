@@ -86,9 +86,7 @@ const UpdateForm: React.FC<UpdateFormProps> = (props) => {
             return options;
             }
           }
-          >
-
-        </ProFormSelect>
+           />
       </ProForm>
     </Modal>
 

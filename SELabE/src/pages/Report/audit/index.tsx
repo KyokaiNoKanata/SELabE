@@ -42,11 +42,11 @@ export default () => {
           return [];
         }
         const {id} = record;
-        return [
+        return (
           <Link to={{pathname: path, state: {id: id}}}>
             <Button type="primary">审核测试报告</Button>
-          </Link>,
-        ];
+          </Link>
+        );
       }
     }
   ];

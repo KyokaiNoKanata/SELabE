@@ -1,8 +1,9 @@
+import type { ProFormInstance} from '@ant-design/pro-form';
 import ProForm, {
   ProFormGroup,
   ProFormDatePicker,
   ProFormText,
-  ProFormSelect, ProFormInstance,
+  ProFormSelect
 } from '@ant-design/pro-form';
 import ProCard from '@ant-design/pro-card';
 import {PageContainer} from '@ant-design/pro-layout';
@@ -10,7 +11,7 @@ import {Button, message, Modal, PageHeader} from 'antd';
 import React, {useRef, useState} from "react";
 import {useLocation} from "umi";
 import {getDelegationById, getTable12, saveTable12} from "@/services/ant-design-pro/delegation/api";
-import API from "@/services/ant-design-pro/typings";
+import type API from "@/services/ant-design-pro/typings";
 import {archiveReport} from "@/services/ant-design-pro/report/api";
 import {FormattedMessage} from "@@/plugin-locale/localeExports";
 import constant from "../../../../../config/constant";

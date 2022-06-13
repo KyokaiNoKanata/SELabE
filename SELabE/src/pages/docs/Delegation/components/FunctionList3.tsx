@@ -10,7 +10,7 @@ import {
   submitDelegation
 } from '@/services/ant-design-pro/delegation/api';
 import React from "react";
-import API from "@/services/ant-design-pro/typings"
+import type API from "@/services/ant-design-pro/typings"
 
 /**
  * 功能列表
@@ -21,7 +21,7 @@ const FunctionList3: React.FC<{ editable: boolean, isClient: boolean }> = (prop)
   const params = useLocation();
   const delegationId = !params.state ? -1 : (params.state as any).id
   const request = async () => {
-    const delegation:API.DelegationItem = (await getDelegationById(delegationId)).data;
+    const delegation: API.DelegationItem = (await getDelegationById(delegationId)).data;
     const table3Id = delegation.table3Id;
     let data = {};
     if(delegation.table2Id) {

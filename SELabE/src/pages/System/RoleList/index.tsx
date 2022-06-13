@@ -199,9 +199,7 @@ const RoleList: React.FC = () => {
         // }}
         onCancel={()=>{
           handleModalVisible(false);
-        }}>
-
-      </CreateForm>
+        }} />
 
       <UpdateForm
         onSubmit={async (value) => {

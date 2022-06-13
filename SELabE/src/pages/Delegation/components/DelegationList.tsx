@@ -1,6 +1,7 @@
 import {ExclamationCircleOutlined, PlusOutlined} from '@ant-design/icons';
 import {Button, Drawer, message, Modal} from 'antd';
-import React, {ReactNode, useRef, useState} from 'react';
+import type {ReactNode} from 'react';
+import React, { useRef, useState} from 'react';
 
 import {PageContainer} from '@ant-design/pro-layout';
 import type {ActionType, ProColumns} from '@ant-design/pro-table';
@@ -21,7 +22,7 @@ import {FormattedMessage} from "@@/plugin-locale/localeExports";
 import {Link, useIntl} from "umi";
 import {currentUser} from "@/services/ant-design-pro/api";
 import constant from "../../../../config/constant";
-import {ProFormInstance} from "@ant-design/pro-form/lib/BaseForm/BaseForm";
+import type {ProFormInstance} from "@ant-design/pro-form/lib/BaseForm/BaseForm";
 
 const {confirm} = Modal;
 
@@ -451,20 +452,20 @@ const DelegationList: React.FC<DelegationListType> = (props) => {
         if ((record.state == constant.delegationState.DELEGATE_WRITING.desc
           || record.state == constant.delegationState.MARKETING_DEPARTMENT_AUDIT_DELEGATION_FAIL.desc
           || record.state == constant.delegationState.TESTING_DEPARTMENT_AUDIT_DELEGATION_FAIL.desc)) {
-          return [
+          return (
             <Link to={{pathname: constant.docPath.delegation.APPLY, state: {id: id}}}>
               <Button type="primary">填写</Button>
             </Link>
-          ]
+          )
         } else if(record.state == constant.delegationState.CLIENT_CANCEL_DELEGATION.desc
           || record.state == constant.delegationState.ADMIN_CANCEL_DELEGATION.desc){
-          return [
+          return (
             <text>委托已取消</text>
-          ]
+          )
         } else {
-          return [
+          return (
             <text>委托已填写</text>
-          ]
+          )
         }
       }
     },
@@ -528,13 +529,12 @@ const DelegationList: React.FC<DelegationListType> = (props) => {
               label={'委托编号'}
               readonly
               initialValue={record.id}
-            ></ProFormText>
+             />
             <ProFormText
               label={'取消理由'}
               name={'cancelRemark'}
               placeholder={'请输入取消理由'}
-            >
-            </ProFormText>
+             />
           </ModalForm>
         ]
       }

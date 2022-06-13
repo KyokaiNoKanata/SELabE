@@ -25,11 +25,11 @@ export default () => {
         //const {solutionId} = record;//到这里肯定有测试方案了
         //统一
         const {id} = record;
-        return [
+        return (
           <Link to={{pathname: constant.docPath.solution.AUDIT, state: {id: id}}}>
             <Button type="primary">审核测试方案</Button>
-          </Link>,
-        ];
+          </Link>
+        );
       }
     }
   ];

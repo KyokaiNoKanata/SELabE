@@ -2,9 +2,10 @@ import {message} from "antd";
 import {acceptReport, rejectReport} from "@/services/ant-design-pro/report/api";
 import {useLocation} from "react-router-dom";
 import {getDelegationById} from "@/services/ant-design-pro/delegation/api";
-import ProForm, {ProFormInstance, ProFormSelect, ProFormText} from "@ant-design/pro-form";
+import type {ProFormInstance} from "@ant-design/pro-form";
+import ProForm, { ProFormSelect, ProFormText} from "@ant-design/pro-form";
 import React, {useRef} from "react";
-import API from "@/services/ant-design-pro/typings";
+import type API from "@/services/ant-design-pro/typings";
 
 /**
  * 审核页面

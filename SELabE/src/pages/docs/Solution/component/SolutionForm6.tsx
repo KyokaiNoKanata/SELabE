@@ -86,7 +86,7 @@ const SolutionForm6: React.FC<{
         submitter={{
           render: (submitterProps) => {
             if (submitterProps.step != 5) {
-              return [
+              return (
                 <div style={
                   {
                     textAlign: "center",
@@ -98,13 +98,13 @@ const SolutionForm6: React.FC<{
                   </Button>,
                   <Button type="primary" onClick={() => submitterProps.onSubmit?.()}>
                     下一步 {'>'}
-                  </Button></div>,
-              ];
+                  </Button></div>
+              );
             }
             //最后一页
             //可以保存，提交
             if (props.editable) {
-              return ([
+              return (
                 <div style={
                   {
                     textAlign: "right",
@@ -123,11 +123,11 @@ const SolutionForm6: React.FC<{
                     </Button>
                   </ProForm.Group>
                 </div>
-              ]);
+              );
             }
             //只读
             else {
-              return ([
+              return (
                 <div style={
                   {
                     textAlign: "right",
@@ -140,7 +140,7 @@ const SolutionForm6: React.FC<{
                     </Button>,
                   </ProForm.Group>
                 </div>
-              ]);
+              );
             }
           },
         }}

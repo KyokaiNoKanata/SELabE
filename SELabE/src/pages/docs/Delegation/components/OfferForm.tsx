@@ -7,14 +7,15 @@ import ProForm, {
 } from "@ant-design/pro-form";
 import React, {useRef, useState} from 'react';
 import ProCard from "@ant-design/pro-card";
-import {EditableProTable, ProColumns} from "@ant-design/pro-table";
+import type { ProColumns} from "@ant-design/pro-table";
+import {EditableProTable} from "@ant-design/pro-table";
 import {
   acceptOffer, getDelegationById,
   getOffer, rejectOffer,
   saveOffer, submitOffer,
 } from "@/services/ant-design-pro/delegation/api";
 import {useLocation} from "react-router-dom";
-import {ProFormInstance} from "@ant-design/pro-form/lib/BaseForm/BaseForm";
+import type {ProFormInstance} from "@ant-design/pro-form/lib/BaseForm/BaseForm";
 import Form from "@ant-design/pro-form";
 const {confirm} = Modal;
 type DataSourceType = {

@@ -278,7 +278,7 @@ const SolutionReviewForm13: React.FC<{
           submitter={{
             render: () => {
               if (props.editable) {
-                return ([
+                return (
                   <div style={
                     {
                       textAlign: "right",
@@ -297,7 +297,7 @@ const SolutionReviewForm13: React.FC<{
                       </Button>
                     </ProForm.Group>
                   </div>
-                ]);
+                );
               }
               return [];
             },

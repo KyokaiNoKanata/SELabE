@@ -134,7 +134,7 @@ const ContractForm4: React.FC<{
                       textAlign: "center",
                       margin: 20,
                     }
-                  }><Button type="primary" onClick={() => props.onSubmit?.()}>
+                  } key={'normal'}><Button type="primary" onClick={() => props.onSubmit?.()}>
                     下一步 {'>'}
                   </Button>
                   </div>
@@ -145,7 +145,8 @@ const ContractForm4: React.FC<{
                     textAlign: "right",
                     margin: 20,
                   }
-                }>
+                }
+                key={'last'}>
                   <ProForm.Group>
                     <Button onClick={() => props.onPre?.()}>
                       {'<'} 上一步
