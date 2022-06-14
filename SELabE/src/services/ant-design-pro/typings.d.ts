@@ -438,9 +438,8 @@ declare namespace API {
   };
 
   type MenuData = {
-    code?: string;
-    data: MenuDataItem[];
-    msg?: string;
+    list?: MenuDataItem[];
+    total?: number;
   }
 
   type MenuDataItem = {
@@ -454,11 +453,15 @@ declare namespace API {
   type RoleDataItem = {
     id?: number;
     name?: string;
+    mark?: string;
+    sort?: number;
+    code?: number;
     menuIds?: number[];
   }
 
   type RoleData = {
-    data?: RoleDataItem[];
+    list?: MenuDataItem[];
+    total?: number;
   }
 
   type UserDataItem = {
