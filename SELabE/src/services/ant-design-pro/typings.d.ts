@@ -453,11 +453,15 @@ declare namespace API {
   type RoleDataItem = {
     id?: number;
     name?: string;
+    mark?: string;
+    sort?: number;
+    code?: number;
     menuIds?: number[];
   }
 
   type RoleData = {
-    data?: RoleDataItem[];
+    list?: MenuDataItem[];
+    total?: number;
   }
 
   type UserDataItem = {

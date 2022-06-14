@@ -20,6 +20,21 @@ export async function menuList(
   });
 }
 
+export async function allMenus(
+  options?: Record<string, any>,
+  params?: any
+) {
+  return request<{
+    data: API.MenuDataItem[]
+  }>('/admin-api/system/front/menu/list-all-simple', {
+    method: 'GET',
+    params: {
+      ...params,
+    },
+    ...(options || {}),
+  });
+}
+
 export async function addMenuItem(data?: API.MenuDataItem, options?: Record<string, any>) {
   return request<API.Response>('/admin-api/system/front/menu/create', {
     method: 'POST',
@@ -47,13 +62,43 @@ export async function deleteMenuItem(id: number, options?: Record<string, any>) 
 }
 
 export async function roleList(
+  params?: {
+    pageSize?: number;
+    current?: number;
+  },
   options?: Record<string, any>,
 ) {
   return request<{
     data: API.RoleData;
-  }>('/admin-api/system/front/role/list-all-simple', {
+  }>('/admin-api/system/front/role/page', {
     method: 'GET',
     params: {},
+    ...(options || {}),
+  });
+}
+
+export async function addRoleItem(data?: API.RoleDataItem, options?: API.RoleDataItem) {
+  return request<API.Response>('/admin-api/system/front/role/create', {
+    method: 'POST',
+    data,
+    ...(options || {}),
+  });
+}
+
+export async function updateRoleItem(data?: API.RoleDataItem, options?: API.RoleDataItem) {
+  return request<API.Response>('/admin-api/system/front/role/update', {
+    method: 'PUT',
+    data,
+    ...(options || {}),
+  });
+}
+
+export async function deleteRoleItem(id: number, options?: any) {
+  return request<API.Response>('/admin-api/system/front/role/delete', {
+    method: 'DELETE',
+    params:{
+      id: id,
+    },
     ...(options || {}),
   });
 }

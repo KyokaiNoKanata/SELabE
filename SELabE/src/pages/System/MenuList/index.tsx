@@ -129,7 +129,7 @@ const MenuList: React.FC = () => {
           status: 'Processing',
         },
         2: {
-          text: '未上线',
+          text: '未规划',
           status: 'Default',
         }
       }
@@ -207,7 +207,7 @@ const MenuList: React.FC = () => {
             options={[
               {
                 value: 0,
-                label: '默认',
+                label: '已上线',
               },
               {
                 value: 1,
@@ -215,7 +215,7 @@ const MenuList: React.FC = () => {
               },
               {
                 value: 2,
-                label: '已上线',
+                label: '未规划',
               }
             ]}
           />
@@ -244,7 +244,6 @@ const MenuList: React.FC = () => {
         </ModalForm>
       ],
     },
-
   ];
 
   const request =
@@ -295,7 +294,8 @@ const MenuList: React.FC = () => {
         visible={createModalVisible}
         onFinish={
           async (values: API.MenuDataItem)=>{
-            await handleAdd(values)
+            console.log(values);
+            await handleAdd(values);
             actionRef.current?.reload();
             return true;
           }
@@ -351,7 +351,7 @@ const MenuList: React.FC = () => {
             options={[
               {
                 value: '0',
-                label: '默认',
+                label: '已上线',
               },
               {
                 value: '1',
@@ -359,7 +359,7 @@ const MenuList: React.FC = () => {
               },
               {
                 value: '2',
-                label: '已上线',
+                label: '未规划',
               }
             ]}
           />
