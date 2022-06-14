@@ -438,9 +438,8 @@ declare namespace API {
   };
 
   type MenuData = {
-    code?: string;
-    data: MenuDataItem[];
-    msg?: string;
+    list?: MenuDataItem[];
+    total?: number;
   }
 
   type MenuDataItem = {

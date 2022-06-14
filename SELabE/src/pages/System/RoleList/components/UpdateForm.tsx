@@ -1,6 +1,6 @@
 import React from 'react';
 import { Modal } from 'antd';
-import type {API} from "@/services/ant-design-pro/typings";
+import type API from "@/services/ant-design-pro/typings";
 import {getMenuByRole, menuList} from "@/services/ant-design-pro/system/api";
 import Form from "@ant-design/pro-form";
 import {
@@ -9,7 +9,6 @@ import {
   ProFormSelect
 } from '@ant-design/pro-form';
 import {forEach} from "lodash";
-import { DefaultOptionType } from 'antd/lib/select';
 
 
 export type UpdateFormProps = {

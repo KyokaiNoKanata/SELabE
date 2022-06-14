@@ -1,19 +1,26 @@
 import request from "umi-request";
-import type {API} from "@/services/ant-design-pro/typings"
+import type API from "@/services/ant-design-pro/typings"
 
 export async function menuList(
   options?: Record<string, any>,
+  params?: {
+    pageSize?: number;
+    current?: number;
+  }
 ) {
   return request<{
-    data: API.MenuData;
-  }>('/admin-api/system/front/menu/list-all-simple', {
+    data: API.MenuData
+  }>('/admin-api/system/front/menu/page', {
     method: 'GET',
-    params: {},
+    params: {
+      pageSize: params?.pageSize,
+      current: params?.current,
+    },
     ...(options || {}),
   });
 }
 
-export async function addMenuItem(data: API.MenuDataItem, options?: Record<string, any>) {
+export async function addMenuItem(data?: API.MenuDataItem, options?: Record<string, any>) {
   return request<API.Response>('/admin-api/system/front/menu/create', {
     method: 'POST',
     data,
@@ -21,7 +28,15 @@ export async function addMenuItem(data: API.MenuDataItem, options?: Record<strin
   });
 }
 
-export async function deleteMenuItem(id?: number, options?: Record<string, any>) {
+export async function updateMenuItem(data?: API.MenuDataItem, options?: Record<string, any>) {
+  return request<API.Response>('/admin-api/system/front/menu/update', {
+    method: 'PUT',
+    data,
+    ...(options || {}),
+  });
+}
+
+export async function deleteMenuItem(id: number, options?: Record<string, any>) {
   return request<API.Response>('/admin-api/system/front/menu/delete', {
     method: 'DELETE',
     params:{
