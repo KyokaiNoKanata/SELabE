@@ -343,11 +343,11 @@ const MenuList: React.FC = () => {
             label="在菜单中显示"
             options={[
               {
-                value: '0',
+                value: 0,
                 label: '是',
               },
               {
-                value: '1',
+                value: 1,
                 label: '否',
               },
             ]}

@@ -466,12 +466,22 @@ declare namespace API {
 
   type UserDataItem = {
     id?: number;
+    username?: string;
+    remark?: string;
+    email?: string;
+    mobile?: string
+    sex?: number;
+    avatar?: string;
     nickname?: string;
+    loginIP?: string;
+    loginDate?: number;
+    createTime?: number;
     roleIds?: number[];
   }
 
   type UserData = {
-    data?: UserDataItem[];
+    list?: UserDataItem[];
+    total?: number;
   }
 }
 export default API;

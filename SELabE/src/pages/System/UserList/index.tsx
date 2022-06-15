@@ -1,35 +1,38 @@
 import {PlusOutlined} from '@ant-design/icons';
-import {Button, Drawer, message} from 'antd';
-import React, {useRef, useState} from 'react';
-import {FooterToolbar, PageContainer} from '@ant-design/pro-layout';
+import {Button, message} from 'antd';
+import React, {ReactNode, useRef, useState} from 'react';
+import {PageContainer} from '@ant-design/pro-layout';
 import type {ActionType, ProColumns} from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
-import {ModalForm, ProFormRadio, ProFormText} from '@ant-design/pro-form';
+import {ModalForm, ProFormDigit, ProFormRadio, ProFormSelect, ProFormText} from '@ant-design/pro-form';
 import type {ProDescriptionsItemProps} from '@ant-design/pro-descriptions';
 import ProDescriptions from '@ant-design/pro-descriptions';
-import type {FormValueType} from './components/UpdateForm';
-import UpdateForm from './components/UpdateForm';
-import {addRule, removeRule, updateRule} from './service';
-import type {API} from "@/services/ant-design-pro/typings";
+import type API from "@/services/ant-design-pro/typings";
 import {
-  menuList,
-  addMenuItem,
-  deleteMenuItem,
-  roleList,
+  addRoleItem,
+  allMenus,
+  assignRoleToUser,
+  deleteRoleItem,
+  getMenuByRole,
   userList,
-  assignMenuToRole, assignRoleToUser
+  updateRoleItem,
 } from "@/services/ant-design-pro/system/api";
 // import
 /**
- * 添加节点
+ * 添加角色
  *
  * @param fields
  */
+type Pagination = {
+  total: number;
+  pageSize: number;
+  current: number;
+};
 
 const handleAdd = async (fields: API.UserDataItem) => {
   const hide = message.loading('正在添加');
   try {
-    const res = await addMenuItem({ ...fields });
+    const res = await addRoleItem({ ...fields });
     console.log(res);
     hide();
     message.success('添加成功');
@@ -40,17 +43,32 @@ const handleAdd = async (fields: API.UserDataItem) => {
     return false;
   }
 };
+
+const handleUpdate = async (currentRow?: API.UserDataItem) => {
+  const hide = message.loading('正在修改');
+  try {
+    await updateRoleItem(currentRow);
+    hide();
+    message.success('修改成功');
+    return true;
+  } catch (error) {
+    hide();
+    message.error('修改失败请重试！');
+    return false;
+  }
+}
+
 /**
- * 更新节点
+ * 更新用户角色配置
  *
- * @param fields
+ * @param currentRow
  */
 
-const handleUpdate = async (fields: API.UserDataItem, currentRow?: API.UserDataItem) => {
+const handleRoleUpdate = async (currentRow?: API.UserDataItem) => {
   const hide = message.loading('正在配置');
 
   try {
-    await assignRoleToUser(currentRow.id, fields.roleIds);
+    await assignRoleToUser(currentRow?.id, currentRow?.roleIds);
     hide();
     message.success('配置成功');
     return true;
@@ -63,41 +81,33 @@ const handleUpdate = async (fields: API.UserDataItem, currentRow?: API.UserDataI
 /**
  * 删除节点
  *
- * @param selectedRows
+ * @param currentRow
  */
 
-const handleRemove = async (selectedRows: API.UserDataItem[]) => {
-  const hide = message.loading('正在配置');
-  console.log(selectedRows);
+const handleRemove = async (currentRow: API.UserDataItem) => {
+  const hide = message.loading('正在删除');
+  console.log(currentRow);
   try {
-    await deleteMenuItem(selectedRows[0].id);
+    await deleteRoleItem(currentRow.id!);
     hide();
-    message.success('配置成功');
+    message.success('删除成功');
     return true;
   } catch (error) {
     hide();
-    message.error('配置失败请重试！');
+    message.error('删除失败请重试！');
     return false;
   }
 };
 
-const MenuList: React.FC = () => {
-  /** 新建窗口的弹窗 */
-  const [createModalVisible, handleModalVisible] = useState<boolean>(false);
-  /** 分布更新窗口的弹窗 */
-
-  const [updateModalVisible, handleUpdateModalVisible] = useState<boolean>(false);
-  const [showDetail, setShowDetail] = useState<boolean>(false);
+const RoleList: React.FC = () => {
   const actionRef = useRef<ActionType>();
   const [currentRow, setCurrentRow] = useState<API.UserDataItem>();
-  const [selectedRowsState, setSelectedRows] = useState<API.UserDataItem[]>([]);
   /** 国际化配置 */
 
   const columns: ProColumns<API.UserDataItem>[] = [
     {
-      title: '用户ID',
+      title: '角色ID',
       dataIndex: 'id',
-      //tip: '规则名称是唯一的 key',
       render: (dom, entity) => {
         return (
           <a
@@ -112,46 +122,186 @@ const MenuList: React.FC = () => {
       },
     },
     {
+      title: '用户名',
+      dataIndex: 'username',
+      valueType: 'textarea'
+    },
+    {
       title: '昵称',
       dataIndex: 'nickname',
       valueType: 'textarea',
     },
     {
-      title: '操作',
-      dataIndex: 'option',
-      valueType: 'option',
-      render: (_, record) => [
-        <a
-          key="config"
-          onClick={() => {
-            handleUpdateModalVisible(true);
-            setCurrentRow(record);
-          }}
-        >
-          编辑
-        </a>,
-      ],
+      title: '上次登陆IP',
+      dataIndex: 'loginIP',
+      valueType: 'textarea',
     },
-  ];
 
-  const request = async (
-    params: any,
-  ) => {
-    const res = (await userList(params).then((result) => {
-      //console.log(result.data);
-      return result;
-    }));
-    return {
-      data: res.data,
-      result: true,
+    {
+      title: '操作',
+      dataIndex: 'edit',
+      valueType: 'option',
+      render: (text: ReactNode, record: API.UserDataItem) => [
+        <ModalForm
+          title="编辑用户信息"
+          key={"edit" + record.id}
+          width="400px"
+          onFinish={
+            async (values?: API.UserDataItem) => {
+              values!.id = record.id;
+              await handleUpdate(values);
+              actionRef.current?.reload();
+              return true;
+            }
+          }
+          trigger={<a>编辑</a>}
+        >
+          <ProFormText
+            name="id"
+            label="用户ID"
+            width="md"
+            disabled
+            initialValue={record.id}
+          />
+          <ProFormText
+            rules={[
+              {
+                required: true,
+                message: '用户名为必填项',
+              },
+            ]}
+            width="md"
+            name="username"
+            label="用户名"
+            initialValue={record.username}
+          />
+          <ProFormText
+            rules={[
+              {
+                required: true,
+                message: '用户昵称为必填项',
+              },
+            ]}
+            width="md"
+            name="nickname"
+            label="用户昵称"
+            initialValue={record.nickname}
+          />
+          <ProFormText
+            width="md"
+            name="remark"
+            label="备注（选填）"
+            initialValue={record.remark}
+          />
+          <ProFormText
+            rules={[
+              {
+                required: true,
+                message: '邮箱为必填项',
+              }
+            ]}
+            width="md"
+            name="email"
+            label="邮箱"
+            initialValue={record.email}
+          />
+          <ProFormRadio.Group
+            rules={[
+              {
+                required: true,
+              },
+            ]}
+            width="md"
+            name="sex"
+            label="性别"
+            options={[
+              {
+                value: 1,
+                label: '男',
+              },
+              {
+                value: 0,
+                label: '女',
+              },
+            ]}
+            initialValue={record.sex}
+          />
+        </ModalForm>,
+        <ModalForm
+          key={'delete' + record.id}
+          title={"确认删除?"}
+          width={"400px"}
+          trigger={<a>删除</a>}
+          onFinish={async () => {
+            const res = await handleRemove(record);
+            actionRef.current?.reload();
+            return res;
+          }}
+          submitter={
+            {
+              searchConfig: {
+                submitText: '确认',
+                resetText: '取消',
+              }
+            }
+          }
+        >
+          <p>{"删除后无法恢复"}</p>
+        </ModalForm>,
+        <ModalForm
+          key={'deploy' + record.id}
+          title={"分配菜单"}
+          trigger={<Button type={"primary"}>配置</Button>}
+          onFinish={async (values?: API.UserDataItem) => {
+            values!.id = record.id;
+            await handleRoleUpdate(values);
+            actionRef.current?.reload();
+            return true;
+          }}
+          request={
+            async () => {
+              return await getMenuByRole(record.id).then((res) => {
+                return {
+                  menuIds: res.data
+                };
+              });
+            }}
+          submitter={
+            {
+              searchConfig: {
+                submitText: '确认',
+                resetText: '取消',
+              }}}
+        >
+          <ProFormSelect
+            mode={"multiple"}
+            name="menuIds"
+            request={
+              async () => {
+                return await allMenus().then(res => {
+                  return res.data?.map(item => {
+                    return {
+                      value: item.id,
+                      label: item.name,
+                    };
+                  });
+                })
+              }
+            }
+          />
+        </ModalForm>
+
+      ]
     }
-  };
+  ];
 
   return (
     <PageContainer>
-      <ProTable<API.UserDataItem>
-        onLoad={request}
-        headerTitle="所有菜单"
+      <ProTable<API.UserDataItem, Pagination>
+        pagination={{
+          pageSize: 10,
+        }}
+        headerTitle="所有用户"
         actionRef={actionRef}
         rowKey="id"
         search={{
@@ -168,149 +318,22 @@ const MenuList: React.FC = () => {
             <PlusOutlined /> 新建
           </Button>,
         ]}
-        request={request}
+        request={
+          async (
+            params: Pagination
+          ) => {
+            const res = await userList(params);
+            return {
+              data: res.data.list,
+              total: res.data.total,
+              result: true
+            };
+          }}
         columns={columns}
-        rowSelection={{
-          onChange: (_, selectedRows) => {
-            setSelectedRows(selectedRows);
-          },
-        }}
-      />
-      {selectedRowsState?.length > 0 && (
-        <FooterToolbar
-        >
-          <Button
-            onClick={async () => {
-              await handleRemove(selectedRowsState);
-              setSelectedRows([]);
-              actionRef.current?.reloadAndRest?.();
-            }}
-          >
-            批量删除
-          </Button>
-        </FooterToolbar>
-      )}
-      <ModalForm
-        title="新建菜单"
-        width="400px"
-        visible={createModalVisible}
-        onVisibleChange={handleModalVisible}
-        onFinish={async (value) => {
-          const success = await handleAdd(value as API.UserDataItem);
-          if (success) {
-            handleModalVisible(false);
-            if (actionRef.current) {
-              actionRef.current.reload();
-            }
-          }
-        }}
-      >
-        <ProFormText
-          rules={[
-            {
-              required: true,
-              message: '菜单名称为必填项',
-            },
-          ]}
-          width="md"
-          name="name"
-          label="菜单名称"
-        />
-        <ProFormText
-          rules={[
-            {
-              required: true,
-              message: '路径为必填项',
-            },
-          ]}
-          width="md"
-          name="path"
-          label="路径"
-        />
-        <ProFormRadio.Group
-          rules={[
-            {
-              required: true,
-            },
-          ]}
-          width="md"
-          name="hideInMenu"
-          label="在菜单中显示"
-          options={[
-            {
-              value: '0',
-              label: '是',
-            },
-            {
-              value: '1',
-              label: '否',
-            },
-          ]}
-        />
-        <ProFormRadio.Group
-          width="md"
-          name="status"
-          label="状态"
-          options={[
-            {
-              value: '0',
-              label: '默认',
-            },
-            {
-              value: '1',
-              label: '开发中',
-            },
-            {
-              value: '2',
-              label: '已上线',
-            }
-          ]}
-        />
-      </ModalForm>
-      <UpdateForm
-        onSubmit={async (value) => {
-          const success = await handleUpdate(value, currentRow);
-
-          if (success) {
-            handleUpdateModalVisible(false);
-            setCurrentRow(undefined);
-
-            if (actionRef.current) {
-              actionRef.current.reload();
-            }
-          }
-        }}
-        onCancel={() => {
-          handleUpdateModalVisible(false);
-          setCurrentRow(undefined);
-        }}
-        updateModalVisible={updateModalVisible}
-        values={currentRow || {}}
       />
 
-      <Drawer
-        width={600}
-        visible={showDetail}
-        onClose={() => {
-          setCurrentRow(undefined);
-          setShowDetail(false);
-        }}
-        closable={false}
-      >
-        {currentRow?.name && (
-          <ProDescriptions<API.UserDataItem>
-            column={2}
-            title={currentRow?.name}
-            request={request}
-            params={{
-              id: currentRow?.name,
-            }}
-            columns={columns as ProDescriptionsItemProps<API.UserDataItem>[]}
-          />
-        )}
-      </Drawer>
     </PageContainer>
   );
 };
 
-export default MenuList;
+export default RoleList;

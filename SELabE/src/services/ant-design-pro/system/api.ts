@@ -138,13 +138,19 @@ export async function assignMenuToRole(
 }
 
 export async function userList(
-  options?: Record<string, any>,
+  params?: {
+    total: number;
+    pageSize: number;
+    current: number;
+  },
+  options?: any,
 ) {
-  return request<{
-    data: API.UserData;
-  }>('/admin-api/system/front/user/list-all-simple', {
+  return request<API.UserData>('/admin-api/system/front/user/page', {
     method: 'GET',
-    params: {},
+    params: {
+      pageSize: params?.pageSize,
+      pageNo: params?.current,
+    },
     ...(options || {}),
   });
 }
