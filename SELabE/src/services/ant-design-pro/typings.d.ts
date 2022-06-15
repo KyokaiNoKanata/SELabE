@@ -460,7 +460,7 @@ declare namespace API {
   }
 
   type RoleData = {
-    list?: MenuDataItem[];
+    list?: RoleDataItem[];
     total?: number;
   }
 

@@ -17,6 +17,12 @@ import {ModalForm, ProFormRadio, ProFormText} from "@ant-design/pro-form";
  * @param fields
  */
 
+type Pagination = {
+  total: number;
+  pageSize: number;
+  current: number;
+};
+
 const handleAdd = async (fields: API.MenuDataItem) => {
   const hide = message.loading('正在添加');
   try {
@@ -100,11 +106,16 @@ const MenuList: React.FC = () => {
     {
       title: '路径',
       dataIndex: 'path',
+      copyable: true,
+      ellipsis: true,
       valueType: 'textarea',
     },
     {
       title: '在菜单中显示',
       dataIndex: 'hideInMenu',
+      filters: true,
+      onFilter: true,
+      valueType: 'select',
       valueEnum: {
         0: {
           text: '是',
@@ -119,6 +130,9 @@ const MenuList: React.FC = () => {
     {
       title: '状态',
       dataIndex: 'status',
+      filters: true,
+      onFilter: true,
+      valueType: 'select',
       valueEnum: {
         0: {
           text: '已上线',
@@ -246,33 +260,18 @@ const MenuList: React.FC = () => {
     },
   ];
 
-  const request =
-    async (
-      params: {
-        pageSize?: number;
-        current?: number;
-      }
-    ) => {
-      const res = (await menuList(params).then((r: { data: API.MenuData })=>{
-        return r;
-      }));
-      return {
-        data: res.data.list,
-        total: res.data.total,
-      };
-    };
 
   return (
     <PageContainer>
-      <ProTable<API.MenuDataItem>
+      <ProTable<API.MenuDataItem, Pagination>
         headerTitle="所有菜单"
         actionRef={actionRef}
         rowKey="id"
-        pagination={{
-          pageSize: 10,
-        }}
         search={{
           labelWidth: 120,
+        }}
+        pagination={{
+          pageSize: 10,
         }}
         toolBarRender={() => [
           <Button
@@ -285,7 +284,16 @@ const MenuList: React.FC = () => {
             <PlusOutlined /> 新建
           </Button>,
         ]}
-        request={request}
+        request={async (
+          params: Pagination
+        ) => {
+          const res = await menuList(params);
+          return {
+            data: res.data.list,
+            total: res.data.total,
+            result: true
+          };
+        }}
         columns={columns}
       />
       <ModalForm
@@ -379,7 +387,7 @@ const MenuList: React.FC = () => {
           <ProDescriptions<API.MenuDataItem>
             column={2}
             title={currentRow?.name}
-            request={request}
+            //request={request}
             params={{
               id: currentRow?.name,
             }}

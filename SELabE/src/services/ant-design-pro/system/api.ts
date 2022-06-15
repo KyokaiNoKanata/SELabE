@@ -2,19 +2,18 @@ import request from "umi-request";
 import type API from "@/services/ant-design-pro/typings"
 
 export async function menuList(
-  options?: Record<string, any>,
   params?: {
-    pageSize?: number;
-    current?: number;
-  }
+    total: number;
+    pageSize: number;
+    current: number;
+  },
+  options?: any,
 ) {
-  return request<{
-    data: API.MenuData
-  }>('/admin-api/system/front/menu/page', {
+  return request<API.MenuData>('/admin-api/system/front/menu/page', {
     method: 'GET',
     params: {
       pageSize: params?.pageSize,
-      current: params?.current,
+      pageNo: params?.current,
     },
     ...(options || {}),
   });
