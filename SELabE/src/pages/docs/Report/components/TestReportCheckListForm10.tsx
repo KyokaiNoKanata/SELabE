@@ -185,7 +185,7 @@ const TestReportCheckListForm10: React.FC<{
         "委托单位": delegation.clientUnit,
       }
     }
-    const resp = (await getTable10(table10Id));
+    const resp = (await getTable10({id:table10Id}));
     return resp.data;
   }
   return (
