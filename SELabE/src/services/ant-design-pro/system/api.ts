@@ -62,19 +62,22 @@ export async function deleteMenuItem(id: number, options?: Record<string, any>) 
 
 export async function roleList(
   params?: {
-    pageSize?: number;
-    current?: number;
+    total: number;
+    pageSize: number;
+    current: number;
   },
-  options?: Record<string, any>,
+  options?: any,
 ) {
-  return request<{
-    data: API.RoleData;
-  }>('/admin-api/system/front/role/page', {
+  return request<API.RoleData>('/admin-api/system/front/role/page', {
     method: 'GET',
-    params: {},
+    params: {
+      pageSize: params?.pageSize,
+      pageNo: params?.current,
+    },
     ...(options || {}),
   });
 }
+
 
 export async function addRoleItem(data?: API.RoleDataItem, options?: API.RoleDataItem) {
   return request<API.Response>('/admin-api/system/front/role/create', {

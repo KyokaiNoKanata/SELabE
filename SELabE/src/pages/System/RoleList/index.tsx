@@ -12,7 +12,8 @@ import {
   addRoleItem,
   allMenus,
   assignMenuToRole,
-  deleteRoleItem, getMenuByRole,
+  deleteRoleItem,
+  getMenuByRole,
   roleList,
   updateRoleItem,
 } from "@/services/ant-design-pro/system/api";
@@ -22,6 +23,11 @@ import {
  *
  * @param fields
  */
+type Pagination = {
+  total: number;
+  pageSize: number;
+  current: number;
+};
 
 const handleAdd = async (fields: API.RoleDataItem) => {
   const hide = message.loading('正在添加');
@@ -55,7 +61,6 @@ const handleUpdate = async (currentRow?: API.RoleDataItem) => {
 /**
  * 更新角色菜单配置
  *
- * @param fields
  * @param currentRow
  */
 
@@ -260,26 +265,9 @@ const RoleList: React.FC = () => {
     }
     ];
 
-
-  const request =
-    async (
-      params: {
-        pageSize?: number;
-        current?: number;
-      }
-    ) => {
-      const res = (await roleList(params).then((r: { data: API.RoleData })=>{
-        return r;
-      }));
-      return {
-        data: res.data.list,
-        total: res.data.total,
-      };
-    };
-
   return (
     <PageContainer>
-      <ProTable<API.RoleDataItem>
+      <ProTable<API.RoleDataItem, Pagination>
         pagination={{
           pageSize: 10,
         }}
@@ -300,7 +288,17 @@ const RoleList: React.FC = () => {
             <PlusOutlined /> 新建
           </Button>,
         ]}
-        request={request}
+        request={
+          async (
+          params: Pagination
+        ) => {
+          const res = await roleList(params);
+          return {
+            data: res.data.list,
+            total: res.data.total,
+            result: true
+          };
+        }}
         columns={columns}
       />
       <ModalForm
@@ -367,7 +365,6 @@ const RoleList: React.FC = () => {
           <ProDescriptions<API.RoleDataItem>
             column={2}
             title={currentRow?.name}
-            request={request}
             params={{
               id: currentRow?.name,
             }}
