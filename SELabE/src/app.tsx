@@ -11,6 +11,7 @@ import type {RequestConfig} from "@@/plugin-request/request";
 import type { RequestOptionsInit } from 'umi-request';
 import defaultSettings from '../config/defaultSettings';
 import cookie from 'react-cookies'
+import type API from './services/ant-design-pro/typings'
 
 const isDev = process.env.NODE_ENV === 'development';
 const loginPath = '/user/login';
@@ -35,7 +36,10 @@ export async function getInitialState(): Promise<{
   const fetchUserInfo = async () => {
     try {
       const msg = await queryCurrentUser();
-      return msg.data;
+      console.log(msg.data);
+      return {
+        menuData: msg.data
+      };
     } catch (error) {
       console.log(error);
       history.push(loginPath);
@@ -75,31 +79,21 @@ export const request: RequestConfig = {
   requestInterceptors: [authHeaderInterceptor],
 };
 
-const fetchMenuData = async () => {
-  try {
-    const res = await queryMenuData();
-    return res.data;
-  } catch (error) {
-    console.log(error);
-  }
-  return undefined;
-};
 
 // ProLayout 支持的api https://procomponents.ant.design/components/layout
 export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) => {
   return {
-    /*
+
     menu: {
       // 每当 initialState?.currentUser?.userid 发生修改时重新执行 request
       params: {
-        userId: initialState?.currentUser?.data?.user?.id,
+        userId: initialState?.currentUser?.data
       },
-      request: async (params, defaultMenuData) => {
-        const menuData = await fetchMenuData();
-        return menuData;
+      request: async () => {
+        return initialState?.currentUser?.menuData;
       },
     },
-    */
+
     rightContentRender: () => <RightContent />,
     disableContentMargin: false,
     waterMarkProps: {

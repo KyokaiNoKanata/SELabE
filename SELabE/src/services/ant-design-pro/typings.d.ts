@@ -307,17 +307,12 @@ declare namespace API {
     testingDeptStaffId?: number;
     //update_time?: string;查询里没有但可以作为排序字段
   }
+
   type CurrentUser = {
     code?: number;
-    data?: {
-      user?: {
-        avatar?: string;
-        nickname?: string;
-        id?: string;
-      }
-    };
+    data?: {};
     msg?: string;
-
+    menuData?: {};
   };
   type SolutionItem = {
     auditorId?: number;

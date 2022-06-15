@@ -1,12 +1,13 @@
 // @ts-ignore
 /* eslint-disable */
 import { request } from 'umi';
+import API from "../ant-design-pro/typings"
 
 /** 获取当前的用户 GET /api/currentUser */
 export async function currentUser(options?: { [key: string]: any }) {
   return request<{
     data: API.CurrentUser;
-  }>('/admin-api/system/get-permission-info', {
+  }>('/admin-api/system/menus', {
     method: 'GET',
     ...(options || {}),
   });
