@@ -439,7 +439,7 @@ declare namespace API {
   type MenuDataItem = {
     name?: string;
     path?: string;
-    hideInMenu?: string;
+    hideInMenu?: boolean;
     id?: number;
     status?: number;
   }

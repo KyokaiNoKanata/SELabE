@@ -85,11 +85,11 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
     menu: {
       // 每当 initialState?.currentUser?.userid 发生修改时重新执行 request
       params: {
-        userId: initialState?.currentUser?.menuData
+        userId: initialState?.currentUser?.userId
       },
       request: async () => {
         console.log(initialState?.currentUser?.menuData)
-        return initialState?.currentUser?.menuData;
+        return initialState!.currentUser!.menuData!;
       },
     },
 
