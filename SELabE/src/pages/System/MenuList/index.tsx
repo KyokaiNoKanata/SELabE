@@ -45,6 +45,7 @@ const handleAdd = async (fields: API.MenuDataItem) => {
 const handleUpdate = async (item?: API.MenuDataItem) => {
   const hide = message.loading('正在配置');
   try {
+    console.log(item);
     await updateMenuItem(item);
     hide();
     message.success('修改成功');
@@ -106,13 +107,6 @@ const MenuList: React.FC = () => {
     {
       title: '路径',
       dataIndex: 'path',
-      copyable: true,
-      ellipsis: true,
-      valueType: 'textarea',
-    },
-    {
-      title: '父节点',
-      dataIndex: 'parentKeys',
       copyable: true,
       ellipsis: true,
       valueType: 'textarea',
@@ -244,20 +238,20 @@ const MenuList: React.FC = () => {
             width="md"
             name="parentKeys"
             label="父节点"
-            mode="tags"
+            mode="multiple"
             request={
               async () => {
                 return await allMenus().then(res => {
                   return res.data?.map(item => {
                     return {
-                      value: item.id,
+                      value: item.id?.toString(),
                       label: item.name,
                     };
                   });
                 })
               }
             }
-            initialValue={record.parentKeys?parseInt(record?.parentKeys![0]):undefined}
+            initialValue={record?.parentKeys?record?.parentKeys![0]:undefined}
           />
         </ModalForm>,
         <ModalForm

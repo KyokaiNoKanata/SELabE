@@ -1,14 +1,13 @@
-import type { Settings as LayoutSettings } from '@ant-design/pro-layout';
-import { SettingDrawer } from '@ant-design/pro-layout';
-import { PageLoading } from '@ant-design/pro-layout';
-import type { RunTimeLayoutConfig } from 'umi';
-import { history, Link } from 'umi';
+import type {Settings as LayoutSettings} from '@ant-design/pro-layout';
+import {PageLoading, SettingDrawer} from '@ant-design/pro-layout';
+import type {RunTimeLayoutConfig} from 'umi';
+import {history, Link} from 'umi';
 import RightContent from '@/components/RightContent';
 import Footer from '@/components/Footer';
-import { currentUser as queryCurrentUser} from './services/ant-design-pro/api';
-import { BookOutlined, LinkOutlined } from '@ant-design/icons';
+import {currentUser as queryCurrentUser} from './services/ant-design-pro/api';
+import {BookOutlined, LinkOutlined} from '@ant-design/icons';
 import type {RequestConfig} from "@@/plugin-request/request";
-import type { RequestOptionsInit } from 'umi-request';
+import type {RequestOptionsInit} from 'umi-request';
 import defaultSettings from '../config/defaultSettings';
 import cookie from 'react-cookies'
 import type API from './services/ant-design-pro/typings'
@@ -36,9 +35,7 @@ export async function getInitialState(): Promise<{
 }> {
   const fetchUserInfo = async () => {
     try {
-      const res = await queryCurrentUser();
-      console.log(res);
-      return res;
+      return await queryCurrentUser();
     } catch (error) {
       console.log(error);
       history.push(loginPath);
@@ -81,18 +78,18 @@ export const request: RequestConfig = {
 const processMenu = (rawMenu: API.MenuDataItem[]) => {
   forEach(rawMenu, (item1)=>{
     if(item1.parentKeys!==null && item1.parentKeys?.length !== 0) {
-      console.log(item1);
       forEach(rawMenu, (item2) => {
         try {
-          if (item2.id === parseInt(item1!.parentKeys![0])) {
+          if (item2.id == parseInt(item1!.parentKeys![0])) {
+            console.log(item1);
             item2.routes.push(item1);
           }
         } catch (e) {
-          console.log(e);
         }
       })
     }
   })
+  console.log(rawMenu);
   return rawMenu;
 };
 
