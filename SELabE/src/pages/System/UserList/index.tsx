@@ -1,53 +1,29 @@
-import {PlusOutlined} from '@ant-design/icons';
 import {Button, message} from 'antd';
-import React, {ReactNode, useRef, useState} from 'react';
+import React, {useRef, useState} from 'react';
+import type {ReactNode} from "react";
 import {PageContainer} from '@ant-design/pro-layout';
 import type {ActionType, ProColumns} from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
-import {ModalForm, ProFormDigit, ProFormRadio, ProFormSelect, ProFormText} from '@ant-design/pro-form';
-import type {ProDescriptionsItemProps} from '@ant-design/pro-descriptions';
-import ProDescriptions from '@ant-design/pro-descriptions';
+import {ModalForm, ProFormRadio, ProFormSelect, ProFormText} from '@ant-design/pro-form';
 import type API from "@/services/ant-design-pro/typings";
 import {
-  addRoleItem,
-  allMenus,
   assignRoleToUser,
-  deleteRoleItem,
-  getMenuByRole,
   userList,
-  updateRoleItem,
+  updateUserItem,
+  getRoleByUser,
+  allRoles,
 } from "@/services/ant-design-pro/system/api";
-// import
-/**
- * 添加角色
- *
- * @param fields
- */
+
 type Pagination = {
   total: number;
   pageSize: number;
   current: number;
 };
 
-const handleAdd = async (fields: API.UserDataItem) => {
-  const hide = message.loading('正在添加');
-  try {
-    const res = await addRoleItem({ ...fields });
-    console.log(res);
-    hide();
-    message.success('添加成功');
-    return true;
-  } catch (error) {
-    hide();
-    message.error('添加失败请重试！');
-    return false;
-  }
-};
-
 const handleUpdate = async (currentRow?: API.UserDataItem) => {
   const hide = message.loading('正在修改');
   try {
-    await updateRoleItem(currentRow);
+    await updateUserItem(currentRow);
     hide();
     message.success('修改成功');
     return true;
@@ -66,7 +42,7 @@ const handleUpdate = async (currentRow?: API.UserDataItem) => {
 
 const handleRoleUpdate = async (currentRow?: API.UserDataItem) => {
   const hide = message.loading('正在配置');
-
+  console.log(currentRow);
   try {
     await assignRoleToUser(currentRow?.id, currentRow?.roleIds);
     hide();
@@ -78,42 +54,22 @@ const handleRoleUpdate = async (currentRow?: API.UserDataItem) => {
     return false;
   }
 };
-/**
- * 删除节点
- *
- * @param currentRow
- */
-
-const handleRemove = async (currentRow: API.UserDataItem) => {
-  const hide = message.loading('正在删除');
-  console.log(currentRow);
-  try {
-    await deleteRoleItem(currentRow.id!);
-    hide();
-    message.success('删除成功');
-    return true;
-  } catch (error) {
-    hide();
-    message.error('删除失败请重试！');
-    return false;
-  }
-};
 
 const RoleList: React.FC = () => {
   const actionRef = useRef<ActionType>();
-  const [currentRow, setCurrentRow] = useState<API.UserDataItem>();
+  const [, setCurrentRow] = useState<API.UserDataItem>();
   /** 国际化配置 */
 
   const columns: ProColumns<API.UserDataItem>[] = [
     {
-      title: '角色ID',
+      title: '用户ID',
       dataIndex: 'id',
       render: (dom, entity) => {
         return (
           <a
             onClick={() => {
               setCurrentRow(entity);
-              setShowDetail(true);
+              //setShowDetail(true);
             }}
           >
             {dom}
@@ -228,29 +184,8 @@ const RoleList: React.FC = () => {
           />
         </ModalForm>,
         <ModalForm
-          key={'delete' + record.id}
-          title={"确认删除?"}
-          width={"400px"}
-          trigger={<a>删除</a>}
-          onFinish={async () => {
-            const res = await handleRemove(record);
-            actionRef.current?.reload();
-            return res;
-          }}
-          submitter={
-            {
-              searchConfig: {
-                submitText: '确认',
-                resetText: '取消',
-              }
-            }
-          }
-        >
-          <p>{"删除后无法恢复"}</p>
-        </ModalForm>,
-        <ModalForm
           key={'deploy' + record.id}
-          title={"分配菜单"}
+          title={"分配角色"}
           trigger={<Button type={"primary"}>配置</Button>}
           onFinish={async (values?: API.UserDataItem) => {
             values!.id = record.id;
@@ -260,9 +195,10 @@ const RoleList: React.FC = () => {
           }}
           request={
             async () => {
-              return await getMenuByRole(record.id).then((res) => {
+              return await getRoleByUser(record.id).then((res: { code?: number; data?: number[]; msg?: string }) => {
+                console.log(res);
                 return {
-                  menuIds: res.data
+                  roleIds: res.data
                 };
               });
             }}
@@ -275,10 +211,10 @@ const RoleList: React.FC = () => {
         >
           <ProFormSelect
             mode={"multiple"}
-            name="menuIds"
+            name="roleIds"
             request={
               async () => {
-                return await allMenus().then(res => {
+                return await allRoles().then(res => {
                   return res.data?.map(item => {
                     return {
                       value: item.id,
@@ -307,17 +243,6 @@ const RoleList: React.FC = () => {
         search={{
           labelWidth: 120,
         }}
-        toolBarRender={() => [
-          <Button
-            type="primary"
-            key="primary"
-            onClick={() => {
-              handleModalVisible(true);
-            }}
-          >
-            <PlusOutlined /> 新建
-          </Button>,
-        ]}
         request={
           async (
             params: Pagination

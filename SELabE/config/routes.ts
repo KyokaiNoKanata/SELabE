@@ -610,6 +610,11 @@ export default [
     ],
   },
   {
+    path: '/accountsettings',
+    component: './System/AccountSettings/index',
+    hideInMenu: true
+  },
+  {
     path: '/',
     redirect: '/welcome',
   },

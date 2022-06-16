@@ -82,16 +82,16 @@ export const request: RequestConfig = {
 export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) => {
   return {
 
-    menu: {
-      // 每当 initialState?.currentUser?.userid 发生修改时重新执行 request
-      params: {
-        userId: initialState?.currentUser?.userId
-      },
-      request: async () => {
-        console.log(initialState?.currentUser?.menuData)
-        return initialState!.currentUser!.menuData!;
-      },
-    },
+    // menu: {
+    //   // 每当 initialState?.currentUser?.userId 发生修改时重新执行 request
+    //   params: {
+    //     userId: initialState?.currentUser?.userId
+    //   },
+    //   request: async () => {
+    //     console.log(initialState?.currentUser?.menuData)
+    //     return initialState!.currentUser!.menuData!;
+    //   },
+    // },
 
     rightContentRender: () => <RightContent />,
     disableContentMargin: false,

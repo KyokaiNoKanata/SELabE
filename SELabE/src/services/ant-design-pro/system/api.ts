@@ -78,6 +78,20 @@ export async function roleList(
   });
 }
 
+export async function allRoles(
+  options?: Record<string, any>,
+  params?: any
+) {
+  return request<{
+    data: API.RoleDataItem[]
+  }>('/admin-api/system/front/role/list-all-simple', {
+    method: 'GET',
+    params: {
+      ...params,
+    },
+    ...(options || {}),
+  });
+}
 
 export async function addRoleItem(data?: API.RoleDataItem, options?: API.RoleDataItem) {
   return request<API.Response>('/admin-api/system/front/role/create', {
@@ -155,6 +169,14 @@ export async function userList(
   });
 }
 
+export async function updateUserItem(data?: API.UserDataItem, options?: any) {
+  return request<API.Response>('/admin-api/system/front/user/update', {
+    method: 'PUT',
+    data,
+    ...(options || {}),
+  });
+}
+
 export async function getRoleByUser(
   userId?: number,
   options?: Record<string, any>,
@@ -177,7 +199,7 @@ export async function assignRoleToUser(
   roleIds?: number[],
   options?: Record<string, any>,
 ) {
-  return request<API.Response>('/admin-api/system/front/permission/assign-role-menu', {
+  return request<API.Response>('/admin-api/system/front/permission/assign-user-role', {
     method: 'POST',
     data: {
       userId: userId,
