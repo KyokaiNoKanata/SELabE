@@ -218,7 +218,7 @@ const constant = {
         auditOffer: "/delegation/offer/audit",        //处理报价 客户
         writeContract: "/delegation/contract/write",  //填写合同 市场部员工/客户
         auditContract: "/delegation/contract/audit",  //审核合同 市场部员工/客户
-        uploadContract: "delegation/contract/upload", //上传合同 市场部员工
+        uploadContract: "/delegation/contract/upload", //上传合同 市场部员工
         fillProjectId: "/delegation/fillProjectId",   //填写项目编号 测试部主管
       },
       project: {
