@@ -19,7 +19,7 @@ import {
 import type API from "@/services/ant-design-pro/typings";
 import {FormattedMessage} from "@@/plugin-locale/localeExports";
 import {Link, useIntl} from "umi";
-import {currentUser} from "@/services/ant-design-pro/api";
+import {getUserInfo} from "@/services/ant-design-pro/api";
 import constant from "../../../../config/constant";
 import {ProFormInstance} from "@ant-design/pro-form/lib/BaseForm/BaseForm";
 
@@ -181,7 +181,7 @@ const DelegationList: React.FC<DelegationListType> = (props) => {
     /*if (props.request) {
       await props.request(params, options);
     }*/
-    const user = (await currentUser()).data;
+    const user = (await getUserInfo()).data;
     setRoles(user.roles);
     setUserId(user.user.id)
     const p1: API.DelegationQueryParams = {
