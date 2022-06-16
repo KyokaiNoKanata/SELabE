@@ -440,7 +440,9 @@ declare namespace API {
     name?: string;
     path?: string;
     hideInMenu?: boolean;
+    parentKeys?: string[];
     id?: number;
+    routes: MenuDataItem[];
     status?: number;
   }
 

@@ -12,6 +12,7 @@ import type { RequestOptionsInit } from 'umi-request';
 import defaultSettings from '../config/defaultSettings';
 import cookie from 'react-cookies'
 import type API from './services/ant-design-pro/typings'
+import {forEach, parseInt} from "lodash";
 
 const isDev = process.env.NODE_ENV === 'development';
 const loginPath = '/user/login';
@@ -77,21 +78,38 @@ export const request: RequestConfig = {
   requestInterceptors: [authHeaderInterceptor],
 };
 
+const processMenu = (rawMenu: API.MenuDataItem[]) => {
+  forEach(rawMenu, (item1)=>{
+    if(item1.parentKeys!==null && item1.parentKeys?.length !== 0) {
+      console.log(item1);
+      forEach(rawMenu, (item2) => {
+        try {
+          if (item2.id === parseInt(item1!.parentKeys![0])) {
+            item2.routes.push(item1);
+          }
+        } catch (e) {
+          console.log(e);
+        }
+      })
+    }
+  })
+  return rawMenu;
+};
 
 // ProLayout 支持的api https://procomponents.ant.design/components/layout
 export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) => {
   return {
 
-    // menu: {
-    //   // 每当 initialState?.currentUser?.userId 发生修改时重新执行 request
-    //   params: {
-    //     userId: initialState?.currentUser?.userId
-    //   },
-    //   request: async () => {
-    //     console.log(initialState?.currentUser?.menuData)
-    //     return initialState!.currentUser!.menuData!;
-    //   },
-    // },
+    menu: {
+      // 每当 initialState?.currentUser?.userId 发生修改时重新执行 request
+      params: {
+        userId: initialState?.currentUser?.userId
+      },
+      request: async () => {
+        console.log(initialState?.currentUser?.menuData)
+        return processMenu(initialState!.currentUser!.menuData!);
+      },
+    },
 
     rightContentRender: () => <RightContent />,
     disableContentMargin: false,
@@ -143,3 +161,4 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
     ...initialState?.settings,
   };
 };
+

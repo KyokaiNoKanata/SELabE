@@ -8,8 +8,8 @@ import ProTable from '@ant-design/pro-table';
 import type {ProDescriptionsItemProps} from '@ant-design/pro-descriptions';
 import ProDescriptions from '@ant-design/pro-descriptions';
 import type API from "@/services/ant-design-pro/typings";
-import {addMenuItem, deleteMenuItem, menuList, updateMenuItem} from "@/services/ant-design-pro/system/api";
-import {ModalForm, ProFormRadio, ProFormText} from "@ant-design/pro-form";
+import {addMenuItem, allMenus, deleteMenuItem, menuList, updateMenuItem} from "@/services/ant-design-pro/system/api";
+import {ModalForm, ProFormRadio, ProFormText, ProFormSelect} from "@ant-design/pro-form";
 // import
 /**
  * 添加节点
@@ -106,6 +106,13 @@ const MenuList: React.FC = () => {
     {
       title: '路径',
       dataIndex: 'path',
+      copyable: true,
+      ellipsis: true,
+      valueType: 'textarea',
+    },
+    {
+      title: '父节点',
+      dataIndex: 'parentKeys',
       copyable: true,
       ellipsis: true,
       valueType: 'textarea',
@@ -232,6 +239,25 @@ const MenuList: React.FC = () => {
                 label: '未规划',
               }
             ]}
+          />
+          <ProFormSelect
+            width="md"
+            name="parentKeys"
+            label="父节点"
+            mode="tags"
+            request={
+              async () => {
+                return await allMenus().then(res => {
+                  return res.data?.map(item => {
+                    return {
+                      value: item.id,
+                      label: item.name,
+                    };
+                  });
+                })
+              }
+            }
+            initialValue={record.parentKeys?parseInt(record?.parentKeys![0]):undefined}
           />
         </ModalForm>,
         <ModalForm
@@ -370,6 +396,24 @@ const MenuList: React.FC = () => {
                 label: '未规划',
               }
             ]}
+          />
+          <ProFormSelect
+            width="md"
+            name="parentKeys"
+            mode="tags"
+            label="父节点"
+            request={
+              async () => {
+                return await allMenus().then(res => {
+                  return res.data?.map(item => {
+                    return {
+                      value: item.id,
+                      label: item.name,
+                    };
+                  });
+                })
+              }
+            }
           />
       </ModalForm>
 
