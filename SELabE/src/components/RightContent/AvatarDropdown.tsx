@@ -46,27 +46,27 @@ const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu }) => {
     [setInitialState],
   );
 
-  // const loading = (
-  //   <span className={`${styles.action} ${styles.account}`}>
-  //     <Spin
-  //       size="small"
-  //       style={{
-  //         marginLeft: 8,
-  //         marginRight: 8,
-  //       }}
-  //     />
-  //   </span>
-  // );
-  //
-  // if (!initialState) {
-  //   return loading;
-  // }
-  //
-  // const { currentUser } = initialState;
-  //
-  // if (!currentUser || !currentUser.data?.user?.id) {
-  //   return loading;
-  // }
+  const loading = (
+    <span className={`${styles.action} ${styles.account}`}>
+      <Spin
+        size="small"
+        style={{
+          marginLeft: 8,
+          marginRight: 8,
+        }}
+      />
+    </span>
+  );
+
+  if (!initialState) {
+    return loading;
+  }
+
+  const { currentUser } = initialState;
+
+  if (!currentUser || !currentUser.userInfo?.id) {
+    return loading;
+  }
 
   const menuHeaderDropdown = (
     <Menu className={styles.menu} selectedKeys={[]} onClick={onMenuClick}>
@@ -95,7 +95,7 @@ const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu }) => {
       <span className={`${styles.action} ${styles.account}`}>
         {/*<Avatar size="small" className={styles.avatar} src={currentUser?.data?.user?.avatar} alt="avatar" />*/}
         {/*<span className={`${styles.name} anticon`}>{currentUser.data?.user?.nickname}</span>*/}
-        <Avatar size="small" className={styles.avatar} src={"icons/icon-128x128.png"} alt="avatar" />
+        <Avatar size="small" className={styles.avatar} src={initialState.currentUser?.userInfo?.avatar} alt="avatar" />
       </span>
     </HeaderDropdown>
   );

@@ -5,7 +5,7 @@ import type { RunTimeLayoutConfig } from 'umi';
 import { history, Link } from 'umi';
 import RightContent from '@/components/RightContent';
 import Footer from '@/components/Footer';
-import { currentUser as queryCurrentUser, menuData as queryMenuData } from './services/ant-design-pro/api';
+import { currentUser as queryCurrentUser} from './services/ant-design-pro/api';
 import { BookOutlined, LinkOutlined } from '@ant-design/icons';
 import type {RequestConfig} from "@@/plugin-request/request";
 import type { RequestOptionsInit } from 'umi-request';
@@ -35,11 +35,9 @@ export async function getInitialState(): Promise<{
 }> {
   const fetchUserInfo = async () => {
     try {
-      const msg = await queryCurrentUser();
-      console.log(msg.data);
-      return {
-        menuData: msg.data
-      };
+      const res = await queryCurrentUser();
+      console.log(res);
+      return res;
     } catch (error) {
       console.log(error);
       history.push(loginPath);
@@ -87,18 +85,16 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
     menu: {
       // 每当 initialState?.currentUser?.userid 发生修改时重新执行 request
       params: {
-        userId: initialState?.currentUser?.data
+        userId: initialState?.currentUser?.menuData
       },
       request: async () => {
+        console.log(initialState?.currentUser?.menuData)
         return initialState?.currentUser?.menuData;
       },
     },
 
     rightContentRender: () => <RightContent />,
     disableContentMargin: false,
-    waterMarkProps: {
-      content: initialState?.currentUser?.data?.user?.id,
-    },
     footerRender: () => <Footer />,
     onPageChange: () => {
       const { location } = history;

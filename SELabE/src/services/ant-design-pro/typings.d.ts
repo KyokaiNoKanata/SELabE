@@ -309,10 +309,9 @@ declare namespace API {
   }
 
   type CurrentUser = {
-    code?: number;
-    data?: {};
-    msg?: string;
-    menuData?: {};
+    userId?: number;
+    userInfo?: UserDataItem;
+    menuData?: MenuDataItem[];
   };
   type SolutionItem = {
     auditorId?: number;

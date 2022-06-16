@@ -5,12 +5,28 @@ import API from "../ant-design-pro/typings"
 
 /** 获取当前的用户 GET /api/currentUser */
 export async function currentUser(options?: { [key: string]: any }) {
-  return request<{
-    data: API.CurrentUser;
+  const info = (await request<{
+    data: API.UserDataItem
+    code: number
+  }>
+  ('/admin-api/system/front/user/profile/get',{
+    method: 'GET',
+    ...(options || {}),
+  }).then((res)=>{
+    return res.data;
+  }));
+  const menu = (await request<{
+    data: API.MenuDataItem[];
+    code: number;
   }>('/admin-api/system/menus', {
     method: 'GET',
     ...(options || {}),
-  });
+  }).then(res => {return res.data;}));
+  return {
+    userId: info.id,
+    menuData: menu,
+    userInfo: info
+  } as API.CurrentUser;
 }
 
 /** 退出登录接口 POST /api/login/outLogin */
