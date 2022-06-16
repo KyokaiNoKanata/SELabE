@@ -5,7 +5,7 @@ import {createContract, getContractById, getTable5, saveTable5} from "@/services
 import {useLocation} from "umi";
 import {getDelegationById} from "@/services/ant-design-pro/delegation/api";
 import ProForm, {ProFormDatePicker, ProFormText,} from '@ant-design/pro-form';
-import API from "@/services/ant-design-pro/typings"
+import type API from "@/services/ant-design-pro/typings"
 const {Paragraph} = Typography;
 /**
  * @param props

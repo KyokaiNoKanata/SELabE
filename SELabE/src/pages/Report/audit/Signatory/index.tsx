@@ -20,11 +20,11 @@ export default () => {
       sorter: false,
       render: (text: ReactNode, record: API.DelegationItem) => {
         const {id} = record;
-        return [
+        return (
           <Link to={{pathname: constant.docPath.report.audit.SIGNATORY, state: {id: id}}}>
             <Button type="primary">审核测试报告</Button>
-          </Link>,
-        ];
+          </Link>
+        );
       }
     }
   ];

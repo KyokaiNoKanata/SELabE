@@ -118,7 +118,11 @@ const adviceData: AdviceType[] = [
     date: '',
   },
 ]
-
+/**
+ * table13 测试方案评审表
+ * @param props.editable: 是否可以编辑
+ * @constructor
+ */
 const SolutionReviewForm13: React.FC<{
   editable: boolean,
 }> = (props) => {
@@ -274,7 +278,7 @@ const SolutionReviewForm13: React.FC<{
           submitter={{
             render: () => {
               if (props.editable) {
-                return ([
+                return (
                   <div style={
                     {
                       textAlign: "right",
@@ -293,7 +297,7 @@ const SolutionReviewForm13: React.FC<{
                       </Button>
                     </ProForm.Group>
                   </div>
-                ]);
+                );
               }
               return [];
             },

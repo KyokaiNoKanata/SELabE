@@ -23,11 +23,10 @@ export default () => {
       sorter: false,
       render: (text: ReactNode, record: API.DelegationItem) => {
         const {id} = record;
-        return ([
+        return (
           <Link to={{pathname: constant.docPath.report.ARCHIVE, state: {id: id}}}>
             <Button type="primary">归档</Button>
-          </Link>,
-        ]
+          </Link>
         )
       }
     }

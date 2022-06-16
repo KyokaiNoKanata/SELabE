@@ -10,14 +10,11 @@ import {getDelegationById} from "@/services/ant-design-pro/delegation/api";
 import {createReport, getReport, getTable9, saveTable9} from "@/services/ant-design-pro/report/api";
 import Form from "@ant-design/pro-form";
 
-
-//测试记录table9
-
 /**
- * @param props isClient 判断身份是不是客户，如果是，则前面只能看不能写，最后签字，不然，是市场部，
+ * 测试记录 table9
+ * @param editable 能否编辑
  * @constructor
  */
-//editable为true可编辑
 const TestRecordForm9: React.FC<{ editable: boolean }> = (props) => {
   type DataSourceType = {
     id: number;

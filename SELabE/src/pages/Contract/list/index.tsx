@@ -24,11 +24,11 @@ export default () => {
       sorter: false,
       render: (text: ReactNode, record: API.DelegationItem) => {
         const {contractId} = record;//合同id
-        return [
+        return (
           <Link to={{pathname: '/docs/contract/detail', state: {contractId: contractId}}}>
             <Button type="primary">查看详情 todo</Button>
           </Link>
-        ]
+        )
       },
     },
   ]

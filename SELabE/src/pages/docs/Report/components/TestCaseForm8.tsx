@@ -13,10 +13,10 @@ import Form from "@ant-design/pro-form";
 
 
 /**
- * @param props isClient 判断身份是不是客户，如果是，则前面只能看不能写，最后签字，不然，是市场部，
+ * 测试用例 table8
+ * @param props.editable 是否可编辑
  * @constructor
  */
-//editable为true可编辑
 const TestCaseForm8: React.FC<{ editable: boolean }> = (props) => {
   type DataSourceType = {
     id: number;

@@ -21,11 +21,11 @@ export default () => {
       sorter: false,
       render: (text: ReactNode, record: API.DelegationItem) => {
         const {id} = record;
-        return [
+        return (
           <Link to={{pathname: constant.docPath.report.WRITE, state: {id: id}}}>
             <Button type="primary">填写测试文档</Button>
-          </Link>,
-        ];
+          </Link>
+        );
       }
     }
   ];

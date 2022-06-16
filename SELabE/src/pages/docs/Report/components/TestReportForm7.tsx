@@ -88,12 +88,19 @@ const softwareEnvironData: softwareEnviron[] = [
 ];
 
 const TestReportForm7: React.FC<{ editable: boolean }> = (prop) => {
+  /**
+   * 报告id
+   */
   const [reportId, setReportId] = useState<number | undefined>(undefined);
-  //测试依据列表相关
+  /**
+   * 测试依据列表相关
+   */
   const [testBasisKeys, setTestBasisRowKeys] = useState<React.Key[]>(() => []);
   const [testBasisDataSource,setTestBasisDataSource] = useState<DataSourceType[]>([]);
   const [testBasisForm] = Form.useForm();
-  //参考资料列表相关
+  /**
+   * 参考资料列表相关
+   */
   const [referKeys, setReferRowKeys] = useState<React.Key[]>(() => []);
   const [referDataSource,setReferDataSource] = useState<Reference[]>([]);
   const [referForm] = Form.useForm();
@@ -157,7 +164,9 @@ const TestReportForm7: React.FC<{ editable: boolean }> = (prop) => {
     }
     ,
   ];
-
+  /**
+   * 测试依据列
+   */
   const testBasisColumns: ProColumns<DataSourceType>[] = [
     {
       title: '测试依据',
@@ -191,7 +200,9 @@ const TestReportForm7: React.FC<{ editable: boolean }> = (prop) => {
     }
     ,
   ];
-
+  /**
+   * 参考资料列
+   */
   const referenceColumns: ProColumns<Reference>[] = [
     {
       title: '参考资料',
@@ -226,7 +237,9 @@ const TestReportForm7: React.FC<{ editable: boolean }> = (prop) => {
     }
     ,
   ];
-
+  /**
+   * 功能模块列
+   */
   const functionalTestColumns: ProColumns<FunctionalType>[] = [
     {
       title: '功能模块',
@@ -271,7 +284,9 @@ const TestReportForm7: React.FC<{ editable: boolean }> = (prop) => {
       ],
     },
   ];
-
+  /**
+   * 其他列
+   */
   const otherTestColumns: ProColumns<OtherTestingType>[] = [
     {
       title: '测试特性',
@@ -292,6 +307,9 @@ const TestReportForm7: React.FC<{ editable: boolean }> = (prop) => {
       initialValue: '',
     },
   ];
+  /**
+   * 效率列
+   */
   const effectColumns: ProColumns<OtherTestingType>[]
     = otherTestColumns.concat([{
       title: '操作',
@@ -315,6 +333,10 @@ const TestReportForm7: React.FC<{ editable: boolean }> = (prop) => {
       </a>,
     ],
   }]);
+
+  /**
+   * 可移植性测试
+   */
   const portableColumns: ProColumns<OtherTestingType>[] = otherTestColumns.concat([
     {
       title: '操作',
@@ -339,6 +361,9 @@ const TestReportForm7: React.FC<{ editable: boolean }> = (prop) => {
       ],
     }
   ])
+  /**
+   * 易用性列
+   */
   const usableColumns: ProColumns<OtherTestingType>[] = otherTestColumns.concat([
     {
       title: '操作',
@@ -363,6 +388,9 @@ const TestReportForm7: React.FC<{ editable: boolean }> = (prop) => {
       ],
     }
   ])
+  /**
+   * 可靠性测试列
+   */
   const reliableColumns: ProColumns<OtherTestingType>[] = otherTestColumns.concat([
     {
       title: '操作',
@@ -387,6 +415,9 @@ const TestReportForm7: React.FC<{ editable: boolean }> = (prop) => {
       ],
     }
   ])
+  /**
+   * 可维护性测试
+   */
   const maintainableColumns: ProColumns<OtherTestingType>[] = otherTestColumns.concat([
     {
       title: '操作',
@@ -454,6 +485,10 @@ const TestReportForm7: React.FC<{ editable: boolean }> = (prop) => {
     setMaintainableDataSource(resp.data.可维护性测试);
     return resp.data;
   };
+  /**
+   * 保存报告单table7
+   * @param values json对象
+   */
   const onFinish = async (values: any) => {
     const resp = await saveTable7({
       reportId: reportId!,
@@ -466,6 +501,9 @@ const TestReportForm7: React.FC<{ editable: boolean }> = (prop) => {
     }
     return false;
   };
+  /**
+   * 提交测试报告
+   */
   const handleSubmit = async () => {
     //console.log("提交")
     confirm({

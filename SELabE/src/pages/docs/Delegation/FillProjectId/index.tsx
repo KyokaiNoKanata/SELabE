@@ -1,9 +1,13 @@
 import {message} from "antd";
 import {useLocation} from "react-router-dom";
 import {fillProjectId, saveTable2} from "@/services/ant-design-pro/delegation/api";
-import ProForm, {ProFormInstance,  ProFormText} from "@ant-design/pro-form";
+import type {ProFormInstance} from "@ant-design/pro-form";
+import ProForm, {  ProFormText} from "@ant-design/pro-form";
 import React, {useRef} from "react";
 
+/**
+ * 分配项目编号
+ */
 export default () => {
   const params = useLocation();
   const delegationId: number = !params.state ? -1 : (params.state as any).id;
@@ -25,9 +29,10 @@ export default () => {
       });
       if(resp1.code!=0) {
         message.error(resp1.msg);
+        return;
       }
       const a = document.createElement("a");
-      a.href = "../../project/list";//
+      a.href = "/project/list";//
       a.click();
     } else {
       message.error(resp.msg);

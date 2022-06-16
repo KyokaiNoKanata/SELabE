@@ -8,7 +8,11 @@ import {DownloadOutlined} from "@ant-design/icons";
 import {useLocation} from "umi";
 import moment from "moment";
 const {confirm} = Modal;
-
+/**
+ * 样品
+ * @param props
+ * @constructor
+ */
 const SampleDetails: React.FC<{audit: boolean}> = (props) => {
   const actionRef: React.MutableRefObject<ActionType | undefined> = useRef<ActionType>();
   const formRef: any = useRef<ActionType>();

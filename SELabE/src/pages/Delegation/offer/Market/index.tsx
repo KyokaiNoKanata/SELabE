@@ -22,10 +22,10 @@ export default () => {
       sorter: false,
       render: (text: ReactNode, record: API.DelegationItem) => {
         const {id} = record;
-        return [<Link to={{pathname: constant.docPath.delegation.offer.WRITE, state: {id: id}}}>
+        return (<Link to={{pathname: constant.docPath.delegation.offer.WRITE, state: {id: id}}}>
           <Button type="primary">生成报价</Button>
         </Link>
-        ]
+        )
       },
     }
   ];

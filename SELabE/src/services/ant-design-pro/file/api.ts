@@ -49,6 +49,11 @@ export async function exportPDFByDelegation(delegationId: number, tableName: str
   })
 }
 
+/**
+ * 下载PDF
+ * @param tableId 表格编号
+ * @param tableName 表格名称
+ */
 export async function downloadPDF(tableId: string,tableName: string) {
   const resp = await exportPDF(tableId,tableName);
   if (resp.code== 0) {
@@ -60,6 +65,12 @@ export async function downloadPDF(tableId: string,tableName: string) {
     message.error(resp.msg);
   }
 }
+
+/**
+ * 通过委托id下载表格
+ * @param delegationId 委托编号
+ * @param tableName 表格名称
+ */
 export async function downloadPDFByDelegation(delegationId: number,tableName: string) {
   const resp = await exportPDFByDelegation(delegationId,tableName);
   if (resp.code== 0) {

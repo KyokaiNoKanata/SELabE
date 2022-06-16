@@ -134,7 +134,7 @@ const ContractForm4: React.FC<{
                       textAlign: "center",
                       margin: 20,
                     }
-                  }><Button type="primary" onClick={() => props.onSubmit?.()}>
+                  } key={'normal'}><Button type="primary" onClick={() => props.onSubmit?.()}>
                     下一步 {'>'}
                   </Button>
                   </div>
@@ -145,7 +145,8 @@ const ContractForm4: React.FC<{
                     textAlign: "right",
                     margin: 20,
                   }
-                }>
+                }
+                key={'last'}>
                   <ProForm.Group>
                     <Button onClick={() => props.onPre?.()}>
                       {'<'} 上一步
@@ -227,7 +228,6 @@ const ContractForm4: React.FC<{
               <ProFormText name='委托方开户银行' label='开户银行' disabled={prop.editable != 1} initialValue={''}/>
               <ProFormText name='委托方账号' label='账号' disabled={prop.editable != 1} initialValue={''}/>
               <ProFormText name='委托方邮编' label='邮编' disabled={prop.editable != 1} initialValue={''}/>
-              <div>传真:62661627</div>
             </ProCard>
             <ProCard title="受托方" bordered>
               <div>单位全称:南京大学计算机软件新技术国家重点实验室(签章)</div>
