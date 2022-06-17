@@ -20,6 +20,11 @@ type Pagination = {
   current: number;
 };
 
+type roleFormType = {
+  userId?: number;
+  roleIds?: number[];
+}
+
 const handleUpdate = async (currentRow?: API.UserDataItem) => {
   const hide = message.loading('正在修改');
   try {
@@ -40,11 +45,11 @@ const handleUpdate = async (currentRow?: API.UserDataItem) => {
  * @param currentRow
  */
 
-const handleRoleUpdate = async (currentRow?: API.UserDataItem) => {
+const handleRoleUpdate = async (currentRow?: roleFormType) => {
   const hide = message.loading('正在配置');
   console.log(currentRow);
   try {
-    await assignRoleToUser(currentRow?.id, currentRow?.roleIds);
+    await assignRoleToUser(currentRow?.userId, currentRow?.roleIds);
     hide();
     message.success('配置成功');
     return true;
@@ -69,7 +74,6 @@ const RoleList: React.FC = () => {
           <a
             onClick={() => {
               setCurrentRow(entity);
-              //setShowDetail(true);
             }}
           >
             {dom}
@@ -183,12 +187,13 @@ const RoleList: React.FC = () => {
             initialValue={record.sex}
           />
         </ModalForm>,
-        <ModalForm
+        <ModalForm<roleFormType>
           key={'deploy' + record.id}
           title={"分配角色"}
           trigger={<Button type={"primary"}>配置</Button>}
-          onFinish={async (values?: API.UserDataItem) => {
-            values!.id = record.id;
+          onFinish={async (values?: roleFormType) => {
+            values!.userId = record.id;
+            console.log(values);
             await handleRoleUpdate(values);
             actionRef.current?.reload();
             return true;
@@ -215,15 +220,18 @@ const RoleList: React.FC = () => {
             request={
               async () => {
                 return await allRoles().then(res => {
-                  return res.data?.map(item => {
+                  const options = res.data?.map(item => {
                     return {
                       value: item.id,
                       label: item.name,
                     };
                   });
+                  console.log(options);
+                  return options;
                 })
               }
             }
+
           />
         </ModalForm>
 

@@ -1,11 +1,8 @@
 import React from 'react';
 import { UploadOutlined } from '@ant-design/icons';
-import {Button, Input, Upload, message, List} from 'antd';
-import ProForm, {
-  ProFormFieldSet,
-  ProFormSelect,
+import {Button, Upload, message} from 'antd';
+import {
   ProFormText,
-  ProFormTextArea,
   ModalForm
 } from '@ant-design/pro-form';
 import ProDescriptions from "@ant-design/pro-descriptions";
