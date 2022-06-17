@@ -444,6 +444,7 @@ declare namespace API {
     id?: number;
     routes: MenuDataItem[];
     status?: number;
+    setFlag?: boolean;
   }
 
   type RoleDataItem = {
