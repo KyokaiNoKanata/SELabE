@@ -11,7 +11,7 @@ import type {RequestOptionsInit} from 'umi-request';
 import defaultSettings from '../config/defaultSettings';
 import cookie from 'react-cookies'
 import type API from './services/ant-design-pro/typings'
-import {forEach, parseInt, unset} from "lodash";
+import {forEach, parseInt} from "lodash";
 
 const isDev = process.env.NODE_ENV === 'development';
 const loginPath = '/user/login';
@@ -44,6 +44,7 @@ export async function getInitialState(): Promise<{
   };
   if (history.location.pathname !== loginPath && history.location.pathname !== registerPath) {
     const currentUser = await fetchUserInfo();
+    console.log(currentUser);
     return {
       fetchUserInfo,
       currentUser,
@@ -88,13 +89,9 @@ const processMenu = (rawMenu: API.MenuDataItem[]) => {
       })
     }
   })
-  console.log(rawMenu);
-  const processedMenu: API.MenuDataItem[] = rawMenu.filter(item =>{
-    return item.routes && (!item.parentKeys || item.parentKeys.length==0);
-  })
-
-  console.log(processedMenu);
-  return processedMenu;
+  return rawMenu.filter(item => {
+    return item.routes && (!item.parentKeys || item.parentKeys.length == 0);
+  });
 
 };
 

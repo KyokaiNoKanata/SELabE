@@ -1,7 +1,7 @@
 import {ExclamationCircleOutlined, PlusOutlined} from '@ant-design/icons';
 import {Button, Drawer, message, Modal} from 'antd';
-import React, {ReactNode, useRef, useState} from 'react';
-
+import React, { useRef, useState} from 'react';
+import type {ReactNode} from "react";
 import {PageContainer} from '@ant-design/pro-layout';
 import type {ActionType, ProColumns} from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
@@ -21,7 +21,7 @@ import {FormattedMessage} from "@@/plugin-locale/localeExports";
 import {Link, useIntl} from "umi";
 import {currentUser} from "@/services/ant-design-pro/api";
 import constant from "../../../../config/constant";
-import {ProFormInstance} from "@ant-design/pro-form/lib/BaseForm/BaseForm";
+import type {ProFormInstance} from "@ant-design/pro-form/lib/BaseForm/BaseForm";
 
 const {confirm} = Modal;
 

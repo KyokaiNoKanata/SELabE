@@ -473,7 +473,10 @@ declare namespace API {
     loginIP?: string;
     loginDate?: number;
     createTime?: number;
-    roleIds?: number[];
+    roles?: {
+      id?: number;
+      name?: string;
+    }[]
   }
 
   type UserData = {
