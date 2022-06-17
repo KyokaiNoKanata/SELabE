@@ -11,7 +11,7 @@ import type {RequestOptionsInit} from 'umi-request';
 import defaultSettings from '../config/defaultSettings';
 import cookie from 'react-cookies'
 import type API from './services/ant-design-pro/typings'
-import {forEach, parseInt} from "lodash";
+import {forEach, parseInt, unset} from "lodash";
 
 const isDev = process.env.NODE_ENV === 'development';
 const loginPath = '/user/login';
@@ -79,18 +79,23 @@ const processMenu = (rawMenu: API.MenuDataItem[]) => {
   forEach(rawMenu, (item1)=>{
     if(item1.parentKeys!==null && item1.parentKeys?.length !== 0) {
       forEach(rawMenu, (item2) => {
-        try {
           if (item2.id == parseInt(item1!.parentKeys![0])) {
             console.log(item1);
+            if(!item2.routes){
+              item2.routes = [];
+            }
             item2.routes.push(item1);
           }
-        } catch (e) {
-        }
       })
     }
   })
-  console.log(rawMenu);
-  return rawMenu;
+  const processedMenu: API.MenuDataItem[] = rawMenu.filter(item =>{
+    return item.routes || !item.parentKeys;
+  })
+
+  console.log(processedMenu);
+  return processedMenu;
+
 };
 
 // ProLayout 支持的api https://procomponents.ant.design/components/layout
@@ -103,7 +108,6 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
         userId: initialState?.currentUser?.userId
       },
       request: async () => {
-        console.log(initialState?.currentUser?.menuData)
         return processMenu(initialState!.currentUser!.menuData!);
       },
     },
