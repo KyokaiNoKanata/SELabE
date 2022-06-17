@@ -88,8 +88,9 @@ const processMenu = (rawMenu: API.MenuDataItem[]) => {
       })
     }
   })
+  console.log(rawMenu);
   const processedMenu: API.MenuDataItem[] = rawMenu.filter(item =>{
-    return item.routes && !item.parentKeys;
+    return item.routes && (!item.parentKeys || item.parentKeys.length==0);
   })
 
   console.log(processedMenu);
