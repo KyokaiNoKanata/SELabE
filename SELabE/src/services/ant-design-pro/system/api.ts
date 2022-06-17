@@ -197,7 +197,7 @@ export async function getRoleByUser(
 export async function assignRoleToUser(
   userId?: number,
   roleIds?: number[],
-  options?: Record<string, any>,
+  options?: any
 ) {
   return request<API.Response>('/admin-api/system/front/permission/assign-user-role', {
     method: 'POST',
@@ -208,3 +208,16 @@ export async function assignRoleToUser(
     ...(options || {}),
   });
 }
+
+export async function updateUserInfo(data: API.UserDataItem, options?: any) {
+  return request<API.UserDataItem>("/admin-api/system/front/user/profile/update", {
+    method: 'PUT',
+    data: {
+      nickname: data.nickname,
+      email: data.email
+    },
+    ...(options || {}),
+  });
+
+}
+
