@@ -80,7 +80,6 @@ const processMenu = (rawMenu: API.MenuDataItem[]) => {
     if(item1.parentKeys!==null && item1.parentKeys?.length !== 0) {
       forEach(rawMenu, (item2) => {
           if (item2.id == parseInt(item1!.parentKeys![0])) {
-            console.log(item1);
             if(!item2.routes){
               item2.routes = [];
             }
@@ -90,7 +89,7 @@ const processMenu = (rawMenu: API.MenuDataItem[]) => {
     }
   })
   const processedMenu: API.MenuDataItem[] = rawMenu.filter(item =>{
-    return item.routes || !item.parentKeys;
+    return item.routes && !item.parentKeys;
   })
 
   console.log(processedMenu);
