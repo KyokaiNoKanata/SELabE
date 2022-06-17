@@ -10,40 +10,70 @@ import constant from "../../../../../config/constant";
 import Modal from "@/pages/Delegation/DelegationDetail/components/Modal";
 const {Step} = Steps;
 /**
- * 委托详情页，用户可查看整个委托流程的进展,委托状态的详细信息,在特定委托状态下可以跳转到相应的文档进行编辑,通过”查看我的文档“可以浏览委托相关的各个文档
+ * 项目详情页，用户可查看整个委托流程的进展,委托状态的详细信息,在特定委托状态下可以跳转到相应的文档进行编辑,通过”查看我的文档“可以浏览委托相关的各个文档
  */
 const ProjectDetail: React.FC = () => {
-  //”我的文档“弹窗的可视状态
+  /**
+   * ”我的文档“弹窗的可视状态
+   */
   const [modalVisible, setModalVisible] = useState(false);
-  //委托的状态
+  /**
+   * 委托的状态
+   */
   const [delegationState, setDelegationState] = useState<string>();
-  //委托名称
+  /**
+   * 委托名称
+   */
   const [delegationName, setDelegationName] = useState<string>();
-  //委托发起时间
+  /**
+   * 委托发起时间
+   */
   const [launchTime, setLaunchTime] = useState<string>();
-  //委托最新修改时间
+  /**
+   * 委托最新修改时间
+   */
   const [operateTime, setOperateTime] = useState<string>();
-  //市场部审核委托的意见
+  /**
+   * 市场部审核委托的意见
+   */
   const [marketRemark, setMarketRemark] = useState<string>();
-  //测试部审核委托的意见
+  /**
+   * 测试部审核委托的意见
+   */
   const [testingRemark, setTestingRemark] = useState<string>();
-  //负责审核的市场部人员ID
+  /**
+   * 负责审核的市场部人员ID
+   */
   const [marketDeptStaffId, setMarketDeptStaffId] = useState<string>();
-  //负责审核的测试部人员ID
+  /**
+   * 负责审核的测试部人员ID
+   */
   const [testingDeptStaffId, setTestingDeptStaffId] = useState<string>();
-  //负责审核的市场部人员名称
+  /**
+   * 负责审核的市场部人员名称
+   */
   const [marketDeptStaffName, setMarketDeptStaffName] = useState<string>();
-  //负责审核的测试部人员名称
+  /**
+   * 负责审核的测试部人员名称
+   */
   const [testingDeptStaffName, setTestingDeptStaffName] = useState<string>();
-  //报价单意见
+  /**
+   * 报价单意见
+   */
   const [offerRemark, setOfferRemark] = useState<string>();
-  //项目ID
+  /**
+   * 项目ID
+   */
   const [projectId, setProjectId] = useState<string>();
   const params = useLocation();
   const delegationId = !params.state ? -1 : (params.state as any).id;//ok
-  //根据委托状态跳转到相应文档编辑页面的跳转路径
+  /**
+   * 根据委托状态跳转到相应文档编辑页面的跳转路径
+   */
   let tran_pathName = "";
-  //当前委托在步骤条上的状态 {error: 状态不通过; process: 状态进行中; finish: 状态已完成}
+  /**
+   * 当前委托在步骤条上的状态 {error: 状态不通过; process: 状态进行中; finish: 状态已完成}
+   */
   let currentStatus = "";
 
   const request = async () => {

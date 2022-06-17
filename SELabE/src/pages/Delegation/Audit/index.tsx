@@ -23,11 +23,11 @@ export default () => {
         } else {
           path = constant.docPath.delegation.audit.TESTING;
         }
-        return [
+        return (
           <Link to={{pathname: path, state: {id: id}}}>
             <Button type="primary">审核委托</Button>
           </Link>
-        ]
+        )
       }
     },
   ]

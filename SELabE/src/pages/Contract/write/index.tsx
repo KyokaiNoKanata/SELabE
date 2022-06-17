@@ -31,11 +31,11 @@ export default () => {
         } else {
           path = constant.docPath.contract.write.CLIENT;
         }
-        return [
+        return (
           <Link to={{pathname: path, state: {id: id, contractId: contractId}}}>
             <Button type="primary">填写合同</Button>
           </Link>
-        ]
+        )
       },
     }
   ]

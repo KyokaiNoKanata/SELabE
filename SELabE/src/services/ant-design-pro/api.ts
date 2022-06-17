@@ -3,6 +3,26 @@
 import { request } from 'umi';
 import API from "../ant-design-pro/typings"
 
+/**
+ * userInfo 获取用户信息
+ */
+export async function getUserInfo() {
+  return request< {
+    code: number,
+    data: {
+      permissions: string[],
+      roles: string[],
+      user: {
+        id: number,
+        nickname: string,
+        avatar: string,
+      }
+    }
+  }>("/admin-api/system/get-permission-info",{
+    method: 'GET',
+  })
+}
+
 /** 获取当前的用户 GET /api/currentUser */
 export async function currentUser(options?: { [key: string]: any }) {
   const info = (await request<{

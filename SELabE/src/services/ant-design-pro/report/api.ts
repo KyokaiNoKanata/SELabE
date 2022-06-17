@@ -3,8 +3,8 @@ import request from "umi-request";
 import type API from "@/services/ant-design-pro/typings";
 
 /**
- * 测试报告的创建，获得，提交
- * @param delegationId 通过委托id创建管理的report
+ * 测试报告的创建
+ * @param body.delegationId 通过委托id创建管理的report
  * @return data = reportId
  */
 export async function createReport(body: { delegationId: number }) {
@@ -16,6 +16,10 @@ export async function createReport(body: { delegationId: number }) {
   });
 }
 
+/**
+ * 获得测试报告
+ * @param params.reportId: 报告编号
+ */
 export async function getReport(params: { reportId: number }) {
   return request<API.Response>('/admin-api/system/report/get', {
     method: 'GET',
@@ -25,6 +29,10 @@ export async function getReport(params: { reportId: number }) {
   });
 }
 
+/**
+ * 提交测试报告
+ * @param body.reportId:报告编号
+ */
 export async function submitReport(body: { reportId: number }) {
   return request<API.Response>('/admin-api/system/report/submit', {
     method: 'PUT',
@@ -34,7 +42,10 @@ export async function submitReport(body: { reportId: number }) {
   });
 }
 
-
+/**
+ * 获得table11
+ * @param params.id:表格编号
+ */
 export function getTable11(params: {
   id: number //表格编号
 }) {
@@ -45,6 +56,11 @@ export function getTable11(params: {
   )
 }
 
+/**
+ * 保存table11
+ * @param body.reportId: 表格编号
+ * @param body.data: json对象
+ */
 export function saveTable11(body: {
   reportId: number,
   data: object,
@@ -55,8 +71,10 @@ export function saveTable11(body: {
     }
   )
 }
-
-//软件测试记录 table9
+/**
+ * 获得table9
+ * @param params.id：表格编号
+ */
 export function getTable9(params: {
   id: number //表格编号
 }) {
@@ -67,6 +85,11 @@ export function getTable9(params: {
   )
 }
 
+/**
+ * 保存table9
+ * @param body.reportId: 表格编号
+ * @param body.data: json对象
+ */
 export function saveTable9(body: {
   reportId: number,
   data: object,
@@ -79,6 +102,10 @@ export function saveTable9(body: {
 }
 
 //测试用例 table8
+/**
+ * 获得测试用例表单table8
+ * @param params.id: 表格编号
+ */
 export function getTable8(params: {
   id: number //表格编号
 }) {
@@ -89,6 +116,11 @@ export function getTable8(params: {
   )
 }
 
+/**
+ * 保存测试用例表单table8
+ * @param body.reportId: 表格编号
+ * @param body.data: json数据
+ */
 export function saveTable8(body: {
   reportId: number,
   data: object,
@@ -101,6 +133,10 @@ export function saveTable8(body: {
 }
 
 //测试报告 table7
+/**
+ * 获得测试报告table7
+ * @param params.id: 表格编号
+ */
 export function getTable7(params: {
   id: number //表格编号
 }) {
@@ -111,6 +147,11 @@ export function getTable7(params: {
   )
 }
 
+/**
+ * 保存测试报告table7
+ * @param body.id:表格编号
+ * @param body.data: json对象
+ */
 export function saveTable7(body: {
   reportId: number,
   data: object,
@@ -122,7 +163,10 @@ export function saveTable7(body: {
   )
 }
 
-//测试报告监察部 table10
+/**
+ * 获得测试报告检查表table10
+ * @param params id:表格编号
+ */
 export function getTable10(params: {
   id: number //表格编号
 }) {
@@ -133,6 +177,11 @@ export function getTable10(params: {
   )
 }
 
+/**
+ * 保存测试报告检查表table10
+ * @param body.reportId: 表格编号
+ * @param body.data: json数据
+ */
 export function saveTable10(body: {
   reportId: number,
   data: object,
@@ -193,6 +242,7 @@ export function archiveReport(body: {
 
 /**
  * 市场部发送报告
+ * @param body.reportId: 报告编号
  */
 export function sendReport(body: {
   reportId: number,
@@ -208,6 +258,7 @@ export function sendReport(body: {
 
 /**
  * 客户 确认接收测试报告
+ * @param: body.reportId: 报告编号
  */
 export function receiveReport(body: {
   reportId: number,

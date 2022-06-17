@@ -344,9 +344,14 @@ const StepDocReview14: React.FC<{editable: boolean}> = (props) => {
     documentReviewData.map((item) => item.id)
   );
   const params = useLocation();
+  /**
+   * 委托编号
+   */
   const delegationId = !params.state ? -1 : (params.state as any).id;
   const formRef: React.MutableRefObject<ProFormInstance | undefined> = useRef<ProFormInstance>();
-  //get data from table14
+  /**
+   * 获取table14内容
+   */
   const request = async () => {
     const delegation = (await getDelegationById(delegationId)).data;
     const table14Id = delegation.table14Id;
@@ -364,13 +369,17 @@ const StepDocReview14: React.FC<{editable: boolean}> = (props) => {
     //const obj = JSON.parse(resp.data);
     return data;
   }
+  /**
+   * 保存table14
+   * @param value json 对象
+   */
   const onSave = async (value: any) => {
     const data = value;
     //const data: object = formRef.current?.getFieldFormatValue!();//
-    console.log(formRef.current)
-    console.log(data);
+    //console.log(formRef.current)
+    //console.log(data);
     const id: number = parseInt(delegationId);
-    console.log(id)
+    //console.log(id)
     saveTable14({
       delegationId: id,
       data: data,
@@ -383,7 +392,10 @@ const StepDocReview14: React.FC<{editable: boolean}> = (props) => {
     });
     return false;//
   }
-  //不通过
+  /**
+   * 不通过
+   * @param data
+   */
   const handleAuditFailTesting = async (data: {
     id: number,//委托编号
     remark: string,//审核意见
@@ -398,7 +410,10 @@ const StepDocReview14: React.FC<{editable: boolean}> = (props) => {
       message.error(res.msg)
     }
   }
-  //通过
+  /**
+   * 通过
+   * @param data
+   */
   const handleAuditSuccessTesting = async (data: {
     id: number,
     remark: string,
@@ -414,6 +429,9 @@ const StepDocReview14: React.FC<{editable: boolean}> = (props) => {
       message.error(res.msg)
     }
   }
+  /**
+   * 提交审核意见
+   */
   const onSubmit = async () => {
     //onSave(values)
     const id: number = parseInt(delegationId);
@@ -464,7 +482,7 @@ const StepDocReview14: React.FC<{editable: boolean}> = (props) => {
                   </div>
                 );
               } else if (submitterProps.step === 1) {
-                return [
+                return (
                   <div style={
                     {
                       textAlign: "center",
@@ -476,10 +494,10 @@ const StepDocReview14: React.FC<{editable: boolean}> = (props) => {
                     </Button>,
                     <Button type="primary" onClick={() => submitterProps.onSubmit?.()}>
                       下一步 {'>'}
-                    </Button></div>,
-                ];
+                    </Button></div>
+                );
               } else if (submitterProps.step === 2) {
-                return [
+                return (
                   <div style={
                     {
                       textAlign: "center",
@@ -492,9 +510,9 @@ const StepDocReview14: React.FC<{editable: boolean}> = (props) => {
                     <Button type="primary" onClick={() => submitterProps.onSubmit?.()}>
                       下一步 {'>'}
                     </Button>,
-                  </div>,
-                ];
-              } else return [
+                  </div>
+                );
+              } else return (
                 <div style={
                   {
                     textAlign: "right",
@@ -513,7 +531,7 @@ const StepDocReview14: React.FC<{editable: boolean}> = (props) => {
                     </Button>
                   </ProForm.Group>
                 </div>
-              ];
+              );
             },
           }}
           stepsProps={{

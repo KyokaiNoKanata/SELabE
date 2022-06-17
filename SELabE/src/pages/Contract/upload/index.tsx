@@ -47,7 +47,7 @@ export default () => {
         const {id} = record;
         const {contractId} = record;//合同id
         if (record.state == '合同签署中') {
-          return [
+          return (
             <ModalForm
               title="上传"
               trigger={
@@ -89,7 +89,7 @@ export default () => {
                 </Upload>
               </ProForm.Group>
             </ModalForm>
-          ]
+          )
         }
         else if(record.state == constant.delegationState.CONTRACT_SIGN_SUCCESS.desc
           || record.state == constant.delegationState.CLIENT_UPLOAD_SAMPLE_INFO.desc

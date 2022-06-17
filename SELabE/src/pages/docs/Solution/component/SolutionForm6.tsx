@@ -14,7 +14,11 @@ import {Button, message} from 'antd';
 import {useLocation} from 'react-router-dom';
 import {getDelegationById} from "@/services/ant-design-pro/delegation/api";
 
-//测试方案表单 table6
+/**
+ * 测试方案表单 table6
+ * @param props.editable: 是否可以贱婢
+ * @constructor
+ */
 const SolutionForm6: React.FC<{
   editable: boolean,//是否可编辑
 }> = (props) => {
@@ -82,7 +86,7 @@ const SolutionForm6: React.FC<{
         submitter={{
           render: (submitterProps) => {
             if (submitterProps.step != 5) {
-              return [
+              return (
                 <div style={
                   {
                     textAlign: "center",
@@ -94,13 +98,13 @@ const SolutionForm6: React.FC<{
                   </Button>,
                   <Button type="primary" onClick={() => submitterProps.onSubmit?.()}>
                     下一步 {'>'}
-                  </Button></div>,
-              ];
+                  </Button></div>
+              );
             }
             //最后一页
             //可以保存，提交
             if (props.editable) {
-              return ([
+              return (
                 <div style={
                   {
                     textAlign: "right",
@@ -119,11 +123,11 @@ const SolutionForm6: React.FC<{
                     </Button>
                   </ProForm.Group>
                 </div>
-              ]);
+              );
             }
             //只读
             else {
-              return ([
+              return (
                 <div style={
                   {
                     textAlign: "right",
@@ -136,7 +140,7 @@ const SolutionForm6: React.FC<{
                     </Button>,
                   </ProForm.Group>
                 </div>
-              ]);
+              );
             }
           },
         }}

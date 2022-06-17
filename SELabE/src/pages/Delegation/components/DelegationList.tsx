@@ -1,7 +1,7 @@
 import {ExclamationCircleOutlined, PlusOutlined} from '@ant-design/icons';
 import {Button, Drawer, message, Modal} from 'antd';
 import React, { useRef, useState} from 'react';
-import type {ReactNode} from "react";
+import type {ReactNode} from 'react';
 import {PageContainer} from '@ant-design/pro-layout';
 import type {ActionType, ProColumns} from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
@@ -19,7 +19,7 @@ import {
 import type API from "@/services/ant-design-pro/typings";
 import {FormattedMessage} from "@@/plugin-locale/localeExports";
 import {Link, useIntl} from "umi";
-import {currentUser} from "@/services/ant-design-pro/api";
+import {getUserInfo} from "@/services/ant-design-pro/api";
 import constant from "../../../../config/constant";
 import type {ProFormInstance} from "@ant-design/pro-form/lib/BaseForm/BaseForm";
 
@@ -121,6 +121,10 @@ export type DelegationListType = {
    */
   changeable?: boolean;
   /**
+   * 是否列出全部，如果是，才可以根据状态查询，不然已经有状态限制了
+   */
+  queryState?: boolean;
+  /**
    * 前置列
    */
   columnsBefore?: ProColumns<API.DelegationItem>[];
@@ -171,6 +175,7 @@ const DelegationList: React.FC<DelegationListType> = (props) => {
     } & {
       name?: string;
       projectId?: string;
+      state?: string;
     },
     /**
      * 排序对象
@@ -181,7 +186,7 @@ const DelegationList: React.FC<DelegationListType> = (props) => {
     /*if (props.request) {
       await props.request(params, options);
     }*/
-    const user = (await currentUser()).data;
+    const user = (await getUserInfo()).data;
     setRoles(user.roles);
     setUserId(user.user.id)
     const p1: API.DelegationQueryParams = {
@@ -189,6 +194,7 @@ const DelegationList: React.FC<DelegationListType> = (props) => {
       pageNo: params.current!,
       name: params.name,
       projectId: params.projectId,
+      state: params.state,
     }
     if (sort && sort != {}) {
       //todo
@@ -284,9 +290,28 @@ const DelegationList: React.FC<DelegationListType> = (props) => {
       title: <FormattedMessage id="pages.searchTable.titleStatus" defaultMessage="Status"/>,
       dataIndex: 'state',
       hideInForm: false,
-      hideInSearch: true,//
+      hideInSearch: !props.queryState,//
       sorter: true,
-      //todo:render
+      valueType: 'select',
+      valueEnum: {
+        "": {
+          text: '全部委托',
+          status: 'Default',
+        },
+        "470,480": {
+          text: '已取消的委托',
+          status: 'Error',
+        },
+        "235,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460": {
+          text: '已立项的委托',
+          status: 'Success',
+        },
+        "10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230" : {
+          text: '进行中的委托',
+          status: 'Processing',
+        }
+      }
+      //render
     },
     /*//状态变更时间
     {
@@ -296,7 +321,7 @@ const DelegationList: React.FC<DelegationListType> = (props) => {
       hideInTable: true,
       valueType: 'dateTime',
       render: (text, record) => [
-        // todo format Date
+        //  format Date
         //String(new Date(record.operateTime))
         //new Date(record.operateTime).toLocaleTimeString()
         new Date(record.update_time!).toLocaleString()
@@ -426,20 +451,20 @@ const DelegationList: React.FC<DelegationListType> = (props) => {
         if ((record.state == constant.delegationState.DELEGATE_WRITING.desc
           || record.state == constant.delegationState.MARKETING_DEPARTMENT_AUDIT_DELEGATION_FAIL.desc
           || record.state == constant.delegationState.TESTING_DEPARTMENT_AUDIT_DELEGATION_FAIL.desc)) {
-          return [
+          return (
             <Link to={{pathname: constant.docPath.delegation.APPLY, state: {id: id}}}>
               <Button type="primary">填写</Button>
             </Link>
-          ]
+          )
         } else if(record.state == constant.delegationState.CLIENT_CANCEL_DELEGATION.desc
           || record.state == constant.delegationState.ADMIN_CANCEL_DELEGATION.desc){
-          return [
+          return (
             <text>委托已取消</text>
-          ]
+          )
         } else {
-          return [
+          return (
             <text>委托已填写</text>
-          ]
+          )
         }
       }
     },
@@ -503,13 +528,12 @@ const DelegationList: React.FC<DelegationListType> = (props) => {
               label={'委托编号'}
               readonly
               initialValue={record.id}
-            ></ProFormText>
+             />
             <ProFormText
               label={'取消理由'}
               name={'cancelRemark'}
               placeholder={'请输入取消理由'}
-            >
-            </ProFormText>
+             />
           </ModalForm>
         ]
       }

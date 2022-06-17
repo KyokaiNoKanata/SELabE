@@ -67,6 +67,11 @@ const constant = {
     REPORT_WAITING_AUDIT: "360,380,400",
     //有测试方案
     HAS_SOLUTION: "310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460",
+
+    //已取消
+    CANCELED: "470,480",
+    //委托进行中
+    DELEGATION_PROCESSING: "10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230",
   },
   /**
    * 权限
@@ -208,11 +213,12 @@ const constant = {
       delegation: {
         list: "/delegation/list",                     //查看委托 所有人
         distribute: "/delegation/distribute",         //分配委托 市场部/测试部主管
+        audit: "/delegation/audit",                   //审核委托 市场部/测试部员工
         writeOffer: "/delegation/offer/write",        //生成报价 市场部员工
         auditOffer: "/delegation/offer/audit",        //处理报价 客户
         writeContract: "/delegation/contract/write",  //填写合同 市场部员工/客户
         auditContract: "/delegation/contract/audit",  //审核合同 市场部员工/客户
-        uploadContract: "delegation/contract/upload", //上传合同 市场部员工
+        uploadContract: "/delegation/contract/upload", //上传合同 市场部员工
         fillProjectId: "/delegation/fillProjectId",   //填写项目编号 测试部主管
       },
       project: {

@@ -23,6 +23,9 @@ const Date: any = ProFormDatePicker;
  */
 const StepApplyForm2: React.FC<{ editable: boolean, isClient: boolean }> = (prop) => {
   const params = useLocation();
+  /**
+   * 委托id
+   */
   const delegationId = !params.state ? -1 : (params.state as any).id
   const request = async () => {
     const table2Id = (await getDelegationById(delegationId)).data.table2Id;
@@ -34,6 +37,10 @@ const StepApplyForm2: React.FC<{ editable: boolean, isClient: boolean }> = (prop
     });
     return resp.data;
   }
+  /**
+   * 保存table2
+   * @param value json对象
+   */
   const onSubmit = async (value: any) => {
     saveTable2({
       delegationId: delegationId,
