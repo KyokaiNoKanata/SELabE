@@ -18,7 +18,7 @@ export default {
   test: {
     '/admin-api/': {
       //target: "http://210.28.133.13:21247/admin-api/",
-      target: "http://127.0.0.1:48080/admin-api/",
+      target: "http://10.0.0.8:48080/admin-api/",
       changeOrigin: true,
       pathRewrite: {'^/admin-api': ''},
     },

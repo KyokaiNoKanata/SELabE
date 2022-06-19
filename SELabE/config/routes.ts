@@ -350,7 +350,7 @@ export default [
                 path: constant.docPath.delegation.audit.TESTING,
                 name: '测试部',
                 icon: 'table',
-                component: './docs/Delegation/audit/testing',
+                component: './docs/Delegation/audit/Testing',
               },
             ]
           },
@@ -363,13 +363,13 @@ export default [
                 name: '填写报价单',
                 path: constant.docPath.delegation.offer.WRITE,
                 icon: 'smile',
-                component: './docs/delegation/offer/Marketing',
+                component: './docs/Delegation/offer/Marketing',
               },
               {
                 name: '处理报价单',
                 path: constant.docPath.delegation.offer.HANDLE,
                 icon: 'smile',
-                component: './docs/delegation/offer/Client',
+                component: './docs/Delegation/offer/Client',
               },
             ]
           },
@@ -377,7 +377,7 @@ export default [
             path: constant.docPath.delegation.FILL_PROJECT_ID,
             name: '填写项目编号',
             icon: 'table',
-            component: './docs/delegation/FillProjectId',
+            component: './docs/Delegation/FillProjectId',
           }
         ]
       },
