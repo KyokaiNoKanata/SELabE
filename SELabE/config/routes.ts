@@ -68,6 +68,24 @@ export default [
     ],
   },
   {
+    path: '/company',
+    name: '公司管理',
+    icon: 'crown',
+    //access: 'canAdmin',
+    routes: [
+      {
+        path: './authlist',
+        name: '认证用户管理',
+        component: './Company/AuthList',
+      },
+      {
+        path: './companylist',
+        name: '公司管理',
+        component: './Company/CompanyList',
+      },
+    ],
+  },
+  {
     path: '/admin',
     name: 'admin',
     icon: 'crown',

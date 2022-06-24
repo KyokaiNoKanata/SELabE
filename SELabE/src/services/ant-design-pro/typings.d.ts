@@ -483,5 +483,18 @@ declare namespace API {
     list?: UserDataItem[];
     total?: number;
   }
+
+  type CompanyDataItem = {
+    name?:string;
+    address?: string;
+    phone?: string;
+    code?: string,
+    id?: number,
+  }
+
+  type CompanyData = {
+    list?: CompanyDataItem[];
+    total?: number;
+  }
 }
 export default API;

@@ -218,6 +218,49 @@ export async function updateUserInfo(data: API.UserDataItem, options?: any) {
     },
     ...(options || {}),
   });
+}
 
+export async function companyList(
+  params?: {
+    total: number;
+    pageSize: number;
+    current: number;
+  },
+  options?: any,
+) {
+  return request<API.CompanyData>('/admin-api/system/company/page', {
+    method: 'GET',
+    params: {
+      pageSize: params?.pageSize,
+      pageNo: params?.current,
+    },
+    ...(options || {}),
+  });
+}
+
+export async function addCompanyItem(data?: API.CompanyDataItem, options?: any) {
+  return request<API.Response>('/admin-api/system/company/create', {
+    method: 'POST',
+    data,
+    ...(options || {}),
+  });
+}
+
+export async function updateCompanyItem(data?: API.CompanyDataItem, options?: any) {
+  return request<API.Response>('/admin-api/system/company/update', {
+    method: 'PUT',
+    data,
+    ...(options || {}),
+  });
+}
+
+export async function deleteCompanyItem(id: number, options?: Record<string, any>) {
+  return request<API.Response>('/admin-api/system/company/delete', {
+    method: 'DELETE',
+    params:{
+      id: id,
+    },
+    ...(options || {}),
+  });
 }
 
