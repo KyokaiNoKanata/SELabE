@@ -1,7 +1,7 @@
 import React from 'react';
 import { Modal } from 'antd';
-import type {API} from "@/services/ant-design-pro/typings";
-import {getMenuByRole, getRoleByUser, menuList, roleList} from "@/services/ant-design-pro/system/api";
+import type API from "@/services/ant-design-pro/typings";
+import {roleList} from "@/services/ant-design-pro/system/api";
 import Form from "@ant-design/pro-form";
 import {
   ProForm,
@@ -9,7 +9,6 @@ import {
   ProFormSelect
 } from '@ant-design/pro-form';
 import {forEach} from "lodash";
-import { DefaultOptionType } from 'antd/lib/select';
 
 
 export type UpdateFormProps = {
@@ -38,17 +37,6 @@ const UpdateForm: React.FC<UpdateFormProps> = (props) => {
     >
       <ProForm
         title="角色分配"
-        request={
-          async () => {
-            form.resetFields();
-            const menus = await getRoleByUser(props.values.id);
-            return ({
-              name:props.values.name,
-              id:props.values.id,
-              menuIds: menus.data
-            })
-          }
-        }
         onFinish={props.onSubmit}
       >
         <ProFormText
@@ -81,7 +69,6 @@ const UpdateForm: React.FC<UpdateFormProps> = (props) => {
                   value: item.id
                 })
               });
-              console.log(options);
             });
             return options;
           }

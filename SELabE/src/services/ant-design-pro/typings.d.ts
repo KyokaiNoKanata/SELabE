@@ -496,5 +496,16 @@ declare namespace API {
     list?: CompanyDataItem[];
     total?: number;
   }
+
+  type AuthDataItem = {
+    userId?: number,
+    companyId?: number,
+    id?: number,
+  }
+
+  type AuthData = {
+    list?: AuthDataItem[];
+    total?: number;
+  }
 }
 export default API;

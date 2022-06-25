@@ -151,6 +151,21 @@ export async function assignMenuToRole(
   });
 }
 
+export async function allUsers(
+  options?: Record<string, any>,
+  params?: any
+) {
+  return request<{
+    data: API.UserDataItem[]
+  }>('/admin-api/system/front/user/list-all-simple', {
+    method: 'GET',
+    params: {
+      ...params,
+    },
+    ...(options || {}),
+  });
+}
+
 export async function userList(
   params?: {
     total: number;
@@ -238,6 +253,21 @@ export async function companyList(
   });
 }
 
+export async function allCompanies(
+  options?: Record<string, any>,
+  params?: any
+) {
+  return request<{
+    data: API.CompanyDataItem[]
+  }>('/admin-api/system/company/page', {
+    method: 'GET',
+    params: {
+      ...params,
+    },
+    ...(options || {}),
+  });
+}
+
 export async function addCompanyItem(data?: API.CompanyDataItem, options?: any) {
   return request<API.Response>('/admin-api/system/company/create', {
     method: 'POST',
@@ -256,6 +286,50 @@ export async function updateCompanyItem(data?: API.CompanyDataItem, options?: an
 
 export async function deleteCompanyItem(id: number, options?: Record<string, any>) {
   return request<API.Response>('/admin-api/system/company/delete', {
+    method: 'DELETE',
+    params:{
+      id: id,
+    },
+    ...(options || {}),
+  });
+}
+
+export async function authList(
+  params?: {
+    total: number;
+    pageSize: number;
+    current: number;
+  },
+  options?: any,
+) {
+  return request<API.CompanyData>('/admin-api/system/user-company/page', {
+    method: 'GET',
+    params: {
+      pageSize: params?.pageSize,
+      pageNo: params?.current,
+    },
+    ...(options || {}),
+  });
+}
+
+export async function addAuthItem(data?: API.AuthDataItem, options?: any) {
+  return request<API.Response>('/admin-api/system/user-company/create', {
+    method: 'POST',
+    data,
+    ...(options || {}),
+  });
+}
+
+export async function updateAuthItem(data?: API.CompanyDataItem, options?: any) {
+  return request<API.Response>('/admin-api/system/user-company/update', {
+    method: 'PUT',
+    data,
+    ...(options || {}),
+  });
+}
+
+export async function deleteAuthItem(id: number, options?: Record<string, any>) {
+  return request<API.Response>('/admin-api/system/user-company/delete', {
     method: 'DELETE',
     params:{
       id: id,

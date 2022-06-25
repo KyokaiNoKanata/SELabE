@@ -4,15 +4,18 @@ import type {ReactNode} from "react";
 import {PageContainer} from '@ant-design/pro-layout';
 import type {ActionType, ProColumns} from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
-import {ModalForm, ProFormRadio, ProFormSelect, ProFormText} from '@ant-design/pro-form';
+import {ModalForm, ProFormSelect, ProFormText} from '@ant-design/pro-form';
 import type API from "@/services/ant-design-pro/typings";
 import {
-  assignRoleToUser,
-  userList,
-  updateUserItem,
-  getRoleByUser,
-  allRoles,
+  authList,
+  addAuthItem,
+  deleteAuthItem,
+  updateAuthItem,
+  allUsers,
+  allCompanies,
 } from "@/services/ant-design-pro/system/api";
+import {PlusOutlined} from "@ant-design/icons";
+import {forEach} from "lodash";
 
 type Pagination = {
   total: number;
@@ -20,15 +23,29 @@ type Pagination = {
   current: number;
 };
 
-type roleFormType = {
-  userId?: number;
-  roleIds?: number[];
-}
+const handleAdd = async (fields: API.AuthDataItem) => {
+  const hide = message.loading('正在添加');
+  try {
+    await addAuthItem({ ...fields });
+    hide();
+    message.success('添加成功');
+    return true;
+  } catch (error) {
+    hide();
+    message.error('添加失败请重试！');
+    return false;
+  }
+};
 
-const handleUpdate = async (currentRow?: API.UserDataItem) => {
+/**
+ * 更新用户公司配置
+ *
+ * @param currentRow
+ */
+const handleUpdate = async (currentRow?: API.AuthDataItem) => {
   const hide = message.loading('正在修改');
   try {
-    await updateUserItem(currentRow);
+    await updateAuthItem(currentRow);
     hide();
     message.success('修改成功');
     return true;
@@ -39,35 +56,43 @@ const handleUpdate = async (currentRow?: API.UserDataItem) => {
   }
 }
 
-/**
- * 更新用户角色配置
- *
- * @param currentRow
- */
 
-const handleRoleUpdate = async (currentRow?: roleFormType) => {
-  const hide = message.loading('正在配置');
-  console.log(currentRow);
+const handleRemove = async (item: API.AuthDataItem) => {
+  const hide = message.loading('正在删除');
   try {
-    await assignRoleToUser(currentRow?.userId, currentRow?.roleIds);
+    await deleteAuthItem(item.id!);
     hide();
-    message.success('配置成功');
+    message.success('删除成功');
     return true;
   } catch (error) {
     hide();
-    message.error('配置失败请重试！');
+    message.error('失败失败请重试！');
     return false;
   }
 };
 
+const getUserData = async () => {
+  const result = await allUsers();
+  return result.data;
+}
+
+const getCompanyData = async () => {
+  const result = await allCompanies();
+  return result.data;
+}
+
 const RoleList: React.FC = () => {
+  const userOptions: { label: string | undefined; value: number | undefined; }[] | undefined = [];
+  const companyOptions: { label: string | undefined; value: number | undefined; }[] | undefined = [];
+
   const actionRef = useRef<ActionType>();
-  const [, setCurrentRow] = useState<API.UserDataItem>();
+  const [, setCurrentRow] = useState<API.AuthDataItem>();
+  const [createModalVisible, handleCreateModalVisible] = useState<boolean>(false);
   /** 国际化配置 */
 
-  const columns: ProColumns<API.UserDataItem>[] = [
+  const columns: ProColumns<API.AuthDataItem>[] = [
     {
-      title: '用户ID',
+      title: '认证编号',
       dataIndex: 'id',
       render: (dom, entity) => {
         return (
@@ -82,18 +107,13 @@ const RoleList: React.FC = () => {
       },
     },
     {
-      title: '用户名',
-      dataIndex: 'username',
+      title: '用户ID',
+      dataIndex: 'userId',
       valueType: 'textarea'
     },
     {
-      title: '昵称',
-      dataIndex: 'nickname',
-      valueType: 'textarea',
-    },
-    {
-      title: '上次登陆IP',
-      dataIndex: 'loginIP',
+      title: '公司ID',
+      dataIndex: 'companyId',
       valueType: 'textarea',
     },
 
@@ -101,151 +121,73 @@ const RoleList: React.FC = () => {
       title: '操作',
       dataIndex: 'edit',
       valueType: 'option',
-      render: (text: ReactNode, record: API.UserDataItem) => [
+      render: (text: ReactNode, record: API.AuthDataItem) => [
         <ModalForm
-          title="编辑用户信息"
+          title="编辑认证信息"
           key={"edit" + record.id}
           width="400px"
           onFinish={
-            async (values?: API.UserDataItem) => {
+            async (values?: API.AuthDataItem) => {
               values!.id = record.id;
               await handleUpdate(values);
               actionRef.current?.reload();
               return true;
             }
           }
-          trigger={<a>编辑</a>}
+          trigger={<a>修改</a>}
         >
           <ProFormText
             name="id"
             label="用户ID"
             width="md"
             disabled
-            initialValue={record.id}
-          />
-          <ProFormText
-            rules={[
-              {
-                required: true,
-                message: '用户名为必填项',
-              },
-            ]}
-            width="md"
-            name="username"
-            label="用户名"
-            initialValue={record.username}
-          />
-          <ProFormText
-            rules={[
-              {
-                required: true,
-                message: '用户昵称为必填项',
-              },
-            ]}
-            width="md"
-            name="nickname"
-            label="用户昵称"
-            initialValue={record.nickname}
-          />
-          <ProFormText
-            width="md"
-            name="remark"
-            label="备注（选填）"
-            initialValue={record.remark}
-          />
-          <ProFormText
-            rules={[
-              {
-                required: true,
-                message: '邮箱为必填项',
-              }
-            ]}
-            width="md"
-            name="email"
-            label="邮箱"
-            initialValue={record.email}
-          />
-          <ProFormRadio.Group
-            rules={[
-              {
-                required: true,
-              },
-            ]}
-            width="md"
-            name="sex"
-            label="性别"
-            options={[
-              {
-                value: 1,
-                label: '男',
-              },
-              {
-                value: 0,
-                label: '女',
-              },
-            ]}
-            initialValue={record.sex}
+            initialValue={record.userId}
           />
         </ModalForm>,
-        <ModalForm<roleFormType>
-          key={'deploy' + record.id}
-          title={"分配角色"}
-          trigger={<Button type={"primary"}>配置</Button>}
-          onFinish={async (values?: roleFormType) => {
-            values!.userId = record.id;
-            console.log(values);
-            await handleRoleUpdate(values);
+        <ModalForm
+          key={'delete' + record.id}
+          title={"确认撤销?"}
+          width="400px"
+          trigger={<a>撤销认证</a>}
+          onFinish={async () => {
+            const res = await handleRemove(record);
             actionRef.current?.reload();
-            return true;
+            return res;
           }}
-          request={
-            async () => {
-              return await getRoleByUser(record.id).then((res: { code?: number; data?: number[]; msg?: string }) => {
-                console.log(res);
-                return {
-                  roleIds: res.data
-                };
-              });
-            }}
           submitter={
             {
               searchConfig: {
                 submitText: '确认',
                 resetText: '取消',
-              }}}
-        >
-          <ProFormSelect
-            mode={"multiple"}
-            name="roleIds"
-            request={
-              async () => {
-                return await allRoles().then(res => {
-                  const options = res.data?.map(item => {
-                    return {
-                      value: item.id,
-                      label: item.name,
-                    };
-                  });
-                  console.log(options);
-                  return options;
-                })
               }
             }
-
-          />
+          }
+        >
+          <p>{"用户ID："}{record.userId}</p>
+          <p>{"公司ID："}{record.companyId}</p>
         </ModalForm>
-
       ]
     }
   ];
 
   return (
     <PageContainer>
-      <ProTable<API.UserDataItem, Pagination>
+      <ProTable<API.AuthDataItem, Pagination>
+        toolBarRender={() => [
+          <Button
+            type="primary"
+            key="primary"
+            onClick={() => {
+              handleCreateModalVisible(true);
+            }}
+          >
+            <PlusOutlined /> 新建
+          </Button>,
+        ]}
         pagination={{
           pageSize: 10,
         }}
-        headerTitle="所有用户"
+        headerTitle="已认证用户"
         actionRef={actionRef}
         rowKey="id"
         search={{
@@ -255,7 +197,7 @@ const RoleList: React.FC = () => {
           async (
             params: Pagination
           ) => {
-            const res = await userList(params);
+            const res = await authList(params);
             return {
               data: res.data.list,
               total: res.data.total,
@@ -264,7 +206,56 @@ const RoleList: React.FC = () => {
           }}
         columns={columns}
       />
+      <ModalForm
+        title="添加认证"
+        width="400px"
+        visible={createModalVisible}
+        onFinish={
+          async (values: API.AuthDataItem)=>{
+            await handleAdd(values);
+            actionRef.current?.reload();
+            return true;
+          }
+        }
+        onVisibleChange={handleCreateModalVisible}
+      >
+        <ProFormSelect
+          name="userId"
+          label="选择用户"
+          width="lg"
+          request={async () => {
+            getUserData().then(res => {
+              forEach(res, (item: API.UserDataItem) => {
+                userOptions.push({
+                  label: item.nickname,
+                  value: item.id
+                })
+              });
+            });
+            return userOptions;
+          }
+          }
+        />
+        <ProFormSelect
+          name="companyId"
+          label="认证公司"
+          width="lg"
+          request={async () => {
+            getCompanyData().then(res => {
+              forEach(res, (item: API.CompanyDataItem) => {
+                console.log(item);
+                companyOptions.push({
+                  label: item.name,
+                  value: item.id
+                })
+              });
+            });
+            return companyOptions;
+          }
+          }
+        />
 
+      </ModalForm>
     </PageContainer>
   );
 };

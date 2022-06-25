@@ -302,7 +302,7 @@ const RoleList: React.FC = () => {
         columns={columns}
       />
       <ModalForm
-        title="新建菜单"
+        title="新建角色"
         width="400px"
         visible={createModalVisible}
         onFinish={
