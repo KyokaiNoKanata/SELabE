@@ -1,5 +1,6 @@
 import request from "umi-request";
 import type API from "@/services/ant-design-pro/typings"
+import { RcFile } from "antd/lib/upload";
 
 export async function menuList(
   params?: {
@@ -259,7 +260,7 @@ export async function allCompanies(
 ) {
   return request<{
     data: API.CompanyDataItem[]
-  }>('/admin-api/system/company/page', {
+  }>('/admin-api/system/company/list-all-simple', {
     method: 'GET',
     params: {
       ...params,
@@ -338,3 +339,13 @@ export async function deleteAuthItem(id: number, options?: Record<string, any>) 
   });
 }
 
+export async function uploadAvatar(img: RcFile, options?: any) {
+  const formData = new FormData();
+  formData.append('avatarFile', img);
+  return request<API.Response>('/admin-api/system/front/user/profile/update-avatar', {
+    method: 'PUT',
+    data: formData,
+    requestType: 'form',
+    ...(options || {}),
+  });
+}

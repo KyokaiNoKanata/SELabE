@@ -14,6 +14,7 @@ import Footer from '@/components/Footer';
 import { login } from '@/services/ant-design-pro/api';
 import { getFakeCaptcha } from '@/services/ant-design-pro/login';
 import cookie from 'react-cookies'
+import type API from "../../../services/ant-design-pro/typings"
 
 import styles from './index.less';
 
