@@ -4,13 +4,12 @@ import type {ReactNode} from "react";
 import {PageContainer} from '@ant-design/pro-layout';
 import type {ActionType, ProColumns} from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
-import {ModalForm, ProFormSelect, ProFormText} from '@ant-design/pro-form';
+import {ModalForm, ProFormSelect} from '@ant-design/pro-form';
 import type API from "@/services/ant-design-pro/typings";
 import {
   authList,
   addAuthItem,
   deleteAuthItem,
-  updateAuthItem,
   allUsers,
   allCompanies,
 } from "@/services/ant-design-pro/system/api";
@@ -42,19 +41,19 @@ const handleAdd = async (fields: API.AuthDataItem) => {
  *
  * @param currentRow
  */
-const handleUpdate = async (currentRow?: API.AuthDataItem) => {
-  const hide = message.loading('正在修改');
-  try {
-    await updateAuthItem(currentRow);
-    hide();
-    message.success('修改成功');
-    return true;
-  } catch (error) {
-    hide();
-    message.error('修改失败请重试！');
-    return false;
-  }
-}
+// const handleUpdate = async (currentRow?: API.AuthDataItem) => {
+//   const hide = message.loading('正在修改');
+//   try {
+//     await updateAuthItem(currentRow);
+//     hide();
+//     message.success('修改成功');
+//     return true;
+//   } catch (error) {
+//     hide();
+//     message.error('修改失败请重试！');
+//     return false;
+//   }
+// }
 
 
 const handleRemove = async (item: API.AuthDataItem) => {
@@ -122,28 +121,6 @@ const RoleList: React.FC = () => {
       dataIndex: 'edit',
       valueType: 'option',
       render: (text: ReactNode, record: API.AuthDataItem) => [
-        <ModalForm
-          title="编辑认证信息"
-          key={"edit" + record.id}
-          width="400px"
-          onFinish={
-            async (values?: API.AuthDataItem) => {
-              values!.id = record.id;
-              await handleUpdate(values);
-              actionRef.current?.reload();
-              return true;
-            }
-          }
-          trigger={<a>修改</a>}
-        >
-          <ProFormText
-            name="id"
-            label="用户ID"
-            width="md"
-            disabled
-            initialValue={record.userId}
-          />
-        </ModalForm>,
         <ModalForm
           key={'delete' + record.id}
           title={"确认撤销?"}
