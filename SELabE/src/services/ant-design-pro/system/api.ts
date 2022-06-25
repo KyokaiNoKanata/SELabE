@@ -1,6 +1,6 @@
 import request from "umi-request";
 import type API from "@/services/ant-design-pro/typings"
-import { RcFile } from "antd/lib/upload";
+import type { RcFile } from "antd/lib/upload";
 
 export async function menuList(
   params?: {
@@ -346,6 +346,25 @@ export async function uploadAvatar(img: RcFile, options?: any) {
     method: 'PUT',
     data: formData,
     requestType: 'form',
+    ...(options || {}),
+  });
+}
+
+export async function getCompany(options?: any) {
+  return request<any>('/admin-api/system/user-company/get-company', {
+    method: 'GET',
+    ...(options || {}),
+  });
+}
+
+export async function addAuth(code?: number, userId?: number, options?: any) {
+  return request<API.Response>('/admin-api/system/user-company/auth', {
+    method: 'POST',
+    data:{
+      code: code,
+      userId: userId
+      //userId:
+    },
     ...(options || {}),
   });
 }
