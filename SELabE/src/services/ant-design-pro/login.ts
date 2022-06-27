@@ -1,20 +1,18 @@
 // @ts-ignore
 /* eslint-disable */
 import { request } from 'umi';
+import type API from "../ant-design-pro/typings"
 
-/** 发送验证码 POST /api/login/captcha */
 export async function getFakeCaptcha(
-  params: {
-    // query
-    /** 手机号 */
-    phone?: string;
-  },
+  mobile?: number,
+  scene?: number,
   options?: { [key: string]: any },
 ) {
-  return request<API.FakeCaptcha>('/api/login/captcha', {
-    method: 'GET',
-    params: {
-      ...params,
+  return request<API.Response>('/admin-api/system/send-sms-code', {
+    method: 'POST',
+    data: {
+      mobile: mobile,
+      scene: scene
     },
     ...(options || {}),
   });

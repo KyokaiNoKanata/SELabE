@@ -397,7 +397,9 @@ declare namespace API {
     username?: string;
     password?: string;
     autoLogin?: boolean;
-    type?: string;
+    type?: number;
+    mobile?: string;
+    code?: string;
   };
 
   type ErrorResponse = {
