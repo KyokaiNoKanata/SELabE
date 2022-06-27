@@ -14,10 +14,11 @@ import type API from './services/ant-design-pro/typings'
 import {forEach, parseInt} from "lodash";
 
 const isDev = process.env.NODE_ENV === 'development';
+const ignoreAPI = ['/admin-api/system/login', '/admin-api/system/login', '/admin-api/system/sms-login', '/admin-api/system/send-sms-code',]
 const loginPath = '/user/login';
 const registerPath = '/user/register';
-const loginAPI = '/admin-api/system/login';
-const registerAPI = '/admin-api/system/register';
+
+
 
 /** 获取用户信息比较慢的时候会展示一个 loading */
 export const initialStateConfig = {
@@ -58,7 +59,7 @@ export async function getInitialState(): Promise<{
 }
 
 const authHeaderInterceptor = (url: string, options: RequestOptionsInit) => {
-  if(url == loginAPI || url == registerAPI) {
+  if(ignoreAPI.includes(url)) {
     return {
       url: `${url}`,
       options: {...options, interceptors: true },

@@ -58,8 +58,19 @@ export async function outLogin(options?: { [key: string]: any }) {
 }
 
 /** 登录接口 POST /api/login/account */
-export async function login(body: API.LoginParams, options?: { [key: string]: any }) {
+export async function loginByAccount(body: API.LoginParams, options?: { [key: string]: any }) {
   return request<API.LoginResult>('/admin-api/system/login', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: body,
+    ...(options || {}),
+  });
+}
+
+export async function loginByMobile(body: API.LoginParams, options?: { [key: string]: any }) {
+  return request<API.LoginResult>('/admin-api/system/sms-login', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

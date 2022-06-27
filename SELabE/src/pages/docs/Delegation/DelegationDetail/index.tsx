@@ -104,7 +104,9 @@ const DelegationDetail: React.FC = () => {
       if (userData != null) {
         userData.then(
           result => {
-            setTestingDeptStaffName(result.data.nickname);
+            if(result?.data){
+              setTestingDeptStaffName(result?.data?.nickname);
+            }
           }
         );
         return userData;
