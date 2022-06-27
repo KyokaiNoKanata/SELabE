@@ -149,7 +149,7 @@ const StepApplyForm2: React.FC<{ editable: boolean, isClient: boolean }> = (prop
                 其它: '其它'
               }}
               disabled={prop.isClient}
-              rules={[{required: false}]}
+              rules={[{required: true}]}
             />
             <Form.Item name="软件用户对象描述" label="软件用户对象描述" rules={[{required: true}]}>
               <TextArea style={{height: 60}} disabled={prop.isClient}/>

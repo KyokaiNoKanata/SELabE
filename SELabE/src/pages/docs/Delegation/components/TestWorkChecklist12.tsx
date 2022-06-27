@@ -130,9 +130,9 @@ const TestWorkChecklist12: React.FC<{
           <ProFormText name="申报单位" label="申报单位" width={'md'} disabled={true}/>
           <ProFormText name="主测人" label="主测人" width={'md'} disabled={prop.editable !== 4} required={prop.editable == 4} initialValue={''}/>
           <ProFormGroup>
-            <ProFormDatePicker name="起始时间" label='起始时间' disabled={prop.editable !== 4} required={prop.editable == 4} initialValue={''}/>
-            <ProFormDatePicker name="预计完成时间" label='预计完成时间' disabled={prop.editable !== 4} required={prop.editable == 4} initialValue={''}/>
-            <ProFormDatePicker name="实际完成时间" label='实际完成时间' disabled={prop.editable !== 6} required={prop.editable == 6} initialValue={''}/>
+            <ProFormDatePicker name="起始时间" label='起始时间' disabled={prop.editable !== 4} required={prop.editable == 4} />
+            <ProFormDatePicker name="预计完成时间" label='预计完成时间' disabled={prop.editable !== 4} required={prop.editable == 4} />
+            <ProFormDatePicker name="实际完成时间" label='实际完成时间' disabled={prop.editable !== 6} required={prop.editable == 6} />
           </ProFormGroup>
         </ProCard>
         <ProCard title={'一、前期指导工作'} bordered direction="column">
