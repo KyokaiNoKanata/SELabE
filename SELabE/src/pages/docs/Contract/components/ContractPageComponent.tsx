@@ -13,6 +13,7 @@ import {
 import {useLocation} from "react-router-dom";
 import type API from "@/services/ant-design-pro/typings"
 import type {CardTabListType} from "antd/lib/card";
+import { getDelegationById } from "@/services/ant-design-pro/delegation/api";
 
 const ContractPageComponent: React.FC<{
   editable: number,
@@ -39,9 +40,10 @@ const ContractPageComponent: React.FC<{
   const [activeTabKey, setActiveTabKey] = useState('CDA');
   const formRef: React.MutableRefObject<ProFormInstance | undefined> = useRef<ProFormInstance>();
   const params = useLocation();
-  const contractId = !params.state ? -1 : (params.state as any).contractId;
-  //const id = !params.state ? -1 : (params.state as any).id;
+  //const contractId = !params.state ? -1 : (params.state as any).contractId;
+  const id = !params.state ? -1 : (params.state as any).id;
   const onSubmit = async () => {
+    const contractId = (await getDelegationById(id)).data.contractId;
     //审核的话，肯定有合同id了
     const pass = formRef.current?.getFieldFormatValue!(['pass']);
     const remark = formRef.current?.getFieldFormatValue!(['remark']);
