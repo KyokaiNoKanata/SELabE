@@ -31,10 +31,10 @@ export default {
     },
   },
   pre: {
-    '/api/': {
-      target: 'your pre url',
+    '/admin-api/': {
+      target: "http://210.28.133.13:21247/admin-api/",
       changeOrigin: true,
-      pathRewrite: {'^': ''},
+      pathRewrite: {'^/admin-api': ''},
     },
   },
 };
