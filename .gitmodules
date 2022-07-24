@@ -1,0 +1,3 @@
+[submodule "SELabETest"]
+	path = SELabETest
+	url = git@github.com:KyokaiNoKanata/SELabETest.git
